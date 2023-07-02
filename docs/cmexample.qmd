@@ -2,7 +2,6 @@
 title: Illustration of Cross-MANOVA with Examples
 author: Carsten Allefeld
 date: 2023-3-16
-bibliography: cross-manova.yaml
 number-sections: true
 secnumdepth: 1
 reference-section-title: References
@@ -197,3 +196,33 @@ Note that the same effect can occur without correlation between the variables, i
 D = trace(1/n * DeltaB' * X' * X * DeltaB * inv(Sigma))
 ```
 
+---
+references:
+- id: allefeld2014
+  accessed:
+    - year: 2019
+      month: 9
+      day: 21
+  author:
+    - family: Allefeld
+      given: Carsten
+    - family: Haynes
+      given: John-Dylan
+  citation-key: allefeld2014
+  container-title: NeuroImage
+  container-title-short: NeuroImage
+  DOI: 10.1016/j.neuroimage.2013.11.043
+  ISSN: '10538119'
+  issued:
+    - year: 2014
+      month: 4
+  language: en
+  page: 345-357
+  source: DOI.org (Crossref)
+  title: >-
+    Searchlight-based multi-voxel pattern analysis of fMRI by cross-validated
+    MANOVA
+  type: article-journal
+  URL: https://linkinghub.elsevier.com/retrieve/pii/S1053811913011920
+  volume: '89'
+---

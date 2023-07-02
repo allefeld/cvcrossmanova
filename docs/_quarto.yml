@@ -1,0 +1,20 @@
+project:
+  type: website
+
+website:
+  title: "CvCrossManova"
+  sidebar:
+    title: "CvCrossManova"
+    search: true
+    contents: auto
+    collapse-level: 1
+
+format:
+  html:
+    from: markdown+hard_line_breaks
+    theme: cosmo
+    toc: true
+    code-overflow: wrap
+    grid:
+      sidebar-width: 350px
+      margin-width: 350px
