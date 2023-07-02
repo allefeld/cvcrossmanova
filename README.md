@@ -2,7 +2,6 @@
 
 This project is under development and not yet usable.
 
-
 ***
 
 This software is copyrighted © 2023 by Carsten Allefeld and released under the terms of the GNU General Public License, version 3 or later, with contributions by Remi Gau, Polina Iamshchinina, and Thomas Christophel.
