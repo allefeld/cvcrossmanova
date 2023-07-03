@@ -9,17 +9,11 @@ jupyter: matlab
 
 ```{matlab}
 %| echo: false
-%| output: false
-%shell jupytext cmtest.qmd --to m  # convert Quarto file to Matlab script
-```
-
-```{matlab}
-%| echo: false
 clear all %#ok<CLALL>
 format short
 % cd('/home/ca/work/Projects/XcvManova/')
-addpath('crossmanova')
-%shell jupytext cmtest.qmd --to m
+% addpath('crossmanova')
+% shell jupytext cmtest.qmd --to m
 ```
 
 
