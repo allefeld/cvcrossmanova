@@ -1,126 +1,126 @@
 [
   {
-    "objectID": "docs-sources/cmexample.html",
-    "href": "docs-sources/cmexample.html",
+    "objectID": "cmexample.html",
+    "href": "cmexample.html",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "",
     "text": "Create an indicator-style design matrix for a design with four conditions and a constant regressor.\n\nX = repmat([eye(4) ones(4, 1)], 3, 1)\n[n, q] = size(X)\n\nX =\n     1     0     0     0     1\n     0     1     0     0     1\n     0     0     1     0     1\n     0     0     0     1     1\n     1     0     0     0     1\n     0     1     0     0     1\n     0     0     1     0     1\n     0     0     0     1     1\n     1     0     0     0     1\n     0     1     0     0     1\n     0     0     1     0     1\n     0     0     0     1     1\nn =\n    12\nq =\n     5\n\n\nCreate patterns across two variables for the difference between conditions 1 & 2 and 3 & 4. They are identical, i.e. there is perfect pattern stability.\n\nb21 = [0 1];\nb43 = [0 1];\n\nCreate parameters for the five regressors across two variables.\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5]\n[q, p] = size(B)\n\nB =\n     1     2\n     1     3\n     3     4\n     3     5\n     5     6\nq =\n     5\np =\n     2\n\n\nDefine error covariance matrix as identity matrix.\n\nSigma = eye(p)\n\nSigma =\n     1     0\n     0     1\n\n\nDefine contrasts for the difference between conditions 1 & 2 and 3 & 4, used as ‘training’ (A) and ‘validation’ contrasts (B).\n\nCA = [-1 1 0 0 0]'\nCB = [0 0 -1 1 0]'\n\nCA =\n    -1\n     1\n     0\n     0\n     0\nCB =\n     0\n     0\n    -1\n     1\n     0\n\n\n\n\n\nParameter-effect matrix B:\n\nDeltaB = CB * pinv(CB) * B\n\nDeltaB =\n         0         0\n         0         0\n         0   -0.5000\n         0    0.5000\n         0         0\n\n\nCross parameter-effect matrix A→B:\n\nDeltaBA = CB * pinv(CA) * B\n\nDeltaBA =\n         0         0\n         0         0\n   -0.0000   -0.5000\n    0.0000    0.5000\n         0         0\n\n\nOne can see that in the second expression, the effect corresponding to CA involving regressors 1 & 2 has been moved to regressors 3 & 4, thereby matching the parameter-effect matrix resulting from the first expression. (Values like -0.000 should be zero, but are not exactly due to limited numerical precision.)\nCombined ‘numerator’ of pattern stability:\n\n1/n * DeltaBA' * X' * X * DeltaB\n\nans =\n         0    0.0000\n         0    0.1250\n\n\nThe ‘denominator’ is the identity matrix and therefore its inverse is the identity, too, and the combined ‘numerator’ and ‘denominator’ is identical to the ‘numerator’ alone.\nThe pattern stability is:\n\nDx = trace(1/n * DeltaBA' * X' * X * DeltaB * inv(Sigma))\n\nDx =\n    0.1250\n\n\nBecause there is perfect pattern stability, the value of Dx is identical to the pattern distinctness D for either one of the contrasts:\n\nDeltaA = CA * pinv(CA) * B;\nDA = trace(1/n * DeltaA' * X' * X * DeltaA * inv(Sigma))\nDB = trace(1/n * DeltaB' * X' * X * DeltaB * inv(Sigma))\n\nDA =\n    0.1250\nDB =\n    0.1250\n\n\nThe specific value arises from the fact that these pattern distinctness values correspond to a Mahalanobis distance of 1 (length of pattern difference is 1 and error covariance matrix is identity) and the sample sizes are 3 for both conditions and 12 in total, i.e. a ratio 6/12 = 1/2 of observations contribute, combined with a factor 1/4 according to Eq. 10 of Allefeld and Haynes (2014)."
   },
   {
-    "objectID": "docs-sources/cmexample.html#define-the-true-situation",
-    "href": "docs-sources/cmexample.html#define-the-true-situation",
+    "objectID": "cmexample.html#define-the-true-situation",
+    "href": "cmexample.html#define-the-true-situation",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "",
     "text": "Create an indicator-style design matrix for a design with four conditions and a constant regressor.\n\nX = repmat([eye(4) ones(4, 1)], 3, 1)\n[n, q] = size(X)\n\nX =\n     1     0     0     0     1\n     0     1     0     0     1\n     0     0     1     0     1\n     0     0     0     1     1\n     1     0     0     0     1\n     0     1     0     0     1\n     0     0     1     0     1\n     0     0     0     1     1\n     1     0     0     0     1\n     0     1     0     0     1\n     0     0     1     0     1\n     0     0     0     1     1\nn =\n    12\nq =\n     5\n\n\nCreate patterns across two variables for the difference between conditions 1 & 2 and 3 & 4. They are identical, i.e. there is perfect pattern stability.\n\nb21 = [0 1];\nb43 = [0 1];\n\nCreate parameters for the five regressors across two variables.\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5]\n[q, p] = size(B)\n\nB =\n     1     2\n     1     3\n     3     4\n     3     5\n     5     6\nq =\n     5\np =\n     2\n\n\nDefine error covariance matrix as identity matrix.\n\nSigma = eye(p)\n\nSigma =\n     1     0\n     0     1\n\n\nDefine contrasts for the difference between conditions 1 & 2 and 3 & 4, used as ‘training’ (A) and ‘validation’ contrasts (B).\n\nCA = [-1 1 0 0 0]'\nCB = [0 0 -1 1 0]'\n\nCA =\n    -1\n     1\n     0\n     0\n     0\nCB =\n     0\n     0\n    -1\n     1\n     0"
   },
   {
-    "objectID": "docs-sources/cmexample.html#compute-true-pattern-stability",
-    "href": "docs-sources/cmexample.html#compute-true-pattern-stability",
+    "objectID": "cmexample.html#compute-true-pattern-stability",
+    "href": "cmexample.html#compute-true-pattern-stability",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "",
     "text": "Parameter-effect matrix B:\n\nDeltaB = CB * pinv(CB) * B\n\nDeltaB =\n         0         0\n         0         0\n         0   -0.5000\n         0    0.5000\n         0         0\n\n\nCross parameter-effect matrix A→B:\n\nDeltaBA = CB * pinv(CA) * B\n\nDeltaBA =\n         0         0\n         0         0\n   -0.0000   -0.5000\n    0.0000    0.5000\n         0         0\n\n\nOne can see that in the second expression, the effect corresponding to CA involving regressors 1 & 2 has been moved to regressors 3 & 4, thereby matching the parameter-effect matrix resulting from the first expression. (Values like -0.000 should be zero, but are not exactly due to limited numerical precision.)\nCombined ‘numerator’ of pattern stability:\n\n1/n * DeltaBA' * X' * X * DeltaB\n\nans =\n         0    0.0000\n         0    0.1250\n\n\nThe ‘denominator’ is the identity matrix and therefore its inverse is the identity, too, and the combined ‘numerator’ and ‘denominator’ is identical to the ‘numerator’ alone.\nThe pattern stability is:\n\nDx = trace(1/n * DeltaBA' * X' * X * DeltaB * inv(Sigma))\n\nDx =\n    0.1250\n\n\nBecause there is perfect pattern stability, the value of Dx is identical to the pattern distinctness D for either one of the contrasts:\n\nDeltaA = CA * pinv(CA) * B;\nDA = trace(1/n * DeltaA' * X' * X * DeltaA * inv(Sigma))\nDB = trace(1/n * DeltaB' * X' * X * DeltaB * inv(Sigma))\n\nDA =\n    0.1250\nDB =\n    0.1250\n\n\nThe specific value arises from the fact that these pattern distinctness values correspond to a Mahalanobis distance of 1 (length of pattern difference is 1 and error covariance matrix is identity) and the sample sizes are 3 for both conditions and 12 in total, i.e. a ratio 6/12 = 1/2 of observations contribute, combined with a factor 1/4 according to Eq. 10 of Allefeld and Haynes (2014)."
   },
   {
-    "objectID": "docs-sources/cmexample.html#define-modified-true-situation",
-    "href": "docs-sources/cmexample.html#define-modified-true-situation",
+    "objectID": "cmexample.html#define-modified-true-situation",
+    "href": "cmexample.html#define-modified-true-situation",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "2.1 Define modified true situation",
     "text": "2.1 Define modified true situation\nCreate patterns across two variables for the difference between conditions 1 & 2 and 3 & 4. They are orthogonal, the first only involving variable 1 and the second only involving variable 2.\n\nb21 = [1 0];\nb43 = [0 1];\n\nCreate parameters for the five regressors across two variables.\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5]\n\nB =\n     1     2\n     2     2\n     3     4\n     3     5\n     5     6"
   },
   {
-    "objectID": "docs-sources/cmexample.html#compute-pattern-stability",
-    "href": "docs-sources/cmexample.html#compute-pattern-stability",
+    "objectID": "cmexample.html#compute-pattern-stability",
+    "href": "cmexample.html#compute-pattern-stability",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "2.2 Compute pattern stability",
     "text": "2.2 Compute pattern stability\n\nDeltaB = CB * pinv(CB) * B\nDeltaBA = CB * pinv(CA) * B\nDx = trace(1/n * DeltaBA' * X' * X * DeltaB * inv(Sigma))\n\nDeltaB =\n         0         0\n         0         0\n         0   -0.5000\n         0    0.5000\n         0         0\nDeltaBA =\n         0         0\n         0         0\n   -0.5000   -0.0000\n    0.5000    0.0000\n         0         0\nDx =\n   5.5511e-17\n\n\nAs expected, the pattern stability is zero within numerical precision."
   },
   {
-    "objectID": "docs-sources/cmexample.html#define-modified-true-situation-1",
-    "href": "docs-sources/cmexample.html#define-modified-true-situation-1",
+    "objectID": "cmexample.html#define-modified-true-situation-1",
+    "href": "cmexample.html#define-modified-true-situation-1",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "3.1 Define modified true situation",
     "text": "3.1 Define modified true situation\nModify the error covariance matrix to include a positive correlation between the two variables.\n\nSigma = [1 0.5; 0.5 1]\n\nSigma =\n    1.0000    0.5000\n    0.5000    1.0000"
   },
   {
-    "objectID": "docs-sources/cmexample.html#compute-pattern-stability-1",
-    "href": "docs-sources/cmexample.html#compute-pattern-stability-1",
+    "objectID": "cmexample.html#compute-pattern-stability-1",
+    "href": "cmexample.html#compute-pattern-stability-1",
     "title": "Illustration of Cross-MANOVA with Examples",
     "section": "3.2 Compute pattern stability",
     "text": "3.2 Compute pattern stability\n\nDx = trace(1/n * DeltaBA' * X' * X * DeltaB * inv(Sigma))\n\nDx =\n   -0.0833\n\n\nThe two pattern differences are orthogonal in the space of original variables. However, pattern distinctness is quantified ‘in units of the multivariate error variance’, expressed through the factor inv(Sigma), which implicitly transforms the patterns into a spatially ‘whitened’ version. In this whitened-variable space, the two patterns are no longer orthogonal.\n\n\n\n\n\nIn fact, after whitening the pattern differences point into partially opposite directions, reflected in a negative pattern stability.\nNote that the same effect can occur without correlation between the variables, if the two variables have different variances and the two orthogonal patterns are not aligned with the two variables.\n\nD = trace(1/n * DeltaB' * X' * X * DeltaB * inv(Sigma))\n\nD =\n    0.1667"
   },
   {
-    "objectID": "docs-sources/index.html",
-    "href": "docs-sources/index.html",
+    "objectID": "index.html",
+    "href": "index.html",
     "title": "CvCrossManova",
     "section": "",
     "text": "This project is under development and not yet usable."
   },
   {
-    "objectID": "docs-sources/index.html#mvpa-by-cross-validated-cross--manova",
-    "href": "docs-sources/index.html#mvpa-by-cross-validated-cross--manova",
+    "objectID": "index.html#mvpa-by-cross-validated-cross--manova",
+    "href": "index.html#mvpa-by-cross-validated-cross--manova",
     "title": "CvCrossManova",
     "section": "",
     "text": "This project is under development and not yet usable."
   },
   {
-    "objectID": "docs-sources/cmtest.html",
-    "href": "docs-sources/cmtest.html",
+    "objectID": "cmtest.html",
+    "href": "cmtest.html",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "",
     "text": "Create patterns across two variables for the difference between conditions 1 & 2 and 3 & 4. They are identical, i.e. there is perfect pattern stability.\n\nb21 = [0 1];\nb43 = [0 1];\n\nDefine error covariance matrix as identity matrix.\n\nSigma = eye(2);\n\nDefine contrasts for the difference between conditions 1 & 2 and 3 & 4.\n\nC21 = [-1 1 0 0 0]';\nC43 = [0 0 -1 1 0]';\n\nWe repeat the basic design matrix in each session many times, to well estimate pattern distinctness and pattern stability.\n\nnRep = 1000;\n\n\nCreate an indicator-style design matrix for a design with four conditions and a constant regressor.\nCreate parameters for the five regressors across two variables.\nCreate data with four sessions, with the same design matrix and parameters.\n\n\nX = repmat([eye(4) ones(4, 1)], nRep, 1);\n[n, q] = size(X);\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5];\n[q, p] = size(B);\n\nm = 4;\nYs = cell(m, 1);\nXs = cell(m, 1);\nfor k = 1 : m\n  Ys{k} = X * B + mvnrnd(zeros(1, p), Sigma, n);\n  Xs{k} = X;\nend\n\n\n\n\n\nA leave-one-session-out cross-validated MANOVA with contrast C21.\nA leave-one-session-out cross-validated MANOVA with contrast C43.\nA leave-one-session-out cross-validated cross-MANOVA from contrast C21 to contrast C43.\nA leave-one-session-out cross-validated cross-MANOVA from contrast C43 to contrast C21.\nA custom analysis with two folds, where in fold 1 contrast C21 is applied to the first two sessions and contrast C43 to the last two sessions, and vice versa in fold 2.\n\n\nanalysis1 = {C21};\nanalysis2 = {C43};\nanalysis3 = {C21, C43};\nanalysis4 = {C43, C21};\nanalysis5 = Analysis(C21, C43, [1 1 0 0 ; 0 0 1 1], [0 0 1 1 ; 1 1 0 0]);\nanalyses = {analysis1, analysis2, analysis3, analysis4, analysis5};\n\nThe custom analysis is specified as an object of class Analysis:\n\nanalysis5\n\nanalysis5 = \nAnalysis: cross-MANOVA\n  2 folds, 4 sessions\n  CA:     5 x 1, 1-dimensional\n  CB:     5 x 1, 1-dimensional\n  CA-&gt;CB: 1-dimensional, 100% variance\n\n\n\nAn Analysis object has a method show which graphically displays the analysis.\n\nanalysis5.show;\n\n\n\n\n\n\n\nCreate a CrossManova object, passing data matrices, design matrices, and analysis specifications.\n\ncm = CrossManova(Ys, Xs, analyses)\n\nError using eval\nUnrecognized function or variable 'CrossManova'.\n\n\nInternally, it converts all analysis specifications into Analysis objects.\n\ncm.analyses\n\nUnable to resolve the name 'cm.analyses'.\n\n\nAnalysis details can be listed textually or graphically.\n\ncm.dispAnalyses\n\nUnable to resolve the name 'cm.dispAnalyses'.\n\n\n\ncm.showAnalyses\n\nUnable to resolve the name 'cm.showAnalyses'.\n\n\n\n\n\n\ncm.runAnalyses()\n\nUnable to resolve the name 'cm.runAnalyses'.\n\n\nThe true values for the five analyses are:\n\npattern distinctness 0.125\npattern distinctness 0.125\npattern stability 0.125\npattern stability 0.125\npattern stability 0.125"
   },
   {
-    "objectID": "docs-sources/cmtest.html#define-true-situation-and-simulate-data",
-    "href": "docs-sources/cmtest.html#define-true-situation-and-simulate-data",
+    "objectID": "cmtest.html#define-true-situation-and-simulate-data",
+    "href": "cmtest.html#define-true-situation-and-simulate-data",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "",
     "text": "Create patterns across two variables for the difference between conditions 1 & 2 and 3 & 4. They are identical, i.e. there is perfect pattern stability.\n\nb21 = [0 1];\nb43 = [0 1];\n\nDefine error covariance matrix as identity matrix.\n\nSigma = eye(2);\n\nDefine contrasts for the difference between conditions 1 & 2 and 3 & 4.\n\nC21 = [-1 1 0 0 0]';\nC43 = [0 0 -1 1 0]';\n\nWe repeat the basic design matrix in each session many times, to well estimate pattern distinctness and pattern stability.\n\nnRep = 1000;\n\n\nCreate an indicator-style design matrix for a design with four conditions and a constant regressor.\nCreate parameters for the five regressors across two variables.\nCreate data with four sessions, with the same design matrix and parameters.\n\n\nX = repmat([eye(4) ones(4, 1)], nRep, 1);\n[n, q] = size(X);\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5];\n[q, p] = size(B);\n\nm = 4;\nYs = cell(m, 1);\nXs = cell(m, 1);\nfor k = 1 : m\n  Ys{k} = X * B + mvnrnd(zeros(1, p), Sigma, n);\n  Xs{k} = X;\nend"
   },
   {
-    "objectID": "docs-sources/cmtest.html#define-analyses",
-    "href": "docs-sources/cmtest.html#define-analyses",
+    "objectID": "cmtest.html#define-analyses",
+    "href": "cmtest.html#define-analyses",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "",
     "text": "A leave-one-session-out cross-validated MANOVA with contrast C21.\nA leave-one-session-out cross-validated MANOVA with contrast C43.\nA leave-one-session-out cross-validated cross-MANOVA from contrast C21 to contrast C43.\nA leave-one-session-out cross-validated cross-MANOVA from contrast C43 to contrast C21.\nA custom analysis with two folds, where in fold 1 contrast C21 is applied to the first two sessions and contrast C43 to the last two sessions, and vice versa in fold 2.\n\n\nanalysis1 = {C21};\nanalysis2 = {C43};\nanalysis3 = {C21, C43};\nanalysis4 = {C43, C21};\nanalysis5 = Analysis(C21, C43, [1 1 0 0 ; 0 0 1 1], [0 0 1 1 ; 1 1 0 0]);\nanalyses = {analysis1, analysis2, analysis3, analysis4, analysis5};\n\nThe custom analysis is specified as an object of class Analysis:\n\nanalysis5\n\nanalysis5 = \nAnalysis: cross-MANOVA\n  2 folds, 4 sessions\n  CA:     5 x 1, 1-dimensional\n  CB:     5 x 1, 1-dimensional\n  CA-&gt;CB: 1-dimensional, 100% variance\n\n\n\nAn Analysis object has a method show which graphically displays the analysis.\n\nanalysis5.show;"
   },
   {
-    "objectID": "docs-sources/cmtest.html#prepare-analyses",
-    "href": "docs-sources/cmtest.html#prepare-analyses",
+    "objectID": "cmtest.html#prepare-analyses",
+    "href": "cmtest.html#prepare-analyses",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "",
     "text": "Create a CrossManova object, passing data matrices, design matrices, and analysis specifications.\n\ncm = CrossManova(Ys, Xs, analyses)\n\nError using eval\nUnrecognized function or variable 'CrossManova'.\n\n\nInternally, it converts all analysis specifications into Analysis objects.\n\ncm.analyses\n\nUnable to resolve the name 'cm.analyses'.\n\n\nAnalysis details can be listed textually or graphically.\n\ncm.dispAnalyses\n\nUnable to resolve the name 'cm.dispAnalyses'.\n\n\n\ncm.showAnalyses\n\nUnable to resolve the name 'cm.showAnalyses'."
   },
   {
-    "objectID": "docs-sources/cmtest.html#run-analyses",
-    "href": "docs-sources/cmtest.html#run-analyses",
+    "objectID": "cmtest.html#run-analyses",
+    "href": "cmtest.html#run-analyses",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "",
     "text": "cm.runAnalyses()\n\nUnable to resolve the name 'cm.runAnalyses'.\n\n\nThe true values for the five analyses are:\n\npattern distinctness 0.125\npattern distinctness 0.125\npattern stability 0.125\npattern stability 0.125\npattern stability 0.125"
   },
   {
-    "objectID": "docs-sources/cmtest.html#define-modified-true-situation-and-simulate-data",
-    "href": "docs-sources/cmtest.html#define-modified-true-situation-and-simulate-data",
+    "objectID": "cmtest.html#define-modified-true-situation-and-simulate-data",
+    "href": "cmtest.html#define-modified-true-situation-and-simulate-data",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "2.1 Define modified true situation and simulate data",
     "text": "2.1 Define modified true situation and simulate data\nCreate patterns across two variables for the difference between conditions 1 & 2 and 3 & 4. They are orthogonal, the first only involving variable 1 and the second only involving variable 2.\n\nb21 = [1 0];\nb43 = [0 1];\n\n\nX = repmat([eye(4) ones(4, 1)], nRep, 1);\n[n, q] = size(X);\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5];\n[q, p] = size(B);\n\nm = 4;\nYs = cell(m, 1);\nXs = cell(m, 1);\nfor k = 1 : m\n  Ys{k} = X * B + mvnrnd(zeros(1, p), Sigma, n);\n  Xs{k} = X;\nend"
   },
   {
-    "objectID": "docs-sources/cmtest.html#prepare-and-run-analyses",
-    "href": "docs-sources/cmtest.html#prepare-and-run-analyses",
+    "objectID": "cmtest.html#prepare-and-run-analyses",
+    "href": "cmtest.html#prepare-and-run-analyses",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "2.2 Prepare and run analyses",
     "text": "2.2 Prepare and run analyses\n\ncm = CrossManova(Ys, Xs, analyses)\ncm.runAnalyses()\n\nError using eval\nUnrecognized function or variable 'CrossManova'.\n\n\nThe true values for the five analyses are:\n\npattern distinctness 0.125\npattern distinctness 0.125\npattern stability 0\npattern stability 0\npattern stability 0"
   },
   {
-    "objectID": "docs-sources/cmtest.html#define-modified-true-situation-and-simulate-data-1",
-    "href": "docs-sources/cmtest.html#define-modified-true-situation-and-simulate-data-1",
+    "objectID": "cmtest.html#define-modified-true-situation-and-simulate-data-1",
+    "href": "cmtest.html#define-modified-true-situation-and-simulate-data-1",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "3.1 Define modified true situation and simulate data",
     "text": "3.1 Define modified true situation and simulate data\nModify the error covariance matrix to include a positive correlation between the two variables.\n\nSigma = [1 0.5; 0.5 1]\n\nSigma =\n    1.0000    0.5000\n    0.5000    1.0000\n\n\n\nX = repmat([eye(4) ones(4, 1)], nRep, 1);\n[n, q] = size(X);\n\nb1 = [1, 2];\nb2 = b1 + b21;\nb3 = [3, 4];\nb4 = b3 + b43;\nb5 = [5, 6];\nB = [b1; b2; b3; b4; b5];\n[q, p] = size(B);\n\nm = 4;\nYs = cell(m, 1);\nXs = cell(m, 1);\nfor k = 1 : m\n  Ys{k} = X * B + mvnrnd(zeros(1, p), Sigma, n);\n  Xs{k} = X;\nend"
   },
   {
-    "objectID": "docs-sources/cmtest.html#prepare-and-run-analyses-1",
-    "href": "docs-sources/cmtest.html#prepare-and-run-analyses-1",
+    "objectID": "cmtest.html#prepare-and-run-analyses-1",
+    "href": "cmtest.html#prepare-and-run-analyses-1",
     "title": "Test of Cross-MANOVA using Examples",
     "section": "3.2 Prepare and run analyses",
     "text": "3.2 Prepare and run analyses\n\ncm = CrossManova(Ys, Xs, analyses)\ncm.runAnalyses()\n\nError using eval\nUnrecognized function or variable 'CrossManova'.\n\n\nThe true values for the five analyses are:\n\npattern distinctness 0.1667\npattern distinctness 0.1667\npattern stability -0.0833\npattern stability -0.0833\npattern stability -0.0833"
