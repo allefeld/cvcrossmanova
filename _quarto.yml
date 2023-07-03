@@ -1,8 +1,8 @@
 project:
   type: website
   render:
-    - docs/
-  output-dir: docs-rendered
+    - docs-sources/
+  output-dir: docs/
 
 website:
   title: "CvCrossManova"
