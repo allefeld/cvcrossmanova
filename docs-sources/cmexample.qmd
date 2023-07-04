@@ -2,8 +2,6 @@
 title: Illustration of Cross-MANOVA with Examples
 author: Carsten Allefeld
 date: 2023-3-16
-number-sections: true
-secnumdepth: 1
 reference-section-title: References
 jupyter: matlab
 ---

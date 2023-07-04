@@ -2,8 +2,6 @@
 title: Test of Cross-MANOVA using Examples
 author: Carsten Allefeld
 date: 2023-3-23
-number-sections: true
-secnumdepth: 1
 jupyter: matlab
 ---
 
@@ -11,9 +9,6 @@ jupyter: matlab
 %| echo: false
 clear all %#ok<CLALL>
 format short
-% cd('/home/ca/work/Projects/XcvManova/')
-% addpath('crossmanova')
-% shell jupytext cmtest.qmd --to m
 ```
 
 
@@ -103,10 +98,10 @@ analysis5.show;
 
 ## Prepare analyses
 
-Create a `CrossManova` object, passing data matrices, design matrices, and analysis specifications.
+Create a `CvCrossManova` object, passing data matrices, design matrices, and analysis specifications.
 
 ```{matlab}
-cm = CrossManova(Ys, Xs, analyses)
+cm = CvCrossManova(Ys, Xs, analyses)
 ```
 
 Internally, it converts all analysis specifications into `Analysis` objects.
@@ -174,7 +169,7 @@ end
 ## Prepare and run analyses
 
 ```{matlab}
-cm = CrossManova(Ys, Xs, analyses)
+cm = CvCrossManova(Ys, Xs, analyses)
 cm.runAnalyses()
 ```
 
@@ -223,7 +218,7 @@ end
 ## Prepare and run analyses
 
 ```{matlab}
-cm = CrossManova(Ys, Xs, analyses)
+cm = CvCrossManova(Ys, Xs, analyses)
 cm.runAnalyses()
 ```
 
@@ -234,3 +229,20 @@ The true values for the five analyses are:
 3) pattern stability -0.0833
 4) pattern stability -0.0833
 5) pattern stability -0.0833
+
+
+# Check permutations
+
+```{matlab}
+analysis = Analysis(C21, C43, [1 0 0 0 ; 0 1 0 0], [0 0 1 0 ; 0 0 0 1]);
+cm = CvCrossManova(Ys, Xs, {analysis})
+cmr = cm.runAnalyses()
+permute(cmr{1}, [2, 1]) == cmr{1}
+```
+
+```{matlab}
+analysis = Analysis(C21, C21, [1 0 0 0 ; 0 1 0 0], [0 0 1 0 ; 0 0 0 1]);
+cm = CvCrossManova(Ys, Xs, {analysis})
+cmr = cm.runAnalyses()
+permute(cmr{1}, [2, 1]) == cmr{1}
+```

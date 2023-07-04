@@ -1,29 +1,47 @@
 classdef CvCrossManova
 
     properties
-        Ys
-        Xs
-        analyses
-        % permute   % TODO
-        lambda
+        Ys          % cell array of per-session design matrices
+        Xs          % cell array of per-session data matrices
+        analyses    % cell array of Analysis objects
+        lambda      % strength of regularization (0–1) towards Euclidean metric
 
-        m
-        ns
-        fs
-        nVariables
-        hBetas
-        hXis
-        nAnalyses
+        m           % number of sessions
+        ns          % array of per-session numbers of observations (rows)
+        fs          % array of per-session residual degrees of freedom
+        nVariables  % number of data variables (columns)
+        hBetas      % cell array of per-session parameter estimates
+        hXis        % cell array of per-session error estimates
+        nAnalyses   % number of analyses
     end
 
     methods
 
-        function self = CrossManova(Ys, Xs, analyses, kwargs)
+        function self = CvCrossManova(Ys, Xs, analyses, kwargs)
+            % object representing data and analyses
+            %
+            % Upon creation, a CvCrossManova object stores data matrices,
+            % design matrics, analysis definitions, and further parameters, and
+            % it estimates GLM parameters and errors. Actual analyses are then
+            % performed on subsets of variables by calling the method
+            % runAnalyses.
+            %
+            % CvCrossManova(Ys, Xs, analyses, kwargs)
+            %
+            % Xs        cell array of per-session design matrices
+            % Ys        cell array of per-session data matrices
+            % analyses  cell array of Analysis objects
+            % lambda    strength of regularization (0–1) towards Euclidean metric
+            %           default 1e-8
+            % fs        array of per-session residual degrees of freedom
+            %           default computed from size and rank of design matrices
+            %
+            % See also runAnalyses.
+
             arguments
                 Ys cell
                 Xs cell
                 analyses cell
-                % kwargs.permute logical = false
                 kwargs.lambda double = 1e-8
                 kwargs.fs = []
             end
@@ -32,7 +50,6 @@ classdef CvCrossManova
             self.Ys = Ys(:)';
             self.Xs = Xs(:)';
             self.analyses = analyses(:)';
-            % self.permute = kwargs.permute;
             self.lambda = kwargs.lambda;
             self.fs = kwargs.fs(:)';
 
@@ -90,12 +107,14 @@ classdef CvCrossManova
         end
 
         function showAnalyses(self)
+            % graphically displays all defined analyses
             for i = 1 : self.nAnalyses
                 self.analyses{i}.show(sprintf('Analysis %d', i));
             end
         end
 
         function dispAnalyses(self)
+            % summarizes all defined analyses
             for i = 1 : self.nAnalyses
                 % sprintf('Analysis %d', i)
                 self.analyses{i}.disp();
@@ -103,10 +122,23 @@ classdef CvCrossManova
         end
 
         function n = nResults(self)
+            % returns the number of values returned by runAnalyses
             n = self.nAnalyses;           % * nPermutations
         end
 
-        function D = runAnalyses(self, vi)
+        function Ds = runAnalyses(self, vi)
+            % runs the defined analyses on a subset of variables
+            %
+            % D = runAnalyses(self, vi)
+            % 
+            % vi  variable indices, i.e. column indices into the data matrices
+            %     default all variables
+            % Ds  cell array of analysis results,
+            %     either pattern distinctness or pattern stability
+            %     Each cell element is a scalar if no permutations have been
+            %     applied, or a vector of permutation values where the first
+            %     one corresponds to the neutral permutation.
+
             if nargin < 2
                 vi = 1 : self.nVariables;
             else
@@ -134,8 +166,7 @@ classdef CvCrossManova
             % inverse, the correction -p-1 becomes -2.
             % The regularization parameter lambda interpolates between the
             % proper (lambda = 0) and the scaled-identity estimate (lambda = 1).
-            % A small default value of lambda = 1e-8 is used to avoid numerical
-            % errors.
+            % A small default value of is used to avoid numerical instability.
 
             % extract parameter estimates for specified variables,
             % and pre-whiten them by dividing by the Cholesky factor of Sigma
@@ -145,7 +176,7 @@ classdef CvCrossManova
             end
 
             % run analyses
-            D = nan(1, self.nAnalyses);
+            Ds = cell(1, self.nAnalyses);
             for i = 1 : self.nAnalyses
                 % extract analysis definition
                 CA = self.analyses{i}.CA;
@@ -174,17 +205,28 @@ classdef CvCrossManova
                     end
                 end
 
+                % *** hDBAs and hDBs are sign-permuted independently, but with the same sign for the same session
+                % *** there can be differently many valid permutations for different analyses
+
+                [perms, nPerms] = signPermutations(self.m);
+                % sum(triu(permute(cmr{6}, [2, 1]) == cmr{6})) == 1
+
                 % for each fold
-                D(i) = 0;
+                D = zeros(1, nPerms);
                 for l = 1 : L
                     A = sessionsA(l, :);
                     B = sessionsB(l, :);
-                    mhDBA = mean(cat(3, hDBAs{A}), 3);
-                    mXXn = mean(cat(3, XXns{B}), 3);
-                    mhDB = mean(cat(3, hDBs{B}), 3);
-                    D(i) = D(i) + trace(mhDBA' * mXXn * mhDB);
+                    for k = 1 : nPerms
+                        perm = permute(perms(:, k), [3, 2, 1]);
+
+                        % this is "Strategy 1" in the paper
+                        mhDBA = mean(cat(3, hDBAs{A}) .* perm(A), 3);
+                        mXXn = mean(cat(3, XXns{B}), 3);
+                        mhDB = mean(cat(3, hDBs{B}) .* perm(B), 3);
+                        D(k) = D(k) + trace(mhDBA' * mXXn * mhDB);
+                    end
                 end
-                D(i) = D(i) / L;
+                Ds{i} = D / L;
             end
 
         end
@@ -192,7 +234,3 @@ classdef CvCrossManova
     end
 
 end
-
-
-% (//|#|%|<!--|;|/\\*|^|^[ \\t]*(-|\\d+.))\\s*($TAGS)
-% (//|#|%|<!--|;|/\*|^|^\s*(-|\d+.))\s*($TAGS)

@@ -174,20 +174,20 @@ div.csl-indent {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#perfect-pattern-stability" id="toc-perfect-pattern-stability" class="nav-link active" data-scroll-target="#perfect-pattern-stability"><span class="header-section-number">1</span> Perfect pattern stability</a>
+  <li><a href="#perfect-pattern-stability" id="toc-perfect-pattern-stability" class="nav-link active" data-scroll-target="#perfect-pattern-stability">Perfect pattern stability</a>
   <ul class="collapse">
-  <li><a href="#define-the-true-situation" id="toc-define-the-true-situation" class="nav-link" data-scroll-target="#define-the-true-situation"><span class="header-section-number">1.1</span> Define the true situation</a></li>
-  <li><a href="#compute-true-pattern-stability" id="toc-compute-true-pattern-stability" class="nav-link" data-scroll-target="#compute-true-pattern-stability"><span class="header-section-number">1.2</span> Compute true pattern stability</a></li>
+  <li><a href="#define-the-true-situation" id="toc-define-the-true-situation" class="nav-link" data-scroll-target="#define-the-true-situation">Define the true situation</a></li>
+  <li><a href="#compute-true-pattern-stability" id="toc-compute-true-pattern-stability" class="nav-link" data-scroll-target="#compute-true-pattern-stability">Compute true pattern stability</a></li>
   </ul></li>
-  <li><a href="#perfect-pattern-instability" id="toc-perfect-pattern-instability" class="nav-link" data-scroll-target="#perfect-pattern-instability"><span class="header-section-number">2</span> Perfect pattern instability</a>
+  <li><a href="#perfect-pattern-instability" id="toc-perfect-pattern-instability" class="nav-link" data-scroll-target="#perfect-pattern-instability">Perfect pattern instability</a>
   <ul class="collapse">
-  <li><a href="#define-modified-true-situation" id="toc-define-modified-true-situation" class="nav-link" data-scroll-target="#define-modified-true-situation"><span class="header-section-number">2.1</span> Define modified true situation</a></li>
-  <li><a href="#compute-pattern-stability" id="toc-compute-pattern-stability" class="nav-link" data-scroll-target="#compute-pattern-stability"><span class="header-section-number">2.2</span> Compute pattern stability</a></li>
+  <li><a href="#define-modified-true-situation" id="toc-define-modified-true-situation" class="nav-link" data-scroll-target="#define-modified-true-situation">Define modified true situation</a></li>
+  <li><a href="#compute-pattern-stability" id="toc-compute-pattern-stability" class="nav-link" data-scroll-target="#compute-pattern-stability">Compute pattern stability</a></li>
   </ul></li>
-  <li><a href="#orthogonal-patterns-with-a-non-identity-error-covariance-matrix" id="toc-orthogonal-patterns-with-a-non-identity-error-covariance-matrix" class="nav-link" data-scroll-target="#orthogonal-patterns-with-a-non-identity-error-covariance-matrix"><span class="header-section-number">3</span> Orthogonal patterns with a non-identity error covariance matrix</a>
+  <li><a href="#orthogonal-patterns-with-a-non-identity-error-covariance-matrix" id="toc-orthogonal-patterns-with-a-non-identity-error-covariance-matrix" class="nav-link" data-scroll-target="#orthogonal-patterns-with-a-non-identity-error-covariance-matrix">Orthogonal patterns with a non-identity error covariance matrix</a>
   <ul class="collapse">
-  <li><a href="#define-modified-true-situation-1" id="toc-define-modified-true-situation-1" class="nav-link" data-scroll-target="#define-modified-true-situation-1"><span class="header-section-number">3.1</span> Define modified true situation</a></li>
-  <li><a href="#compute-pattern-stability-1" id="toc-compute-pattern-stability-1" class="nav-link" data-scroll-target="#compute-pattern-stability-1"><span class="header-section-number">3.2</span> Compute pattern stability</a></li>
+  <li><a href="#define-modified-true-situation-1" id="toc-define-modified-true-situation-1" class="nav-link" data-scroll-target="#define-modified-true-situation-1">Define modified true situation</a></li>
+  <li><a href="#compute-pattern-stability-1" id="toc-compute-pattern-stability-1" class="nav-link" data-scroll-target="#compute-pattern-stability-1">Compute pattern stability</a></li>
   </ul></li>
   <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">References</a></li>
   </ul>
@@ -225,10 +225,10 @@ div.csl-indent {
 
 </header>
 
-<section id="perfect-pattern-stability" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Perfect pattern stability</h1>
-<section id="define-the-true-situation" class="level2" data-number="1.1">
-<h2 data-number="1.1" class="anchored" data-anchor-id="define-the-true-situation"><span class="header-section-number">1.1</span> Define the true situation</h2>
+<section id="perfect-pattern-stability" class="level1">
+<h1>Perfect pattern stability</h1>
+<section id="define-the-true-situation" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-true-situation">Define the true situation</h2>
 <p>Create an indicator-style design matrix for a design with four conditions and a constant regressor.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span>)</span>
@@ -309,8 +309,8 @@ CB =
 </div>
 </div>
 </section>
-<section id="compute-true-pattern-stability" class="level2" data-number="1.2">
-<h2 data-number="1.2" class="anchored" data-anchor-id="compute-true-pattern-stability"><span class="header-section-number">1.2</span> Compute true pattern stability</h2>
+<section id="compute-true-pattern-stability" class="level2">
+<h2 class="anchored" data-anchor-id="compute-true-pattern-stability">Compute true pattern stability</h2>
 <p>Parameter-effect matrix B:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaB</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CB</span>) <span class="op">*</span> <span class="va">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -369,11 +369,11 @@ DB =
 <p>The specific value arises from the fact that these pattern distinctness values correspond to a Mahalanobis distance of 1 (length of pattern difference is 1 and error covariance matrix is identity) and the sample sizes are 3 for both conditions and 12 in total, i.e.&nbsp;a ratio 6/12 = 1/2 of observations contribute, combined with a factor 1/4 according to Eq. 10 of <span class="citation" data-cites="allefeld2014">Allefeld and Haynes (<a href="#ref-allefeld2014" role="doc-biblioref">2014</a>)</span>.</p>
 </section>
 </section>
-<section id="perfect-pattern-instability" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Perfect pattern instability</h1>
+<section id="perfect-pattern-instability" class="level1">
+<h1>Perfect pattern instability</h1>
 <p>Pattern stability is minimal (by absolute value) when the two pattern differences involved are orthogonal to each other.</p>
-<section id="define-modified-true-situation" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="define-modified-true-situation"><span class="header-section-number">2.1</span> Define modified true situation</h2>
+<section id="define-modified-true-situation" class="level2">
+<h2 class="anchored" data-anchor-id="define-modified-true-situation">Define modified true situation</h2>
 <p>Create patterns across two variables for the difference between conditions 1 &amp; 2 and 3 &amp; 4. They are orthogonal, the first only involving variable 1 and the second only involving variable 2.</p>
 <div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0</span>]<span class="op">;</span></span>
@@ -397,8 +397,8 @@ DB =
 </div>
 </div>
 </section>
-<section id="compute-pattern-stability" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="compute-pattern-stability"><span class="header-section-number">2.2</span> Compute pattern stability</h2>
+<section id="compute-pattern-stability" class="level2">
+<h2 class="anchored" data-anchor-id="compute-pattern-stability">Compute pattern stability</h2>
 <div class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaB</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CB</span>) <span class="op">*</span> <span class="va">B</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaBA</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span></span>
@@ -423,11 +423,11 @@ Dx =
 <p>As expected, the pattern stability is zero within numerical precision.</p>
 </section>
 </section>
-<section id="orthogonal-patterns-with-a-non-identity-error-covariance-matrix" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Orthogonal patterns with a non-identity error covariance matrix</h1>
+<section id="orthogonal-patterns-with-a-non-identity-error-covariance-matrix" class="level1">
+<h1>Orthogonal patterns with a non-identity error covariance matrix</h1>
 <p>However, it has to be kept in mind that the definition of orthogonality underlying pattern stability is relative to the error covariance matrix.</p>
-<section id="define-modified-true-situation-1" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="define-modified-true-situation-1"><span class="header-section-number">3.1</span> Define modified true situation</h2>
+<section id="define-modified-true-situation-1" class="level2">
+<h2 class="anchored" data-anchor-id="define-modified-true-situation-1">Define modified true situation</h2>
 <p>Modify the error covariance matrix to include a positive correlation between the two variables.</p>
 <div class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0.5</span><span class="op">;</span> <span class="fl">0.5</span> <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -438,8 +438,8 @@ Dx =
 </div>
 </div>
 </section>
-<section id="compute-pattern-stability-1" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="compute-pattern-stability-1"><span class="header-section-number">3.2</span> Compute pattern stability</h2>
+<section id="compute-pattern-stability-1" class="level2">
+<h2 class="anchored" data-anchor-id="compute-pattern-stability-1">Compute pattern stability</h2>
 <div class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">

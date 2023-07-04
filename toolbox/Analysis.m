@@ -1,26 +1,21 @@
 classdef Analysis
 
-    % An Analysis is defined by:
-    %
-    % - 'training' contrast `CA`
-    % - 'validation' contrast `CB`
-    % - 'training' sessions for each fold, L × m logical array, `sessionsA`
-    % - 'validation' sessions for each fold, L × m logical array, `sessionsB`
-
     properties
-        CA
-        CB
-        sessionsA
-        sessionsB
+        CA         % 'training' contrast
+        CB         % 'validation' contrast
+        sessionsA  % 'training' sessions for each fold, L × m logical array
+        sessionsB  % 'validation' sessions for each fold, L × m logical array
 
-        same
-        L
-        m
+        same       % whether CA and CB are the same
+        L          % number of folds
+        m          % number of sessions
     end
 
     methods
 
         function self = Analysis(CA, CB, sessionsA, sessionsB)
+            % object representing an analysis
+
             arguments
                 CA (:,:) double
                 CB (:,:) double
@@ -34,7 +29,9 @@ classdef Analysis
             self.sessionsA = sessionsA;
             self.sessionsB = sessionsB;
 
-            % determine whether it is a MANOVA or cross-MANOVA
+            % TODO check whether sessionsA and sessionsB overlap in any fold
+
+            % determine whether contrasts are the same
             self.same = isequaln(self.CA, self.CB);
 
             % determine number of folds and sessions
@@ -47,15 +44,13 @@ classdef Analysis
             % TODO
         end
 
+        % TODO add function to check whether cross or not based on
+        % regressor ids
+
         function disp(self)
             % see https://uk.mathworks.com/help/matlab/ref/matlab.mixin.customdisplay-class.html
             % for adding to instead of replacing original `disp`
-            str = sprintf("Analysis: ");
-            if self.same
-                str = str + sprintf("MANOVA\n");
-            else
-                str = str + sprintf("cross-MANOVA\n");
-            end
+            str = sprintf("Analysis:\n");
             str = str + sprintf("  %d folds, %d sessions\n", self.L, self.m);
             str = str + sprintf("  CA:     %d x %d, %d-dimensional\n", ...
                 size(self.CA), rank(self.CA));
