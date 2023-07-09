@@ -1,8 +1,8 @@
-old/
 notes.text
-README.md
+release
+old/
 paper/
 Talk FU 2023/
 dist/
-release
 docs-sources/.quarto/
+docs-sources/render

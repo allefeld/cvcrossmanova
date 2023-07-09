@@ -16,6 +16,20 @@ format:
     theme: cosmo
     toc: true
     code-overflow: wrap
+    highlight-style: tango
+    header-includes: |
+      <style>
+        code:not(.sourceCode),
+        p code:not(.sourceCode),
+        li code:not(.sourceCode),
+        td code:not(.sourceCode) {
+          background-color: transparent;
+          color: inherit;
+          padding: revert;
+        }
+      </style>
+
+
     grid:
       sidebar-width: 350px
       margin-width: 350px

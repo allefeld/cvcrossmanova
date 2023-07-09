@@ -1,11 +1,20 @@
 ---
 title: Reference documentation
-author: Carsten Allefeld
-date: 2023-3-23
 jupyter: matlab
-keep-md: true
-keep-ipynb: true
 ---
+
+
+<style>
+    .table>:not(caption)>*:not(:last-child)>* {
+        border-bottom: none;
+    }
+    .table>:not(caption)>*>* {
+        border-bottom: none;
+        padding: 0 0.5rem 0.5rem 0;
+    }
+</style>
+
+
 
 
 ```{matlab}
@@ -18,5 +27,5 @@ names = {
     "Analysis",
     "CvCrossManova"
 };
-help2markdown(names)
+helpToMarkdown(names)
 ```

@@ -1,5 +1,7 @@
 classdef Analysis < handle
 
+    % data type representing an analysis
+
     properties
         CA         % 'training' contrast
         CB         % 'validation' contrast
@@ -14,9 +16,9 @@ classdef Analysis < handle
     methods
 
         function self = Analysis(CA, CB, sessionsA, sessionsB)
-            % object representing an analysis
+            % create Analysis object
             %
-            % Analysis(CA, CB, sessionsA, sessionsB)
+            % analysis = Analysis(CA, CB, sessionsA, sessionsB)
 
             arguments
                 CA         (:, :)  double
@@ -46,6 +48,28 @@ classdef Analysis < handle
         end
 
         function addPermutations(self, maxPerms)
+            % add unique sign permutations of per-session parameter estimates
+            %
+            % analysis.addPermutations(maxPerm = 1000)
+            %
+            % This method adds information to `analysis` that
+            % sign-permutations should be applied, so that different values
+            % of *D* for the different permutations are computed.
+            %
+            % ::: {.callout-warning}
+            % Sign permutations are used to test a per-subject null
+            % hypothesis of no effect in standard MANOVA analyses. It does
+            % not make sense to apply them to Cross-MANOVAs.
+            % :::
+            % 
+            % For *m* sessions there are formally 2^*m*^ per-session sign
+            % permutations, but not all of them lead to different
+            % permutation values. The number of unique permutations depends
+            % on the 'training' and 'validation' sessions used in different
+            % folds (`sessionsA`, `sessionsB`). This method determines
+            % which permutations lead to different outcomes and makes sure
+            % only those unique permutations are performed.
+
             % Two sign permutations are equivalent in a fold if the relative signs
             % applied to all involved sessions are the same. Two sign permutations are
             % equivalent if they are equivalent in every fold.
@@ -172,6 +196,13 @@ classdef Analysis < handle
     methods (Static)
 
         function analysis = leaveOneSessionOut(m, CA, CB)
+            % create Analysis object for leave-one-session-out cross-validation
+            %
+            % Analysis.leaveOneSessionOut(m, CA, CB)
+            %
+            % This is a convenience method as an alternative to calling the
+            % constructor with manually specified `sessionsA` and
+            % `sessionsB`.
             arguments
                 m   (1, 1)  double
                 CA  (:, :)  double

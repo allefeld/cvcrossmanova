@@ -1,6 +1,6 @@
 classdef CvCrossManova < handle
 
-    % hi
+    % data type representing data and several analyses
 
     properties
         Ys          % cell array of per-session design matrices
@@ -19,7 +19,7 @@ classdef CvCrossManova < handle
     methods
 
         function self = CvCrossManova(Ys, Xs, analyses, kwargs)
-            % object representing data and several analyses
+            % create CvCrossManova object
             %
             % CvCrossManova(Ys, Xs, analyses, lambda=, fs=)
             %

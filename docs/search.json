@@ -51,16 +51,9 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "CvCrossManova",
+    "title": "MVPA by Cross-Validated (Cross-) MANOVA",
     "section": "",
-    "text": "This project is under development and not yet usable."
-  },
-  {
-    "objectID": "index.html#mvpa-by-cross-validated-cross--manova",
-    "href": "index.html#mvpa-by-cross-validated-cross--manova",
-    "title": "CvCrossManova",
-    "section": "",
-    "text": "This project is under development and not yet usable."
+    "text": "This project is under development and not yet usable.\n\nThis software is copyrighted © 2023 by Carsten Allefeld and released under the terms of the GNU General Public License, version 3 or later. With contributions by Remi Gau, Polina Iamshchinina, and Thomas Christophel.\nIt has been developed with Matlab R2022b (v9.13) and SPM12 r7771, but should work with later and possibly slightly earlier versions.\nThe software does not depend on other toolboxes, except cvCrossManovaRegion and cvCrossManovaSearchlight which depend on SPM being installed."
   },
   {
     "objectID": "reference.html",
@@ -88,14 +81,14 @@
     "href": "reference.html#class-analysis",
     "title": "Reference documentation",
     "section": "class Analysis",
-    "text": "class Analysis\nobject representing an analysis\nAnalysis(CA, CB, sessionsA, sessionsB)"
+    "text": "class Analysis\ndata type representing an analysis\n\nproperties\n\n\n\nCA\n‘training’ contrast\n\n\nCB\n‘validation’ contrast\n\n\nsessionsA\n‘training’ sessions for each fold, L × m logical array\n\n\nsessionsB\n‘validation’ sessions for each fold, L × m logical array\n\n\nsame\nwhether CA and CB are the same\n\n\nL\nnumber of folds\n\n\nm\nnumber of sessions\n\n\nperms\nsign permutations\n\n\n\n\n\nstatic method leaveOneSessionOut\ncreate Analysis object for leave-one-session-out cross-validation\nAnalysis.leaveOneSessionOut(m, CA, CB)\nThis is a convenience method as an alternative to calling the constructor with manually specified sessionsA and sessionsB.\n\n\nconstructor Analysis\ncreate Analysis object\nanalysis = Analysis(CA, CB, sessionsA, sessionsB)\n\n\nmethod addPermutations\nadd unique sign permutations of per-session parameter estimates\nanalysis.addPermutations(maxPerm = 1000)\nThis method adds information to analysis that sign-permutations should be applied, so that different values of D for the different permutations are computed.\n\n\n\n\n\n\nWarning\n\n\n\nSign permutations are used to test a per-subject null hypothesis of no effect in standard MANOVA analyses. It does not make sense to apply them to Cross-MANOVAs.\n\n\nFor m sessions there are formally 2m per-session sign permutations, but not all of them lead to different permutation values. The number of unique permutations depends on the ‘training’ and ‘validation’ sessions used in different folds (sessionsA, sessionsB). This method determines which permutations lead to different outcomes and makes sure only those unique permutations are performed.\n\n\nmethod checkEstimability\nTODO\n\n\nmethod disp\nTODO add permutations information see https://uk.mathworks.com/help/matlab/ref/matlab.mixin.customdisplay-class.html for adding to instead of replacing original disp\n\n\nmethod show\nTODO add permutations information"
   },
   {
     "objectID": "reference.html#class-cvcrossmanova",
     "href": "reference.html#class-cvcrossmanova",
     "title": "Reference documentation",
     "section": "class CvCrossManova",
-    "text": "class CvCrossManova\nIndex exceeds the number of array elements. Index must not exceed 1.\nError in help2markdown (line 45)\n    syntax = helpText{2};"
+    "text": "class CvCrossManova\ndata type representing data and several analyses\n\nproperties\n\n\n\nYs\ncell array of per-session design matrices\n\n\nXs\ncell array of per-session data matrices\n\n\nanalyses\ncell array of Analysis objects\n\n\nlambda\nstrength of regularization (0–1) towards Euclidean metric\n\n\nm\nnumber of sessions\n\n\nns\narray of per-session numbers of observations (rows)\n\n\nfs\narray of per-session residual degrees of freedom\n\n\nnVariables\nnumber of data variables (columns)\n\n\nhBetas\ncell array of per-session parameter estimates\n\n\nhXis\ncell array of per-session error estimates\n\n\nnAnalyses\nnumber of analyses\n\n\n\n\n\nconstructor CvCrossManova\ncreate CvCrossManova object\nCvCrossManova(Ys, Xs, analyses, lambda=, fs=)\n\n\n\nXs\ncell array of per-session design matrices\n\n\nYs\ncell array of per-session data matrices\n\n\nanalyses\ncell array of Analysis objects\n\n\nlambda\nstrength of regularization (0–1) towards Euclidean metric, default: 1e-8\n\n\nfs\narray of per-session residual degrees of freedom, default: computed from size and rank of design matrices\n\n\n\nUpon creation, a CvCrossManova object stores data matrices, design matrices, analysis definitions, and further parameters, and it estimates GLM parameters and errors. Actual analyses are then performed on subsets of variables by calling the method runAnalyses.\n\n\nmethod showAnalyses\ngraphically displays all defined analyses\n\n\nmethod dispAnalyses\nsummarizes all defined analyses\n\n\nmethod nResults\nreturns the number of values returned by runAnalyses\n\n\nmethod runAnalyses\nruns the defined analyses on a subset of variables\nD = runAnalyses(self, vi)\nvi variable indices, i.e. column indices into the data matrices default: all variables Ds cell array of analysis results, either pattern distinctness or pattern stability Each cell element is a scalar if no permutations have been applied, or a vector of permutation values where the first one corresponds to the neutral permutation."
   },
   {
     "objectID": "cmtest.html",
