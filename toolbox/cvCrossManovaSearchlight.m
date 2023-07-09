@@ -4,19 +4,22 @@ function cvCrossManovaSearchlight(dirName, slRadius, analyses, permute, lambda)
 %
 % cvCrossManovaSearchlight(dirName, slRadius, Cs, permute = false, lambda = 0)
 %
-% dirName:   directory where the SPM.mat file referring to an estimated
-%            model is located
-% slRadius:  radius of the searchlight sphere in voxels
-% analyses:  cell array of analysis specifications
-% permute:   whether to compute permutation values
-% lambda:    regularization parameter (0–1)
+% ----------  ---------------------------------------------------------------------------
+% `dirName`   directory where the SPM.mat file referring to an estimated model is located
+% `slRadius`  radius of the searchlight sphere in voxels
+% `analyses`  cell array of analysis specifications
+% `permute`   whether to compute permutation values
+% `lambda`    regularization parameter (0–1)
+% ----------  ---------------------------------------------------------------------------
 %
 % Output files are written to the same directory:
-% spmD_C####_P####.nii:   images of the pattern discriminability D
-%                         contrast and permutation are identified by numbers
-% spmDs_C####_P####.nii:  images of standardized pattern discriminability D_s
-% VPSL.nii:               image of the number of voxels for each searchlight
-% cmsParameters.mat:      record of the analysis parameters
+%
+% -----------------------  --------------------------------------------------------------------------------------------
+% `spmD_C####_P####.nii`   images of the pattern discriminability D, contrast and permutation are identified by numbers
+% `spmDs_C####_P####.nii`  images of standardized pattern discriminability D~s~
+% `VPSL.nii`               image of the number of voxels for each searchlight
+% `cmsParameters.mat`      record of the analysis parameters
+% -----------------------  --------------------------------------------------------------------------------------------
 
 
 fprintf('\n\ncvCrossManovaSearchlight\n\n')
@@ -89,12 +92,3 @@ spmWriteImage(reshape(p, size(mask)), 'VPSL.nii', misc.mat, ...
 
 % save analysis parameters
 save cmsParameters.mat slRadius analyses permute misc nPerms
-
-
-% This program is free software: you can redistribute it and/or modify it
-% under the terms of the GNU General Public License as published by the
-% Free Software Foundation, either version 3 of the License, or (at your
-% option) any later version. This program is distributed in the hope that
-% it will be useful, but without any warranty; without even the implied
-% warranty of merchantability or fitness for a particular purpose. See the
-% GNU General Public License <http://www.gnu.org/licenses/> for more details.

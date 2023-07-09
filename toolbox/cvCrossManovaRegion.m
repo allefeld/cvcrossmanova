@@ -4,17 +4,15 @@ function [D, p] = cvCrossManovaRegion(dirName, regions, analyses, permute, lambd
 %
 % [D, p] = cvCrossManovaRegion(dirName, regions, analyses, permute = false, lambda = 0)
 %
-% dirName:  directory where the SPM.mat file referring to an estimated
-%           model is located
-% regions:  region mask(s), (cell array of) logical 3D volume(s) or filename(s)
-% analyses: cell array of analysis specifications
-% lambda:   regularization parameter (0–1)
-% permute:  whether to compute permutation values
-% D:        pattern distinctness, contrasts × permutations × regions
-% p:        number of voxels in the region(s)
-%
-%
-% Copyright (C) 2015-2016 Carsten Allefeld
+% ----------  ---------------------------------------------------------------------------
+% `dirName`   directory where the SPM.mat file referring to an estimated model is located
+% `regions`   region mask(s), (cell array of) logical 3D volume(s) or filename(s)
+% `analyses`  cell array of analysis specifications
+% `lambda`    regularization parameter (0–1)
+% `permute`   whether to compute permutation values
+% `D`         pattern distinctness, contrasts × permutations × regions
+% `p`         number of voxels in the region(s)
+% ----------  -----------------------------------------------------------------
 
 
 fprintf('\n\ncvCrossManovaRegion\n\n')

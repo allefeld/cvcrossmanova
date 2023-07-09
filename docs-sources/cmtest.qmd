@@ -246,3 +246,10 @@ cm = CvCrossManova(Ys, Xs, {analysis})
 cmr = cm.runAnalyses()
 permute(cmr{1}, [2, 1]) == cmr{1}
 ```
+
+Two permutations are equivalent if they are equivalent in every fold.
+
+```{matlab}
+%| output: asis
+help Analysis.leaveOneSessionOut
+```

@@ -1,11 +1,12 @@
-classdef CvCrossManova
+classdef CvCrossManova < handle
+
+    % hi
 
     properties
         Ys          % cell array of per-session design matrices
         Xs          % cell array of per-session data matrices
         analyses    % cell array of Analysis objects
         lambda      % strength of regularization (0–1) towards Euclidean metric
-
         m           % number of sessions
         ns          % array of per-session numbers of observations (rows)
         fs          % array of per-session residual degrees of freedom
@@ -18,32 +19,30 @@ classdef CvCrossManova
     methods
 
         function self = CvCrossManova(Ys, Xs, analyses, kwargs)
-            % object representing data and analyses
+            % object representing data and several analyses
             %
-            % Upon creation, a CvCrossManova object stores data matrices,
-            % design matrics, analysis definitions, and further parameters, and
+            % CvCrossManova(Ys, Xs, analyses, lambda=, fs=)
+            %
+            % ----------  ---------------------------------------------------------------------------------------------------------
+            % `Xs`        cell array of per-session design matrices
+            % `Ys`        cell array of per-session data matrices
+            % `analyses`  cell array of Analysis objects
+            % `lambda`    strength of regularization (0–1) towards Euclidean metric, default: 1e-8
+            % `fs`        array of per-session residual degrees of freedom, default: computed from size and rank of design matrices
+            % ----------  ---------------------------------------------------------------------------------------------------------
+            %
+            % Upon creation, a `CvCrossManova` object stores data matrices,
+            % design matrices, analysis definitions, and further parameters, and
             % it estimates GLM parameters and errors. Actual analyses are then
             % performed on subsets of variables by calling the method
-            % runAnalyses.
-            %
-            % CvCrossManova(Ys, Xs, analyses, kwargs)
-            %
-            % Xs        cell array of per-session design matrices
-            % Ys        cell array of per-session data matrices
-            % analyses  cell array of Analysis objects
-            % lambda    strength of regularization (0–1) towards Euclidean metric
-            %           default 1e-8
-            % fs        array of per-session residual degrees of freedom
-            %           default computed from size and rank of design matrices
-            %
-            % See also runAnalyses.
+            % `runAnalyses`.
 
             arguments
-                Ys cell
-                Xs cell
-                analyses cell
-                kwargs.lambda double = 1e-8
-                kwargs.fs = []
+                Ys             (:, :)  cell
+                Xs             (:, :)  cell
+                analyses       (:, :)  cell
+                kwargs.lambda  (1, 1)  double  = 1e-8
+                kwargs.fs      (:, :)  double  = []
             end
 
             % store arguments
@@ -132,7 +131,7 @@ classdef CvCrossManova
             % D = runAnalyses(self, vi)
             % 
             % vi  variable indices, i.e. column indices into the data matrices
-            %     default all variables
+            %     default: all variables
             % Ds  cell array of analysis results,
             %     either pattern distinctness or pattern stability
             %     Each cell element is a scalar if no permutations have been
@@ -184,6 +183,7 @@ classdef CvCrossManova
                 sessionsA = self.analyses{i}.sessionsA;
                 sessionsB = self.analyses{i}.sessionsB;
                 L = self.analyses{i}.L;
+                perms = self.analyses{i}.perms;
 
                 % restrict to involved regressors
                 % dim 1
@@ -205,19 +205,14 @@ classdef CvCrossManova
                     end
                 end
 
-                % *** hDBAs and hDBs are sign-permuted independently, but with the same sign for the same session
-                % *** there can be differently many valid permutations for different analyses
-
-                [perms, nPerms] = signPermutations(self.m);
-                % sum(triu(permute(cmr{6}, [2, 1]) == cmr{6})) == 1
-
                 % for each fold
+                nPerms = size(perms, 1);
                 D = zeros(1, nPerms);
                 for l = 1 : L
                     A = sessionsA(l, :);
                     B = sessionsB(l, :);
                     for k = 1 : nPerms
-                        perm = permute(perms(:, k), [3, 2, 1]);
+                        perm = double(permute(perms(k, :), [1, 3, 2]));
 
                         % this is "Strategy 1" in the paper
                         mhDBA = mean(cat(3, hDBAs{A}) .* perm(A), 3);

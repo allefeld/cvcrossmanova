@@ -1,0 +1,22 @@
+---
+title: Reference documentation
+author: Carsten Allefeld
+date: 2023-3-23
+jupyter: matlab
+keep-md: true
+keep-ipynb: true
+---
+
+
+```{matlab}
+%| output: asis
+%| echo: false
+clear all
+names = {
+    "cvCrossManovaSearchlight",
+    "cvCrossManovaRegion",
+    "Analysis",
+    "CvCrossManova"
+};
+help2markdown(names)
+```

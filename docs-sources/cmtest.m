@@ -203,3 +203,11 @@ cm.runAnalyses()
 % 3) pattern stability -0.0833
 % 4) pattern stability -0.0833
 % 5) pattern stability -0.0833
+%
+%
+% # Check permutations
+
+analysis = Analysis(C21, C43, [1 0 0 0 ; 0 1 0 0], [0 0 1 0 ; 0 0 0 1]);
+analysis.addPermutations()
+cm = CvCrossManova(Ys, Xs, {analysis})
+cmr = cm.runAnalyses()

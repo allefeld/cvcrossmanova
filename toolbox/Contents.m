@@ -3,7 +3,7 @@
 %
 % MVPA by Cross-Validated (Cross-) MANOVA
 %
-% For more information, please <https://github.com/allefeld/cvcrossmanova/>.
+% For more information, see <https://allefeld.github.io/cvcrossmanova/>.
 %
 % This software is copyrighted © 2023 by Carsten Allefeld and released under
 % the terms of the GNU General Public License, version 3 or later. With
@@ -11,3 +11,6 @@
 %
 % It has been developed with Matlab R2022b (v9.13) and SPM12 r7771, but should
 % work with later and possibly slightly earlier versions.
+% 
+%   Editing and publishing
+%     CvCrossManova -

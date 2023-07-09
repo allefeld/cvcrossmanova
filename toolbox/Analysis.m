@@ -1,26 +1,28 @@
-classdef Analysis
+classdef Analysis < handle
 
     properties
         CA         % 'training' contrast
         CB         % 'validation' contrast
         sessionsA  % 'training' sessions for each fold, L × m logical array
         sessionsB  % 'validation' sessions for each fold, L × m logical array
-
         same       % whether CA and CB are the same
         L          % number of folds
         m          % number of sessions
+        perms      % sign permutations
     end
 
     methods
 
         function self = Analysis(CA, CB, sessionsA, sessionsB)
             % object representing an analysis
+            %
+            % Analysis(CA, CB, sessionsA, sessionsB)
 
             arguments
-                CA (:,:) double
-                CB (:,:) double
-                sessionsA (:,:) logical
-                sessionsB (:,:) logical
+                CA         (:, :)  double
+                CB         (:, :)  double
+                sessionsA  (:, :)  logical
+                sessionsB  (:, :)  logical
             end
 
             % store arguments
@@ -38,6 +40,60 @@ classdef Analysis
             [self.L, self.m] = size(self.sessionsA);
             assert(isequaln([self.L, self.m], size(self.sessionsB)), ...
                 "sessionsA and sessionsB must have the same size")
+
+            % initialize permutations to neutral only
+            self.perms = ones(1, self.m);
+        end
+
+        function addPermutations(self, maxPerms)
+            % Two sign permutations are equivalent in a fold if the relative signs
+            % applied to all involved sessions are the same. Two sign permutations are
+            % equivalent if they are equivalent in every fold.
+
+            arguments
+                self
+                maxPerms  (1, 1)  double  = 1000
+            end
+
+            assert(self.m <= 21, "Too many possible sign permutations to process.")
+
+            % number of sign permutations
+            nPerms = 2 ^ self.m;
+            fprintf("%d possible sign permutations, ", nPerms)
+            
+            % Add warning that this only works for non-cross. Based on .same?
+            
+            % generate all sign permutations of sessions (permutations × sessions)
+            % with the neutral permutation first
+            self.perms = 1 - 2 * (int8(dec2bin(0 : nPerms - 1, self.m)) - '0');
+            
+            pINA = [];
+            % for each fold
+            for l = 1 : self.L
+                % reduce permutations to Involved sessions
+                involved = self.sessionsA(l, :) + self.sessionsB(l, :) > 0;
+                pI = self.perms(:, involved);
+                % Normalize sign permutations by multiplying with the first value,
+                % because only relative signs are important
+                pIN = pI(:, 1) .* pI;
+                % collect involved, normalized permutations across All folds
+                pINA = [pINA, pIN];                                                     %#ok<AGROW> 
+            end
+            % determine unique (non-equivalent) permutations
+            [~, ind, ~] = unique(pINA, "rows");
+            % select these permutations in order
+            self.perms = self.perms(sort(ind), :);
+            nPerms = size(self.perms, 1);
+            fprintf("%d of them unique\n", nPerms)
+            
+            % Monte Carlo test, following Dwass (1957) and Ernst (2004)
+            if nPerms > maxPerms
+                fprintf("randomly selecting a subset of %d permutations\n", maxPerms)
+                % neutral permutation (1) + a random sample with replacement
+                % from permutations 2 : nPerms, for a total of maxPerms
+                ind = [1, randperm(nPerms - 1, maxPerms - 1) + 1];
+                self.perms = self.perms(sort(ind), :);
+            end
         end
 
         function checkEstimability(self, Xs)
@@ -45,9 +101,10 @@ classdef Analysis
         end
 
         % TODO add function to check whether cross or not based on
-        % regressor ids
+        % regressor ids?
 
         function disp(self)
+            % TODO add permutations information
             % see https://uk.mathworks.com/help/matlab/ref/matlab.mixin.customdisplay-class.html
             % for adding to instead of replacing original `disp`
             str = sprintf("Analysis:\n");
@@ -71,6 +128,7 @@ classdef Analysis
         end
 
         function fig = show(self, name)
+            % TODO add permutations information
             fig = figure;
             if nargin > 1
                 fig.Name = name;
@@ -115,9 +173,9 @@ classdef Analysis
 
         function analysis = leaveOneSessionOut(m, CA, CB)
             arguments
-                m  (1, 1) double
-                CA (:, :) double
-                CB (:, :) double = CA
+                m   (1, 1)  double
+                CA  (:, :)  double
+                CB  (:, :)  double  = CA
             end
 
             sessionsB = logical(eye(m));
