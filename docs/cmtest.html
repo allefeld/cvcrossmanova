@@ -224,27 +224,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
+</div>
 <section id="perfect-pattern-stability" class="level1">
 <h1>Perfect pattern stability</h1>
 <section id="define-true-situation-and-simulate-data" class="level2">
 <h2 class="anchored" data-anchor-id="define-true-situation-and-simulate-data">Define true situation and simulate data</h2>
 <p>Create patterns across two variables for the difference between conditions 1 &amp; 2 and 3 &amp; 4. They are identical, i.e.&nbsp;there is perfect pattern stability.</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <p>Define error covariance matrix as identity matrix.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">2</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">2</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <p>Define contrasts for the difference between conditions 1 &amp; 2 and 3 &amp; 4.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">C21</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">';</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">C43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span>]<span class="op">';</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">C21</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">';</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">C43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span>]<span class="op">';</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <p>We repeat the basic design matrix in each session many times, to well estimate pattern distinctness and pattern stability.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">nRep</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">nRep</span> <span class="op">=</span> <span class="fl">1000</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <ul>
 <li>Create an indicator-style design matrix for a design with four conditions and a constant regressor.</li>
@@ -252,24 +269,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Create data with four sessions, with the same design matrix and parameters.</li>
 </ul>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="va">nRep</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)<span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]<span class="op">;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)<span class="op">;</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="va">Ys</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="va">Xs</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">m</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">Ys</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span> <span class="op">*</span> <span class="va">B</span> <span class="op">+</span> <span class="va">mvnrnd</span>(<span class="va">zeros</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">p</span>)<span class="op">,</span> <span class="va">Sigma</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">Xs</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span><span class="op">;</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="va">nRep</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="va">Ys</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="va">Xs</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">m</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">Ys</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span> <span class="op">*</span> <span class="va">B</span> <span class="op">+</span> <span class="va">mvnrnd</span>(<span class="va">zeros</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">p</span>)<span class="op">,</span> <span class="va">Sigma</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">Xs</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span><span class="op">;</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 </section>
 <section id="define-analyses" class="level2">
@@ -282,31 +302,38 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>A custom analysis with two folds, where in fold 1 contrast <code>C21</code> is applied to the first two sessions and contrast <code>C43</code> to the last two sessions, and vice versa in fold 2.</li>
 </ol>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis1</span> <span class="op">=</span> {<span class="va">C21</span>}<span class="op">;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis2</span> <span class="op">=</span> {<span class="va">C43</span>}<span class="op">;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">analysis3</span> <span class="op">=</span> {<span class="va">C21</span><span class="op">,</span> <span class="va">C43</span>}<span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">analysis4</span> <span class="op">=</span> {<span class="va">C43</span><span class="op">,</span> <span class="va">C21</span>}<span class="op">;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="va">analysis5</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C21</span><span class="op">,</span> <span class="va">C43</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">1</span>]<span class="op">,</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">1</span> <span class="op">;</span> <span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span>])<span class="op">;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> {<span class="va">analysis1</span><span class="op">,</span> <span class="va">analysis2</span><span class="op">,</span> <span class="va">analysis3</span><span class="op">,</span> <span class="va">analysis4</span><span class="op">,</span> <span class="va">analysis5</span>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis1</span> <span class="op">=</span> {<span class="va">C21</span>}<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis2</span> <span class="op">=</span> {<span class="va">C43</span>}<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="va">analysis3</span> <span class="op">=</span> {<span class="va">C21</span><span class="op">,</span> <span class="va">C43</span>}<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="va">analysis4</span> <span class="op">=</span> {<span class="va">C43</span><span class="op">,</span> <span class="va">C21</span>}<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="va">analysis5</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C21</span><span class="op">,</span> <span class="va">C43</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">1</span>]<span class="op">,</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">1</span> <span class="op">;</span> <span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span>])<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> {<span class="va">analysis1</span><span class="op">,</span> <span class="va">analysis2</span><span class="op">,</span> <span class="va">analysis3</span><span class="op">,</span> <span class="va">analysis4</span><span class="op">,</span> <span class="va">analysis5</span>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <p>The custom analysis is specified as an object of class <code>Analysis</code>:</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>analysis5 = 
-Analysis:
-  2 folds, 4 sessions
-  CA:     5 x 1, 1-dimensional
-  CB:     5 x 1, 1-dimensional
-  CA-&gt;CB: 1-dimensional, 100% variance
+  Analysis:
+    2 fold(s), 4 session(s)
+    1 permutation(s)
+    CA:     5 × 1, 1-dimensional
+    CB:     5 × 1, 1-dimensional
+    CA→CB: 1-dimensional, 100 % variance
 </code></pre>
 </div>
 </div>
 <p>An <code>Analysis</code> object has a method <code>show</code> which graphically displays the analysis.</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis5</span>.<span class="va">show</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis5</span>.<span class="va">show</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="cmtest_files/figure-html/cell-10-output-1.png" class="img-fluid"></p>
+<p><img src="cmtest_files/figure-html/cell-10-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -314,7 +341,7 @@ Analysis:
 <h2 class="anchored" data-anchor-id="prepare-analyses">Prepare analyses</h2>
 <p>Create a <code>CvCrossManova</code> object, passing data matrices, design matrices, and analysis specifications.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>cm = 
   CvCrossManova with properties:
@@ -329,57 +356,60 @@ Analysis:
     nVariables: 2
         hBetas: {[5x2 double]  [5x2 double]  [5x2 double]  [5x2 double]}
           hXis: {1x4 cell}
-     nAnalyses: 5</code></pre>
+     nAnalyses: 5
+</code></pre>
 </div>
 </div>
 <p>Internally, it converts all analysis specifications into <code>Analysis</code> objects.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">analyses</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">analyses</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
   1x5 cell array
   Columns 1 through 4
     {1x1 Analysis}    {1x1 Analysis}    {1x1 Analysis}    {1x1 Analysis}
   Column 5
-    {1x1 Analysis}</code></pre>
+    {1x1 Analysis}
+</code></pre>
 </div>
 </div>
 <p>Analysis details can be listed textually or graphically.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">dispAnalyses</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">dispAnalyses</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Analysis:
-  4 folds, 4 sessions
-  CA:     5 x 1, 1-dimensional
-
-Analysis:
-  4 folds, 4 sessions
-  CA:     5 x 1, 1-dimensional
-
-Analysis:
-  4 folds, 4 sessions
-  CA:     5 x 1, 1-dimensional
-  CB:     5 x 1, 1-dimensional
-  CA-&gt;CB: 1-dimensional, 100% variance
-
-Analysis:
-  4 folds, 4 sessions
-  CA:     5 x 1, 1-dimensional
-  CB:     5 x 1, 1-dimensional
-  CA-&gt;CB: 1-dimensional, 100% variance
-
-Analysis:
-  2 folds, 4 sessions
-  CA:     5 x 1, 1-dimensional
-  CB:     5 x 1, 1-dimensional
-  CA-&gt;CB: 1-dimensional, 100% variance
+<pre><code>  Analysis:
+    4 fold(s), 4 session(s)
+    1 permutation(s)
+    CA:     5 × 1, 1-dimensional
+  Analysis:
+    4 fold(s), 4 session(s)
+    1 permutation(s)
+    CA:     5 × 1, 1-dimensional
+  Analysis:
+    4 fold(s), 4 session(s)
+    1 permutation(s)
+    CA:     5 × 1, 1-dimensional
+    CB:     5 × 1, 1-dimensional
+    CA→CB: 1-dimensional, 100 % variance
+  Analysis:
+    4 fold(s), 4 session(s)
+    1 permutation(s)
+    CA:     5 × 1, 1-dimensional
+    CB:     5 × 1, 1-dimensional
+    CA→CB: 1-dimensional, 100 % variance
+  Analysis:
+    2 fold(s), 4 session(s)
+    1 permutation(s)
+    CA:     5 × 1, 1-dimensional
+    CB:     5 × 1, 1-dimensional
+    CA→CB: 1-dimensional, 100 % variance
 </code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">showAnalyses</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="cmtest_files/figure-html/cell-14-output-1.png" class="img-fluid"></p>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">showAnalyses</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="cmtest_files/figure-html/cell-14-output-2.png" class="img-fluid"></p>
@@ -393,16 +423,20 @@ Analysis:
 <div class="cell-output cell-output-display">
 <p><img src="cmtest_files/figure-html/cell-14-output-5.png" class="img-fluid"></p>
 </div>
+<div class="cell-output cell-output-display">
+<p><img src="cmtest_files/figure-html/cell-14-output-6.png" class="img-fluid"></p>
+</div>
 </div>
 </section>
 <section id="run-analyses" class="level2">
 <h2 class="anchored" data-anchor-id="run-analyses">Run analyses</h2>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
   1x5 cell array
-    {[0.1282]}    {[0.1311]}    {[0.1297]}    {[0.1297]}    {[0.1299]}</code></pre>
+    {[0.1282]}    {[0.1311]}    {[0.1297]}    {[0.1297]}    {[0.1299]}
+</code></pre>
 </div>
 </div>
 <p>The true values for the five analyses are:</p>
@@ -421,35 +455,41 @@ Analysis:
 <h2 class="anchored" data-anchor-id="define-modified-true-situation-and-simulate-data">Define modified true situation and simulate data</h2>
 <p>Create patterns across two variables for the difference between conditions 1 &amp; 2 and 3 &amp; 4. They are orthogonal, the first only involving variable 1 and the second only involving variable 2.</p>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0</span>]<span class="op">;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="va">nRep</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)<span class="op">;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]<span class="op">;</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)<span class="op">;</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="va">Ys</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="va">Xs</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">m</span></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">Ys</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span> <span class="op">*</span> <span class="va">B</span> <span class="op">+</span> <span class="va">mvnrnd</span>(<span class="va">zeros</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">p</span>)<span class="op">,</span> <span class="va">Sigma</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">Xs</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span><span class="op">;</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="va">nRep</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)<span class="op">;</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]<span class="op">;</span></span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)<span class="op">;</span></span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="va">Ys</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a><span class="va">Xs</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">m</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">Ys</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span> <span class="op">*</span> <span class="va">B</span> <span class="op">+</span> <span class="va">mvnrnd</span>(<span class="va">zeros</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">p</span>)<span class="op">,</span> <span class="va">Sigma</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">Xs</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span><span class="op">;</span></span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 </section>
 <section id="prepare-and-run-analyses" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-and-run-analyses">Prepare and run analyses</h2>
 <div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>cm = 
   CvCrossManova with properties:
@@ -467,7 +507,8 @@ Analysis:
      nAnalyses: 5
 ans =
   1x5 cell array
-    {[0.1269]}    {[0.1218]}    {[0.0052]}    {[0.0052]}    {[0.0050]}</code></pre>
+    {[0.1269]}    {[0.1218]}    {[0.0052]}    {[0.0052]}    {[0.0050]}
+</code></pre>
 </div>
 </div>
 <p>The true values for the five analyses are:</p>
@@ -486,39 +527,43 @@ ans =
 <h2 class="anchored" data-anchor-id="define-modified-true-situation-and-simulate-data-1">Define modified true situation and simulate data</h2>
 <p>Modify the error covariance matrix to include a positive correlation between the two variables.</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0.5</span><span class="op">;</span> <span class="fl">0.5</span> <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0.5</span><span class="op">;</span> <span class="fl">0.5</span> <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sigma =
     1.0000    0.5000
-    0.5000    1.0000</code></pre>
+    0.5000    1.0000
+</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="va">nRep</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)<span class="op">;</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]<span class="op">;</span></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)<span class="op">;</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a><span class="va">Ys</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="va">Xs</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">m</span></span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">Ys</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span> <span class="op">*</span> <span class="va">B</span> <span class="op">+</span> <span class="va">mvnrnd</span>(<span class="va">zeros</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">p</span>)<span class="op">,</span> <span class="va">Sigma</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">Xs</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span><span class="op">;</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="va">nRep</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)<span class="op">;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]<span class="op">;</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)<span class="op">;</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a><span class="va">m</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="va">Ys</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="va">Xs</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">m</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">k</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">m</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>  <span class="va">Ys</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span> <span class="op">*</span> <span class="va">B</span> <span class="op">+</span> <span class="va">mvnrnd</span>(<span class="va">zeros</span>(<span class="fl">1</span><span class="op">,</span> <span class="va">p</span>)<span class="op">,</span> <span class="va">Sigma</span><span class="op">,</span> <span class="va">n</span>)<span class="op">;</span></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>  <span class="va">Xs</span>{<span class="va">k</span>} <span class="op">=</span> <span class="va">X</span><span class="op">;</span></span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 </section>
 <section id="prepare-and-run-analyses-1" class="level2">
 <h2 class="anchored" data-anchor-id="prepare-and-run-analyses-1">Prepare and run analyses</h2>
 <div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>cm = 
   CvCrossManova with properties:
@@ -536,7 +581,8 @@ ans =
      nAnalyses: 5
 ans =
   1x5 cell array
-    {[0.1801]}    {[0.1742]}    {[-0.0922]}    {[-0.0922]}    {[-0.0922]}</code></pre>
+    {[0.1801]}    {[0.1742]}    {[-0.0922]}    {[-0.0922]}    {[-0.0922]}
+</code></pre>
 </div>
 </div>
 <p>The true values for the five analyses are:</p>
@@ -552,10 +598,10 @@ ans =
 <section id="check-permutations" class="level1">
 <h1>Check permutations</h1>
 <div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C21</span><span class="op">,</span> <span class="va">C43</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">,</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span>])<span class="op">;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> {<span class="va">analysis</span>})</span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="va">cmr</span> <span class="op">=</span> <span class="va">cm</span>.<span class="va">runAnalyses</span>()</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="va">permute</span>(<span class="va">cmr</span>{<span class="fl">1</span>}<span class="op">,</span> [<span class="fl">2</span><span class="op">,</span> <span class="fl">1</span>]) <span class="op">==</span> <span class="va">cmr</span>{<span class="fl">1</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C21</span><span class="op">,</span> <span class="va">C43</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">,</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span>])<span class="op">;</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> {<span class="va">analysis</span>})</span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="va">cmr</span> <span class="op">=</span> <span class="va">cm</span>.<span class="va">runAnalyses</span>()</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="va">permute</span>(<span class="va">cmr</span>{<span class="fl">1</span>}<span class="op">,</span> [<span class="fl">2</span><span class="op">,</span> <span class="fl">1</span>]) <span class="op">==</span> <span class="va">cmr</span>{<span class="fl">1</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>cm = 
   CvCrossManova with properties:
@@ -576,14 +622,15 @@ cmr =
     {[-0.0943]}
 ans =
   logical
-   1</code></pre>
+   1
+</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="22">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C21</span><span class="op">,</span> <span class="va">C21</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">,</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span>])<span class="op">;</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> {<span class="va">analysis</span>})</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="va">cmr</span> <span class="op">=</span> <span class="va">cm</span>.<span class="va">runAnalyses</span>()</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="va">permute</span>(<span class="va">cmr</span>{<span class="fl">1</span>}<span class="op">,</span> [<span class="fl">2</span><span class="op">,</span> <span class="fl">1</span>]) <span class="op">==</span> <span class="va">cmr</span>{<span class="fl">1</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C21</span><span class="op">,</span> <span class="va">C21</span><span class="op">,</span> [<span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">,</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span> <span class="fl">0</span> <span class="op">;</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">1</span>])<span class="op">;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> {<span class="va">analysis</span>})</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="va">cmr</span> <span class="op">=</span> <span class="va">cm</span>.<span class="va">runAnalyses</span>()</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a><span class="va">permute</span>(<span class="va">cmr</span>{<span class="fl">1</span>}<span class="op">,</span> [<span class="fl">2</span><span class="op">,</span> <span class="fl">1</span>]) <span class="op">==</span> <span class="va">cmr</span>{<span class="fl">1</span>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>cm = 
   CvCrossManova with properties:
@@ -604,13 +651,14 @@ cmr =
     {[0.1803]}
 ans =
   logical
-   1</code></pre>
+   1
+</code></pre>
 </div>
 </div>
 <p>Two permutations are equivalent if they are equivalent in every fold.</p>
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="va">help</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="va">help</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>create Analysis object for leave-one-session-out cross-validation</p>
-<p>Analysis.leaveOneSessionOut(m, CA, CB)</p>
+<p>analysis = Analysis.leaveOneSessionOut(m, CA, CB)</p>
 <p>This is a convenience method as an alternative to calling the constructor with manually specified <code>sessionsA</code> and <code>sessionsB</code>.</p>
 
 

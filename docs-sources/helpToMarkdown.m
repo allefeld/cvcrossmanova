@@ -69,9 +69,12 @@ end
 mc = eval(sprintf("?%s", name));
 
 % process properties
+propertyVisible = ~[mc.PropertyList.Hidden];
+propertyNames = {mc.PropertyList(propertyVisible).Name};
+propertyDescriptions = {mc.PropertyList(propertyVisible).Description};
 nameColumn = char(cellfun(@(x) ['`' x '`'], ...
-    {mc.PropertyList.Name}, 'UniformOutput', false));
-descriptionColumn = char({mc.PropertyList.Description});
+    propertyNames, 'UniformOutput', false));
+descriptionColumn = char(propertyDescriptions);
 tableMarker = [repmat('-', 1, size(nameColumn, 2), 1), '  ', ...
     repmat('-', 1, size(descriptionColumn, 2), 1)];
 table = cellstr([tableMarker ; ...

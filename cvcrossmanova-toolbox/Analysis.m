@@ -3,14 +3,20 @@ classdef Analysis < handle
     % data type representing an analysis
 
     properties
-        CA         % 'training' contrast
-        CB         % 'validation' contrast
-        sessionsA  % 'training' sessions for each fold, L × m logical array
-        sessionsB  % 'validation' sessions for each fold, L × m logical array
-        same       % whether CA and CB are the same
-        L          % number of folds
-        m          % number of sessions
-        perms      % sign permutations
+        CA           % 'training' contrast, regressors × subcontrasts
+        CB           % 'validation' contrast, regressors × subcontrasts
+        sessionsA    % 'training' sessions, folds × sessions logical array
+        sessionsB    % 'validation' sessions, folds × sessions logical array
+        L            % number of folds
+        m            % number of sessions
+        perms        % sign permutations, permutations × sessions
+    end
+
+    properties (Hidden = true)
+        dimensionA   % rank of `CA`
+        dimensionB   % rank of `CB`
+        dimensionAB  % dimension (rank) of cross-contrast
+        normAB       % norm of cross-contrast
     end
 
     methods
@@ -35,13 +41,38 @@ classdef Analysis < handle
 
             % TODO check whether sessionsA and sessionsB overlap in any fold
 
-            % determine whether contrasts are the same
-            self.same = isequaln(self.CA, self.CB);
-
             % determine number of folds and sessions
             [self.L, self.m] = size(self.sessionsA);
+            % check
             assert(isequaln([self.L, self.m], size(self.sessionsB)), ...
-                "sessionsA and sessionsB must have the same size")
+                "cvcrossmanova:sessionssize", ...
+                "sessionsA and sessionsB must have the same size.")
+            
+            % characterize contrasts & check
+            self.dimensionA = rank(self.CA);
+            self.dimensionB = rank(self.CB);
+            % check
+            assert(size(CA, 2) == size(CB, 2), ...
+                "cvcrossmanova:subcontrasts", ...
+                "CA and CB must have the same number of subcontrasts (columns).")
+            if self.dimensionA ~= self.dimensionB
+                warning("cvcrossmanova:dimensions", ...
+                    "CA and CB should have the same dimension.")
+            end
+
+            % characterize cross-contrast
+            CBpCA = self.CB * pinv(self.CA);    % (cross-) parameter-effect extracting matrix
+            self.dimensionAB = rank(CBpCA);
+            self.normAB = sum(CBpCA(:) .^ 2);
+            % check
+            if self.dimensionAB < min(self.dimensionA, self.dimensionB)
+                warning("cvcrossmanova:preservedim", ...
+                    "CA → CB should preserve dimensionality.")
+            end
+            if abs(self.normAB / self.dimensionAB - 1) > 1e-14
+                warning("cvcrossmanova:preservevar", ...
+                    "CA → CB should preserve variance.")
+            end
 
             % initialize permutations to neutral only
             self.perms = ones(1, self.m);
@@ -50,7 +81,7 @@ classdef Analysis < handle
         function addPermutations(self, maxPerms)
             % add unique sign permutations of per-session parameter estimates
             %
-            % analysis.addPermutations(maxPerm = 1000)
+            % analysis.addPermutations(maxPerms = 1000)
             %
             % This method adds information to `analysis` that
             % sign-permutations should be applied, so that different values
@@ -69,6 +100,10 @@ classdef Analysis < handle
             % folds (`sessionsA`, `sessionsB`). This method determines
             % which permutations lead to different outcomes and makes sure
             % only those unique permutations are performed.
+            %
+            % If the number of unique permutations exceeds `maxPerms`, a
+            % randomly chosen subset of `maxPerms` is chosen (including the
+            % neutral permutation, which is always permutation 1).
 
             % Two sign permutations are equivalent in a fold if the relative signs
             % applied to all involved sessions are the same. Two sign permutations are
@@ -120,77 +155,108 @@ classdef Analysis < handle
             end
         end
 
-        function checkEstimability(self, Xs)
-            % TODO
-        end
-
-        % TODO add function to check whether cross or not based on
-        % regressor ids?
+% TODO checkEstimability
+% TODO add function to check whether cross or not based on regressor ids?
 
         function disp(self)
-            % TODO add permutations information
-            % see https://uk.mathworks.com/help/matlab/ref/matlab.mixin.customdisplay-class.html
-            % for adding to instead of replacing original `disp`
-            str = sprintf("Analysis:\n");
-            str = str + sprintf("  %d folds, %d sessions\n", self.L, self.m);
-            str = str + sprintf("  CA:     %d x %d, %d-dimensional\n", ...
-                size(self.CA), rank(self.CA));
-            if ~self.same
-                str = str + sprintf("  CB:     %d x %d, %d-dimensional\n", ...
-                    size(self.CB), rank(self.CB));
+            % textually display information about analysis
+            %
+            % analysis.disp()
+            %
+            % This method overrides Matlab's `disp`, so you can also use
+            % `disp(analysis)` or simply `analysis` without semicolon to
+            % get the same information.
+
+            str = sprintf("  Analysis:");
+            str = str + sprintf("\n    %d fold(s), %d session(s)", self.L, self.m);
+            str = str + sprintf("\n    %d permutation(s)", size(self.perms, 1));
+            str = str + sprintf("\n    CA:     %d × %d, %d-dimensional", ...
+                size(self.CA), self.dimensionA);
+            if ~isequaln(self.CA, self.CB)
+                str = str + sprintf("\n    CB:     %d × %d, %d-dimensional", ...
+                    size(self.CB), self.dimensionB);
                 % check cross parameter-effect extracting matrix
-                CBpCA = self.CB * pinv(self.CA);
-                sf = sum(CBpCA(:) .^ 2);
-                rk = rank(CBpCA);
-                str = str + sprintf("  CA->CB: %d-dimensional, %g%% variance\n", ...
-                    rk, sf / rk * 100);
-                if sf / rk - 1 > 1e-14
-                    str = str + "  Warning: Variance is not preserved!\n";
-                end
+                str = str + sprintf("\n    CA→CB: %d-dimensional, %g %% variance", ...
+                    self.dimensionAB, self.normAB / self.dimensionAB * 100);
             end
             disp(str)
         end
 
         function fig = show(self, name)
-            % TODO add permutations information
-            fig = figure;
-            if nargin > 1
-                fig.Name = name;
+            % graphically display information about analysis
+            %
+            % fig = analysis.show(name = "")
+            %
+            % The method creates a figure window and returns the handle.
+            % Optionally, a name for the figure can be chosen.
+
+            arguments
+                self
+                name  (1, 1)  string  = ""
+            end
+
+            showPerms = size(self.perms, 1) > 1;
+
+            fig = figure();
+            fig.Name = name;
+            if ~showPerms
+                nRows = 2;
+                fig.Position(3 : 4) = [640, 640];
+            else
+                nRows = 3;
+                fig.Position(3 : 4) = [640, 960];
             end
 
             % colormap red → white → green
             cmap = interp1(0 : 2, [1 0 0 ; 1 1 1 ; 0 1 0], linspace(0, 2, 511));
             colormap(cmap)
 
-            subplot(2, 2, 1)
+            % determine scaling of contrasts
+            maxC = max(abs([self.CA(:) ; self.CB(:)]));
+
+            subplot(nRows, 2, 1)
             heatmap(self.CA, ColorMap=cmap, ColorbarVisible=false)
-            clim([-1 1])
+            clim([-maxC, maxC])
             title('Contrast A')
             xlabel('subcontrasts')
             ylabel('regressors')
 
-            subplot(2, 2, 2)
+            subplot(nRows, 2, 2)
             heatmap(self.CB, ColorMap=cmap, ColorbarVisible=false)
-            clim([-1 1])
+            clim([-maxC maxC])
             title('Contrast B')
             xlabel('subcontrasts')
             ylabel('regressors')
 
-            subplot(2, 2, 3)
+            subplot(nRows, 2, 3)
             heatmap(double(self.sessionsA), ColorMap=cmap, ColorbarVisible=false)
-            clim([-1 1])
+            clim([0 1])
             title('Sessions A')
             xlabel('sessions')
             ylabel('folds')
 
-            subplot(2, 2, 4)
+            subplot(nRows, 2, 4)
             heatmap(double(self.sessionsB), ColorMap=cmap, ColorbarVisible=false)
-            clim([-1 1])
+            clim([0 1])
             title('Sessions B')
             xlabel('sessions')
             ylabel('folds')
-        end
 
+            if showPerms
+                subplot(nRows, 2, 5:6)
+                hm = heatmap(self.perms, ColorMap=cmap, ColorbarVisible=false);
+                % no row labels
+                hm.YDisplayLabels = repmat({''}, size(hm.YDisplayLabels, 1), 1);
+                clim([-1 1])
+                title('Sign Permutations')
+                xlabel('sessions')
+                ylabel('permutations')
+            end
+
+            if nargout == 0
+                clear fig
+            end
+        end
     end
 
     methods (Static)
@@ -198,7 +264,7 @@ classdef Analysis < handle
         function analysis = leaveOneSessionOut(m, CA, CB)
             % create Analysis object for leave-one-session-out cross-validation
             %
-            % Analysis.leaveOneSessionOut(m, CA, CB)
+            % analysis = Analysis.leaveOneSessionOut(m, CA, CB)
             %
             % This is a convenience method as an alternative to calling the
             % constructor with manually specified `sessionsA` and

@@ -99,10 +99,10 @@ classdef CvCrossManova < handle
             assert(all(cellfun(@(x) x.m, self.analyses) == self.m), ...
                 'Number of sessions of Ys and analyses must match.');
 
-            % check estimability of contrasts w.r.t. design matrices
-            for i = 1 : self.nAnalyses
-                self.analyses{i}.checkEstimability(self.Xs);
-            end
+%             % check estimability of contrasts w.r.t. design matrices
+%             for i = 1 : self.nAnalyses
+%                 self.analyses{i}.checkEstimability(self.Xs);
+%             end
         end
 
         function showAnalyses(self)

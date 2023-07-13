@@ -241,14 +241,19 @@ div.csl-indent {
 
 </header>
 
+<div class="cell" data-execution_count="1">
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
+</div>
 <section id="perfect-pattern-stability" class="level1">
 <h1>Perfect pattern stability</h1>
 <section id="define-the-true-situation" class="level2">
 <h2 class="anchored" data-anchor-id="define-the-true-situation">Define the true situation</h2>
 <p>Create an indicator-style design matrix for a design with four conditions and a constant regressor.</p>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">X</span> <span class="op">=</span> <span class="va">repmat</span>([<span class="va">eye</span>(<span class="fl">4</span>) <span class="va">ones</span>(<span class="fl">4</span><span class="op">,</span> <span class="fl">1</span>)]<span class="op">,</span> <span class="fl">3</span><span class="op">,</span> <span class="fl">1</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">n</span><span class="op">,</span> <span class="va">q</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">X</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>X =
      1     0     0     0     1
@@ -266,23 +271,27 @@ div.csl-indent {
 n =
     12
 q =
-     5</code></pre>
+     5
+</code></pre>
 </div>
 </div>
 <p>Create patterns across two variables for the difference between conditions 1 &amp; 2 and 3 &amp; 4. They are identical, i.e.&nbsp;there is perfect pattern stability.</p>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <p>Create parameters for the five regressors across two variables.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>[<span class="va">q</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">size</span>(<span class="va">B</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>B =
      1     2
@@ -293,22 +302,24 @@ q =
 q =
      5
 p =
-     2</code></pre>
+     2
+</code></pre>
 </div>
 </div>
 <p>Define error covariance matrix as identity matrix.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> <span class="va">eye</span>(<span class="va">p</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> <span class="va">eye</span>(<span class="va">p</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sigma =
      1     0
-     0     1</code></pre>
+     0     1
+</code></pre>
 </div>
 </div>
 <p>Define contrasts for the difference between conditions 1 &amp; 2 and 3 &amp; 4, used as ‘training’ (A) and ‘validation’ contrasts (B).</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">CA</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">'</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">CB</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span>]<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">CA</span> <span class="op">=</span> [<span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">'</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">CB</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span> <span class="fl">1</span> <span class="fl">0</span>]<span class="op">'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>CA =
     -1
@@ -321,7 +332,8 @@ CB =
      0
     -1
      1
-     0</code></pre>
+     0
+</code></pre>
 </div>
 </div>
 </section>
@@ -329,57 +341,62 @@ CB =
 <h2 class="anchored" data-anchor-id="compute-true-pattern-stability">Compute true pattern stability</h2>
 <p>Parameter-effect matrix B:</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaB</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CB</span>) <span class="op">*</span> <span class="va">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaB</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CB</span>) <span class="op">*</span> <span class="va">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DeltaB =
          0         0
          0         0
          0   -0.5000
          0    0.5000
-         0         0</code></pre>
+         0         0
+</code></pre>
 </div>
 </div>
 <p>Cross parameter-effect matrix A→B:</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaBA</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaBA</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DeltaBA =
          0         0
          0         0
    -0.0000   -0.5000
     0.0000    0.5000
-         0         0</code></pre>
+         0         0
+</code></pre>
 </div>
 </div>
 <p>One can see that in the second expression, the effect corresponding to <code>CA</code> involving regressors 1 &amp; 2 has been moved to regressors 3 &amp; 4, thereby matching the parameter-effect matrix resulting from the first expression. (Values like <code>-0.000</code> should be zero, but are not exactly due to limited numerical precision.)</p>
 <p>Combined ‘numerator’ of pattern stability:</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
          0    0.0000
-         0    0.1250</code></pre>
+         0    0.1250
+</code></pre>
 </div>
 </div>
 <p>The ‘denominator’ is the identity matrix and therefore its inverse is the identity, too, and the combined ‘numerator’ and ‘denominator’ is identical to the ‘numerator’ alone.</p>
 <p>The pattern stability is:</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dx =
-    0.1250</code></pre>
+    0.1250
+</code></pre>
 </div>
 </div>
 <p>Because there is perfect pattern stability, the value of <code>Dx</code> is identical to the pattern distinctness <code>D</code> for either one of the contrasts:</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaA</span> <span class="op">=</span> <span class="va">CA</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span><span class="op">;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="va">DA</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaA</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="va">DB</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaB</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaA</span> <span class="op">=</span> <span class="va">CA</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span><span class="op">;</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="va">DA</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaA</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="va">DB</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaB</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DA =
     0.1250
 DB =
-    0.1250</code></pre>
+    0.1250
+</code></pre>
 </div>
 </div>
 <p>The specific value arises from the fact that these pattern distinctness values correspond to a Mahalanobis distance of 1 (length of pattern difference is 1 and error covariance matrix is identity) and the sample sizes are 3 for both conditions and 12 in total, i.e.&nbsp;a ratio 6/12 = 1/2 of observations contribute, combined with a factor 1/4 according to Eq. 10 of <span class="citation" data-cites="allefeld2014">Allefeld and Haynes (<a href="#ref-allefeld2014" role="doc-biblioref">2014</a>)</span>.</p>
@@ -392,33 +409,37 @@ DB =
 <h2 class="anchored" data-anchor-id="define-modified-true-situation">Define modified true situation</h2>
 <p>Create patterns across two variables for the difference between conditions 1 &amp; 2 and 3 &amp; 4. They are orthogonal, the first only involving variable 1 and the second only involving variable 2.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0</span>]<span class="op">;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="va">b21</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="va">b43</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">1</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 </div>
 <p>Create parameters for the five regressors across two variables.</p>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">b1</span> <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="fl">2</span>]<span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="va">b2</span> <span class="op">=</span> <span class="va">b1</span> <span class="op">+</span> <span class="va">b21</span><span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="va">b3</span> <span class="op">=</span> [<span class="fl">3</span><span class="op">,</span> <span class="fl">4</span>]<span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="va">b4</span> <span class="op">=</span> <span class="va">b3</span> <span class="op">+</span> <span class="va">b43</span><span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="va">b5</span> <span class="op">=</span> [<span class="fl">5</span><span class="op">,</span> <span class="fl">6</span>]<span class="op">;</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="va">B</span> <span class="op">=</span> [<span class="va">b1</span><span class="op">;</span> <span class="va">b2</span><span class="op">;</span> <span class="va">b3</span><span class="op">;</span> <span class="va">b4</span><span class="op">;</span> <span class="va">b5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>B =
      1     2
      2     2
      3     4
      3     5
-     5     6</code></pre>
+     5     6
+</code></pre>
 </div>
 </div>
 </section>
 <section id="compute-pattern-stability" class="level2">
 <h2 class="anchored" data-anchor-id="compute-pattern-stability">Compute pattern stability</h2>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaB</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CB</span>) <span class="op">*</span> <span class="va">B</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaBA</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaB</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CB</span>) <span class="op">*</span> <span class="va">B</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">DeltaBA</span> <span class="op">=</span> <span class="va">CB</span> <span class="op">*</span> <span class="va">pinv</span>(<span class="va">CA</span>) <span class="op">*</span> <span class="va">B</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DeltaB =
          0         0
@@ -433,7 +454,8 @@ DeltaBA =
     0.5000    0.0000
          0         0
 Dx =
-   5.5511e-17</code></pre>
+   5.5511e-17
+</code></pre>
 </div>
 </div>
 <p>As expected, the pattern stability is zero within numerical precision.</p>
@@ -446,36 +468,42 @@ Dx =
 <h2 class="anchored" data-anchor-id="define-modified-true-situation-1">Define modified true situation</h2>
 <p>Modify the error covariance matrix to include a positive correlation between the two variables.</p>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0.5</span><span class="op">;</span> <span class="fl">0.5</span> <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">Sigma</span> <span class="op">=</span> [<span class="fl">1</span> <span class="fl">0.5</span><span class="op">;</span> <span class="fl">0.5</span> <span class="fl">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Sigma =
     1.0000    0.5000
-    0.5000    1.0000</code></pre>
+    0.5000    1.0000
+</code></pre>
 </div>
 </div>
 </section>
 <section id="compute-pattern-stability-1" class="level2">
 <h2 class="anchored" data-anchor-id="compute-pattern-stability-1">Compute pattern stability</h2>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="va">Dx</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaBA</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Dx =
-   -0.0833</code></pre>
+   -0.0833
+</code></pre>
 </div>
 </div>
 <p>The two pattern differences are orthogonal in the space of original variables. However, pattern distinctness is quantified ‘in units of the multivariate error variance’, expressed through the factor <code>inv(Sigma)</code>, which implicitly transforms the patterns into a spatially ‘whitened’ version. In this whitened-variable space, the two patterns are no longer orthogonal.</p>
 <div class="cell" data-execution_count="17">
+<div class="cell-output cell-output-stdout">
+<pre><code></code></pre>
+</div>
 <div class="cell-output cell-output-display">
-<p><img src="cmexample_files/figure-html/cell-18-output-1.png" class="img-fluid"></p>
+<p><img src="cmexample_files/figure-html/cell-18-output-2.png" class="img-fluid"></p>
 </div>
 </div>
 <p>In fact, after whitening the pattern differences point into partially opposite directions, reflected in a negative pattern stability.</p>
 <p>Note that the same effect can occur without correlation between the variables, if the two variables have different variances and the two orthogonal patterns are not aligned with the two variables.</p>
 <div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="va">D</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaB</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="va">D</span> <span class="op">=</span> <span class="va">trace</span>(<span class="fl">1</span><span class="op">/</span><span class="va">n</span> <span class="op">*</span> <span class="va">DeltaB</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span><span class="op">'</span> <span class="op">*</span> <span class="va">X</span> <span class="op">*</span> <span class="va">DeltaB</span> <span class="op">*</span> <span class="va">inv</span>(<span class="va">Sigma</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>D =
-    0.1667</code></pre>
+    0.1667
+</code></pre>
 </div>
 </div>
 
