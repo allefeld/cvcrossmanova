@@ -1,15 +1,18 @@
 classdef CvCrossManova < handle
 
-    % data type representing data and several analyses
+    % data type representing data and analyses
 
     properties
         Ys          % cell array of per-session design matrices
         Xs          % cell array of per-session data matrices
         analyses    % cell array of Analysis objects
         lambda      % strength of regularization (0–1) towards Euclidean metric
+        fs          % array of per-session residual degrees of freedom
         m           % number of sessions
         ns          % array of per-session numbers of observations (rows)
-        fs          % array of per-session residual degrees of freedom
+    end
+
+    properties (Hidden = true)
         nVariables  % number of data variables (columns)
         hBetas      % cell array of per-session parameter estimates
         hXis        % cell array of per-session error estimates
@@ -21,21 +24,32 @@ classdef CvCrossManova < handle
         function self = CvCrossManova(Ys, Xs, analyses, kwargs)
             % create CvCrossManova object
             %
-            % CvCrossManova(Ys, Xs, analyses, lambda=, fs=)
+            % CvCrossManova(Ys, Xs, analyses, lambda = 1e-8, fs = )
             %
-            % ----------  ---------------------------------------------------------------------------------------------------------
-            % `Xs`        cell array of per-session design matrices
-            % `Ys`        cell array of per-session data matrices
-            % `analyses`  cell array of Analysis objects
-            % `lambda`    strength of regularization (0–1) towards Euclidean metric, default: 1e-8
-            % `fs`        array of per-session residual degrees of freedom, default: computed from size and rank of design matrices
-            % ----------  ---------------------------------------------------------------------------------------------------------
+            % A `CvCrossManova` object stores data matrices, design
+            % matrices, analysis definitions, and further parameters. Upon
+            % creation, it also estimates GLM parameters and errors. Actual
+            % analyses are then performed on subsets of variables by
+            % calling the method `runAnalyses`.
             %
-            % Upon creation, a `CvCrossManova` object stores data matrices,
-            % design matrices, analysis definitions, and further parameters, and
-            % it estimates GLM parameters and errors. Actual analyses are then
-            % performed on subsets of variables by calling the method
-            % `runAnalyses`.
+            % The parameter λ (from 0 to 1) controls the amount of
+            % shrinkage regularization applied to the estimate of the error
+            % covariance matrix. A small value can be used to improve the
+            % numerical and statistical stability of the estimate; the
+            % default chosen here is 10^−8^. A value of 1 can be used to
+            % disregard the covariance structure, because it replaces the
+            % estimated error covariance matrix by a diagonal matrix where
+            % every diagonal element is the average variance across
+            % variables. This can be useful for Cross-MANOVA if it is
+            % intended to quantify orthogonality w.r.t the original data
+            % space (Euclidean metric) instead of the whitened space.
+            %
+            % If the per-session residual degrees of freedom `fs` are not
+            % specified, they are calculated under the assumption that the
+            % data observations are uncorrelated, as `ns(k) - rank(Xs{k})`.
+            % If the observations have been only approximately decorrelated
+            % or have been filtered, correct values should be explicitly
+            % specified.
 
             arguments
                 Ys             (:, :)  cell
@@ -55,12 +69,12 @@ classdef CvCrossManova < handle
             % determine number of sessions
             self.m = numel(self.Ys);
             assert(self.m == numel(self.Xs), ...
-                'Number of sessions of Ys and Xs must match.');
+                "Number of sessions of Ys and Xs must match.");
 
             % determine number of observations for each session
             self.ns = cellfun(@(x) size(x, 1), self.Ys);
             assert(isequal(self.ns, cellfun(@(x) size(x, 1), self.Xs)), ...
-                'Number of rows of Ys and Xs must match in each session.');
+                "Number of rows of Ys and Xs must match in each session.");
 
             % if not specified, calculate residual degrees of freedom for each session
             if isempty(self.fs)
@@ -70,13 +84,13 @@ classdef CvCrossManova < handle
                 end
             else
                 assert(self.m == numel(self.fs), ...
-                    'Number of sessions of Ys and fs must match.');
+                    "Number of sessions of Ys and fs must match.");
             end
 
             % determine number of variables
             self.nVariables = size(self.Ys{1}, 2);
             assert(all(cellfun(@(x) size(x, 2), self.Ys) == self.nVariables), ...
-                'Number of columns must match between sessions of Ys.');
+                "Number of columns must match between sessions of Ys.");
 
             % estimate GLM parameters and errors for each session
             self.hBetas = cell(1, self.m);
@@ -86,18 +100,12 @@ classdef CvCrossManova < handle
                 self.hXis{k} = self.Ys{k} - self.Xs{k} * self.hBetas{k};
             end
 
-            % process analysis definitions
+            % determine number of analyses
             self.nAnalyses = numel(self.analyses);
-            for i = 1 : self.nAnalyses
-                if iscell(self.analyses{i})
-                    % a cell array is interpreted as arguments for
-                    % Analysis.leaveOneSessionOut
-                    self.analyses{i} = Analysis.leaveOneSessionOut(self.m, ...
-                        self.analyses{i}{:});
-                end
-            end
+            assert(all(cellfun(@(x) isequal(class(x), 'Analysis'), analyses)), ...
+                "analyses must contain Analysis objects.")
             assert(all(cellfun(@(x) x.m, self.analyses) == self.m), ...
-                'Number of sessions of Ys and analyses must match.');
+                "Number of sessions of Ys and analyses must match.");
 
 %             % check estimability of contrasts w.r.t. design matrices
 %             for i = 1 : self.nAnalyses
@@ -105,38 +113,26 @@ classdef CvCrossManova < handle
 %             end
         end
 
-        function showAnalyses(self)
-            % graphically displays all defined analyses
-            for i = 1 : self.nAnalyses
-                self.analyses{i}.show(sprintf('Analysis %d', i));
-            end
-        end
-
-        function dispAnalyses(self)
-            % summarizes all defined analyses
-            for i = 1 : self.nAnalyses
-                % sprintf('Analysis %d', i)
-                self.analyses{i}.disp();
-            end
-        end
-
-        function n = nResults(self)
-            % returns the number of values returned by runAnalyses
-            n = self.nAnalyses;           % * nPermutations
-        end
-
         function Ds = runAnalyses(self, vi)
-            % runs the defined analyses on a subset of variables
+            % runs the defined analyses on (a subset of) the variables
             %
-            % D = runAnalyses(self, vi)
+            % Ds = runAnalyses(self, vi)
+            % Ds = runAnalyses(self)
+            %
+            % `vi` specifies the variables to be included in the analysis,
+            % as column indices into the data matrices `Ys`. If omitted,
+            % all variables are included.
+            %
+            % `Ds` is a cell array of analysis results where each element
+            % results from the corresponding element in `analyses`. Whether
+            % this result is an estimate of pattern distinctness *D* or
+            % pattern stability *D*^×^ depends on the contrasts and
+            % regressors involved in them.
             % 
-            % vi  variable indices, i.e. column indices into the data matrices
-            %     default: all variables
-            % Ds  cell array of analysis results,
-            %     either pattern distinctness or pattern stability
-            %     Each cell element is a scalar if no permutations have been
-            %     applied, or a vector of permutation values where the first
-            %     one corresponds to the neutral permutation.
+            % For an analysis which does not include permutations, the cell
+            % array element is a scalar; otherwise it is an array of
+            % permutation values, where the first element is the actual
+            % estimate (corresponding to the neutral permutation).
 
             if nargin < 2
                 vi = 1 : self.nVariables;
@@ -226,6 +222,29 @@ classdef CvCrossManova < handle
 
         end
 
+        function showAnalyses(self)
+            % graphically displays all defined analyses
+            for i = 1 : self.nAnalyses
+                fig = self.analyses{i}.show();
+                fig.Name = sprintf("Analysis %d", i);
+            end
+        end
+
+        function dispAnalyses(self)
+            % summarizes all defined analyses
+            for i = 1 : self.nAnalyses
+                % sprintf("Analysis %d", i)
+                self.analyses{i}.disp();
+            end
+        end
+
+        function n = nResults(self)
+            % returns the number of values returned by runAnalyses
+            n = self.nAnalyses;           % * nPermutations
+        end
+
     end
 
 end
+
+% TODO checkEstimability

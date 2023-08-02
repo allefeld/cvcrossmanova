@@ -5,8 +5,8 @@ classdef Analysis < handle
     properties
         CA           % 'training' contrast, regressors × subcontrasts
         CB           % 'validation' contrast, regressors × subcontrasts
-        sessionsA    % 'training' sessions, folds × sessions logical array
-        sessionsB    % 'validation' sessions, folds × sessions logical array
+        sessionsA    % 'training' sessions, folds × sessions logical
+        sessionsB    % 'validation' sessions, folds × sessions logical
         L            % number of folds
         m            % number of sessions
         perms        % sign permutations, permutations × sessions
@@ -79,7 +79,7 @@ classdef Analysis < handle
         end
 
         function addPermutations(self, maxPerms)
-            % add unique sign permutations of per-session parameter estimates
+            % add sign permutations of per-session parameter estimates
             %
             % analysis.addPermutations(maxPerms = 1000)
             %
@@ -120,8 +120,6 @@ classdef Analysis < handle
             nPerms = 2 ^ self.m;
             fprintf("%d possible sign permutations, ", nPerms)
             
-            % Add warning that this only works for non-cross. Based on .same?
-            
             % generate all sign permutations of sessions (permutations × sessions)
             % with the neutral permutation first
             self.perms = 1 - 2 * (int8(dec2bin(0 : nPerms - 1, self.m)) - '0');
@@ -155,9 +153,6 @@ classdef Analysis < handle
             end
         end
 
-% TODO checkEstimability
-% TODO add function to check whether cross or not based on regressor ids?
-
         function disp(self)
             % textually display information about analysis
             %
@@ -165,40 +160,42 @@ classdef Analysis < handle
             %
             % This method overrides Matlab's `disp`, so you can also use
             % `disp(analysis)` or simply `analysis` without semicolon to
-            % get the same information.
+            % get the same output.
 
             str = sprintf("  Analysis:");
             str = str + sprintf("\n    %d fold(s), %d session(s)", self.L, self.m);
-            str = str + sprintf("\n    %d permutation(s)", size(self.perms, 1));
-            str = str + sprintf("\n    CA:     %d × %d, %d-dimensional", ...
-                size(self.CA), self.dimensionA);
             if ~isequaln(self.CA, self.CB)
-                str = str + sprintf("\n    CB:     %d × %d, %d-dimensional", ...
+                str = str + sprintf("\n    CA:       %d × %d, %d-dimensional", ...
+                    size(self.CA), self.dimensionA);
+                str = str + sprintf("\n    CB:       %d × %d, %d-dimensional", ...
                     size(self.CB), self.dimensionB);
                 % check cross parameter-effect extracting matrix
-                str = str + sprintf("\n    CA→CB: %d-dimensional, %g %% variance", ...
+                str = str + sprintf("\n    CA ↔ CB:  %d-dimensional, %g %% variance", ...
                     self.dimensionAB, self.normAB / self.dimensionAB * 100);
+            else
+                str = str + sprintf("\n    CA = CB:  %d × %d, %d-dimensional", ...
+                    size(self.CA), self.dimensionA);
+            end
+            if size(self.perms, 1) > 1
+                str = str + sprintf("\n    %d permutations (including neutral)", size(self.perms, 1));
+            else
+                str = str + sprintf("\n    no permutations");
             end
             disp(str)
         end
 
-        function fig = show(self, name)
+        function fig = show(self)
             % graphically display information about analysis
             %
-            % fig = analysis.show(name = "")
+            % fig = analysis.show()
             %
-            % The method creates a figure window and returns the handle.
-            % Optionally, a name for the figure can be chosen.
+            % The method creates a figure and returns the handle.
 
-            arguments
-                self
-                name  (1, 1)  string  = ""
-            end
-
-            showPerms = size(self.perms, 1) > 1;
-
+            % create figure
             fig = figure();
-            fig.Name = name;
+
+            % size and layout of figure
+            showPerms = size(self.perms, 1) > 1;
             if ~showPerms
                 nRows = 2;
                 fig.Position(3 : 4) = [640, 640];
@@ -214,13 +211,13 @@ classdef Analysis < handle
             % determine scaling of contrasts
             maxC = max(abs([self.CA(:) ; self.CB(:)]));
 
+            % contrasts
             subplot(nRows, 2, 1)
             heatmap(self.CA, ColorMap=cmap, ColorbarVisible=false)
             clim([-maxC, maxC])
             title('Contrast A')
             xlabel('subcontrasts')
             ylabel('regressors')
-
             subplot(nRows, 2, 2)
             heatmap(self.CB, ColorMap=cmap, ColorbarVisible=false)
             clim([-maxC maxC])
@@ -228,13 +225,13 @@ classdef Analysis < handle
             xlabel('subcontrasts')
             ylabel('regressors')
 
+            % sessions
             subplot(nRows, 2, 3)
             heatmap(double(self.sessionsA), ColorMap=cmap, ColorbarVisible=false)
             clim([0 1])
             title('Sessions A')
             xlabel('sessions')
             ylabel('folds')
-
             subplot(nRows, 2, 4)
             heatmap(double(self.sessionsB), ColorMap=cmap, ColorbarVisible=false)
             clim([0 1])
@@ -242,6 +239,7 @@ classdef Analysis < handle
             xlabel('sessions')
             ylabel('folds')
 
+            % permutations
             if showPerms
                 subplot(nRows, 2, 5:6)
                 hm = heatmap(self.perms, ColorMap=cmap, ColorbarVisible=false);
@@ -264,11 +262,14 @@ classdef Analysis < handle
         function analysis = leaveOneSessionOut(m, CA, CB)
             % create Analysis object for leave-one-session-out cross-validation
             %
+            % analysis = Analysis.leaveOneSessionOut(m, C)
             % analysis = Analysis.leaveOneSessionOut(m, CA, CB)
             %
-            % This is a convenience method as an alternative to calling the
-            % constructor with manually specified `sessionsA` and
-            % `sessionsB`.
+            % This is a convenience method which calls the constructor with
+            % `sessionsB = logical(eye(m))` and `sessionsA = not(sessionsB)`.
+            %
+            % If only one contrast `C` is specified, it is used for both
+            % 'training' (`CA`) and 'validation' (`CB`).
             arguments
                 m   (1, 1)  double
                 CA  (:, :)  double
@@ -283,3 +284,5 @@ classdef Analysis < handle
     end
 
 end
+
+% TODO 
