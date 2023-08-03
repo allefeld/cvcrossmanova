@@ -156,18 +156,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cmexample.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Illustration of Cross-MANOVA with Examples</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./cmtest.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Test of Cross-MANOVA using Examples</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
   <a href="./reference.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Reference documentation</span></a>
   </div>
@@ -182,9 +170,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#function-cvcrossmanovasearchlight" id="toc-function-cvcrossmanovasearchlight" class="nav-link active" data-scroll-target="#function-cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></a></li>
-  <li><a href="#function-cvcrossmanovaregion" id="toc-function-cvcrossmanovaregion" class="nav-link" data-scroll-target="#function-cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></a></li>
-  <li><a href="#class-analysis" id="toc-class-analysis" class="nav-link" data-scroll-target="#class-analysis"><span class="smallcaps">class</span> <code>Analysis</code></a>
+  <li><a href="#class-analysis" id="toc-class-analysis" class="nav-link active" data-scroll-target="#class-analysis"><span class="smallcaps">class</span> <code>Analysis</code></a>
   <ul class="collapse">
   <li><a href="#properties" id="toc-properties" class="nav-link" data-scroll-target="#properties"><span class="smallcaps">properties</span></a></li>
   <li><a href="#static-method-leaveonesessionout" id="toc-static-method-leaveonesessionout" class="nav-link" data-scroll-target="#static-method-leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></a></li>
@@ -198,10 +184,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#properties-1" id="toc-properties-1" class="nav-link" data-scroll-target="#properties-1"><span class="smallcaps">properties</span></a></li>
   <li><a href="#constructor-cvcrossmanova" id="toc-constructor-cvcrossmanova" class="nav-link" data-scroll-target="#constructor-cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></a></li>
   <li><a href="#method-runanalyses" id="toc-method-runanalyses" class="nav-link" data-scroll-target="#method-runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></a></li>
-  <li><a href="#method-showanalyses" id="toc-method-showanalyses" class="nav-link" data-scroll-target="#method-showanalyses"><span class="smallcaps">method</span> <code>showAnalyses</code></a></li>
   <li><a href="#method-dispanalyses" id="toc-method-dispanalyses" class="nav-link" data-scroll-target="#method-dispanalyses"><span class="smallcaps">method</span> <code>dispAnalyses</code></a></li>
-  <li><a href="#method-nresults" id="toc-method-nresults" class="nav-link" data-scroll-target="#method-nresults"><span class="smallcaps">method</span> <code>nResults</code></a></li>
+  <li><a href="#method-showanalyses" id="toc-method-showanalyses" class="nav-link" data-scroll-target="#method-showanalyses"><span class="smallcaps">method</span> <code>showAnalyses</code></a></li>
   </ul></li>
+  <li><a href="#function-cvcrossmanovasearchlight" id="toc-function-cvcrossmanovasearchlight" class="nav-link" data-scroll-target="#function-cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></a></li>
+  <li><a href="#function-cvcrossmanovaregion" id="toc-function-cvcrossmanovaregion" class="nav-link" data-scroll-target="#function-cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></a></li>
   </ul>
 </nav>
     </div>
@@ -225,10 +212,166 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="class-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="class-analysis"><span class="smallcaps">class</span> <code>Analysis</code></h2>
+<p>data type representing an analysis</p>
+<section id="properties" class="level3">
+<h3 class="anchored" data-anchor-id="properties"><span class="smallcaps">properties</span></h3>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>CA</code></td>
+<td>‘training’ contrast, regressors × subcontrasts</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>CB</code></td>
+<td>‘validation’ contrast, regressors × subcontrasts</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>sessionsA</code></td>
+<td>‘training’ sessions, folds × sessions logical</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>sessionsB</code></td>
+<td>‘validation’ sessions, folds × sessions logical</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>L</code></td>
+<td>number of folds</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>m</code></td>
+<td>number of sessions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>perms</code></td>
+<td>sign permutations, permutations × sessions</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="static-method-leaveonesessionout" class="level3">
+<h3 class="anchored" data-anchor-id="static-method-leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></h3>
+<p>create Analysis object for leave-one-session-out cross-validation</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">C</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">CA</span><span class="op">,</span> <span class="va">CB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a convenience method which calls the constructor with <code>sessionsB = logical(eye(m))</code> and <code>sessionsA = not(sessionsB)</code>.</p>
+<p>If only one contrast <code>C</code> is specified, it is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>).</p>
+</section>
+<section id="constructor-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="constructor-analysis"><span class="smallcaps">constructor</span> <code>Analysis</code></h3>
+<p>create Analysis object</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">CA</span><span class="op">,</span> <span class="va">CB</span><span class="op">,</span> <span class="va">sessionsA</span><span class="op">,</span> <span class="va">sessionsB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="method-addpermutations" class="level3">
+<h3 class="anchored" data-anchor-id="method-addpermutations"><span class="smallcaps">method</span> <code>addPermutations</code></h3>
+<p>add sign permutations of per-session parameter estimates</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">addPermutations</span>(<span class="va">maxPerms</span> <span class="op">=</span> <span class="fl">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method adds information to <code>analysis</code> that sign-permutations should be applied, so that different values of <em>D</em> for the different permutations are computed.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sign permutations are used to test a per-subject null hypothesis of no effect in standard MANOVA analyses. It does not make sense to apply them to Cross-MANOVAs.</p>
+</div>
+</div>
+<p>For <em>m</em> sessions there are formally 2<sup><em>m</em></sup> per-session sign permutations, but not all of them lead to different permutation values. The number of unique permutations depends on the ‘training’ and ‘validation’ sessions used in different folds (<code>sessionsA</code>, <code>sessionsB</code>). This method determines which permutations lead to different outcomes and makes sure only those unique permutations are performed.</p>
+<p>If the number of unique permutations exceeds <code>maxPerms</code>, a randomly chosen subset of <code>maxPerms</code> is chosen (including the neutral permutation, which is always permutation 1).</p>
+</section>
+<section id="method-disp" class="level3">
+<h3 class="anchored" data-anchor-id="method-disp"><span class="smallcaps">method</span> <code>disp</code></h3>
+<p>textually display information about analysis</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(analysis)</code> or simply <code>analysis</code> without semicolon to get the same output.</p>
+</section>
+<section id="method-show" class="level3">
+<h3 class="anchored" data-anchor-id="method-show"><span class="smallcaps">method</span> <code>show</code></h3>
+<p>graphically display information about analysis</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">analysis</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The method creates a figure and returns the handle.</p>
+</section>
+</section>
+<section id="class-cvcrossmanova" class="level2">
+<h2 class="anchored" data-anchor-id="class-cvcrossmanova"><span class="smallcaps">class</span> <code>CvCrossManova</code></h2>
+<p>data type representing data and analyses</p>
+<section id="properties-1" class="level3">
+<h3 class="anchored" data-anchor-id="properties-1"><span class="smallcaps">properties</span></h3>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>Ys</code></td>
+<td style="text-align: left;">cell array of per-session design matrices</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>Xs</code></td>
+<td style="text-align: left;">cell array of per-session data matrices</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>analyses</code></td>
+<td style="text-align: left;">cell array of Analysis objects</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>lambda</code></td>
+<td style="text-align: left;">strength of regularization (0–1) towards Euclidean metric</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>fs</code></td>
+<td style="text-align: left;">array of per-session residual degrees of freedom</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>m</code></td>
+<td style="text-align: left;">number of sessions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>ns</code></td>
+<td style="text-align: left;">array of per-session numbers of observations (rows)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>nResults</code></td>
+<td style="text-align: left;">array of per-analysis returned numbers of results</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="constructor-cvcrossmanova" class="level3">
+<h3 class="anchored" data-anchor-id="constructor-cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></h3>
+<p>create CvCrossManova object</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> <span class="op">...</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>A <code>CvCrossManova</code> object stores data matrices, design matrices, analysis definitions, and further parameters. Upon creation, it also estimates GLM parameters and errors. Actual analyses are then performed on subsets of variables by calling the method <code>runAnalyses</code>.</p>
+<p>The parameter λ (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. A small value can be used to improve the numerical and statistical stability of the estimate; the default is 10<sup>−8</sup>. A value of 1 can be used to disregard the covariance structure, because it replaces the estimated error covariance matrix by a diagonal matrix where every diagonal element is the average variance across variables. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t the original data space (Euclidean metric) instead of the whitened space.</p>
+<p>If the per-session residual degrees of freedom <code>fs</code> are not specified, they are calculated under the assumption that the data observations are uncorrelated, as <code>ns(k) - rank(Xs{k})</code>. If the observations have been only approximately decorrelated or have been filtered, correct values should be explicitly specified.</p>
+</section>
+<section id="method-runanalyses" class="level3">
+<h3 class="anchored" data-anchor-id="method-runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></h3>
+<p>run the defined analyses on (a subset of) the variables</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>(<span class="va">vi</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code>. If omitted, all variables are included.</p>
+<p><code>Ds</code> is a cell array of analysis results where each element results from the corresponding element in <code>analyses</code>. Whether this result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts and regressors involved in them.</p>
+<p>For an analysis which does not include permutations, the cell array element is a scalar; otherwise it is an array of permutation values, where the first element is the actual estimate (corresponding to the neutral permutation).</p>
+<p>To determine how many values will be included in each of the elements of <code>Ds</code> before actually running an analysis, e.g. for preallocation, use the property <code>nResults</code>. It is a vector where each element gives the number of values returned for the corresponding analysis (i.e.&nbsp;the number of permutations).</p>
+</section>
+<section id="method-dispanalyses" class="level3">
+<h3 class="anchored" data-anchor-id="method-dispanalyses"><span class="smallcaps">method</span> <code>dispAnalyses</code></h3>
+<p>textually display information about all analyses</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">dispAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="method-showanalyses" class="level3">
+<h3 class="anchored" data-anchor-id="method-showanalyses"><span class="smallcaps">method</span> <code>showAnalyses</code></h3>
+<p>graphically display information about all analyses</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">showAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
 <section id="function-cvcrossmanovasearchlight" class="level2">
 <h2 class="anchored" data-anchor-id="function-cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></h2>
 <p>cross-validated (cross-) MANOVA on searchlight</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">Cs</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">Cs</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="table">
 <tbody>
 <tr class="odd">
@@ -278,7 +421,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="function-cvcrossmanovaregion" class="level2">
 <h2 class="anchored" data-anchor-id="function-cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></h2>
 <p>cross-validated MANOVA on region</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="table">
 <tbody>
 <tr class="odd">
@@ -311,161 +454,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
-</section>
-<section id="class-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="class-analysis"><span class="smallcaps">class</span> <code>Analysis</code></h2>
-<p>data type representing an analysis</p>
-<section id="properties" class="level3">
-<h3 class="anchored" data-anchor-id="properties"><span class="smallcaps">properties</span></h3>
-<table class="table">
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>CA</code></td>
-<td>‘training’ contrast, regressors × subcontrasts</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>CB</code></td>
-<td>‘validation’ contrast, regressors × subcontrasts</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>sessionsA</code></td>
-<td>‘training’ sessions, folds × sessions logical</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>sessionsB</code></td>
-<td>‘validation’ sessions, folds × sessions logical</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>L</code></td>
-<td>number of folds</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>m</code></td>
-<td>number of sessions</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>perms</code></td>
-<td>sign permutations, permutations × sessions</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="static-method-leaveonesessionout" class="level3">
-<h3 class="anchored" data-anchor-id="static-method-leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></h3>
-<p>create Analysis object for leave-one-session-out cross-validation</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">C</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">CA</span><span class="op">,</span> <span class="va">CB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is a convenience method which calls the constructor with <code>sessionsB = logical(eye(m))</code> and <code>sessionsA = not(sessionsB)</code>.</p>
-<p>If only one contrast <code>C</code> is specified, it is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>).</p>
-</section>
-<section id="constructor-analysis" class="level3">
-<h3 class="anchored" data-anchor-id="constructor-analysis"><span class="smallcaps">constructor</span> <code>Analysis</code></h3>
-<p>create Analysis object</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">CA</span><span class="op">,</span> <span class="va">CB</span><span class="op">,</span> <span class="va">sessionsA</span><span class="op">,</span> <span class="va">sessionsB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="method-addpermutations" class="level3">
-<h3 class="anchored" data-anchor-id="method-addpermutations"><span class="smallcaps">method</span> <code>addPermutations</code></h3>
-<p>add sign permutations of per-session parameter estimates</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">addPermutations</span>(<span class="va">maxPerms</span> <span class="op">=</span> <span class="fl">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This method adds information to <code>analysis</code> that sign-permutations should be applied, so that different values of <em>D</em> for the different permutations are computed.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Sign permutations are used to test a per-subject null hypothesis of no effect in standard MANOVA analyses. It does not make sense to apply them to Cross-MANOVAs.</p>
-</div>
-</div>
-<p>For <em>m</em> sessions there are formally 2<sup><em>m</em></sup> per-session sign permutations, but not all of them lead to different permutation values. The number of unique permutations depends on the ‘training’ and ‘validation’ sessions used in different folds (<code>sessionsA</code>, <code>sessionsB</code>). This method determines which permutations lead to different outcomes and makes sure only those unique permutations are performed.</p>
-<p>If the number of unique permutations exceeds <code>maxPerms</code>, a randomly chosen subset of <code>maxPerms</code> is chosen (including the neutral permutation, which is always permutation 1).</p>
-</section>
-<section id="method-disp" class="level3">
-<h3 class="anchored" data-anchor-id="method-disp"><span class="smallcaps">method</span> <code>disp</code></h3>
-<p>textually display information about analysis</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(analysis)</code> or simply <code>analysis</code> without semicolon to get the same output.</p>
-</section>
-<section id="method-show" class="level3">
-<h3 class="anchored" data-anchor-id="method-show"><span class="smallcaps">method</span> <code>show</code></h3>
-<p>graphically display information about analysis</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">analysis</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The method creates a figure and returns the handle.</p>
-</section>
-</section>
-<section id="class-cvcrossmanova" class="level2">
-<h2 class="anchored" data-anchor-id="class-cvcrossmanova"><span class="smallcaps">class</span> <code>CvCrossManova</code></h2>
-<p>data type representing data and analyses</p>
-<section id="properties-1" class="level3">
-<h3 class="anchored" data-anchor-id="properties-1"><span class="smallcaps">properties</span></h3>
-<table class="table">
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>Ys</code></td>
-<td style="text-align: left;">cell array of per-session design matrices</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>Xs</code></td>
-<td style="text-align: left;">cell array of per-session data matrices</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>analyses</code></td>
-<td style="text-align: left;">cell array of Analysis objects</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>lambda</code></td>
-<td style="text-align: left;">strength of regularization (0–1) towards Euclidean metric</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>fs</code></td>
-<td style="text-align: left;">array of per-session residual degrees of freedom</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>m</code></td>
-<td style="text-align: left;">number of sessions</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>ns</code></td>
-<td style="text-align: left;">array of per-session numbers of observations (rows)</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="constructor-cvcrossmanova" class="level3">
-<h3 class="anchored" data-anchor-id="constructor-cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></h3>
-<p>create CvCrossManova object</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A <code>CvCrossManova</code> object stores data matrices, design matrices, analysis definitions, and further parameters. Upon creation, it also estimates GLM parameters and errors. Actual analyses are then performed on subsets of variables by calling the method <code>runAnalyses</code>.</p>
-<p>The parameter λ (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. A small value can be used to improve the numerical and statistical stability of the estimate; the default chosen here is 10<sup>−8</sup>. A value of 1 can be used to disregard the covariance structure, because it replaces the estimated error covariance matrix by a diagonal matrix where every diagonal element is the average variance across variables. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t the original data space (Euclidean metric) instead of the whitened space.</p>
-<p>If the per-session residual degrees of freedom <code>fs</code> are not specified, they are calculated under the assumption that the data observations are uncorrelated, as <code>ns(k) - rank(Xs{k})</code>. If the observations have been only approximately decorrelated or have been filtered, correct values should be explicitly specified.</p>
-</section>
-<section id="method-runanalyses" class="level3">
-<h3 class="anchored" data-anchor-id="method-runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></h3>
-<p>runs the defined analyses on (a subset of) the variables</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">runAnalyses</span>(<span class="va">self</span><span class="op">,</span> <span class="va">vi</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">runAnalyses</span>(<span class="va">self</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code>. If omitted, all variables are included.</p>
-<p><code>Ds</code> is a cell array of analysis results where each element results from the corresponding element in <code>analyses</code>. Whether this result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts and regressors involved in them.</p>
-<p>For an analysis which does not include permutations, the cell array element is a scalar; otherwise it is an array of permutation values, where the first element is the actual estimate (corresponding to the neutral permutation).</p>
-</section>
-<section id="method-showanalyses" class="level3">
-<h3 class="anchored" data-anchor-id="method-showanalyses"><span class="smallcaps">method</span> <code>showAnalyses</code></h3>
-<p>graphically displays all defined analyses</p>
-</section>
-<section id="method-dispanalyses" class="level3">
-<h3 class="anchored" data-anchor-id="method-dispanalyses"><span class="smallcaps">method</span> <code>dispAnalyses</code></h3>
-<p>summarizes all defined analyses</p>
-</section>
-<section id="method-nresults" class="level3">
-<h3 class="anchored" data-anchor-id="method-nresults"><span class="smallcaps">method</span> <code>nResults</code></h3>
-<p>returns the number of values returned by runAnalyses</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -22,10 +22,10 @@ header-includes: |
 %| echo: false
 clear all
 names = {
-    "cvCrossManovaSearchlight",
-    "cvCrossManovaRegion",
     "Analysis",
-    "CvCrossManova"
+    "CvCrossManova",
+    "cvCrossManovaSearchlight",
+    "cvCrossManovaRegion"
 };
 helpToMarkdown(names)
 ```

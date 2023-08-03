@@ -19,12 +19,16 @@ classdef CvCrossManova < handle
         nAnalyses   % number of analyses
     end
 
+    properties (Dependent)
+        nResults    % array of per-analysis returned numbers of results
+    end
+
     methods
 
         function self = CvCrossManova(Ys, Xs, analyses, kwargs)
             % create CvCrossManova object
             %
-            % CvCrossManova(Ys, Xs, analyses, lambda = 1e-8, fs = )
+            % ccm = CvCrossManova(Ys, Xs, analyses, lambda = 1e-8, fs = ...)
             %
             % A `CvCrossManova` object stores data matrices, design
             % matrices, analysis definitions, and further parameters. Upon
@@ -36,13 +40,13 @@ classdef CvCrossManova < handle
             % shrinkage regularization applied to the estimate of the error
             % covariance matrix. A small value can be used to improve the
             % numerical and statistical stability of the estimate; the
-            % default chosen here is 10^−8^. A value of 1 can be used to
-            % disregard the covariance structure, because it replaces the
-            % estimated error covariance matrix by a diagonal matrix where
-            % every diagonal element is the average variance across
-            % variables. This can be useful for Cross-MANOVA if it is
-            % intended to quantify orthogonality w.r.t the original data
-            % space (Euclidean metric) instead of the whitened space.
+            % default is 10^−8^. A value of 1 can be used to disregard the
+            % covariance structure, because it replaces the estimated error
+            % covariance matrix by a diagonal matrix where every diagonal
+            % element is the average variance across variables. This can be
+            % useful for Cross-MANOVA if it is intended to quantify
+            % orthogonality w.r.t the original data space (Euclidean
+            % metric) instead of the whitened space.
             %
             % If the per-session residual degrees of freedom `fs` are not
             % specified, they are calculated under the assumption that the
@@ -60,11 +64,11 @@ classdef CvCrossManova < handle
             end
 
             % store arguments
-            self.Ys = Ys(:)';
-            self.Xs = Xs(:)';
-            self.analyses = analyses(:)';
+            self.Ys = Ys(:).';
+            self.Xs = Xs(:).';
+            self.analyses = analyses(:).';
             self.lambda = kwargs.lambda;
-            self.fs = kwargs.fs(:)';
+            self.fs = kwargs.fs(:).';
 
             % determine number of sessions
             self.m = numel(self.Ys);
@@ -114,10 +118,10 @@ classdef CvCrossManova < handle
         end
 
         function Ds = runAnalyses(self, vi)
-            % runs the defined analyses on (a subset of) the variables
+            % run the defined analyses on (a subset of) the variables
             %
-            % Ds = runAnalyses(self, vi)
-            % Ds = runAnalyses(self)
+            % Ds = ccm.runAnalyses(vi)
+            % Ds = ccm.runAnalyses()
             %
             % `vi` specifies the variables to be included in the analysis,
             % as column indices into the data matrices `Ys`. If omitted,
@@ -133,11 +137,18 @@ classdef CvCrossManova < handle
             % array element is a scalar; otherwise it is an array of
             % permutation values, where the first element is the actual
             % estimate (corresponding to the neutral permutation).
+            %
+            % To determine how many values will be included in each of the
+            % elements of `Ds` before actually running an analysis, e.g.
+            % for preallocation, use the property `nResults`. It is a
+            % vector where each element gives the number of values returned
+            % for the corresponding analysis (i.e. the number of
+            % permutations).
 
             if nargin < 2
                 vi = 1 : self.nVariables;
             else
-                vi = vi(:)';
+                vi = vi(:).';
             end
 
             % determine number of variables
@@ -219,28 +230,33 @@ classdef CvCrossManova < handle
                 end
                 Ds{i} = D / L;
             end
-
         end
 
-        function showAnalyses(self)
-            % graphically displays all defined analyses
-            for i = 1 : self.nAnalyses
-                fig = self.analyses{i}.show();
-                fig.Name = sprintf("Analysis %d", i);
-            end
+        function nr = get.nResults(self)
+            % return the number of values returned by `runAnalyses`
+
+            nr = cellfun(@(x) size(x.perms, 1), self.analyses);
         end
 
         function dispAnalyses(self)
-            % summarizes all defined analyses
+            % textually display information about all analyses
+            %
+            % ccm.dispAnalyses()
+
             for i = 1 : self.nAnalyses
-                % sprintf("Analysis %d", i)
+                fprintf("Analysis %d\n", i)
                 self.analyses{i}.disp();
             end
         end
 
-        function n = nResults(self)
-            % returns the number of values returned by runAnalyses
-            n = self.nAnalyses;           % * nPermutations
+        function showAnalyses(self)
+            % graphically display information about all analyses
+            %
+            % ccm.showAnalyses()
+            for i = 1 : self.nAnalyses
+                fig = self.analyses{i}.show();
+                fig.Name = sprintf("Analysis %d", i);
+            end
         end
 
     end

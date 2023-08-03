@@ -118,7 +118,7 @@ classdef Analysis < handle
 
             % number of sign permutations
             nPerms = 2 ^ self.m;
-            fprintf("%d possible sign permutations, ", nPerms)
+%             fprintf("%d possible sign permutations, ", nPerms)
             
             % generate all sign permutations of sessions (permutations × sessions)
             % with the neutral permutation first
@@ -141,11 +141,11 @@ classdef Analysis < handle
             % select these permutations in order
             self.perms = self.perms(sort(ind), :);
             nPerms = size(self.perms, 1);
-            fprintf("%d of them unique\n", nPerms)
+%             fprintf("%d of them unique\n", nPerms)
             
             % Monte Carlo test, following Dwass (1957) and Ernst (2004)
             if nPerms > maxPerms
-                fprintf("randomly selecting a subset of %d permutations\n", maxPerms)
+%                 fprintf("randomly selecting a subset of %d permutations\n", maxPerms)
                 % neutral permutation (1) + a random sample with replacement
                 % from permutations 2 : nPerms, for a total of maxPerms
                 ind = [1, randperm(nPerms - 1, maxPerms - 1) + 1];
@@ -270,6 +270,7 @@ classdef Analysis < handle
             %
             % If only one contrast `C` is specified, it is used for both
             % 'training' (`CA`) and 'validation' (`CB`).
+
             arguments
                 m   (1, 1)  double
                 CA  (:, :)  double
@@ -284,5 +285,3 @@ classdef Analysis < handle
     end
 
 end
-
-% TODO 
