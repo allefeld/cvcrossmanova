@@ -3,8 +3,8 @@ classdef CvCrossManova < handle
     % data type representing data and analyses
 
     properties
-        Ys          % cell array of per-session design matrices
-        Xs          % cell array of per-session data matrices
+        Ys          % cell array of per-session design matrices, observations × variables
+        Xs          % cell array of per-session data matrices, observations × regressors
         analyses    % cell array of Analysis objects
         lambda      % strength of regularization (0–1) towards Euclidean metric
         fs          % array of per-session residual degrees of freedom
@@ -82,10 +82,7 @@ classdef CvCrossManova < handle
 
             % if not specified, calculate residual degrees of freedom for each session
             if isempty(self.fs)
-                self.fs = nan(1, self.m);
-                for k = 1 : self.m
-                    self.fs(k) = self.ns(k) - rank(self.Xs{k});
-                end
+                self.fs = self.ns - cellfun(@rank, self.Xs);
             else
                 assert(self.m == numel(self.fs), ...
                     "Number of sessions of Ys and fs must match.");
@@ -111,10 +108,18 @@ classdef CvCrossManova < handle
             assert(all(cellfun(@(x) x.m, self.analyses) == self.m), ...
                 "Number of sessions of Ys and analyses must match.");
 
-%             % check estimability of contrasts w.r.t. design matrices
-%             for i = 1 : self.nAnalyses
-%                 self.analyses{i}.checkEstimability(self.Xs);
-%             end
+            % check estimability of contrasts w.r.t. design matrices
+            % TODO create matrix estimable / not estimable / N/A
+            % display it if there are problems
+            for i = 1 : self.nAnalyses
+                analysis = self.analyses{i};
+                for k = find(any(analysis.sessionsA))
+                    contrastEstimable(analysis.CA, self.Xs{k})
+                end
+                for k = find(any(analysis.sessionsB))
+                    contrastEstimable(analysis.CB, self.Xs{k})
+                end
+            end
         end
 
         function Ds = runAnalyses(self, vi)
@@ -218,14 +223,14 @@ classdef CvCrossManova < handle
                 for l = 1 : L
                     A = sessionsA(l, :);
                     B = sessionsB(l, :);
-                    for k = 1 : nPerms
-                        perm = double(permute(perms(k, :), [1, 3, 2]));
+                    for j = 1 : nPerms
+                        perm = double(permute(perms(j, :), [1, 3, 2]));
 
                         % this is "Strategy 1" in the paper
                         mhDBA = mean(cat(3, hDBAs{A}) .* perm(A), 3);
                         mXXn = mean(cat(3, XXns{B}), 3);
                         mhDB = mean(cat(3, hDBs{B}) .* perm(B), 3);
-                        D(k) = D(k) + trace(mhDBA' * mXXn * mhDB);
+                        D(j) = D(j) + trace(mhDBA' * mXXn * mhDB);
                     end
                 end
                 Ds{i} = D / L;
@@ -264,3 +269,9 @@ classdef CvCrossManova < handle
 end
 
 % TODO checkEstimability
+% A linear combination of the parameter estimates is a contrast if and
+% only if the weight vector is in the space spanned by the rows of X.
+% i = spm_SpUtil('isCon',x,c)
+% patch contrast dimension to design matrix
+
+% TODO give asserts and warnings ids

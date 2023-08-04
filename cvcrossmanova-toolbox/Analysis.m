@@ -40,6 +40,7 @@ classdef Analysis < handle
             self.sessionsB = sessionsB;
 
             % TODO check whether sessionsA and sessionsB overlap in any fold
+            % TODO check whether CB = P CA; isequal(sortrows(CA), sortrows(CB))
 
             % determine number of folds and sessions
             [self.L, self.m] = size(self.sessionsA);
@@ -172,6 +173,7 @@ classdef Analysis < handle
                 % check cross parameter-effect extracting matrix
                 str = str + sprintf("\n    CA ↔ CB:  %d-dimensional, %g %% variance", ...
                     self.dimensionAB, self.normAB / self.dimensionAB * 100);
+                % TODO variance check equivalent to permutation check?
             else
                 str = str + sprintf("\n    CA = CB:  %d × %d, %d-dimensional", ...
                     size(self.CA), self.dimensionA);

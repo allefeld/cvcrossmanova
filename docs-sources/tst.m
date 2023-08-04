@@ -23,7 +23,15 @@ end
 
 ccm = CvCrossManova(Ys, Xs, analyses)
 
-ccm.dispAnalyses()
-% ccm.showAnalyses()
+% ccm.dispAnalyses()
+% % ccm.showAnalyses()
+% 
+% ccm.runAnalyses()
 
-ccm.runAnalyses()
+
+% sessions k = 1 : m
+% folds l = 1 : L
+% 'training' sessions a in A_l
+% 'validation' sessions b in B_l
+% analyses i = 1 : nAnalyses
+% permutations j = 1 : nPerms

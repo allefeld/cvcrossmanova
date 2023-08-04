@@ -189,6 +189,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </ul></li>
   <li><a href="#function-cvcrossmanovasearchlight" id="toc-function-cvcrossmanovasearchlight" class="nav-link" data-scroll-target="#function-cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></a></li>
   <li><a href="#function-cvcrossmanovaregion" id="toc-function-cvcrossmanovaregion" class="nav-link" data-scroll-target="#function-cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></a></li>
+  <li><a href="#function-contrastestimable" id="toc-function-contrastestimable" class="nav-link" data-scroll-target="#function-contrastestimable"><span class="smallcaps">function</span> <code>contrastEstimable</code></a></li>
   </ul>
 </nav>
     </div>
@@ -306,35 +307,35 @@ Warning
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>Ys</code></td>
-<td style="text-align: left;">cell array of per-session design matrices</td>
+<td>cell array of per-session design matrices, observations × variables</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>Xs</code></td>
-<td style="text-align: left;">cell array of per-session data matrices</td>
+<td>cell array of per-session data matrices, observations × regressors</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>analyses</code></td>
-<td style="text-align: left;">cell array of Analysis objects</td>
+<td>cell array of Analysis objects</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>lambda</code></td>
-<td style="text-align: left;">strength of regularization (0–1) towards Euclidean metric</td>
+<td>strength of regularization (0–1) towards Euclidean metric</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>fs</code></td>
-<td style="text-align: left;">array of per-session residual degrees of freedom</td>
+<td>array of per-session residual degrees of freedom</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>m</code></td>
-<td style="text-align: left;">number of sessions</td>
+<td>number of sessions</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>ns</code></td>
-<td style="text-align: left;">array of per-session numbers of observations (rows)</td>
+<td>array of per-session numbers of observations (rows)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>nResults</code></td>
-<td style="text-align: left;">array of per-analysis returned numbers of results</td>
+<td>array of per-analysis returned numbers of results</td>
 </tr>
 </tbody>
 </table>
@@ -454,6 +455,34 @@ Warning
 </tr>
 </tbody>
 </table>
+</section>
+<section id="function-contrastestimable" class="level2">
+<h2 class="anchored" data-anchor-id="function-contrastestimable"><span class="smallcaps">function</span> <code>contrastEstimable</code></h2>
+<p>check whether a contrast is estimable w.r.t. a design matrix</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimable</span><span class="op">,</span> <span class="va">error</span>] <span class="op">=</span> <span class="va">contrastEstimable</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">contrastEstimable</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><code>C</code></td>
+<td>contrast matrix, regressors × subcontrasts</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>X</code></td>
+<td>design matrix, observations × regressors</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><code>estimable</code></td>
+<td>whether the contrast is estimable, logical</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><code>error</code></td>
+<td>degree of inestimability</td>
+</tr>
+</tbody>
+</table>
+<p>Estimability is determined by checking whether the contrast is contained in the row space of the design matrix (see Friston et al.&nbsp;2007, p.&nbsp;106). <code>error</code> is the underlying numerical measure of inestimability, which should be 0 for an estimable contrast, but may just be close to 0 due to numerical error. The criterion used is <code>estimable = (error &lt; max(size(C)) * eps)</code>.</p>
+<p>The second syntax reports the result instead of returning it.</p>
 
 
 </section>

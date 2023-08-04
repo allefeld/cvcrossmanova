@@ -25,7 +25,8 @@ names = {
     "Analysis",
     "CvCrossManova",
     "cvCrossManovaSearchlight",
-    "cvCrossManovaRegion"
+    "cvCrossManovaRegion",
+    "contrastEstimable"
 };
 helpToMarkdown(names)
 ```
