@@ -22,7 +22,7 @@ classdef Analysis < handle
     methods
 
         function self = Analysis(CA, CB, sessionsA, sessionsB)
-            % create Analysis object
+            % create `Analysis` object
             %
             % analysis = Analysis(CA, CB, sessionsA, sessionsB)
 
@@ -57,8 +57,8 @@ classdef Analysis < handle
                 "cvcrossmanova:subcontrasts", ...
                 "CA and CB must have the same number of subcontrasts (columns).")
             if self.dimensionA ~= self.dimensionB
-                warning("cvcrossmanova:dimensions", ...
-                    "CA and CB should have the same dimension.")
+                warning("cvcrossmanova:ranks", ...
+                    "CA and CB should have the same rank.")
             end
 
             % characterize cross-contrast
@@ -85,7 +85,7 @@ classdef Analysis < handle
             % analysis.addPermutations(maxPerms = 1000)
             %
             % This method adds information to `analysis` that
-            % sign-permutations should be applied, so that different values
+            % sign permutations should be applied, so that different values
             % of *D* for the different permutations are computed.
             %
             % ::: {.callout-warning}
@@ -165,7 +165,7 @@ classdef Analysis < handle
 
             str = sprintf("  Analysis:");
             str = str + sprintf("\n    %d fold(s), %d session(s)", self.L, self.m);
-            if ~isequaln(self.CA, self.CB)
+            if ~isequal(self.CA, self.CB)
                 str = str + sprintf("\n    CA:       %d × %d, %d-dimensional", ...
                     size(self.CA), self.dimensionA);
                 str = str + sprintf("\n    CB:       %d × %d, %d-dimensional", ...
@@ -262,13 +262,15 @@ classdef Analysis < handle
     methods (Static)
 
         function analysis = leaveOneSessionOut(m, CA, CB)
-            % create Analysis object for leave-one-session-out cross-validation
+            % create `Analysis` object for leave-one-session-out cross-validation
             %
             % analysis = Analysis.leaveOneSessionOut(m, C)
             % analysis = Analysis.leaveOneSessionOut(m, CA, CB)
             %
             % This is a convenience method which calls the constructor with
-            % `sessionsB = logical(eye(m))` and `sessionsA = not(sessionsB)`.
+            % `sessionsB = logical(eye(m))` and `sessionsA =
+            % not(sessionsB)`, the specification of standard
+            % leave-one-session-out cross-validation
             %
             % If only one contrast `C` is specified, it is used for both
             % 'training' (`CA`) and 'validation' (`CB`).
@@ -276,7 +278,7 @@ classdef Analysis < handle
             arguments
                 m   (1, 1)  double
                 CA  (:, :)  double
-                CB  (:, :)  double  = CA
+                CB  (:, :)  double  = CAAnalysis
             end
 
             sessionsB = logical(eye(m));

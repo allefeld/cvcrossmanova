@@ -26,7 +26,7 @@ classdef CvCrossManova < handle
     methods
 
         function self = CvCrossManova(Ys, Xs, analyses, kwargs)
-            % create CvCrossManova object
+            % create `CvCrossManova` object
             %
             % ccm = CvCrossManova(Ys, Xs, analyses, lambda = 1e-8, fs = ...)
             %
@@ -109,16 +109,11 @@ classdef CvCrossManova < handle
                 "Number of sessions of Ys and analyses must match.");
 
             % check estimability of contrasts w.r.t. design matrices
-            % TODO create matrix estimable / not estimable / N/A
-            % display it if there are problems
-            for i = 1 : self.nAnalyses
-                analysis = self.analyses{i};
-                for k = find(any(analysis.sessionsA))
-                    contrastEstimable(analysis.CA, self.Xs{k})
-                end
-                for k = find(any(analysis.sessionsB))
-                    contrastEstimable(analysis.CB, self.Xs{k})
-                end
+            [estimability, problems] = self.checkEstimability();
+            if problems
+                warning("Some contrasts are not estimable.")
+                fprintf("Estimability:\n")
+                disp(estimability)
             end
         end
 
@@ -258,20 +253,66 @@ classdef CvCrossManova < handle
             % graphically display information about all analyses
             %
             % ccm.showAnalyses()
+
             for i = 1 : self.nAnalyses
                 fig = self.analyses{i}.show();
                 fig.Name = sprintf("Analysis %d", i);
             end
         end
 
+        function [estimability, problems] = checkEstimability(self)
+            % check estimability of all analyses' contrasts in all sessions
+            %
+            % [estimability, problems] = ccm.checkEstimability()
+            %
+            % `estimability` is a table with one row per session and one
+            % column per analysis & contrast. 'true' means that the
+            % contrast is estimable, 'false' that it is not estimable, '–'
+            % that the contrast does not apply to the session. The check is
+            % performed via the function `contrastEstimable`.
+            %
+            % `problems` indicates whether there are any inestimable
+            % contrasts (logical).
+            %
+            % It is not usually necessary to use this method explicitly,
+            % because estimability is checked upon creation of a
+            % `CvCrossManova` object.
+
+            estimability = table('RowNames', ...
+                cellfun(@(k) sprintf("session %d", k), num2cell(1 : self.m)));
+            problems = false;   % shared with nested function `est`
+            for i = 1 : self.nAnalyses
+                analysis = self.analyses{i};
+                if ~isequal(analysis.CA, analysis.CB)
+                    % different contrasts checked in their respective sessions
+                    estimability.(sprintf("%d A", i)) = est(...
+                        any(analysis.sessionsA, 1), ...
+                        analysis.CA);
+                    estimability.(sprintf("%d B", i)) = est(...
+                        any(analysis.sessionsB, 1), ...
+                        analysis.CB);
+                else
+                    % same contrast checked in all sessions
+                    estimability.(sprintf("%d", i)) = est(...
+                        any([analysis.sessionsA ; analysis.sessionsB], 1), ...
+                        analysis.CA);
+                end
+            end
+            % nested function to check estimability of one contrast over
+            % multiple sessions
+            function e = est(sessions, C)
+                e = repmat("–", self.m, 1);
+                for kk = find(sessions)
+                    e(kk) = contrastEstimable(C, self.Xs{kk});
+                end
+                e = categorical(e);
+                problems = problems || ismember("false", e);
+            end
+
+        end
+
     end
 
 end
-
-% TODO checkEstimability
-% A linear combination of the parameter estimates is a contrast if and
-% only if the weight vector is in the space spanned by the rows of X.
-% i = spm_SpUtil('isCon',x,c)
-% patch contrast dimension to design matrix
 
 % TODO give asserts and warnings ids

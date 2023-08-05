@@ -186,6 +186,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#method-runanalyses" id="toc-method-runanalyses" class="nav-link" data-scroll-target="#method-runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></a></li>
   <li><a href="#method-dispanalyses" id="toc-method-dispanalyses" class="nav-link" data-scroll-target="#method-dispanalyses"><span class="smallcaps">method</span> <code>dispAnalyses</code></a></li>
   <li><a href="#method-showanalyses" id="toc-method-showanalyses" class="nav-link" data-scroll-target="#method-showanalyses"><span class="smallcaps">method</span> <code>showAnalyses</code></a></li>
+  <li><a href="#method-checkestimability" id="toc-method-checkestimability" class="nav-link" data-scroll-target="#method-checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></a></li>
   </ul></li>
   <li><a href="#function-cvcrossmanovasearchlight" id="toc-function-cvcrossmanovasearchlight" class="nav-link" data-scroll-target="#function-cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></a></li>
   <li><a href="#function-cvcrossmanovaregion" id="toc-function-cvcrossmanovaregion" class="nav-link" data-scroll-target="#function-cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></a></li>
@@ -253,22 +254,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="static-method-leaveonesessionout" class="level3">
 <h3 class="anchored" data-anchor-id="static-method-leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></h3>
-<p>create Analysis object for leave-one-session-out cross-validation</p>
+<p>create <code>Analysis</code> object for leave-one-session-out cross-validation</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">C</span>)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">CA</span><span class="op">,</span> <span class="va">CB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is a convenience method which calls the constructor with <code>sessionsB = logical(eye(m))</code> and <code>sessionsA = not(sessionsB)</code>.</p>
+<p>This is a convenience method which calls the constructor with <code>sessionsB = logical(eye(m))</code> and <code>sessionsA = not(sessionsB)</code>, the specification of standard leave-one-session-out cross-validation</p>
 <p>If only one contrast <code>C</code> is specified, it is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>).</p>
 </section>
 <section id="constructor-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="constructor-analysis"><span class="smallcaps">constructor</span> <code>Analysis</code></h3>
-<p>create Analysis object</p>
+<p>create <code>Analysis</code> object</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">CA</span><span class="op">,</span> <span class="va">CB</span><span class="op">,</span> <span class="va">sessionsA</span><span class="op">,</span> <span class="va">sessionsB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="method-addpermutations" class="level3">
 <h3 class="anchored" data-anchor-id="method-addpermutations"><span class="smallcaps">method</span> <code>addPermutations</code></h3>
 <p>add sign permutations of per-session parameter estimates</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">addPermutations</span>(<span class="va">maxPerms</span> <span class="op">=</span> <span class="fl">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This method adds information to <code>analysis</code> that sign-permutations should be applied, so that different values of <em>D</em> for the different permutations are computed.</p>
+<p>This method adds information to <code>analysis</code> that sign permutations should be applied, so that different values of <em>D</em> for the different permutations are computed.</p>
 <div class="callout callout-style-default callout-warning callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -342,7 +343,7 @@ Warning
 </section>
 <section id="constructor-cvcrossmanova" class="level3">
 <h3 class="anchored" data-anchor-id="constructor-cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></h3>
-<p>create CvCrossManova object</p>
+<p>create <code>CvCrossManova</code> object</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> <span class="op">...</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A <code>CvCrossManova</code> object stores data matrices, design matrices, analysis definitions, and further parameters. Upon creation, it also estimates GLM parameters and errors. Actual analyses are then performed on subsets of variables by calling the method <code>runAnalyses</code>.</p>
 <p>The parameter λ (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. A small value can be used to improve the numerical and statistical stability of the estimate; the default is 10<sup>−8</sup>. A value of 1 can be used to disregard the covariance structure, because it replaces the estimated error covariance matrix by a diagonal matrix where every diagonal element is the average variance across variables. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t the original data space (Euclidean metric) instead of the whitened space.</p>
@@ -368,11 +369,19 @@ Warning
 <p>graphically display information about all analyses</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">showAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
+<section id="method-checkestimability" class="level3">
+<h3 class="anchored" data-anchor-id="method-checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></h3>
+<p>check estimability of all analyses’ contrasts in all sessions</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>estimability</code> is a table with one row per session and one column per analysis &amp; contrast. ‘true’ means that the contrast is estimable, ‘false’ that it is not estimable, ‘–’ that the contrast does not apply to the session. The check is performed via the function <code>contrastEstimable</code>.</p>
+<p><code>problems</code> indicates whether there are any inestimable contrasts (logical).</p>
+<p>It is not usually necessary to use this method explicitly, because estimability is checked upon creation of a <code>CvCrossManova</code> object.</p>
+</section>
 </section>
 <section id="function-cvcrossmanovasearchlight" class="level2">
 <h2 class="anchored" data-anchor-id="function-cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></h2>
 <p>cross-validated (cross-) MANOVA on searchlight</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">Cs</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">Cs</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="table">
 <tbody>
 <tr class="odd">
@@ -422,7 +431,7 @@ Warning
 <section id="function-cvcrossmanovaregion" class="level2">
 <h2 class="anchored" data-anchor-id="function-cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></h2>
 <p>cross-validated MANOVA on region</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">p</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">dirName</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">permute</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="table">
 <tbody>
 <tr class="odd">
@@ -459,8 +468,8 @@ Warning
 <section id="function-contrastestimable" class="level2">
 <h2 class="anchored" data-anchor-id="function-contrastestimable"><span class="smallcaps">function</span> <code>contrastEstimable</code></h2>
 <p>check whether a contrast is estimable w.r.t. a design matrix</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimable</span><span class="op">,</span> <span class="va">error</span>] <span class="op">=</span> <span class="va">contrastEstimable</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">contrastEstimable</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimable</span><span class="op">,</span> <span class="va">error</span>] <span class="op">=</span> <span class="va">contrastEstimable</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">contrastEstimable</span>(<span class="va">C</span><span class="op">,</span> <span class="va">X</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <table class="table">
 <tbody>
 <tr class="odd">
