@@ -2,20 +2,7 @@
 title: Reference documentation
 jupyter: matlab
 header-includes: |
-    <style>
-        .table>:not(caption)>*:not(:last-child)>* {
-            border-bottom: none;
-        }
-        .table>:not(caption)>*>* {
-            border-bottom: none;
-            padding: 0 0.5rem 0.5rem 0;
-        }
-        table, .table {
-            margin-bottom: 1rem;
-        }
-    </style>
 ---
-
 
 ```{matlab}
 %| output: asis
