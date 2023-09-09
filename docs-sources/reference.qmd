@@ -1,7 +1,6 @@
 ---
 title: Reference documentation
 jupyter: matlab
-header-includes: |
 ---
 
 ```{matlab}

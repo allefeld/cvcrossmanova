@@ -2,13 +2,16 @@ project:
   type: website
   output-dir: ../docs/
 
+date: last-modified
+date-format: YYYY–M–D
+published-title: last modified
+
 website:
-  title: "CvCrossManova"
+  title: "CvCrossManova Toolbox"
   sidebar:
-    title: "CvCrossManova"
+    title: "CvCrossManova Toolbox"
     search: true
     contents: auto
-    collapse-level: 1
 
 format:
   html:
@@ -18,6 +21,7 @@ format:
     css: styles.css
     toc: true
     toc-expand: true
+    toc-title: "{{< meta title >}}"
     code-overflow: wrap
     grid:
       sidebar-width: 310px
