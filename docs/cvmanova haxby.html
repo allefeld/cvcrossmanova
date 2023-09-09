@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>CvCrossManova Toolbox - Example analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cvmanova haxby.html">Example analysis</a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">CvCrossManova Toolbox</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./cvmanova haxby.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Example analysis</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reference documentation</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Example analysis</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#preparation" id="toc-preparation" class="nav-link" data-scroll-target="#preparation">Preparation</a></li>
+  <li><a href="#model-in-spm" id="toc-model-in-spm" class="nav-link" data-scroll-target="#model-in-spm">Model in SPM</a>
+  <ul class="collapse">
+  <li><a href="#design-information" id="toc-design-information" class="nav-link" data-scroll-target="#design-information">Design information</a></li>
+  <li><a href="#specify-the-model" id="toc-specify-the-model" class="nav-link" data-scroll-target="#specify-the-model">Specify the model</a></li>
+  <li><a href="#estimate-the-model" id="toc-estimate-the-model" class="nav-link" data-scroll-target="#estimate-the-model">Estimate the model</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Example analysis</h1>
+<p class="subtitle lead">Using data of Haxby et al.&nbsp;(2001)</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">last modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2023–9–9</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>As an example for how to use the toolbox, here we apply Cross-validated MANOVA as well as Cross-validated Cross-MANOVA to the data of subject&nbsp;1 from <span class="citation" data-cites="haxby2001">Haxby et al. (<a href="#ref-haxby2001" role="doc-biblioref">2001</a>)</span>, downloaded from <a href="http://dev.pymvpa.org/datadb/haxby2001.html" class="uri">http://dev.pymvpa.org/datadb/haxby2001.html</a>.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The below computations are coded in such a way that already completed steps are not repeated, which is useful while making modifications. We here delete the subdirectory in which data and other information are kept to make sure all steps are performed.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">%rmdir(sub, 's')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We need SPM for preprocessing and defining a model:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">spm</span> <span class="va">defaults</span> <span class="va">fmri</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span> <span class="va">initcfg</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="preparation" class="level2">
+<h2 class="anchored" data-anchor-id="preparation">Preparation</h2>
+<p>Open the below boxes for the details of how data are downloaded, experimental design information is obtained, and BOLD images are realigned.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Download and unpack data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The data for the subject are downloaded as a <code>.tar.gz</code> archive, and the archive is unpacked.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure subdirectory with unpacked data is there</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'dir'</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fn</span> <span class="op">=</span> [<span class="va">sub</span> <span class="ss">'-2010.01.14.tar.gz'</span>]<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">url</span> <span class="op">=</span> [<span class="ss">'http://data.pymvpa.org/datasets/haxby2001/'</span> <span class="va">fn</span>]<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fn</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">fprintf</span>(<span class="ss">'  downloading %s\n'</span><span class="op">,</span> <span class="va">fn</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">urlwrite</span>(<span class="va">url</span><span class="op">,</span> <span class="va">fn</span>)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'  unpacking %s\n'</span><span class="op">,</span> <span class="va">fn</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">untar</span>(<span class="va">fn</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">delete</span>(<span class="va">fn</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'data has been downloaded and unpacked\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  downloading subj1-2010.01.14.tar.gz
+  unpacking subj1-2010.01.14.tar.gz
+data has been downloaded and unpacked</code></pre>
+</div>
+</div>
+<p>Moreover, included NIfTI images are individually gzip-compressed and need to be decompressed.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure gunzipped BOLD data are there</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'bold.nii'</span>]<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnBOLD</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'  decompressing %s.gz\n'</span><span class="op">,</span> <span class="va">fnBOLD</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">gunzip</span>([<span class="va">fnBOLD</span> <span class="ss">'.gz'</span>])</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">delete</span>([<span class="va">fnBOLD</span> <span class="ss">'.gz'</span>])</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'BOLD images have been decompressed\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  decompressing subj1/bold.nii.gz
+BOLD images have been decompressed</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure gunzipped region mask data are there</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnRegions</span> <span class="op">=</span> {[<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'mask4_vt.nii'</span>]<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'mask8_face_vt.nii'</span>]<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>             [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'mask8_house_vt.nii'</span>]}<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">fnRegions</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnRegions</span>{<span class="va">i</span>}<span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">fprintf</span>(<span class="ss">'  decompressing %s.gz\n'</span><span class="op">,</span> <span class="va">fnRegions</span>{<span class="va">i</span>})</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">gunzip</span>([<span class="va">fnRegions</span>{<span class="va">i</span>} <span class="ss">'.gz'</span>])</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">delete</span>([<span class="va">fnRegions</span>{<span class="va">i</span>} <span class="ss">'.gz'</span>])</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'region mask images have been decompressed\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  decompressing subj1/mask4_vt.nii.gz
+  decompressing subj1/mask8_face_vt.nii.gz
+  decompressing subj1/mask8_house_vt.nii.gz
+region mask images have been decompressed</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Obtain experimental design information
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Information about the onsets and durations of stimuli in this subject are extracted from a file <code>labels.txt</code>. Other information is not included and has to be provided manually.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure design information is there</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnDesign</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'design.mat'</span>]<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnDesign</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">% design information which cannot be extracted</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">TR</span> <span class="op">=</span> <span class="fl">2.5</span><span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">nSessions</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">nVolsPerSession</span> <span class="op">=</span> <span class="fl">121</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">conditions</span> <span class="op">=</span> [<span class="st">"face"</span><span class="op">,</span> <span class="st">"house"</span><span class="op">,</span> <span class="st">"cat"</span><span class="op">,</span> <span class="st">"bottle"</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">"scissors"</span><span class="op">,</span> <span class="st">"shoe"</span><span class="op">,</span> <span class="st">"chair"</span><span class="op">,</span> <span class="st">"scrambledpix"</span>]<span class="op">;</span> <span class="co">% + 'rest'</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">% extract stimulus information</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">fnLabels</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'labels.txt'</span>]<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'  extracting stimulus timing information from %s\n'</span><span class="op">,</span> <span class="va">fnLabels</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">% volume labels</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">labels</span> <span class="op">=</span> <span class="va">readtable</span>(<span class="va">fnLabels</span><span class="op">,</span> <span class="ss">'Delimiter'</span><span class="op">,</span> <span class="ss">' '</span>)<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">%   sequence within session: (12 s rest, 24 s block) × 8, 12 s rest = 300 s</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">% extract condition for each block (from its middle)</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">nConds</span> <span class="op">=</span> <span class="va">numel</span>(<span class="va">conditions</span>)<span class="op">;</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    [<span class="op">~,</span> <span class="va">vsi</span>] <span class="op">=</span> <span class="va">ismember</span>(<span class="va">labels</span>{<span class="op">:,</span> <span class="fl">1</span>}<span class="op">,</span> <span class="va">conditions</span>)<span class="op">;</span>  <span class="co">% stimulus of volumes</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">vsi</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">vsi</span><span class="op">,</span> <span class="va">nVolsPerSession</span><span class="op">,</span> <span class="va">nSessions</span>)<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">bsi</span> <span class="op">=</span> <span class="va">vsi</span>(<span class="va">round</span>((<span class="fl">24</span> <span class="op">:</span><span class="fl">36</span><span class="op">:</span> <span class="fl">300</span>) <span class="op">/</span> <span class="va">TR</span>) <span class="op">+</span> <span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">;</span>    <span class="co">% blocks × sessions</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">% prepare stimulus onset and duration information (in seconds)</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">%   each block has 12 stimulus presentations of the same condition</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">%   each stimulus was shown for 500 ms and was followed by a 1500 ms ISI</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="va">onsets</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="va">durations</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>            <span class="co">% block in which condition is realized</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>            <span class="va">bi</span> <span class="op">=</span> <span class="va">find</span>(<span class="va">bsi</span>(<span class="op">:,</span> <span class="va">si</span>) <span class="op">==</span> <span class="va">ci</span>)<span class="op">;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>            <span class="co">% onset of block</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>            <span class="va">bo</span> <span class="op">=</span> (<span class="va">bi</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="fl">36</span> <span class="op">+</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>            <span class="co">% onsets of stimuli in block</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>            <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="va">bo</span> <span class="op">+</span> (<span class="fl">0</span> <span class="op">:</span> <span class="fl">11</span>) <span class="op">*</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>            <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">12</span>)<span class="op">;</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    <span class="co">% save design information</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    <span class="va">save</span>(<span class="va">fnDesign</span><span class="op">,</span> <span class="ss">'TR'</span><span class="op">,</span> <span class="ss">'nSessions'</span><span class="op">,</span> <span class="ss">'nVolsPerSession'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>        <span class="ss">'conditions'</span><span class="op">,</span> <span class="ss">'nConds'</span><span class="op">,</span> <span class="ss">'onsets'</span><span class="op">,</span> <span class="ss">'durations'</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a><span class="kw">else</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>    <span class="co">% load design information</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>    <span class="va">load</span>(<span class="va">fnDesign</span>)</span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'design information has been obtained\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  extracting stimulus timing information from subj1/labels.txt
+design information has been obtained</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Realign BOLD data
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure realigned BOLD data are there</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'rbold.nii'</span>]<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnrBOLD</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'realigning volumes\n'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">vn</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> <span class="va">fnBOLD</span><span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>            <span class="va">vi</span><span class="op">,</span> <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">data</span>{<span class="va">si</span>} <span class="op">=</span> <span class="va">vn</span><span class="op">';</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">quality</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">sep</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">fwhm</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">rtm</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">weight</span> <span class="op">=</span> <span class="ss">''</span><span class="op">;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">which</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">mask</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">prefix</span> <span class="op">=</span> <span class="ss">'r'</span><span class="op">;</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>)</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'BOLD data have been realigned\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>realigning volumes
+
+
+------------------------------------------------------------------------
+09-Sep-2023 17:26:06 - Running job #1
+------------------------------------------------------------------------
+09-Sep-2023 17:26:06 - Running 'Realign: Estimate &amp; Reslice'
+
+SPM12: spm_realign (v7141)                         17:26:06 - 09/09/2023
+========================================================================
+Completed                               :          17:30:43 - 09/09/2023
+
+SPM12: spm_reslice (v7141)                         17:30:43 - 09/09/2023
+========================================================================
+Completed                               :          17:32:45 - 09/09/2023
+09-Sep-2023 17:32:46 - Done    'Realign: Estimate &amp; Reslice'
+09-Sep-2023 17:32:46 - Done
+
+BOLD data have been realigned</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="model-in-spm" class="level2">
+<h2 class="anchored" data-anchor-id="model-in-spm">Model in SPM</h2>
+<section id="design-information" class="level3">
+<h3 class="anchored" data-anchor-id="design-information">Design information</h3>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'TR = %g [s]\n'</span><span class="op">,</span> <span class="va">TR</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'nSessions = %d\n'</span><span class="op">,</span> <span class="va">nSessions</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'nVolsPerSession = %d\n'</span><span class="op">,</span> <span class="va">nVolsPerSession</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'conditions = ["%s"]\n'</span><span class="op">,</span> <span class="va">join</span>(<span class="va">conditions</span><span class="op">,</span> <span class="ss">'", "'</span>))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'nConds = %d\n'</span><span class="op">,</span> <span class="va">nConds</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TR = 2.5 [s]
+nSessions = 12
+nVolsPerSession = 121
+conditions = ["face", "house", "cat", "bottle", "scissors", "shoe", "chair", "scrambledpix"]
+nConds = 8</code></pre>
+</div>
+</div>
+<p>Additionally, <code>onsets</code> and <code>durations</code> are cell arrays of size <code>nSessions</code> × <code>nConds</code>, where each cell contains a vector of stimulus onset times and durations in seconds.</p>
+<p>Plot stimulus onsets in each session:</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">%plot -s 700,400</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">colors</span> <span class="op">=</span> [<span class="st">"#0072BD"</span><span class="op">,</span> <span class="st">"#D95319"</span><span class="op">,</span> <span class="st">"#EDB120"</span><span class="op">,</span> <span class="st">"#7E2F8E"</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#77AC30"</span><span class="op">,</span> <span class="st">"#4DBEEE"</span><span class="op">,</span> <span class="st">"#A2142F"</span><span class="op">,</span> <span class="st">"#000000"</span>]<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">ons</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">ses</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">ons</span> <span class="op">=</span> [<span class="va">ons</span><span class="op">,</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}]<span class="op">;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">ses</span> <span class="op">=</span> [<span class="va">ses</span><span class="op">,</span> <span class="va">si</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">size</span>(<span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}))]<span class="op">;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">ons</span><span class="op">,</span> <span class="va">ses</span><span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="va">colors</span>(<span class="va">ci</span>))</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="op">-</span> <span class="va">TR</span> <span class="op">,</span> (<span class="va">nVolsPerSession</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">TR</span>])</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="va">nSessions</span> <span class="op">+</span> <span class="fl">0.5</span>])</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YTick'</span><span class="op">,</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span>)</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YDir'</span><span class="op">,</span> <span class="ss">'reverse'</span>)</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'session'</span>)</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'time / s'</span>)</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"eastoutside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="cvmanova haxby_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+</div>
+</div>
+</section>
+<section id="specify-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="specify-the-model">Specify the model</h3>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure specified model is there</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'model'</span>]<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="va">fnSPM</span> <span class="op">=</span> [<span class="va">modelDir</span> <span class="va">filesep</span> <span class="ss">'SPM.mat'</span>]<span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnSPM</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'specifying model\n'</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">load</span>(<span class="va">fnDesign</span>)<span class="op">;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">V</span> <span class="op">=</span> <span class="va">spm_vol</span>(<span class="va">fnBOLD</span>)<span class="op">;</span>    <span class="co">% for motion parameters</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">mat</span> <span class="op">=</span> <span class="va">cat</span>(<span class="fl">4</span><span class="op">,</span> <span class="va">V</span>.<span class="va">mat</span>)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">mkdir</span>(<span class="va">modelDir</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span> <span class="op">=</span> <span class="va">struct</span><span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">dir</span> <span class="op">=</span> {<span class="va">modelDir</span>}<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">units</span> <span class="op">=</span> <span class="ss">'secs'</span><span class="op">;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">RT</span> <span class="op">=</span> <span class="va">TR</span><span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">fmri_t</span> <span class="op">=</span> <span class="fl">25</span><span class="op">;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">fmri_t0</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">vn</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> [<span class="va">pwd</span> <span class="va">filesep</span> <span class="va">fnrBOLD</span>]<span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">vi</span><span class="op">,</span> <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">Q</span> <span class="op">=</span> <span class="va">nan</span>(<span class="va">nVolsPerSession</span><span class="op">,</span> <span class="fl">6</span>)<span class="op">;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">qq</span> <span class="op">=</span> <span class="va">spm_imatrix</span>(<span class="va">mat</span>(<span class="op">:,</span> <span class="op">:,</span> <span class="va">vi</span>(<span class="va">i</span>)) <span class="op">/</span> <span class="va">mat</span>(<span class="op">:,</span> <span class="op">:,</span> <span class="va">vi</span>(<span class="fl">1</span>)))<span class="op">;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>            <span class="va">Q</span>(<span class="va">i</span><span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="va">qq</span>(<span class="fl">1</span> <span class="op">:</span> <span class="fl">6</span>)<span class="op">;</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">scans</span> <span class="op">=</span> <span class="va">vn</span><span class="op">';</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">conditions</span>)</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">name</span> <span class="op">=</span> <span class="va">conditions</span>{<span class="va">ci</span>}<span class="op">;</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">onset</span> <span class="op">=</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}<span class="op">;</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">duration</span> <span class="op">=</span> <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}<span class="op">;</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">tmod</span> <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">orth</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">multi</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>        <span class="kw">for</span> <span class="va">mi</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">6</span></span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">regress</span>(<span class="va">mi</span>).<span class="va">name</span> <span class="op">=</span> <span class="va">sprintf</span>(<span class="ss">'motion%d'</span><span class="op">,</span> <span class="va">mi</span>)<span class="op">;</span></span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>            <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">regress</span>(<span class="va">mi</span>).<span class="va">val</span> <span class="op">=</span> <span class="va">Q</span>(<span class="op">:,</span> <span class="va">mi</span>)<span class="op">;</span></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>        <span class="kw">end</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">multi_reg</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">hpf</span> <span class="op">=</span> <span class="fl">128</span><span class="op">;</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">bases</span>.<span class="va">hrf</span>.<span class="va">derivs</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">volt</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="kw">global</span> <span class="op">=</span> <span class="ss">'None'</span><span class="op">;</span></span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">mthresh</span> <span class="op">=</span> <span class="fl">0.8</span><span class="op">;</span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">mask</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span></span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">cvi</span> <span class="op">=</span> <span class="ss">'AR(1)'</span><span class="op">;</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_spec</span> <span class="op">=</span> <span class="va">fmri_spec</span><span class="op">;</span></span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a>    <span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>(<span class="fl">1</span>))</span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'the model has been specified\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>specifying model
+
+
+------------------------------------------------------------------------
+09-Sep-2023 17:32:57 - Running job #1
+------------------------------------------------------------------------
+09-Sep-2023 17:32:58 - Running 'fMRI model specification'
+
+SPM12: spm_fMRI_design (v7739)                     17:32:58 - 09/09/2023
+========================================================================
+Saving fMRI design                      :               ...SPM.mat saved
+
+SPM12: spm_fmri_spm_ui (v7738)                     17:32:58 - 09/09/2023
+========================================================================
+Mapping files                           :                        ...done
+Calculating globals                     :                        ...done
+Saving SPM configuration                :               ...SPM.mat saved
+Saving SPM configuration                :               ...SPM.mat saved
+Completed                               :          17:33:10 - 09/09/2023
+09-Sep-2023 17:33:10 - Done    'fMRI model specification'
+09-Sep-2023 17:33:10 - Done
+
+the model has been specified</code></pre>
+</div>
+</div>
+</section>
+<section id="estimate-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="estimate-the-model">Estimate the model</h3>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure estimated model is there</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="va">numel</span>(<span class="va">dir</span>([<span class="va">modelDir</span> <span class="va">filesep</span> <span class="ss">'beta_*.*'</span>])) <span class="op">==</span> <span class="fl">0</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'estimating model\n'</span>)</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_est</span>.<span class="va">spmmat</span> <span class="op">=</span> {<span class="va">fnSPM</span>}<span class="op">;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_est</span>.<span class="va">write_residuals</span> <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_est</span>.<span class="va">method</span>.<span class="va">Classical</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>(<span class="fl">1</span>))</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'the model has been estimated\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>estimating model
+
+
+------------------------------------------------------------------------
+09-Sep-2023 17:33:11 - Running job #1
+------------------------------------------------------------------------
+09-Sep-2023 17:33:11 - Running 'Model estimation'
+
+SPM12: spm_spm (v7738)                             17:33:11 - 09/09/2023
+========================================================================
+
+SPM12: spm_est_non_sphericity (v7577)              17:33:13 - 09/09/2023
+========================================================================
+Chunk   1/2                             :                  ...processing                       ...doneChunk   2/2                             :                  ...processing                       ...done
+Temporal non-sphericity (27073 voxels)  :             ...ReML estimation
+  ReML Block 1                
+  ReML Iteration 1                      :        ...9.827664e+00 [+4.25]
+  ReML Iteration 2                      :        ...5.884532e-01 [+4.50]
+  ReML Iteration 3                      :        ...1.599118e-02 [+4.75]
+  ReML Block 2                
+  ReML Iteration 1                      :        ...1.118494e+01 [+4.25]
+  ReML Iteration 2                      :        ...8.181662e-01 [+4.50]
+  ReML Iteration 3                      :        ...2.286568e-02 [+4.75]
+  ReML Block 3                
+  ReML Iteration 1                      :        ...6.901230e+00 [+4.25]
+  ReML Iteration 2                      :        ...1.429964e-01 [+4.50]
+  ReML Iteration 3                      :        ...1.248735e-03 [+4.75]
+  ReML Block 4                
+  ReML Iteration 1                      :        ...9.365361e+00 [+4.25]
+  ReML Iteration 2                      :        ...3.411252e-01 [+4.50]
+  ReML Iteration 3                      :        ...5.701104e-03 [+4.75]
+  ReML Block 5                
+  ReML Iteration 1                      :        ...1.027357e+01 [+4.25]
+  ReML Iteration 2                      :        ...4.295659e-01 [+4.50]
+  ReML Iteration 3                      :        ...7.688102e-03 [+4.75]
+  ReML Block 6                
+  ReML Iteration 1                      :        ...1.323103e+01 [+4.25]
+  ReML Iteration 2                      :        ...3.478206e-01 [+4.50]
+  ReML Iteration 3                      :        ...6.419885e-03 [+4.75]
+  ReML Block 7                
+  ReML Iteration 1                      :        ...1.774148e+01 [+4.25]
+  ReML Iteration 2                      :        ...1.183276e-01 [+4.50]
+  ReML Iteration 3                      :        ...1.092870e-03 [+4.75]
+  ReML Block 8                
+  ReML Iteration 1                      :        ...1.752418e+01 [+4.25]
+  ReML Iteration 2                      :        ...1.037713e-01 [+4.50]
+  ReML Iteration 3                      :        ...8.001813e-04 [+4.75]
+  ReML Block 9                
+  ReML Iteration 1                      :        ...2.328423e+01 [+4.25]
+  ReML Iteration 2                      :        ...8.247045e-01 [+4.50]
+  ReML Iteration 3                      :        ...1.707144e-02 [+4.75]
+  ReML Block 10               
+  ReML Iteration 1                      :        ...2.362216e+01 [+4.25]
+  ReML Iteration 2                      :        ...2.052704e-01 [+4.50]
+  ReML Iteration 3                      :        ...9.280063e-04 [+4.75]
+  ReML Block 11               
+  ReML Iteration 1                      :        ...7.029397e+00 [+4.25]
+  ReML Iteration 2                      :        ...4.771267e-03 [+4.50]
+  ReML Block 12               
+  ReML Iteration 1                      :        ...7.075062e+00 [+4.25]
+  ReML Iteration 2                      :        ...5.880034e-02 [+4.50]
+
+SPM12: spm_spm (v7738)                             17:33:19 - 09/09/2023
+========================================================================
+Chunk   1/2                             :                  ...processing                       ...doneChunk   2/2                             :                  ...processing                       ...done
+Spatial non-sphericity (over scans)     :      ...estimating derivatives ...writing resels/voxel image                       ...done
+Saving SPM.mat                          :                     ...writing                       ...done
+Completed                               :          17:33:30 - 09/09/2023
+Done
+09-Sep-2023 17:33:30 - Done    'Model estimation'
+09-Sep-2023 17:33:30 - Done
+
+the model has been estimated</code></pre>
+</div>
+</div>
+<!--
+% With Matlab R2015a–R2019a and SPM12 r6685, this script
+% produces the following pattern distinctness values on regions:
+%   region 1, contrast 1:  D = 5.443427
+%   region 1, contrast 2:  D = 1.021870
+%   region 2, contrast 1:  D = 0.314915
+%   region 2, contrast 2:  D = 0.021717
+%   region 3, contrast 1:  D = 1.711423
+%   region 3, contrast 2:  D = 0.241187
+% and generates images with the following checksums:
+%   03adb4e589c9e1da8f08829c839b26d9  spmD_C0001_P0001.nii
+%   7a8f0d5918363c213e0d749a1bfdd665  spmD_C0002_P0001.nii
+%   8bfe2b4261920127b2fcf5fe5358a340  spmDs_C0001_P0001.nii
+%   e7d2c583c5159feb671dea7ff2b72570  spmDs_C0002_P0001.nii
+
+
+
+
+
+
+% set up contrasts
+% conditions: face, house, cat, bottle, scissors, shoe, chair, scrambledpix
+Cs = {};
+% 1) main effect of stimulus
+Cs{1} = [ 1 -1  0  0  0  0  0  0
+          0  1 -1  0  0  0  0  0
+          0  0  1 -1  0  0  0  0
+          0  0  0  1 -1  0  0  0
+          0  0  0  0  1 -1  0  0
+          0  0  0  0  0  1 -1  0
+          0  0  0  0  0  0  1 -1]';
+% 2) main effect of category within object
+Cs{2} = [ 0  0  0  1 -1  0  0  0
+          0  0  0  0  1 -1  0  0
+          0  0  0  0  0  1 -1  0]';
+% notice the transpose operators!
+analyses = {{C1}, {C2}};
+
+% run crossMANOVA on regions
+[D, p] = crossManovaRegion(modelDir, fnRegions, analyses);
+
+% run crossMANOVA on searchlight of radius 3
+crossManovaSearchlight(modelDir, 3, analyses)
+
+% check results
+% print ROI results
+fprintf('\ncvManovaRegion:\n')
+for i = 1 : size(D, 3)
+    for j = 1 : size(D, 1)
+        fprintf('  region %d, contrast %d:  D = %.6f\n', i, j, D(j, 1, i))
+    end
+end
+
+% compute checksums of searchlight results
+fprintf('\ncvManovaSearchlight, MD5 checksums of results:\n')
+d = dir([modelDir filesep 'spmD*.nii']);
+for l = 1 : numel(d)
+    % use only image data
+    Y = spm_read_vols(spm_vol([modelDir filesep d(l).name]));
+    % use only most significant 15 bits and sign
+    Y = int16(round(Y(:) / max(abs(Y(:))) * 2^15));
+    % compute and print MD5
+    md5Ins = java.security.MessageDigest.getInstance('MD5');
+    md5 = md5Ins.digest(typecast(Y, 'uint8'));
+    md5 = lower(reshape(dec2hex(typecast(md5, 'uint8'))', 1, []));
+    fprintf('  %s  %s\n', md5, d(l).name)
+end
+fprintf('\nconsider deleting the directory %s and its contents\n', modelDir)
+-->
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list">
+<div id="ref-haxby2001" class="csl-entry" role="listitem">
+Haxby, J. V., Gobbini, M. &nbsp;Ida., Furey, M. L., Ishai, A., Schouten, J. L., &amp; Pietrini, P. (2001). Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex. <em>Science</em>, <em>293</em>, 2425–2430. <a href="https://doi.org/10.1126/science.1063736">https://doi.org/10.1126/science.1063736</a>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

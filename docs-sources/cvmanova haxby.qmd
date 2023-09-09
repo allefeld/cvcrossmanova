@@ -1,0 +1,394 @@
+---
+title: Example analysis
+subtitle: Using data of Haxby et al. (2001)
+jupyter: matlab
+csl: https://www.zotero.org/styles/apa
+---
+
+
+## Introduction
+
+As an example for how to use the toolbox, here we apply Cross-validated MANOVA as well as Cross-validated Cross-MANOVA to the data of subject 1 from @haxby2001, downloaded from <http://dev.pymvpa.org/datadb/haxby2001.html>.
+
+```{matlab}
+% select subject
+sub = 'subj1';
+```
+
+The below computations are coded in such a way that already completed steps are not repeated, which is useful while making modifications. We here delete the subdirectory in which data and other information are kept to make sure all steps are performed.
+
+```{matlab}
+%rmdir(sub, 's')
+```
+
+We need SPM for preprocessing and defining a model:
+
+```{matlab}
+spm defaults fmri
+spm_jobman initcfg
+```
+
+
+## Preparation
+
+Open the below boxes for the details of how data are downloaded, experimental design information is obtained, and BOLD images are realigned.
+
+:::  {.callout-note collapse="true"}
+
+### Download and unpack data
+
+The data for the subject are downloaded as a `.tar.gz` archive, and the archive is unpacked.
+
+```{matlab}
+% make sure subdirectory with unpacked data is there
+if ~exist(sub, 'dir')
+    fn = [sub '-2010.01.14.tar.gz'];
+    url = ['http://data.pymvpa.org/datasets/haxby2001/' fn];
+
+    if ~exist(fn, 'file')
+        fprintf('  downloading %s\n', fn)
+        urlwrite(url, fn);
+    end
+
+    fprintf('  unpacking %s\n', fn)
+    untar(fn)
+    delete(fn)
+end
+fprintf('data has been downloaded and unpacked\n')
+```
+
+Moreover, included NIfTI images are individually gzip-compressed and need to be decompressed.
+
+```{matlab}
+% make sure gunzipped BOLD data are there
+fnBOLD = [sub filesep 'bold.nii'];
+if ~exist(fnBOLD, 'file')
+    fprintf('  decompressing %s.gz\n', fnBOLD)
+    gunzip([fnBOLD '.gz'])
+    delete([fnBOLD '.gz'])
+end
+fprintf('BOLD images have been decompressed\n')
+```
+
+```{matlab}
+% make sure gunzipped region mask data are there
+fnRegions = {[sub filesep 'mask4_vt.nii'], ...
+             [sub filesep 'mask8_face_vt.nii'], ...
+             [sub filesep 'mask8_house_vt.nii']};
+for i = 1 : numel(fnRegions)
+    if ~exist(fnRegions{i}, 'file')
+        fprintf('  decompressing %s.gz\n', fnRegions{i})
+        gunzip([fnRegions{i} '.gz'])
+        delete([fnRegions{i} '.gz'])
+    end
+end
+fprintf('region mask images have been decompressed\n')
+```
+
+:::
+:::  {.callout-note collapse="true"}
+
+### Obtain experimental design information
+
+Information about the onsets and durations of stimuli in this subject are extracted from a file `labels.txt`. Other information is not included and has to be provided manually.
+
+```{matlab}
+% make sure design information is there
+fnDesign = [sub filesep 'design.mat'];
+if ~exist(fnDesign, 'file')
+    % design information which cannot be extracted
+    TR = 2.5;
+    nSessions = 12;
+    nVolsPerSession = 121;
+    conditions = ["face", "house", "cat", "bottle", ...
+        "scissors", "shoe", "chair", "scrambledpix"]; % + 'rest'
+
+    % extract stimulus information
+    fnLabels = [sub filesep 'labels.txt'];
+    fprintf('  extracting stimulus timing information from %s\n', fnLabels)
+    % volume labels
+    labels = readtable(fnLabels, 'Delimiter', ' ');
+    %   sequence within session: (12 s rest, 24 s block) × 8, 12 s rest = 300 s
+    % extract condition for each block (from its middle)
+    nConds = numel(conditions);
+    [~, vsi] = ismember(labels{:, 1}, conditions);  % stimulus of volumes
+    vsi = reshape(vsi, nVolsPerSession, nSessions);
+    bsi = vsi(round((24 :36: 300) / TR) + 1, :);    % blocks × sessions
+    % prepare stimulus onset and duration information (in seconds)
+    %   each block has 12 stimulus presentations of the same condition
+    %   each stimulus was shown for 500 ms and was followed by a 1500 ms ISI
+    onsets = cell(nSessions, nConds);
+    durations = cell(nSessions, nConds);
+    for si = 1 : nSessions
+        for ci = 1 : nConds
+            % block in which condition is realized
+            bi = find(bsi(:, si) == ci);
+            % onset of block
+            bo = (bi - 1) * 36 + 12;
+            % onsets of stimuli in block
+            onsets{si, ci} = bo + (0 : 11) * 2;
+            durations{si, ci} = 0.5 * ones(1, 12);
+        end
+    end
+    % save design information
+    save(fnDesign, 'TR', 'nSessions', 'nVolsPerSession', ...
+        'conditions', 'nConds', 'onsets', 'durations')
+else
+    % load design information
+    load(fnDesign)
+end
+fprintf('design information has been obtained\n')
+```
+
+:::
+:::  {.callout-note collapse="true"}
+
+### Realign BOLD data
+
+```{matlab}
+% make sure realigned BOLD data are there
+fnrBOLD = [sub filesep 'rbold.nii'];
+if ~exist(fnrBOLD, 'file')
+    fprintf('realigning volumes\n')
+    matlabbatch = {};
+    for si = 1 : nSessions
+        vi = (si - 1) * nVolsPerSession + (1 : nVolsPerSession);
+        vn = arrayfun(@(i) sprintf('%s,%d', fnBOLD, i), ...
+            vi, 'UniformOutput', false);
+        matlabbatch{1}.spm.spatial.realign.estwrite.data{si} = vn';
+    end
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.quality = 0.9;
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.sep = 4;
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.fwhm = 5;
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.rtm = 1;
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.interp = 2;
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.wrap = [0 0 0];
+    matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.weight = '';
+    matlabbatch{1}.spm.spatial.realign.estwrite.roptions.which = [2 1];
+    matlabbatch{1}.spm.spatial.realign.estwrite.roptions.interp = 4;
+    matlabbatch{1}.spm.spatial.realign.estwrite.roptions.wrap = [0 0 0];
+    matlabbatch{1}.spm.spatial.realign.estwrite.roptions.mask = 1;
+    matlabbatch{1}.spm.spatial.realign.estwrite.roptions.prefix = 'r';
+    spm_jobman('run', matlabbatch)
+end
+fprintf('BOLD data have been realigned\n')
+```
+
+:::
+
+
+## Model in SPM
+
+### Design information
+
+```{matlab}
+fprintf('TR = %g [s]\n', TR)
+fprintf('nSessions = %d\n', nSessions)
+fprintf('nVolsPerSession = %d\n', nVolsPerSession)
+fprintf('conditions = ["%s"]\n', join(conditions, '", "'))
+fprintf('nConds = %d\n', nConds)
+```
+
+Additionally, `onsets` and `durations` are cell arrays of size `nSessions` × `nConds`, where each cell contains a vector of stimulus onset times and durations in seconds.
+
+Plot stimulus onsets in each session:
+
+```{matlab}
+%plot -s 700,400
+colors = ["#0072BD", "#D95319", "#EDB120", "#7E2F8E", ...
+    "#77AC30", "#4DBEEE", "#A2142F", "#000000"];
+for ci = 1 : nConds
+    ons = [];
+    ses = [];
+    for si = 1 : nSessions
+        ons = [ons, onsets{si, ci}];
+        ses = [ses, si * ones(size(onsets{si, ci}))];
+    end
+    plot(ons, ses, '.', 'Color', colors(ci))
+    hold all
+end
+xlim([- TR , (nVolsPerSession + 1) * TR])
+ylim([0.5, nSessions + 0.5])
+set(gca, 'YTick', 1 : nSessions)
+set(gca, 'YDir', 'reverse')
+ylabel('session')
+xlabel('time / s')
+legend(conditions, Location="eastoutside")
+```
+
+### Specify the model
+
+```{matlab}
+% make sure specified model is there
+modelDir = [sub filesep 'model'];
+fnSPM = [modelDir filesep 'SPM.mat'];
+if ~exist(fnSPM, 'file')
+    fprintf('specifying model\n')
+    load(fnDesign);
+    V = spm_vol(fnBOLD);    % for motion parameters
+    mat = cat(4, V.mat);
+    mkdir(modelDir)
+    fmri_spec = struct;
+    fmri_spec.dir = {modelDir};
+    fmri_spec.timing.units = 'secs';
+    fmri_spec.timing.RT = TR;
+    fmri_spec.timing.fmri_t = 25;
+    fmri_spec.timing.fmri_t0 = 12;
+    for si = 1 : nSessions
+        vi = (si - 1) * nVolsPerSession + (1 : nVolsPerSession);
+        vn = arrayfun(@(i) sprintf('%s,%d', [pwd filesep fnrBOLD], i), ...
+            vi, 'UniformOutput', false);
+        Q = nan(nVolsPerSession, 6);
+        for i = 1 : nVolsPerSession
+            qq = spm_imatrix(mat(:, :, vi(i)) / mat(:, :, vi(1)));
+            Q(i, :) = qq(1 : 6);
+        end
+        fmri_spec.sess(si).scans = vn';
+        for ci = 1 : numel(conditions)
+            fmri_spec.sess(si).cond(ci).name = conditions{ci};
+            fmri_spec.sess(si).cond(ci).onset = onsets{si, ci};
+            fmri_spec.sess(si).cond(ci).duration = durations{si, ci};
+            fmri_spec.sess(si).cond(ci).tmod = 0;
+            fmri_spec.sess(si).cond(ci).orth = 1;
+        end
+        fmri_spec.sess(si).multi = {''};
+        for mi = 1 : 6
+            fmri_spec.sess(si).regress(mi).name = sprintf('motion%d', mi);
+            fmri_spec.sess(si).regress(mi).val = Q(:, mi);
+        end
+        fmri_spec.sess(si).multi_reg = {''};
+        fmri_spec.sess(si).hpf = 128;
+    end
+    fmri_spec.bases.hrf.derivs = [0 0];
+    fmri_spec.volt = 1;
+    fmri_spec.global = 'None';
+    fmri_spec.mthresh = 0.8;
+    fmri_spec.mask = {''};
+    fmri_spec.cvi = 'AR(1)';
+    matlabbatch = {};
+    matlabbatch{1}.spm.stats.fmri_spec = fmri_spec;
+    spm_jobman('run', matlabbatch(1))
+end
+fprintf('the model has been specified\n')
+```
+
+### Estimate the model
+
+```{matlab}
+% make sure estimated model is there
+if numel(dir([modelDir filesep 'beta_*.*'])) == 0
+    fprintf('estimating model\n')
+    matlabbatch = {};
+    matlabbatch{1}.spm.stats.fmri_est.spmmat = {fnSPM};
+    matlabbatch{1}.spm.stats.fmri_est.write_residuals = 0;
+    matlabbatch{1}.spm.stats.fmri_est.method.Classical = 1;
+    spm_jobman('run', matlabbatch(1))
+end
+fprintf('the model has been estimated\n')
+```
+
+
+<!--
+% With Matlab R2015a–R2019a and SPM12 r6685, this script
+% produces the following pattern distinctness values on regions:
+%   region 1, contrast 1:  D = 5.443427
+%   region 1, contrast 2:  D = 1.021870
+%   region 2, contrast 1:  D = 0.314915
+%   region 2, contrast 2:  D = 0.021717
+%   region 3, contrast 1:  D = 1.711423
+%   region 3, contrast 2:  D = 0.241187
+% and generates images with the following checksums:
+%   03adb4e589c9e1da8f08829c839b26d9  spmD_C0001_P0001.nii
+%   7a8f0d5918363c213e0d749a1bfdd665  spmD_C0002_P0001.nii
+%   8bfe2b4261920127b2fcf5fe5358a340  spmDs_C0001_P0001.nii
+%   e7d2c583c5159feb671dea7ff2b72570  spmDs_C0002_P0001.nii
+
+
+
+
+
+
+% set up contrasts
+% conditions: face, house, cat, bottle, scissors, shoe, chair, scrambledpix
+Cs = {};
+% 1) main effect of stimulus
+Cs{1} = [ 1 -1  0  0  0  0  0  0
+          0  1 -1  0  0  0  0  0
+          0  0  1 -1  0  0  0  0
+          0  0  0  1 -1  0  0  0
+          0  0  0  0  1 -1  0  0
+          0  0  0  0  0  1 -1  0
+          0  0  0  0  0  0  1 -1]';
+% 2) main effect of category within object
+Cs{2} = [ 0  0  0  1 -1  0  0  0
+          0  0  0  0  1 -1  0  0
+          0  0  0  0  0  1 -1  0]';
+% notice the transpose operators!
+analyses = {{C1}, {C2}};
+
+% run crossMANOVA on regions
+[D, p] = crossManovaRegion(modelDir, fnRegions, analyses);
+
+% run crossMANOVA on searchlight of radius 3
+crossManovaSearchlight(modelDir, 3, analyses)
+
+% check results
+% print ROI results
+fprintf('\ncvManovaRegion:\n')
+for i = 1 : size(D, 3)
+    for j = 1 : size(D, 1)
+        fprintf('  region %d, contrast %d:  D = %.6f\n', i, j, D(j, 1, i))
+    end
+end
+
+% compute checksums of searchlight results
+fprintf('\ncvManovaSearchlight, MD5 checksums of results:\n')
+d = dir([modelDir filesep 'spmD*.nii']);
+for l = 1 : numel(d)
+    % use only image data
+    Y = spm_read_vols(spm_vol([modelDir filesep d(l).name]));
+    % use only most significant 15 bits and sign
+    Y = int16(round(Y(:) / max(abs(Y(:))) * 2^15));
+    % compute and print MD5
+    md5Ins = java.security.MessageDigest.getInstance('MD5');
+    md5 = md5Ins.digest(typecast(Y, 'uint8'));
+    md5 = lower(reshape(dec2hex(typecast(md5, 'uint8'))', 1, []));
+    fprintf('  %s  %s\n', md5, d(l).name)
+end
+fprintf('\nconsider deleting the directory %s and its contents\n', modelDir)
+-->
+
+
+## References
+
+::: {#refs}
+:::
+
+
+---
+references:
+- id: haxby2001
+  author:
+    - family: Haxby
+      given: James V.
+    - family: Gobbini
+      given: "M.\_Ida"
+    - family: Furey
+      given: Maura L.
+    - family: Ishai
+      given: Alumit
+    - family: Schouten
+      given: Jennifer L.
+    - family: Pietrini
+      given: Pietro
+  container-title: Science
+  DOI: 10.1126/science.1063736
+  issued:
+    - year: 2001
+      month: 9
+      day: 28
+  page: 2425-2430
+  title: Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex
+  type: article-journal
+  volume: '293'
+...
