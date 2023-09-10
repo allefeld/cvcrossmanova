@@ -126,7 +126,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./cvmanova haxby.html">Example analysis</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./example.html">Example analysis</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -153,7 +153,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./cvmanova haxby.html" class="sidebar-item-text sidebar-link active">
+  <a href="./example.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Example analysis</span></a>
   </div>
 </li>
@@ -202,7 +202,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–9–9</p>
+      <p class="date">2023–9–10</p>
     </div>
   </div>
   
@@ -262,9 +262,7 @@ Download and unpack data
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'data has been downloaded and unpacked\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  downloading subj1-2010.01.14.tar.gz
-  unpacking subj1-2010.01.14.tar.gz
-data has been downloaded and unpacked</code></pre>
+<pre><code>data has been downloaded and unpacked</code></pre>
 </div>
 </div>
 <p>Moreover, included NIfTI images are individually gzip-compressed and need to be decompressed.</p>
@@ -278,8 +276,7 @@ data has been downloaded and unpacked</code></pre>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'BOLD images have been decompressed\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  decompressing subj1/bold.nii.gz
-BOLD images have been decompressed</code></pre>
+<pre><code>BOLD images have been decompressed</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="6">
@@ -296,10 +293,7 @@ BOLD images have been decompressed</code></pre>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'region mask images have been decompressed\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  decompressing subj1/mask4_vt.nii.gz
-  decompressing subj1/mask8_face_vt.nii.gz
-  decompressing subj1/mask8_house_vt.nii.gz
-region mask images have been decompressed</code></pre>
+<pre><code>region mask images have been decompressed</code></pre>
 </div>
 </div>
 </div>
@@ -365,8 +359,7 @@ Obtain experimental design information
 <span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'design information has been obtained\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  extracting stimulus timing information from subj1/labels.txt
-design information has been obtained</code></pre>
+<pre><code>design information has been obtained</code></pre>
 </div>
 </div>
 </div>
@@ -412,25 +405,7 @@ Realign BOLD data
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'BOLD data have been realigned\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>realigning volumes
-
-
-------------------------------------------------------------------------
-09-Sep-2023 17:26:06 - Running job #1
-------------------------------------------------------------------------
-09-Sep-2023 17:26:06 - Running 'Realign: Estimate &amp; Reslice'
-
-SPM12: spm_realign (v7141)                         17:26:06 - 09/09/2023
-========================================================================
-Completed                               :          17:30:43 - 09/09/2023
-
-SPM12: spm_reslice (v7141)                         17:30:43 - 09/09/2023
-========================================================================
-Completed                               :          17:32:45 - 09/09/2023
-09-Sep-2023 17:32:46 - Done    'Realign: Estimate &amp; Reslice'
-09-Sep-2023 17:32:46 - Done
-
-BOLD data have been realigned</code></pre>
+<pre><code>BOLD data have been realigned</code></pre>
 </div>
 </div>
 </div>
@@ -479,7 +454,7 @@ nConds = 8</code></pre>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'time / s'</span>)</span>
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"eastoutside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="cvmanova haxby_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+<p><img src="example_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
 </div>
 </div>
 </section>
@@ -538,29 +513,7 @@ nConds = 8</code></pre>
 <span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'the model has been specified\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>specifying model
-
-
-------------------------------------------------------------------------
-09-Sep-2023 17:32:57 - Running job #1
-------------------------------------------------------------------------
-09-Sep-2023 17:32:58 - Running 'fMRI model specification'
-
-SPM12: spm_fMRI_design (v7739)                     17:32:58 - 09/09/2023
-========================================================================
-Saving fMRI design                      :               ...SPM.mat saved
-
-SPM12: spm_fmri_spm_ui (v7738)                     17:32:58 - 09/09/2023
-========================================================================
-Mapping files                           :                        ...done
-Calculating globals                     :                        ...done
-Saving SPM configuration                :               ...SPM.mat saved
-Saving SPM configuration                :               ...SPM.mat saved
-Completed                               :          17:33:10 - 09/09/2023
-09-Sep-2023 17:33:10 - Done    'fMRI model specification'
-09-Sep-2023 17:33:10 - Done
-
-the model has been specified</code></pre>
+<pre><code>the model has been specified</code></pre>
 </div>
 </div>
 </section>
@@ -578,79 +531,7 @@ the model has been specified</code></pre>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'the model has been estimated\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>estimating model
-
-
-------------------------------------------------------------------------
-09-Sep-2023 17:33:11 - Running job #1
-------------------------------------------------------------------------
-09-Sep-2023 17:33:11 - Running 'Model estimation'
-
-SPM12: spm_spm (v7738)                             17:33:11 - 09/09/2023
-========================================================================
-
-SPM12: spm_est_non_sphericity (v7577)              17:33:13 - 09/09/2023
-========================================================================
-Chunk   1/2                             :                  ...processing                       ...doneChunk   2/2                             :                  ...processing                       ...done
-Temporal non-sphericity (27073 voxels)  :             ...ReML estimation
-  ReML Block 1                
-  ReML Iteration 1                      :        ...9.827664e+00 [+4.25]
-  ReML Iteration 2                      :        ...5.884532e-01 [+4.50]
-  ReML Iteration 3                      :        ...1.599118e-02 [+4.75]
-  ReML Block 2                
-  ReML Iteration 1                      :        ...1.118494e+01 [+4.25]
-  ReML Iteration 2                      :        ...8.181662e-01 [+4.50]
-  ReML Iteration 3                      :        ...2.286568e-02 [+4.75]
-  ReML Block 3                
-  ReML Iteration 1                      :        ...6.901230e+00 [+4.25]
-  ReML Iteration 2                      :        ...1.429964e-01 [+4.50]
-  ReML Iteration 3                      :        ...1.248735e-03 [+4.75]
-  ReML Block 4                
-  ReML Iteration 1                      :        ...9.365361e+00 [+4.25]
-  ReML Iteration 2                      :        ...3.411252e-01 [+4.50]
-  ReML Iteration 3                      :        ...5.701104e-03 [+4.75]
-  ReML Block 5                
-  ReML Iteration 1                      :        ...1.027357e+01 [+4.25]
-  ReML Iteration 2                      :        ...4.295659e-01 [+4.50]
-  ReML Iteration 3                      :        ...7.688102e-03 [+4.75]
-  ReML Block 6                
-  ReML Iteration 1                      :        ...1.323103e+01 [+4.25]
-  ReML Iteration 2                      :        ...3.478206e-01 [+4.50]
-  ReML Iteration 3                      :        ...6.419885e-03 [+4.75]
-  ReML Block 7                
-  ReML Iteration 1                      :        ...1.774148e+01 [+4.25]
-  ReML Iteration 2                      :        ...1.183276e-01 [+4.50]
-  ReML Iteration 3                      :        ...1.092870e-03 [+4.75]
-  ReML Block 8                
-  ReML Iteration 1                      :        ...1.752418e+01 [+4.25]
-  ReML Iteration 2                      :        ...1.037713e-01 [+4.50]
-  ReML Iteration 3                      :        ...8.001813e-04 [+4.75]
-  ReML Block 9                
-  ReML Iteration 1                      :        ...2.328423e+01 [+4.25]
-  ReML Iteration 2                      :        ...8.247045e-01 [+4.50]
-  ReML Iteration 3                      :        ...1.707144e-02 [+4.75]
-  ReML Block 10               
-  ReML Iteration 1                      :        ...2.362216e+01 [+4.25]
-  ReML Iteration 2                      :        ...2.052704e-01 [+4.50]
-  ReML Iteration 3                      :        ...9.280063e-04 [+4.75]
-  ReML Block 11               
-  ReML Iteration 1                      :        ...7.029397e+00 [+4.25]
-  ReML Iteration 2                      :        ...4.771267e-03 [+4.50]
-  ReML Block 12               
-  ReML Iteration 1                      :        ...7.075062e+00 [+4.25]
-  ReML Iteration 2                      :        ...5.880034e-02 [+4.50]
-
-SPM12: spm_spm (v7738)                             17:33:19 - 09/09/2023
-========================================================================
-Chunk   1/2                             :                  ...processing                       ...doneChunk   2/2                             :                  ...processing                       ...done
-Spatial non-sphericity (over scans)     :      ...estimating derivatives ...writing resels/voxel image                       ...done
-Saving SPM.mat                          :                     ...writing                       ...done
-Completed                               :          17:33:30 - 09/09/2023
-Done
-09-Sep-2023 17:33:30 - Done    'Model estimation'
-09-Sep-2023 17:33:30 - Done
-
-the model has been estimated</code></pre>
+<pre><code>the model has been estimated</code></pre>
 </div>
 </div>
 <!--
