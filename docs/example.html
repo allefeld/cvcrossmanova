@@ -181,6 +181,7 @@ div.csl-indent {
   <li><a href="#specify-the-model" id="toc-specify-the-model" class="nav-link" data-scroll-target="#specify-the-model">Specify the model</a></li>
   <li><a href="#estimate-the-model" id="toc-estimate-the-model" class="nav-link" data-scroll-target="#estimate-the-model">Estimate the model</a></li>
   </ul></li>
+  <li><a href="#cross-validated-manova" id="toc-cross-validated-manova" class="nav-link" data-scroll-target="#cross-validated-manova">Cross-validated MANOVA</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -202,7 +203,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–9–10</p>
+      <p class="date">2023–9–15</p>
     </div>
   </div>
   
@@ -212,19 +213,29 @@ div.csl-indent {
 
 </header>
 
+<!-- 
+Okay, now we have the proper fonts in the SVGs. However, the `font-family`
+specified within them only works because I have the fonts installed; otherwise
+they appear as Times Roman.
+
+Can we make the webfonts accessible within the SVGs? Probably if we would directly embed the code, but not as separate `.svg` files.
+
+So we have to apply postprocessing to convert the text to paths:
+`inkscape --export-plain-svg=figure.svg --export-text-to-path figure.svg`
+ -->
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>As an example for how to use the toolbox, here we apply Cross-validated MANOVA as well as Cross-validated Cross-MANOVA to the data of subject&nbsp;1 from <span class="citation" data-cites="haxby2001">Haxby et al. (<a href="#ref-haxby2001" role="doc-biblioref">2001</a>)</span>, downloaded from <a href="http://dev.pymvpa.org/datadb/haxby2001.html" class="uri">http://dev.pymvpa.org/datadb/haxby2001.html</a>.</p>
-<div class="cell" data-execution_count="1">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The below computations are coded in such a way that already completed steps are not repeated, which is useful while making modifications. We here delete the subdirectory in which data and other information are kept to make sure all steps are performed.</p>
-<div class="cell" data-execution_count="2">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">%rmdir(sub, 's')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We need SPM for preprocessing and defining a model:</p>
-<div class="cell" data-execution_count="3">
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">spm</span> <span class="va">defaults</span> <span class="va">fmri</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span> <span class="va">initcfg</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -245,7 +256,7 @@ Download and unpack data
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>The data for the subject are downloaded as a <code>.tar.gz</code> archive, and the archive is unpacked.</p>
-<div class="cell" data-execution_count="4">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure subdirectory with unpacked data is there</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'dir'</span>)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fn</span> <span class="op">=</span> [<span class="va">sub</span> <span class="ss">'-2010.01.14.tar.gz'</span>]<span class="op">;</span></span>
@@ -262,11 +273,12 @@ Download and unpack data
 <span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'data has been downloaded and unpacked\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>data has been downloaded and unpacked</code></pre>
+<pre><code>data has been downloaded and unpacked
+</code></pre>
 </div>
 </div>
 <p>Moreover, included NIfTI images are individually gzip-compressed and need to be decompressed.</p>
-<div class="cell" data-execution_count="5">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure gunzipped BOLD data are there</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'bold.nii'</span>]<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnBOLD</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
@@ -276,10 +288,11 @@ Download and unpack data
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'BOLD images have been decompressed\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>BOLD images have been decompressed</code></pre>
+<pre><code>BOLD images have been decompressed
+</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="6">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure gunzipped region mask data are there</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnRegions</span> <span class="op">=</span> {[<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'mask4_vt.nii'</span>]<span class="op">,</span> <span class="op">...</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>             [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'mask8_face_vt.nii'</span>]<span class="op">,</span> <span class="op">...</span></span>
@@ -293,7 +306,8 @@ Download and unpack data
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'region mask images have been decompressed\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>region mask images have been decompressed</code></pre>
+<pre><code>region mask images have been decompressed
+</code></pre>
 </div>
 </div>
 </div>
@@ -312,7 +326,7 @@ Obtain experimental design information
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Information about the onsets and durations of stimuli in this subject are extracted from a file <code>labels.txt</code>. Other information is not included and has to be provided manually.</p>
-<div class="cell" data-execution_count="7">
+<div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure design information is there</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnDesign</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'design.mat'</span>]<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnDesign</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
@@ -359,7 +373,8 @@ Obtain experimental design information
 <span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'design information has been obtained\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>design information has been obtained</code></pre>
+<pre><code>design information has been obtained
+</code></pre>
 </div>
 </div>
 </div>
@@ -377,7 +392,7 @@ Realign BOLD data
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<div class="cell" data-execution_count="8">
+<div class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure realigned BOLD data are there</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'rbold.nii'</span>]<span class="op">;</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="op">~</span><span class="va">exist</span>(<span class="va">fnrBOLD</span><span class="op">,</span> <span class="ss">'file'</span>)</span>
@@ -405,7 +420,8 @@ Realign BOLD data
 <span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'BOLD data have been realigned\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>BOLD data have been realigned</code></pre>
+<pre><code>BOLD data have been realigned
+</code></pre>
 </div>
 </div>
 </div>
@@ -416,7 +432,7 @@ Realign BOLD data
 <h2 class="anchored" data-anchor-id="model-in-spm">Model in SPM</h2>
 <section id="design-information" class="level3">
 <h3 class="anchored" data-anchor-id="design-information">Design information</h3>
-<div class="cell" data-execution_count="9">
+<div class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'TR = %g [s]\n'</span><span class="op">,</span> <span class="va">TR</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'nSessions = %d\n'</span><span class="op">,</span> <span class="va">nSessions</span>)</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'nVolsPerSession = %d\n'</span><span class="op">,</span> <span class="va">nVolsPerSession</span>)</span>
@@ -427,13 +443,14 @@ Realign BOLD data
 nSessions = 12
 nVolsPerSession = 121
 conditions = ["face", "house", "cat", "bottle", "scissors", "shoe", "chair", "scrambledpix"]
-nConds = 8</code></pre>
+nConds = 8
+</code></pre>
 </div>
 </div>
 <p>Additionally, <code>onsets</code> and <code>durations</code> are cell arrays of size <code>nSessions</code> × <code>nConds</code>, where each cell contains a vector of stimulus onset times and durations in seconds.</p>
 <p>Plot stimulus onsets in each session:</p>
-<div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">%plot -s 700,400</span></span>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">%plot -s 750,400</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">colors</span> <span class="op">=</span> [<span class="st">"#0072BD"</span><span class="op">,</span> <span class="st">"#D95319"</span><span class="op">,</span> <span class="st">"#EDB120"</span><span class="op">,</span> <span class="st">"#7E2F8E"</span><span class="op">,</span> <span class="op">...</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#77AC30"</span><span class="op">,</span> <span class="st">"#4DBEEE"</span><span class="op">,</span> <span class="st">"#A2142F"</span><span class="op">,</span> <span class="st">"#000000"</span>]<span class="op">;</span></span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
@@ -446,7 +463,7 @@ nConds = 8</code></pre>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">ons</span><span class="op">,</span> <span class="va">ses</span><span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="va">colors</span>(<span class="va">ci</span>))</span>
 <span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="op">-</span> <span class="va">TR</span> <span class="op">,</span> (<span class="va">nVolsPerSession</span> <span class="op">+</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">TR</span>])</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="op">-</span><span class="fl">1</span> <span class="op">,</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> <span class="fl">1</span>] <span class="op">*</span> <span class="va">TR</span>)</span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="va">nSessions</span> <span class="op">+</span> <span class="fl">0.5</span>])</span>
 <span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YTick'</span><span class="op">,</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span>)</span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YDir'</span><span class="op">,</span> <span class="ss">'reverse'</span>)</span>
@@ -454,13 +471,13 @@ nConds = 8</code></pre>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'time / s'</span>)</span>
 <span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"eastoutside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="example_files/figure-html/cell-11-output-1.png" class="img-fluid"></p>
+<p><img src="example_files/figure-html/cell-12-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 </section>
 <section id="specify-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="specify-the-model">Specify the model</h3>
-<div class="cell" data-execution_count="11">
+<div class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure specified model is there</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> [<span class="va">sub</span> <span class="va">filesep</span> <span class="ss">'model'</span>]<span class="op">;</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="va">fnSPM</span> <span class="op">=</span> [<span class="va">modelDir</span> <span class="va">filesep</span> <span class="ss">'SPM.mat'</span>]<span class="op">;</span></span>
@@ -513,13 +530,14 @@ nConds = 8</code></pre>
 <span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb17-51"><a href="#cb17-51" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'the model has been specified\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>the model has been specified</code></pre>
+<pre><code>the model has been specified
+</code></pre>
 </div>
 </div>
 </section>
 <section id="estimate-the-model" class="level3">
 <h3 class="anchored" data-anchor-id="estimate-the-model">Estimate the model</h3>
-<div class="cell" data-execution_count="12">
+<div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co">% make sure estimated model is there</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="kw">if</span> <span class="va">numel</span>(<span class="va">dir</span>([<span class="va">modelDir</span> <span class="va">filesep</span> <span class="ss">'beta_*.*'</span>])) <span class="op">==</span> <span class="fl">0</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'estimating model\n'</span>)</span>
@@ -531,7 +549,70 @@ nConds = 8</code></pre>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="va">fprintf</span>(<span class="ss">'the model has been estimated\n'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>the model has been estimated</code></pre>
+<pre><code>the model has been estimated
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="cross-validated-manova" class="level2">
+<h2 class="anchored" data-anchor-id="cross-validated-manova">Cross-validated MANOVA</h2>
+<p>Define contrasts:</p>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">% 1) effect of stimulus</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">C_stimulus</span> <span class="op">=</span> <span class="op">...</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    [  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% face</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% house</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% cat</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% bottle</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% scissors</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>      <span class="co">% shoe</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>      <span class="co">% chair</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span> ]<span class="op">;</span>   <span class="co">% scrambledpix</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co">% 2) effect of category within inanimate object</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="va">C_object_category</span> <span class="op">=</span> <span class="op">...</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    [  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% face</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% house</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% cat</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>       <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% bottle</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>                  <span class="co">% scissors</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>                  <span class="co">% shoe</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>                  <span class="co">% chair</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> ]<span class="op">;</span>               <span class="co">% scrambledpix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Define analyses. Here we use standard leave-one-session-out cross-validation, but more complex schemes can be defined, see <a href="reference.html#class-analysis"><span class="smallcaps">class</span> <code>Analysis</code></a>.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_stimulus</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">C_stimulus</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+analysis_stimulus = 
+
+  Analysis:
+    12 fold(s), 12 session(s)
+    CA = CB:  8 × 7, 7-dimensional
+    no permutations
+</code></pre>
+</div>
+</div>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">C_object_category</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+analysis_object_category = 
+
+  Analysis:
+    12 fold(s), 12 session(s)
+    CA = CB:  8 × 3, 3-dimensional
+    no permutations
+</code></pre>
+</div>
+</div>
+<p>An analysis can be visualized using the method <code>show</code>:</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">%plot -s 750,750</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_stimulus</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="example_files/figure-html/cell-18-output-1.svg" class="img-fluid"></p>
 </div>
 </div>
 <!--
@@ -549,28 +630,6 @@ nConds = 8</code></pre>
 %   8bfe2b4261920127b2fcf5fe5358a340  spmDs_C0001_P0001.nii
 %   e7d2c583c5159feb671dea7ff2b72570  spmDs_C0002_P0001.nii
 
-
-
-
-
-
-% set up contrasts
-% conditions: face, house, cat, bottle, scissors, shoe, chair, scrambledpix
-Cs = {};
-% 1) main effect of stimulus
-Cs{1} = [ 1 -1  0  0  0  0  0  0
-          0  1 -1  0  0  0  0  0
-          0  0  1 -1  0  0  0  0
-          0  0  0  1 -1  0  0  0
-          0  0  0  0  1 -1  0  0
-          0  0  0  0  0  1 -1  0
-          0  0  0  0  0  0  1 -1]';
-% 2) main effect of category within object
-Cs{2} = [ 0  0  0  1 -1  0  0  0
-          0  0  0  0  1 -1  0  0
-          0  0  0  0  0  1 -1  0]';
-% notice the transpose operators!
-analyses = {{C1}, {C2}};
 
 % run crossMANOVA on regions
 [D, p] = crossManovaRegion(modelDir, fnRegions, analyses);
@@ -603,7 +662,6 @@ for l = 1 : numel(d)
 end
 fprintf('\nconsider deleting the directory %s and its contents\n', modelDir)
 -->
-</section>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>

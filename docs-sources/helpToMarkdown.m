@@ -106,7 +106,7 @@ function helpText = getHelp(name)
 
 % get help text
 helpText = help(name);
-helpText = unicodeEntities(helpText);
+% helpText = unicodeEntities(helpText);         % obsolete
 % split into lines & remove two spaces prepended to each line
 helpText = strsplit(helpText, '\n');
 for i = 1 : numel(helpText)
@@ -120,6 +120,7 @@ if numel(helpText) >= 3
 end
 % rejoin lines
 helpText = strjoin(helpText, '\n');
+
 
 function helpText = unicodeEntities(helpText)
 % encode Unicode characters into entities

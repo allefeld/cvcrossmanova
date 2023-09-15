@@ -8,3 +8,4 @@ dist/
 docs-sources/.quarto/
 scratch/
 docs-sources/subj*
+docs-sources/matlab_kernel.log

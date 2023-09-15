@@ -24,5 +24,5 @@ format:
     toc-title: "{{< meta title >}}"
     code-overflow: wrap
     grid:
-      sidebar-width: 310px
-      margin-width: 450px
+    #   sidebar-width: 310px
+      margin-width: 300px

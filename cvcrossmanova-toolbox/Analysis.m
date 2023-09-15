@@ -213,44 +213,52 @@ classdef Analysis < handle
             % determine scaling of contrasts
             maxC = max(abs([self.CA(:) ; self.CB(:)]));
 
+            % heatmap doesn't respect the default font
+            fontname = get(0, 'defaultTextFontName');
+
             % contrasts
             subplot(nRows, 2, 1)
-            heatmap(self.CA, ColorMap=cmap, ColorbarVisible=false)
+            heatmap(self.CA, ...
+                ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([-maxC, maxC])
             title('Contrast A')
-            xlabel('subcontrasts')
-            ylabel('regressors')
+            xlabel('subcontrast')
+            ylabel('regressor')
             subplot(nRows, 2, 2)
-            heatmap(self.CB, ColorMap=cmap, ColorbarVisible=false)
+            heatmap(self.CB, ...
+                ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([-maxC maxC])
             title('Contrast B')
-            xlabel('subcontrasts')
-            ylabel('regressors')
+            xlabel('subcontrast')
+            ylabel('regressor')
 
             % sessions
             subplot(nRows, 2, 3)
-            heatmap(double(self.sessionsA), ColorMap=cmap, ColorbarVisible=false)
+            heatmap(double(self.sessionsA), ...
+                ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([0 1])
             title('Sessions A')
-            xlabel('sessions')
-            ylabel('folds')
+            xlabel('session')
+            ylabel('fold')
             subplot(nRows, 2, 4)
-            heatmap(double(self.sessionsB), ColorMap=cmap, ColorbarVisible=false)
+            heatmap(double(self.sessionsB), ...
+                ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([0 1])
             title('Sessions B')
-            xlabel('sessions')
-            ylabel('folds')
+            xlabel('session')
+            ylabel('fold')
 
             % permutations
             if showPerms
                 subplot(nRows, 2, 5:6)
-                hm = heatmap(self.perms, ColorMap=cmap, ColorbarVisible=false);
+                hm = heatmap(self.perms, ...
+                    ColorMap=cmap, ColorbarVisible=false, FontName=fontname);
                 % no row labels
                 hm.YDisplayLabels = repmat({''}, size(hm.YDisplayLabels, 1), 1);
                 clim([-1 1])
                 title('Sign Permutations')
-                xlabel('sessions')
-                ylabel('permutations')
+                xlabel('session')
+                ylabel('permutation')
             end
 
             if nargout == 0
@@ -262,15 +270,16 @@ classdef Analysis < handle
     methods (Static)
 
         function analysis = leaveOneSessionOut(m, CA, CB)
-            % create `Analysis` object for leave-one-session-out cross-validation
+            % create `Analysis` object for leave-one-session-out
+            % cross-validation
             %
-            % analysis = Analysis.leaveOneSessionOut(m, C)
-            % analysis = Analysis.leaveOneSessionOut(m, CA, CB)
+            % analysis = Analysis.leaveOneSessionOut(m, C) analysis =
+            % Analysis.leaveOneSessionOut(m, CA, CB)
             %
             % This is a convenience method which calls the constructor with
-            % `sessionsB = logical(eye(m))` and `sessionsA =
-            % not(sessionsB)`, the specification of standard
-            % leave-one-session-out cross-validation
+            % `sessionsB = logical(eye(m))` and `sessionsA = not(sessionsB)`,
+            % the specification of standard leave-one-session-out
+            % cross-validation.
             %
             % If only one contrast `C` is specified, it is used for both
             % 'training' (`CA`) and 'validation' (`CB`).
@@ -278,7 +287,7 @@ classdef Analysis < handle
             arguments
                 m   (1, 1)  double
                 CA  (:, :)  double
-                CB  (:, :)  double  = CAAnalysis
+                CB  (:, :)  double  = CA
             end
 
             sessionsB = logical(eye(m));

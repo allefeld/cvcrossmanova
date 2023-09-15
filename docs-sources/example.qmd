@@ -5,6 +5,24 @@ jupyter: matlab
 csl: https://www.zotero.org/styles/apa
 ---
 
+```{matlab}
+%| echo: false
+%plot -f svg
+set(0, 'defaultAxesFontName', 'Source Sans 3')
+set(0, 'defaultTextFontName', 'Source Sans 3')
+```
+
+<!-- 
+Okay, now we have the proper fonts in the SVGs. However, the `font-family`
+specified within them only works because I have the fonts installed; otherwise
+they appear as Times Roman.
+
+Can we make the webfonts accessible within the SVGs? Probably if we would directly embed the code, but not as separate `.svg` files.
+
+So we have to apply postprocessing to convert the text to paths:
+`inkscape --export-plain-svg=figure.svg --export-text-to-path figure.svg`
+ -->
+
 
 ## Introduction
 
@@ -194,7 +212,7 @@ Additionally, `onsets` and `durations` are cell arrays of size `nSessions` × `n
 Plot stimulus onsets in each session:
 
 ```{matlab}
-%plot -s 700,400
+%plot -s 750,400
 colors = ["#0072BD", "#D95319", "#EDB120", "#7E2F8E", ...
     "#77AC30", "#4DBEEE", "#A2142F", "#000000"];
 for ci = 1 : nConds
@@ -207,7 +225,7 @@ for ci = 1 : nConds
     plot(ons, ses, '.', 'Color', colors(ci))
     hold all
 end
-xlim([- TR , (nVolsPerSession + 1) * TR])
+xlim([-1 , nVolsPerSession + 1] * TR)
 ylim([0.5, nSessions + 0.5])
 set(gca, 'YTick', 1 : nSessions)
 set(gca, 'YDir', 'reverse')
@@ -288,6 +306,51 @@ fprintf('the model has been estimated\n')
 ```
 
 
+## Cross-validated MANOVA
+
+Define contrasts:
+
+```{matlab}
+% 1) effect of stimulus
+C_stimulus = ...
+    [  1  0  0  0  0  0  0      % face
+      -1  1  0  0  0  0  0      % house
+       0 -1  1  0  0  0  0      % cat
+       0  0 -1  1  0  0  0      % bottle
+       0  0  0 -1  1  0  0      % scissors
+       0  0  0  0 -1  1  0      % shoe
+       0  0  0  0  0 -1  1      % chair
+       0  0  0  0  0  0 -1 ];   % scrambledpix
+% 2) effect of category within inanimate object
+C_object_category = ...
+    [  0  0  0                  % face
+       0  0  0                  % house
+       0  0  0                  % cat
+       1  0  0                  % bottle
+      -1  1  0                  % scissors
+       0 -1  1                  % shoe
+       0  0 -1                  % chair
+       0  0  0 ];               % scrambledpix
+```
+
+Define analyses. Here we use standard leave-one-session-out cross-validation, but more complex schemes can be defined, see [[class]{.smallcaps} `Analysis`](reference.html#class-analysis).
+
+```{matlab}
+analysis_stimulus = Analysis.leaveOneSessionOut(nSessions, C_stimulus)
+```
+
+```{matlab}
+analysis_object_category = Analysis.leaveOneSessionOut(nSessions, C_object_category)
+```
+
+An analysis can be visualized using the method `show`:
+
+```{matlab}
+%plot -s 750,750
+analysis_stimulus.show()
+```
+
+
 <!--
 % With Matlab R2015a–R2019a and SPM12 r6685, this script
 % produces the following pattern distinctness values on regions:
@@ -303,28 +366,6 @@ fprintf('the model has been estimated\n')
 %   8bfe2b4261920127b2fcf5fe5358a340  spmDs_C0001_P0001.nii
 %   e7d2c583c5159feb671dea7ff2b72570  spmDs_C0002_P0001.nii
 
-
-
-
-
-
-% set up contrasts
-% conditions: face, house, cat, bottle, scissors, shoe, chair, scrambledpix
-Cs = {};
-% 1) main effect of stimulus
-Cs{1} = [ 1 -1  0  0  0  0  0  0
-          0  1 -1  0  0  0  0  0
-          0  0  1 -1  0  0  0  0
-          0  0  0  1 -1  0  0  0
-          0  0  0  0  1 -1  0  0
-          0  0  0  0  0  1 -1  0
-          0  0  0  0  0  0  1 -1]';
-% 2) main effect of category within object
-Cs{2} = [ 0  0  0  1 -1  0  0  0
-          0  0  0  0  1 -1  0  0
-          0  0  0  0  0  1 -1  0]';
-% notice the transpose operators!
-analyses = {{C1}, {C2}};
 
 % run crossMANOVA on regions
 [D, p] = crossManovaRegion(modelDir, fnRegions, analyses);
