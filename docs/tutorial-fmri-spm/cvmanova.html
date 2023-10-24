@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.388">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>CvCrossManova Toolbox - Cross-validated MANOVA</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/cvmanova.html">Cross-validated MANOVA</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CvCrossManova Toolbox</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../tutorial-fmri-spm/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/cvmanova.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Cross-validated MANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/pairwise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pairwise Cross-validated MANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/cvcrossmanova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cross-validated Cross-MANOVA</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reference documentation</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Cross-validated MANOVA</h2>
+   
+  <ul>
+  <li><a href="#define-contrasts" id="toc-define-contrasts" class="nav-link active" data-scroll-target="#define-contrasts">Define contrasts</a></li>
+  <li><a href="#define-analyses" id="toc-define-analyses" class="nav-link" data-scroll-target="#define-analyses">Define analyses</a></li>
+  <li><a href="#run-analyses-on-regions-of-interest" id="toc-run-analyses-on-regions-of-interest" class="nav-link" data-scroll-target="#run-analyses-on-regions-of-interest">Run analyses on regions of interest</a></li>
+  <li><a href="#run-analyses-with-searchlight" id="toc-run-analyses-with-searchlight" class="nav-link" data-scroll-target="#run-analyses-with-searchlight">Run analyses with searchlight</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/cvmanova.html">Cross-validated MANOVA</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Cross-validated MANOVA</h1>
+<p class="subtitle lead">Pattern distinctness is computed in regions of interest and via searchlight</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">last modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2023–10–23</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->
+<div id="717997f2" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">% directory with estimated model</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'model'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="define-contrasts" class="level2">
+<h2 class="anchored" data-anchor-id="define-contrasts">Define contrasts</h2>
+<p>We are looking at two effects:</p>
+<ol type="1">
+<li>the ‘effect of stimulus’, i.e.&nbsp;quantifying how much patterns associated with the eight different stimuli differ from each other and</li>
+<li>the ‘effect of category within inanimate object’, i.e.&nbsp;quantifying how much patterns associated with ‘bottle’, ‘scissors’, ‘shoe’, and ‘chair’ differ from each other.</li>
+</ol>
+<p>The corresponding contrasts consist of 7 and 3 subcontrasts (columns), respectively, each of which targets the difference between two conditions.</p>
+<div id="8ac7509b" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">C_stimulus</span> <span class="op">=</span> <span class="op">...</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    [  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% face</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% house</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% cat</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% bottle</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% scissors</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>      <span class="co">% shoe</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>      <span class="co">% chair</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span> ]<span class="op">;</span>   <span class="co">% scrambledpix</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="va">C_object_category</span> <span class="op">=</span> <span class="op">...</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    [  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% face</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% house</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% cat</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>       <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>                  <span class="co">% bottle</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>                  <span class="co">% scissors</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>                  <span class="co">% shoe</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span> <span class="op">-</span><span class="fl">1</span>                  <span class="co">% chair</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>       <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span> ]<span class="op">;</span>               <span class="co">% scrambledpix</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that though the subcontrasts only combine neighboring conditions, the null hypothesis defined by all of them together says that there is no difference in the patterns associated with any of the involved conditions. For example for <code>C_object_category</code>, the three subcontrasts state</p>
+<ol type="1">
+<li>pattern of ‘bottle’ = pattern of ‘scissors’,</li>
+<li>pattern of ‘scissors’ = pattern of ‘shoe’, and</li>
+<li>pattern of ‘shoe’ = pattern of ‘chair’.</li>
+</ol>
+<p>If all three statements hold, that also implies that there is no difference e.g.&nbsp;between the pattern of ‘bottle’ and the pattern of ‘chair’. The result of cross-validated MANOVA, pattern distinctness <em>D</em>, estimates how much of the multivariate variance deviates from the null hypothesis encoded in a contrast.</p>
+</section>
+<section id="define-analyses" class="level2">
+<h2 class="anchored" data-anchor-id="define-analyses">Define analyses</h2>
+<p>An analysis is represented by an object of <a href="../reference.html#analysis">class <code>Analysis</code></a>. It comprises two contrasts, for ‘training’ (A) and ‘validation’ (B), but for cross-validated MANOVA the two are identical. It also defines a validation scheme which for each fold specifies which sessions are used for ‘training’ and ‘validation’. Here we use standard <a href="../reference.html#analysis.leaveonesessionout">leave-one-session-out</a> cross-validation, but more complex schemes can be defined.</p>
+<div id="3b59c726" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_stimulus</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">C_stimulus</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>analysis_stimulus = 
+  Analysis:
+    12 fold(s), 12 session(s)
+    CA = CB:  8 × 7, 7-dimensional
+    no permutations (besides neutral)</code></pre>
+</div>
+</div>
+<div id="5cdbc59b" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>( <span class="op">...</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">nSessions</span><span class="op">,</span> <span class="va">C_object_category</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>analysis_object_category = 
+  Analysis:
+    12 fold(s), 12 session(s)
+    CA = CB:  8 × 3, 3-dimensional
+    no permutations (besides neutral)</code></pre>
+</div>
+</div>
+<p>By default no permutations are performed, but that can be <a href="../reference.html#analysis.addpermutations">requested explicitly</a>. We here limit the number of permutations to 100, though a larger number is recommended if available.</p>
+<div id="babe6600" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">rng</span>(<span class="fl">1837146515</span><span class="op">,</span> <span class="ss">'twister'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span>.<span class="va">addPermutations</span>(<span class="fl">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>2048 permutations possible
+randomly selecting a subset of 100 permutations</code></pre>
+</div>
+</div>
+<p>If the requested number of permutations (parameter <code>maxPerms</code>, default 1000) is larger than or equal to the number of possible permutations, all possible permutations are performed; if not, a subset is chosen randomly. For reproducibility of analyses it is advisable to <a href="https://uk.mathworks.com/help/matlab/math/generate-random-numbers-that-are-repeatable.html">explicitly initialize</a> Matlab’s random number generator with <code>rng</code>. The arguments used here were originally chosen based on the fields <code>Seed</code> and <code>Type</code> from <code>s = rng('shuffle')</code>.</p>
+<p>As seen above, evaluating an <code>Analysis</code> object prints a <a href="../reference.html#analysis.disp">brief summary</a>. It can also be visualized using the method <a href="../reference.html#analysis.show"><code>show</code></a>:</p>
+<div id="718c2304" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div>
+<img src="cvmanova_files/figure-html/cell-8-output-1.svg" id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="img-fluid figure-img">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>Below we need a cell array which contains all <code>Analysis</code> objects.</p>
+<div id="a69064d9" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> {<span class="va">analysis_stimulus</span><span class="op">,</span> <span class="va">analysis_object_category</span>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-analyses-on-regions-of-interest" class="level2">
+<h2 class="anchored" data-anchor-id="run-analyses-on-regions-of-interest">Run analyses on regions of interest</h2>
+<p>To perform region-of-interest analyses, use the <a href="../reference.html#cvcrossmanovaregion">function <code>cvCrossManovaRegion</code></a>. It</p>
+<ul>
+<li>loads the data via the <code>SPM.mat</code> file in <code>modelDir</code>, restricted to the voxels in the regions specified via <code>regions</code>,</li>
+<li>creates an object of <a href="../reference.html#cvcrossmanova">class <code>CvCrossManova</code></a> which includes the data, design matrices, and the specified <code>analyses</code>,</li>
+<li>and then runs the analyses on the regions and returns the results.</li>
+</ul>
+<p>The output first reports on loading the data and then displays the created <code>CvCrossManova</code> object, including information on the contained analyses.</p>
+<div id="1cf51fe8" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+cvCrossManovaRegion
+
+loading data via subj1/model/SPM.mat
+  27638 voxels within brain mask
+    572 voxels within brain mask in subj1/mask4_vt.nii
+    21 voxels within brain mask in subj1/mask8b_face_vt.nii
+    225 voxels within brain mask in subj1/mask8b_house_vt.nii
+  572 voxels within brain mask in all regions
+  reading images from subj1/rbold.nii,????
+  1452 of 1452 volumes loaded
+  whitening
+  high-pass-filtering
+  sum(fs) = 1452 - 48 - 180 = 1224   [SPM: trRV = 1224  erdf = 1224]
+
+computing Cross-validated (Cross-) MANOVA
+  CvCrossManova:
+    Data:
+      session     n      p     q      f 
+         1       121    572    15    102
+         2       121    572    15    102
+         3       121    572    15    102
+         4       121    572    15    102
+         5       121    572    15    102
+         6       121    572    15    102
+         7       121    572    15    102
+         8       121    572    15    102
+         9       121    572    15    102
+        10       121    572    15    102
+        11       121    572    15    102
+        12       121    572    15    102
+    lambda: 1e-08
+    Analysis 1:
+      12 fold(s), 12 session(s)
+      CA = CB:  8 × 7, 7-dimensional
+      no permutations (besides neutral)
+    Analysis 2:
+      12 fold(s), 12 session(s)
+      CA = CB:  8 × 3, 3-dimensional
+      100 permutations (including neutral)</code></pre>
+</div>
+</div>
+<p>The result <code>ps</code> is an array with the number of voxels in each region.</p>
+<div id="7e63c1ec" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">ps</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ps =
+   572    21   225</code></pre>
+</div>
+</div>
+<p>The result <code>Ds</code> is a cell array with one row for each analysis, and one column for each region. For the first analysis each cell contains a scalar, which is the estimated value of <em>D</em>.</p>
+<div id="492c5925" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ans =
+  1x3 cell array
+    {[5.3228]}    {[0.36733]}    {[2.4592]}</code></pre>
+</div>
+</div>
+<div id="ec773bd5" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-stderr">
+<pre><code>Error using assert
+result does not match expected [5.3228309400800411, 0.30012393047769736, 1.6930630901451187]</code></pre>
+</div>
+</div>
+<p>For the second analysis each cell contains an array with 100 elements, corresponding to the 100 permutations we requested. The first value is the actual estimated value of <em>D</em>, the others are permutation values.</p>
+<div id="e4be250a" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ans =
+  1x3 cell array
+    {1x100 double}    {1x100 double}    {1x100 double}</code></pre>
+</div>
+</div>
+<div id="265a3e08" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-stderr">
+<pre><code>Error using assert
+result does not match expected [1.2852740961380142, -0.018025507532779275, 0.58444270402859833]</code></pre>
+</div>
+</div>
+<p>Based on this, we can calculate a <em>p</em>-value for the null hypothesis ‘no effect of category within inanimate object’, in each region.</p>
+<div id="bbedd295" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">regions</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">D</span> <span class="op">=</span> <span class="va">Ds</span>{<span class="fl">2</span><span class="op">,</span> <span class="va">i</span>}<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">pval</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">D</span> <span class="op">&gt;=</span> <span class="va">D</span>(<span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'%-25s  D = %g, p = %g\n'</span><span class="op">,</span> <span class="va">regions</span>{<span class="va">i</span>}<span class="op">,</span> <span class="va">D</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">pval</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>subj1/mask4_vt.nii         D = 1.03085, p = 0.01
+subj1/mask8b_face_vt.nii   D = 0.0219768, p = 0.05
+subj1/mask8b_house_vt.nii  D = 0.371794, p = 0.01</code></pre>
+</div>
+</div>
+<p>The null hypothesis can be rejected in all three regions.</p>
+</section>
+<section id="run-analyses-with-searchlight" class="level2">
+<h2 class="anchored" data-anchor-id="run-analyses-with-searchlight">Run analyses with searchlight</h2>
+<p>To perform searchlight analyses, use the <a href="../reference.html#cvcrossmanovasearchlight">function <code>cvCrossManovaSearchlight</code></a>. It</p>
+<ul>
+<li>loads the data via the <code>SPM.mat</code> file in <code>modelDir</code>,</li>
+<li>creates an object of <a href="../reference.html#cvcrossmanova">class <code>CvCrossManova</code></a> which includes the data, design matrices, and the specified <code>analyses</code>,</li>
+<li>and then runs the analyses on the voxels included in each searchlight.</li>
+</ul>
+<p>The output first reports on loading the data and then displays the created <code>CvCrossManova</code> object, including information on the contained analyses.</p>
+<div id="237c2be6" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">slRadius</span> <span class="op">=</span> <span class="fl">3</span><span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">analyses</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+cvCrossManovaSearchlight
+
+loading data via subj1/model/SPM.mat
+  27638 voxels within brain mask
+  no region mask
+  reading images from subj1/rbold.nii,????
+  1452 of 1452 volumes loaded
+  whitening
+  high-pass-filtering
+  sum(fs) = 1452 - 48 - 180 = 1224   [SPM: trRV = 1224  erdf = 1224]
+
+computing Cross-validated (Cross-) MANOVA
+  CvCrossManova:
+    Data:
+      session     n       p      q      f 
+         1       121    27638    15    102
+         2       121    27638    15    102
+         3       121    27638    15    102
+         4       121    27638    15    102
+         5       121    27638    15    102
+         6       121    27638    15    102
+         7       121    27638    15    102
+         8       121    27638    15    102
+         9       121    27638    15    102
+        10       121    27638    15    102
+        11       121    27638    15    102
+        12       121    27638    15    102
+    lambda: 1e-08
+    Analysis 1:
+      12 fold(s), 12 session(s)
+      CA = CB:  8 × 7, 7-dimensional
+      no permutations (besides neutral)
+    Analysis 2:
+      12 fold(s), 12 session(s)
+      CA = CB:  8 × 3, 3-dimensional
+      100 permutations (including neutral)
+  running searchlight of radius 3 (123 voxels)
+  intermediate results are saved to
+      subj1/model/ccmsCheckpointA20ED59BB705A089814563EFFC6B0951.mat
+    45.5 min  27638 voxels  100.0 %</code></pre>
+</div>
+</div>
+<p>Results are written to files in the model directory. <code>ccmsParameters.mat</code> is a record of the analysis parameters and <code>VPSL.nii</code> is an image file where each voxel contains the number of voxels of the searchlight centered on it.</p>
+<div id="da249a3f" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">dir</span>(<span class="va">modelDir</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+.                     spmD_A0002_P0029.nii  spmD_A0002_P0066.nii  
+..                    spmD_A0002_P0030.nii  spmD_A0002_P0067.nii  
+RPV.nii               spmD_A0002_P0031.nii  spmD_A0002_P0068.nii  
+ResMS.nii             spmD_A0002_P0032.nii  spmD_A0002_P0069.nii  
+SPM.mat               spmD_A0002_P0033.nii  spmD_A0002_P0070.nii  
+VPSL.nii              spmD_A0002_P0034.nii  spmD_A0002_P0071.nii  
+ccmsParameters.mat    spmD_A0002_P0035.nii  spmD_A0002_P0072.nii  
+mask.nii              spmD_A0002_P0036.nii  spmD_A0002_P0073.nii  
+spmD_A0001_P0001.nii  spmD_A0002_P0037.nii  spmD_A0002_P0074.nii  
+spmD_A0002_P0001.nii  spmD_A0002_P0038.nii  spmD_A0002_P0075.nii  
+spmD_A0002_P0002.nii  spmD_A0002_P0039.nii  spmD_A0002_P0076.nii  
+spmD_A0002_P0003.nii  spmD_A0002_P0040.nii  spmD_A0002_P0077.nii  
+spmD_A0002_P0004.nii  spmD_A0002_P0041.nii  spmD_A0002_P0078.nii  
+spmD_A0002_P0005.nii  spmD_A0002_P0042.nii  spmD_A0002_P0079.nii  
+spmD_A0002_P0006.nii  spmD_A0002_P0043.nii  spmD_A0002_P0080.nii  
+spmD_A0002_P0007.nii  spmD_A0002_P0044.nii  spmD_A0002_P0081.nii  
+spmD_A0002_P0008.nii  spmD_A0002_P0045.nii  spmD_A0002_P0082.nii  
+spmD_A0002_P0009.nii  spmD_A0002_P0046.nii  spmD_A0002_P0083.nii  
+spmD_A0002_P0010.nii  spmD_A0002_P0047.nii  spmD_A0002_P0084.nii  
+spmD_A0002_P0011.nii  spmD_A0002_P0048.nii  spmD_A0002_P0085.nii  
+spmD_A0002_P0012.nii  spmD_A0002_P0049.nii  spmD_A0002_P0086.nii  
+spmD_A0002_P0013.nii  spmD_A0002_P0050.nii  spmD_A0002_P0087.nii  
+spmD_A0002_P0014.nii  spmD_A0002_P0051.nii  spmD_A0002_P0088.nii  
+spmD_A0002_P0015.nii  spmD_A0002_P0052.nii  spmD_A0002_P0089.nii  
+spmD_A0002_P0016.nii  spmD_A0002_P0053.nii  spmD_A0002_P0090.nii  
+spmD_A0002_P0017.nii  spmD_A0002_P0054.nii  spmD_A0002_P0091.nii  
+spmD_A0002_P0018.nii  spmD_A0002_P0055.nii  spmD_A0002_P0092.nii  
+spmD_A0002_P0019.nii  spmD_A0002_P0056.nii  spmD_A0002_P0093.nii  
+spmD_A0002_P0020.nii  spmD_A0002_P0057.nii  spmD_A0002_P0094.nii  
+spmD_A0002_P0021.nii  spmD_A0002_P0058.nii  spmD_A0002_P0095.nii  
+spmD_A0002_P0022.nii  spmD_A0002_P0059.nii  spmD_A0002_P0096.nii  
+spmD_A0002_P0023.nii  spmD_A0002_P0060.nii  spmD_A0002_P0097.nii  
+spmD_A0002_P0024.nii  spmD_A0002_P0061.nii  spmD_A0002_P0098.nii  
+spmD_A0002_P0025.nii  spmD_A0002_P0062.nii  spmD_A0002_P0099.nii  
+spmD_A0002_P0026.nii  spmD_A0002_P0063.nii  spmD_A0002_P0100.nii  
+spmD_A0002_P0027.nii  spmD_A0002_P0064.nii  
+spmD_A0002_P0028.nii  spmD_A0002_P0065.nii  
+</code></pre>
+</div>
+</div>
+<p>Files with names of the form <code>spmD_A####_P####.nii</code> are images of pattern distinctness, i.e each voxel contains the estimated value of <em>D</em> from the voxels of the searchlight centered on it. The digits <code>####</code> after <code>A</code> identify the analysis, and the digits after <code>P</code> the permutation (if no permutations were requested, only <code>P0001</code> for the neutral permutation).</p>
+<p>We visualize sagittal slices of <code>spmD_A0001_P0001.nii</code>, i.e.&nbsp;the actual pattern distinctness from the first analysis.</p>
+<div id="d6943632" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">% load data</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="va">D</span> <span class="op">=</span> <span class="va">spm_read_vols</span>(<span class="va">spm_vol</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'spmD_A0001_P0001.nii'</span>)))<span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">% plot data</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">% color map: parula, but black for NaN</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">parula</span>()<span class="op">;</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="va">colormap</span>(<span class="va">cm</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">% color limits: rounded to 0.01 away from data range</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="va">cl</span> <span class="op">=</span> [<span class="va">min</span>(<span class="va">D</span>(<span class="op">:</span>))<span class="op">,</span> <span class="va">max</span>(<span class="va">D</span>(<span class="op">:</span>))]<span class="op">;</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="va">cl</span> <span class="op">=</span> <span class="va">ceil</span>(<span class="va">cl</span> <span class="op">.*</span> [<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>] <span class="op">*</span> <span class="fl">100</span>) <span class="op">.*</span> [<span class="op">-</span><span class="fl">1</span><span class="op">,</span> <span class="fl">1</span>] <span class="op">/</span> <span class="fl">100</span><span class="op">;</span></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="co">% sagittal slices</span></span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">1200</span>]<span class="op">;</span></span>
+<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="va">tiledlayout</span>(<span class="fl">8</span><span class="op">,</span> <span class="fl">5</span><span class="op">,</span> <span class="va">Padding</span><span class="op">=</span><span class="st">"tight"</span><span class="op">,</span> <span class="va">TileSpacing</span><span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">size</span>(<span class="va">D</span><span class="op">,</span> <span class="fl">1</span>)</span>
+<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">nexttile</span></span>
+<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">slice</span> <span class="op">=</span> <span class="va">squeeze</span>(<span class="va">D</span>(<span class="va">i</span><span class="op">,</span> <span class="op">:,</span> <span class="op">:</span>)) <span class="op">.';</span> </span>
+<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">imagesc</span>(<span class="va">slice</span>)</span>
+<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">clim</span>(<span class="va">cl</span>)</span>
+<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">axis</span> <span class="va">off</span> <span class="va">image</span> <span class="va">xy</span></span>
+<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div>
+<img src="cvmanova_files/figure-html/cell-19-output-1.svg" id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="img-fluid figure-img">
+</div>
+</figure>
+</div>
+</div>
+</div>
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

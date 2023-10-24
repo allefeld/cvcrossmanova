@@ -1,0 +1,108 @@
+---
+title: Pairwise Cross-validated MANOVA
+subtitle: Pattern distinctness is computed in a way approximating the original analysis
+jupyter: mkernel
+order: 14
+---
+
+
+{{< include ../_setup_figure.qmd >}}
+
+
+```{matlab}
+% select subject
+sub = 'subj1';
+% load information
+load(fullfile(sub, 'info.mat'))
+% directory with estimated model
+modelDir = fullfile(sub, 'model');
+```
+
+
+## Define contrasts and analyses
+
+Haxby et al. used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively (see Footnote 18 of the [paper](index.html#ref-haxby2001)).
+
+Cross-validated MANOVA replaces accuracy based on classification by explained multivariate variance based on contrasts. The equivalent of pairwise classification is a contrast with a 1 for one of the two categories, a −1 for the other, and zeros otherwise. We construct these 28 contrasts, and then analyses based on them using two folds, odd → even and even → odd:
+
+```{matlab}
+% construct pairwise contrasts and analyses
+analyses = cell(nConds, nConds);
+odd = (mod(1 : nSessions, 2) == 1);
+even = (mod(1 : nSessions, 2) == 0);
+for i = 1 : nConds
+    for j = i + 1 : nConds
+        C = zeros(nConds, 1);
+        C([i, j]) = [1, -1];
+        analyses{i, j} = Analysis(C, C, [odd ; even], [even ; odd]);
+    end
+end
+% reduce to defined analyses
+ind = find(~cellfun(@isempty, analyses)) .';
+analyses = analyses(ind);
+```
+
+For illustration, analysis #12 has this structure:
+
+```{matlab}
+analyses{12}.show()
+```
+
+
+## Run analyses on region of interest
+
+Haxby et al. applied their analysis to several regions of interest. The data available to us contain masks for three regions, of which we here use the first.
+
+```{matlab}
+[Ds, ps] = cvCrossManovaRegion(modelDir, regions(1), analyses);
+```
+
+The results are contained in column 1 of the cell array `Ds`. We assemble them into a matrix, filling in the identical values in the lower triangular part and leaving zeros on the diagonal, and visualise the matrix as a heatmap:
+
+```{matlab}
+% assemble
+DsMatrix = zeros(nConds, nConds);
+DsMatrix(ind) = [Ds{:, 1}];
+DsMatrix = DsMatrix + DsMatrix .';
+% visualize
+fig = figure();
+fig.Position(3:4) = [750, 674];
+heatmap(conditions, conditions, DsMatrix, ...
+    FontName=get(0, 'defaultTextFontName'));
+ylabel(gca().NodeChildren(2), 'D')
+```
+
+
+## Comparison with original analysis results
+
+Haxby et al.'s main result (Table 1) was the identification accuracy for each of the eight categories averaged across classification pairs, and then averaged across six subjects. For 'all ventral temporal object-selective cortex', presumably corresponding to the first of the available masks (`mask4_vt.nii`) they reported the following accuracies (in percent):
+
+
+```{matlab}
+meanAcc = [100, 100,  98,  90,  92,  92,  96, 100];
+```
+
+Our corresponding result is the average pattern distinctness across the 7 pairwise contrasts each category was involved in:
+
+
+```{matlab}
+meanD = sum(DsMatrix) / (nConds - 1)
+```
+
+Plotted against each other:
+
+```{matlab}
+fig = figure();
+fig.Position(3:4) = [750, 713];
+for i = 1 : nConds
+    plot(meanAcc(i), meanD(i), '.', Color=colors(i), MarkerSize=20)
+    hold all
+end
+legend(conditions, Interpreter="none", Location="NorthWest")
+xlim([89, 101])
+ylim([0.45, 1.15])
+xlabel("mean accuracy / %")
+ylabel("mean pattern distinctness")
+```
+
+The ranking is similar though not identical. Note that the results cannot be completely equivalent since our analysis is based on one subject, while the mean accuracy is additionally averaged across subjects.

@@ -1,0 +1,9 @@
+```{matlab}
+%| echo: false
+setappdata(0, 'MKernel_plot_format', 'svg')
+set(0, 'defaultAxesFontName', 'Source Sans 3')
+set(0, 'defaultTextFontName', 'Source Sans 3')
+```
+
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->

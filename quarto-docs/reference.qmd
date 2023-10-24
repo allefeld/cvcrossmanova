@@ -1,0 +1,23 @@
+---
+title: Reference documentation
+subtitle: Detailed information about toolbox functions and classes
+jupyter: mkernel
+order: 20
+---
+
+```{matlab}
+%| output: asis
+%| echo: false
+clear all
+names = {
+    "cvCrossManovaRegion",
+    "cvCrossManovaSearchlight",
+    "Analysis",
+    "CvCrossManova",
+    "slSize"
+};
+helpToMarkdown(names)
+```
+
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->

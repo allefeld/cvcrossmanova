@@ -1,11 +1,1 @@
-notes.text
-render
-release
-old/
-paper/
-Talk FU 2023/
-dist/
-docs-sources/.quarto/
-scratch/
-docs-sources/subj*
-docs-sources/matlab_kernel.log
+scratch*

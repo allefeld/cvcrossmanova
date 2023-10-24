@@ -1,0 +1,45 @@
+project:
+  type: website
+# Define render order, important for tutorial.
+# If this is present, other files need to be listed to be rendered.
+  render:
+    - index.md
+    - tutorial-fmri-spm/index.md
+    - tutorial-fmri-spm/preparation.qmd
+    - tutorial-fmri-spm/model.qmd
+    - tutorial-fmri-spm/cvmanova.qmd
+    - tutorial-fmri-spm/pairwise.qmd
+    - tutorial-fmri-spm/cvcrossmanova.qmd
+    - reference.qmd
+  output-dir: ../docs/
+  pre-render: ./render.sh pre
+  post-render: ./render.sh post
+
+execute:
+  cache: true
+  # enabled: false
+
+website:
+  title: "CvCrossManova Toolbox"
+  sidebar:
+    title: "CvCrossManova Toolbox"
+    search: true
+    contents: auto    # ordered by `order:` metadata
+
+format:
+  html:
+    from: markdown
+    theme: cosmo
+    highlight-style: tango
+    css: styles.css
+    toc: true
+    toc-expand: true
+    toc-title: "{{< meta title >}}"
+    code-overflow: wrap
+    grid:
+    #   sidebar-width: 310px
+      margin-width: 300px
+
+date: last-modified
+date-format: YYYY–M–D
+published-title: "last modified"

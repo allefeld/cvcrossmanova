@@ -1,0 +1,5 @@
+/.quarto/
+tutorial-fmri-spm/subj*
+*.ps
+.quarto/
+.jupyter_cache/

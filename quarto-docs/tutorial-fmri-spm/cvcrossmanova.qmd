@@ -1,0 +1,22 @@
+---
+title: Cross-validated Cross-MANOVA
+subtitle: Pattern stability is computed in regions of interest and via searchlight
+jupyter: mkernel
+order: 15
+---
+
+
+{{< include ../_setup_figure.qmd >}}
+
+
+```{matlab}
+% select subject
+sub = 'subj1';
+% load information
+load(fullfile(sub, 'info.mat'))
+% directory with estimated model
+modelDir = fullfile(sub, 'model');
+```
+
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->

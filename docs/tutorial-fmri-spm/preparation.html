@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.388">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>CvCrossManova Toolbox - Preparation</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/preparation.html">Preparation</a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">CvCrossManova Toolbox</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../tutorial-fmri-spm/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/preparation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Preparation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/model.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Model</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/cvmanova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cross-validated MANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/pairwise.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Pairwise Cross-validated MANOVA</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-fmri-spm/cvcrossmanova.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cross-validated Cross-MANOVA</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reference.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Reference documentation</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Preparation</h2>
+   
+  <ul>
+  <li><a href="#download-and-unpack-data" id="toc-download-and-unpack-data" class="nav-link active" data-scroll-target="#download-and-unpack-data">Download and unpack data</a></li>
+  <li><a href="#obtain-experimental-design-information" id="toc-obtain-experimental-design-information" class="nav-link" data-scroll-target="#obtain-experimental-design-information">Obtain experimental design information</a></li>
+  <li><a href="#realign-bold-data" id="toc-realign-bold-data" class="nav-link" data-scroll-target="#realign-bold-data">Realign BOLD data</a></li>
+  <li><a href="#save-information" id="toc-save-information" class="nav-link" data-scroll-target="#save-information">Save information</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/preparation.html">Preparation</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Preparation</h1>
+<p class="subtitle lead">Data are downloaded, preprocessed, and design information extracted</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">last modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2023–10–23</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div id="cb3f8311" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->
+<section id="download-and-unpack-data" class="level2">
+<h2 class="anchored" data-anchor-id="download-and-unpack-data">Download and unpack data</h2>
+<p>The data for the subject are downloaded from <a href="http://dev.pymvpa.org/datadb/haxby2001.html">PyMVPA</a> as a <code>.tar.gz</code> archive, and the archive is unpacked.</p>
+<div id="002307f6" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">fn</span> <span class="op">=</span> [<span class="va">sub</span> <span class="ss">'-2010.01.14.tar.gz'</span>]<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">url</span> <span class="op">=</span> [<span class="ss">'http://data.pymvpa.org/datasets/haxby2001/'</span> <span class="va">fn</span>]<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">urlwrite</span>(<span class="va">url</span><span class="op">,</span> <span class="va">fn</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">untar</span>(<span class="va">fn</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">delete</span>(<span class="va">fn</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The included NIfTI images are individually gzip-compressed and need to be uncompressed.</p>
+<div id="a53734d7" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">files</span> <span class="op">=</span> <span class="va">dir</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'*.nii.gz'</span>))<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">files</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'uncompressing %s\n'</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">gunzip</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">delete</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>uncompressing anat.nii.gz
+uncompressing bold.nii.gz
+uncompressing mask4_vt.nii.gz
+uncompressing mask8_face_vt.nii.gz
+uncompressing mask8_house_vt.nii.gz
+uncompressing mask8b_face_vt.nii.gz
+uncompressing mask8b_house_vt.nii.gz</code></pre>
+</div>
+</div>
+<p>The mask images are not documented in detail. Based on the filenames and the in-mask volume, we assume the following correspondence between regions listed in Table 1 of the paper and mask image files:</p>
+<dl>
+<dt><code>mask4_vt.nii</code></dt>
+<dd>
+‘all ventral temporal object-selective cortex’
+</dd>
+<dt><code>mask8b_face_vt.nii</code></dt>
+<dd>
+‘region maximally responsive to faces’
+</dd>
+<dt><code>mask8b_house_vt.nii</code></dt>
+<dd>
+‘region maximally responsive to houses’
+</dd>
+</dl>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>TODO: do they need to be aligned to the anatomical or the mean BOLD image?</p>
+</div>
+</div>
+<div id="8ec60939" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'bold.nii'</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">regions</span> <span class="op">=</span> {<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask4_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_face_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_house_vt.nii'</span>)}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="obtain-experimental-design-information" class="level2">
+<h2 class="anchored" data-anchor-id="obtain-experimental-design-information">Obtain experimental design information</h2>
+<p>The BOLD data are contained in a single 4-dimensional NIfTI file.</p>
+<div id="55f81afe" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="va">nifti</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">size</span>(<span class="va">N</span>.<span class="va">dat</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">diag</span>(<span class="va">N</span>.<span class="va">mat</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">,</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>))<span class="op">'</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">TR</span> <span class="op">=</span> <span class="va">N</span>.<span class="va">timing</span>.<span class="va">tspace</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>ans =
+          40          64          64        1452
+ans =
+         -3.5         3.75         3.75
+TR =
+          2.5</code></pre>
+</div>
+</div>
+<p>This file contains a timeseries of 1452 scans at at repetition time of 2.5&nbsp;s, each of which has 40 × 64 × 64 voxels of size 3.5 × 3.75 × 3.75&nbsp;mm.</p>
+<p>From Footnote 18 of the <a href="index.html#ref-haxby2001">paper</a>:</p>
+<blockquote class="blockquote">
+<p>Stimuli were gray-scale images of faces, houses, cats, bottles, scissors, shoes, chairs, and nonsense patterns. … Twelve time series were obtained in each subject. Each time series began and ended with 12 s of rest and contained eight stimulus blocks of 24-s duration, one for each category, separated by 12-s intervals of rest. Stimuli were presented for 500 ms with an interstimulus interval of 1500 ms.</p>
+</blockquote>
+<p>Each of the 12 sessions therefore had a duration of (12 + 24) × 8 + 12 = 300&nbsp;s, corresponding to 120 TRs (121 scans).</p>
+<p>Information about the onsets and durations of stimuli in this subject are contained in a file <code>labels.txt</code>.</p>
+<div id="b8d35c99" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">labels</span> <span class="op">=</span> <span class="va">readtable</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'labels.txt'</span>)<span class="op">,</span> <span class="ss">'Delimiter'</span><span class="op">,</span> <span class="ss">' '</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">head</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       labels       chunks
+    ____________    ______
+    {'rest'    }      0   
+    {'rest'    }      0   
+    {'rest'    }      0   
+    {'rest'    }      0   
+    {'rest'    }      0   
+    {'rest'    }      0   
+    {'scissors'}      0   
+    {'scissors'}      0   </code></pre>
+</div>
+</div>
+<div id="df69aa79" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">tail</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       labels       chunks
+    ____________    ______
+    {'scissors'}      11  
+    {'scissors'}      11  
+    {'rest'    }      11  
+    {'rest'    }      11  
+    {'rest'    }      11  
+    {'rest'    }      11  
+    {'rest'    }      11  
+    {'rest'    }      11  </code></pre>
+</div>
+</div>
+<p>It has 1452 rows, corresponding to the scans of the BOLD data. The format is not documented, but it appears that the column <code>labels</code> contains the experimental condition (stimulus type), and the column <code>chunk</code> distinguishes the 12 sessions by an index from 0 to 11, each with 121 rows. In the order of the paper, the condition names are</p>
+<div id="834cb702" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">conditions</span> <span class="op">=</span> [<span class="st">"face"</span><span class="op">,</span> <span class="st">"house"</span><span class="op">,</span> <span class="st">"cat"</span><span class="op">,</span> <span class="st">"bottle"</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span><span class="op">,</span> <span class="st">"shoe"</span><span class="op">,</span> <span class="st">"chair"</span><span class="op">,</span> <span class="st">"scrambledpix"</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>plus <code>"rest"</code> for the rest intervals.</p>
+<p>Stimulus blocks comprise 9 rows with rest intervals of 5 or 6 rows, which does not exactly correspond to the description above because the stimulus presentation length is incompatible with the TR. We therefore use these data only to extract the condition index for each block, but recreate more precise stimulus timing information.</p>
+<div id="fc79a574" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">nSessions</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">nConds</span> <span class="op">=</span> <span class="va">numel</span>(<span class="va">conditions</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="va">onsets</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="va">durations</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">% for each session</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">% extract condition for each block (from its middle)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">cond</span> <span class="op">=</span> <span class="va">labels</span>.<span class="va">labels</span>(<span class="va">labels</span>.<span class="va">chunks</span> <span class="op">==</span> <span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    [<span class="op">~,</span> <span class="va">condInd</span>] <span class="op">=</span> <span class="va">ismember</span>(<span class="va">cond</span><span class="op">,</span> <span class="va">conditions</span>)<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">condInd</span> <span class="op">=</span> <span class="va">condInd</span>(<span class="va">round</span>((<span class="fl">24</span> <span class="op">:</span>(<span class="fl">12</span> <span class="op">+</span> <span class="fl">24</span>)<span class="op">:</span> <span class="fl">300</span>) <span class="op">/</span> <span class="va">TR</span>) <span class="op">+</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">assert</span>(<span class="va">isequal</span>(<span class="va">sort</span>(<span class="va">condInd</span>)<span class="op">.',</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for each condition</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">% assemble stimulus onset and duration information in s</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">blockInd</span> <span class="op">=</span> <span class="va">find</span>(<span class="va">condInd</span> <span class="op">==</span> <span class="va">ci</span>)<span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">blockStart</span> <span class="op">=</span> (<span class="va">blockInd</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> (<span class="fl">12</span> <span class="op">+</span> <span class="fl">24</span>) <span class="op">+</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="va">blockStart</span> <span class="op">+</span> (<span class="fl">0</span> <span class="op">:</span> <span class="fl">11</span>) <span class="op">*</span> (<span class="fl">0.5</span> <span class="op">+</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">12</span>)<span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="va">nVolsPerSession</span> <span class="op">=</span> <span class="va">height</span>(<span class="va">labels</span>) <span class="op">/</span> <span class="va">nSessions</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Visualization of stimulus onsets in each session:</p>
+<div id="2ce9712d" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span><span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">400</span>]<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">colors</span> <span class="op">=</span> [<span class="st">"#000000"</span><span class="op">,</span> <span class="st">"#ff9b00"</span><span class="op">,</span> <span class="st">"#a6ee00"</span><span class="op">,</span> <span class="st">"#00eea6"</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#009bff"</span><span class="op">,</span> <span class="st">"#a600ff"</span><span class="op">,</span> <span class="st">"#ff00a6"</span><span class="op">,</span> <span class="st">"#aaaaaa"</span>]<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">ons</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">ses</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">ons</span> <span class="op">=</span> [<span class="va">ons</span><span class="op">,</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}]<span class="op">;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">ses</span> <span class="op">=</span> [<span class="va">ses</span><span class="op">,</span> <span class="va">si</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">size</span>(<span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}))]<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">ons</span><span class="op">,</span> <span class="va">ses</span><span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="va">colors</span>(<span class="va">ci</span>))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="op">-</span><span class="fl">1</span> <span class="op">,</span> <span class="va">nVolsPerSession</span>] <span class="op">*</span> <span class="va">TR</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="va">nSessions</span> <span class="op">+</span> <span class="fl">0.5</span>])</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YTick'</span><span class="op">,</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YDir'</span><span class="op">,</span> <span class="ss">'reverse'</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'session'</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'time / s'</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"eastoutside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div>
+<img src="preparation_files/figure-html/cell-13-output-1.svg" id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="img-fluid figure-img">
+</div>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="realign-bold-data" class="level2">
+<h2 class="anchored" data-anchor-id="realign-bold-data">Realign BOLD data</h2>
+<div id="a7b97770" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'rbold.nii'</span>)<span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">vn</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> <span class="va">fnBOLD</span><span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">vi</span><span class="op">,</span> <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">data</span>{<span class="va">si</span>} <span class="op">=</span> <span class="va">vn</span><span class="op">';</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">quality</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">sep</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">fwhm</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">rtm</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">weight</span> <span class="op">=</span> <span class="ss">''</span><span class="op">;</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">which</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">mask</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">prefix</span> <span class="op">=</span> <span class="ss">'r'</span><span class="op">;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">spm_figure</span>(<span class="ss">'GetWin'</span><span class="op">,</span> <span class="ss">'Graphics'</span>)<span class="op">,</span> <span class="ss">'Visible'</span><span class="op">,</span> <span class="ss">'off'</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Initialising batch system... done.
+
+
+------------------------------------------------------------------------
+25-Oct-2023 03:09:27 - Running job #1
+------------------------------------------------------------------------
+25-Oct-2023 03:09:27 - Running 'Realign: Estimate &amp; Reslice'
+
+SPM12: spm_realign (v7141)                         03:09:27 - 25/10/2023
+========================================================================
+Warning: PostScript format 'psc2' will not be supported in a future release.
+&gt; In inputcheck
+In print (line 41)
+In spm_print (line 99)
+In spm_realign&gt;plot_parameters (line 527)
+In spm_realign (line 168)
+In spm_run_realign (line 31)
+In cfg_run_cm (line 29)
+In cfg_util&gt;local_runcj (line 1717)
+In cfg_util (line 972)
+In spm_jobman&gt;fill_run_job (line 469)
+In spm_jobman (line 247)
+Printing 'Graphics' figure to:
+  /home/ca/work/Projects/CvCrossManova/cvcrossmanova/quarto-docs/tutorial-fmri-spm/spm_2023Oct25.ps
+Completed                               :          03:15:09 - 25/10/2023
+
+SPM12: spm_reslice (v7141)                         03:15:09 - 25/10/2023
+========================================================================
+Completed                               :          03:17:07 - 25/10/2023
+25-Oct-2023 03:17:08 - Done    'Realign: Estimate &amp; Reslice'
+25-Oct-2023 03:17:08 - Done
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div>
+<img src="preparation_files/figure-html/cell-14-output-2.svg" id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="img-fluid figure-img">
+</div>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="save-information" class="level2">
+<h2 class="anchored" data-anchor-id="save-information">Save information</h2>
+<div id="a47e0c45" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnInfo</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>)<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">save</span>(<span class="va">fnInfo</span><span class="op">,</span> <span class="ss">'regions'</span><span class="op">,</span> <span class="ss">'TR'</span><span class="op">,</span> <span class="ss">'nSessions'</span><span class="op">,</span> <span class="ss">'nVolsPerSession'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'conditions'</span><span class="op">,</span> <span class="ss">'nConds'</span><span class="op">,</span> <span class="ss">'onsets'</span><span class="op">,</span> <span class="ss">'durations'</span><span class="op">,</span> <span class="ss">'colors'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    const typesetMath = (el) => {
+      if (window.MathJax) {
+        // MathJax Typeset
+        window.MathJax.typeset([el]);
+      } else if (window.katex) {
+        // KaTeX Render
+        var mathElements = el.getElementsByClassName("math");
+        var macros = [];
+        for (var i = 0; i < mathElements.length; i++) {
+          var texText = mathElements[i].firstChild;
+          if (mathElements[i].tagName == "SPAN") {
+            window.katex.render(texText.data, mathElements[i], {
+              displayMode: mathElements[i].classList.contains('display'),
+              throwOnError: false,
+              macros: macros,
+              fleqn: false
+            });
+          }
+        }
+      }
+    }
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        for (let i = 0; i < 2; i++) {
+          container.appendChild(note.children[i].cloneNode(true));
+        }
+        typesetMath(container);
+        return container.innerHTML
+      } else {
+        typesetMath(note);
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      typesetMath(note);
+      return note.innerHTML;
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -1,0 +1,22 @@
+# #!/bin/bash
+
+# if [[ "$#" -eq 0 ]]
+# then
+#   echo "You need to specify the release tag!"
+#   echo "Should be of the form v#.#.#."
+#   exit
+# fi
+
+# TAG="$1"
+# FN="cvcrossmanova-$TAG.zip"
+
+# # create tag
+# # git tag "$TAG"
+# # git push --tags
+
+# # create release file
+# cd toolbox
+# zip -qr ../dist/$FN .
+
+# echo "On GitHub, prepare a release from the tag $1,"
+# echo "and attach the release file $FN from dist/."

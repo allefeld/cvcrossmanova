@@ -1,0 +1,12 @@
+[
+  {
+    "listing": "/tutorial-fmri-spm/index.html",
+    "items": [
+      "/tutorial-fmri-spm/preparation.html",
+      "/tutorial-fmri-spm/model.html",
+      "/tutorial-fmri-spm/cvmanova.html",
+      "/tutorial-fmri-spm/pairwise.html",
+      "/tutorial-fmri-spm/cvcrossmanova.html"
+    ]
+  }
+]
