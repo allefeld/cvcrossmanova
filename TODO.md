@@ -17,9 +17,14 @@
 -   Two tutorials:
     -   High-level using SPM and searchlight and region functions,
         applied to Haxby data
-    -   Low-level using class directly, using what data? EEG would be nice.
-        see "/home/ca/Store/netgrab/ERP CORE P3 1.zip"
-
+    -   Low-level using class directly, using ERP CORE.
+        
 -   use dedicated tests instead of `asserts` within the tutorial
 
 -   Do we need an option to omit high-pass filtering & whitening?
+
+-   pre-render script transforms `qmd` to `m` with
+    `jupytext file.qmd --to m`
+    can we attach these to the pages?
+
+-   use `websave` instead of `urlwrite`

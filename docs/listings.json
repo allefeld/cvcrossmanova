@@ -8,5 +8,13 @@
       "/tutorial-fmri-spm/pairwise.html",
       "/tutorial-fmri-spm/cvcrossmanova.html"
     ]
+  },
+  {
+    "listing": "/index.html",
+    "items": [
+      "/installation.html",
+      "/tutorial-fmri-spm/index.html",
+      "/reference.html"
+    ]
   }
 ]

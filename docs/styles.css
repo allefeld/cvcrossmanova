@@ -54,9 +54,14 @@ body.nav-sidebar #title-block-header {
     margin-block-end: 1rem;
 }
 
-/* simplified posts in example/index */
+/* simplified posts */
+div.quarto-post .body p:first-child,
 div.quarto-post .metadata {
   display: none !important;
+}
+/* no bottom border for posts */
+div.quarto-post {
+  border-bottom: none;
 }
 
 /* formatting of stdout and stderr */

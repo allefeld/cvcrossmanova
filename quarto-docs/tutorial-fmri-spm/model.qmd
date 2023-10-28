@@ -7,11 +7,13 @@ order: 12
 
 
 {{< include ../_setup_figure.qmd >}}
+
 ```{matlab}
 %| echo: false
 setappdata(0, 'MKernel_plot_format', 'png')
 setappdata(0, 'MKernel_plot_resolution', 212)
-% an SVG created from SPM's window contains a bitmap anyway
+% Only plot is SPM's Graphics window, and an SVG created from that
+% contains a bitmap anyway.
 ```
 
 

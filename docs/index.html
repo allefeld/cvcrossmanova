@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox - MVPA by Cross-Validated (Cross-) MANOVA</title>
+<title>CvCrossManova Toolbox</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,6 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-listing/list.min.js"></script>
+<script src="site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -65,7 +67,38 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script>
 
+  window.document.addEventListener("DOMContentLoaded", function (_event) {
+    const listingTargetEl = window.document.querySelector('#listing-subsections .list');
+    if (!listingTargetEl) {
+      // No listing discovered, do not attach.
+      return; 
+    }
+
+    const options = {
+      valueNames: ['listing-title','listing-subtitle',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      
+      searchColumns: ["listing-date","listing-title","listing-author","listing-subtitle","listing-image","listing-description"],
+    };
+
+    window['quarto-listings'] = window['quarto-listings'] || {};
+    window['quarto-listings']['listing-subsections'] = new List('listing-subsections', options);
+
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  });
+
+  window.addEventListener('hashchange',() => {
+    if (window['quarto-listing-loaded']) {
+      window['quarto-listing-loaded']();
+    }
+  })
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -106,10 +139,16 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./installation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Installation</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./tutorial-fmri-spm/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial</span></a>
+ <span class="menu-text">Tutorial: fMRI with SPM</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -166,7 +205,8 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">MVPA by Cross-Validated (Cross-) MANOVA</h1>
+<h1 class="title">CvCrossManova Toolbox</h1>
+<p class="subtitle lead">MVPA by Cross-Validated (Cross-) MANOVA</p>
 </div>
 
 
@@ -190,9 +230,65 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>This project is under development and not yet usable.</p>
+<div id="listing-subsections" class="quarto-listing quarto-listing-container-default">
+<div class="list quarto-listing-default">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1698219843000" data-listing-file-modified-sort="1698219843611" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="body">
+<p><a href="./installation.html"></a></p><a href="./installation.html">
+<h3 class="no-anchor listing-title">
+Installation
+</h3>
+<div class="listing-subtitle">
+How to download and install the toolbox and its dependencies
+</div>
+</a>
+</div>
+<div class="metadata">
+<p><a href="./installation.html"></a></p><a href="./installation.html">
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1698221445000" data-listing-file-modified-sort="1698221445233" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="2" data-listing-word-count-sort="228">
+<div class="body">
+<p><a href="./tutorial-fmri-spm/index.html"></a></p><a href="./tutorial-fmri-spm/index.html">
+<h3 class="no-anchor listing-title">
+Tutorial: fMRI with SPM
+</h3>
+<div class="listing-subtitle">
+Example analysis of data of Haxby et al.&nbsp;(2001)
+</div>
+</a>
+</div>
+<div class="metadata">
+<p><a href="./tutorial-fmri-spm/index.html"></a></p><a href="./tutorial-fmri-spm/index.html">
+</a>
+</div>
+</div>
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1697579391000" data-listing-file-modified-sort="1697579391670" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="35">
+<div class="body">
+<p><a href="./reference.html"></a></p><a href="./reference.html">
+<h3 class="no-anchor listing-title">
+Reference documentation
+</h3>
+<div class="listing-subtitle">
+Detailed information about toolbox functions and classes
+</div>
+</a>
+</div>
+<div class="metadata">
+<p><a href="./reference.html"></a></p><a href="./reference.html">
+</a>
+</div>
+</div>
+</div>
+<div class="listing-no-matching d-none">
+No matching items
+</div>
+</div>
 <p>This software is copyrighted © 2023 by <a href="https://allefeld.github.io/">Carsten Allefeld</a> and released under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a> or later. <a href="https://remi-gau.github.io/">Remi Gau</a>, <a href="https://www.timbuschman.com/LabMembers/Polina-Iamshchinina">Polina Iamshchinina</a>, and <a href="https://discolab.eu/team/thomas-christophel/">Thomas Christophel</a> contributed to the code.</p>
-<p>It has been developed with Matlab R2023a (v9.14) and SPM12 r7771, but should work with later and slightly earlier versions.</p>
+<p>It has been developed with <a href="https://uk.mathworks.com/products/matlab.html">Matlab</a> R2023a (v9.14) and <a href="https://www.fil.ion.ucl.ac.uk/spm/software/spm12/">SPM12</a> r7771, but should work with later and slightly earlier versions.</p>
 <p>The software does not depend on other toolboxes, except <code>cvCrossManovaRegion</code> and <code>cvCrossManovaSearchlight</code> which depend on SPM12 being installed.</p>
+
 
 
 

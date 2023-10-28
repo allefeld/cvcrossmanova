@@ -4,6 +4,7 @@ project:
 # If this is present, other files need to be listed to be rendered.
   render:
     - index.md
+    - installation.md
     - tutorial-fmri-spm/index.md
     - tutorial-fmri-spm/preparation.qmd
     - tutorial-fmri-spm/model.qmd
@@ -43,3 +44,4 @@ format:
 date: last-modified
 date-format: YYYY–M–D
 published-title: "last modified"
+csl: https://www.zotero.org/styles/apa

@@ -6,13 +6,14 @@ order: 11
 ---
 
 
+{{< include ../_setup_figure.qmd >}}
+
+
 ```{matlab}
 % select subject
 sub = 'subj1';
 ```
 
-
-{{< include ../_setup_figure.qmd >}}
 
 ```{matlab}
 %| echo: false
@@ -190,10 +191,10 @@ spm_jobman('run', matlabbatch)
 ## Save information
 
 ```{matlab}
-fnInfo = fullfile(sub, 'info.mat');
-save(fnInfo, 'regions', 'TR', 'nSessions', 'nVolsPerSession', ...
-    'conditions', 'nConds', 'onsets', 'durations', 'colors')
+save(fullfile(sub, 'info.mat'), 'regions', 'TR', 'nSessions', ...
+    'nVolsPerSession', 'conditions', 'nConds', 'onsets', 'durations', 'colors')
 ```
+
 
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->

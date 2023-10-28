@@ -113,7 +113,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/preparation.html">Preparation</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial: fMRI with SPM</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/preparation.html">Preparation</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -138,10 +138,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../installation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Installation</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="../tutorial-fmri-spm/index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Tutorial</span></a>
+ <span class="menu-text">Tutorial: fMRI with SPM</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -205,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/preparation.html">Preparation</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial: fMRI with SPM</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/preparation.html">Preparation</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Preparation</h1>
 <p class="subtitle lead">Data are downloaded, preprocessed, and design information extracted</p>
@@ -219,7 +225,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–23</p>
+      <p class="date">2023–10–28</p>
     </div>
   </div>
   
@@ -231,16 +237,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="cb3f8311" class="cell" data-execution_count="1">
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->
+<div id="dff7cb26" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<!-- Copyright © 2023 Carsten Allefeld
-SPDX-License-Identifier: GPL-3.0-or-later -->
 <section id="download-and-unpack-data" class="level2">
 <h2 class="anchored" data-anchor-id="download-and-unpack-data">Download and unpack data</h2>
 <p>The data for the subject are downloaded from <a href="http://dev.pymvpa.org/datadb/haxby2001.html">PyMVPA</a> as a <code>.tar.gz</code> archive, and the archive is unpacked.</p>
-<div id="002307f6" class="cell" data-execution_count="4">
+<div id="b153a9fd" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">fn</span> <span class="op">=</span> [<span class="va">sub</span> <span class="ss">'-2010.01.14.tar.gz'</span>]<span class="op">;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">url</span> <span class="op">=</span> [<span class="ss">'http://data.pymvpa.org/datasets/haxby2001/'</span> <span class="va">fn</span>]<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">urlwrite</span>(<span class="va">url</span><span class="op">,</span> <span class="va">fn</span>)<span class="op">;</span></span>
@@ -248,7 +254,7 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">delete</span>(<span class="va">fn</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The included NIfTI images are individually gzip-compressed and need to be uncompressed.</p>
-<div id="a53734d7" class="cell" data-execution_count="5">
+<div id="b6abbb54" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">files</span> <span class="op">=</span> <span class="va">dir</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'*.nii.gz'</span>))<span class="op">;</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">files</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'uncompressing %s\n'</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>)</span>
@@ -293,7 +299,7 @@ Caution
 <p>TODO: do they need to be aligned to the anatomical or the mean BOLD image?</p>
 </div>
 </div>
-<div id="8ec60939" class="cell" data-execution_count="6">
+<div id="2e093902" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'bold.nii'</span>)<span class="op">;</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">regions</span> <span class="op">=</span> {<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask4_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_face_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
@@ -303,7 +309,7 @@ Caution
 <section id="obtain-experimental-design-information" class="level2">
 <h2 class="anchored" data-anchor-id="obtain-experimental-design-information">Obtain experimental design information</h2>
 <p>The BOLD data are contained in a single 4-dimensional NIfTI file.</p>
-<div id="55f81afe" class="cell" data-execution_count="7">
+<div id="feaf7a54" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="va">nifti</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">size</span>(<span class="va">N</span>.<span class="va">dat</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">diag</span>(<span class="va">N</span>.<span class="va">mat</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">,</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>))<span class="op">'</span></span>
@@ -324,7 +330,7 @@ TR =
 </blockquote>
 <p>Each of the 12 sessions therefore had a duration of (12 + 24) × 8 + 12 = 300&nbsp;s, corresponding to 120 TRs (121 scans).</p>
 <p>Information about the onsets and durations of stimuli in this subject are contained in a file <code>labels.txt</code>.</p>
-<div id="b8d35c99" class="cell" data-execution_count="8">
+<div id="39f25954" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">labels</span> <span class="op">=</span> <span class="va">readtable</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'labels.txt'</span>)<span class="op">,</span> <span class="ss">'Delimiter'</span><span class="op">,</span> <span class="ss">' '</span>)<span class="op">;</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">head</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -340,7 +346,7 @@ TR =
     {'scissors'}      0   </code></pre>
 </div>
 </div>
-<div id="df69aa79" class="cell" data-execution_count="9">
+<div id="a29ed36a" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">tail</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       labels       chunks
@@ -356,13 +362,13 @@ TR =
 </div>
 </div>
 <p>It has 1452 rows, corresponding to the scans of the BOLD data. The format is not documented, but it appears that the column <code>labels</code> contains the experimental condition (stimulus type), and the column <code>chunk</code> distinguishes the 12 sessions by an index from 0 to 11, each with 121 rows. In the order of the paper, the condition names are</p>
-<div id="834cb702" class="cell" data-execution_count="10">
+<div id="ae5c3292" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">conditions</span> <span class="op">=</span> [<span class="st">"face"</span><span class="op">,</span> <span class="st">"house"</span><span class="op">,</span> <span class="st">"cat"</span><span class="op">,</span> <span class="st">"bottle"</span><span class="op">,</span> <span class="op">...</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span><span class="op">,</span> <span class="st">"shoe"</span><span class="op">,</span> <span class="st">"chair"</span><span class="op">,</span> <span class="st">"scrambledpix"</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>plus <code>"rest"</code> for the rest intervals.</p>
 <p>Stimulus blocks comprise 9 rows with rest intervals of 5 or 6 rows, which does not exactly correspond to the description above because the stimulus presentation length is incompatible with the TR. We therefore use these data only to extract the condition index for each block, but recreate more precise stimulus timing information.</p>
-<div id="fc79a574" class="cell" data-execution_count="11">
+<div id="9a542aba" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">nSessions</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">nConds</span> <span class="op">=</span> <span class="va">numel</span>(<span class="va">conditions</span>)<span class="op">;</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="va">onsets</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
@@ -386,7 +392,7 @@ TR =
 <span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="va">nVolsPerSession</span> <span class="op">=</span> <span class="va">height</span>(<span class="va">labels</span>) <span class="op">/</span> <span class="va">nSessions</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Visualization of stimulus onsets in each session:</p>
-<div id="2ce9712d" class="cell" data-execution_count="12">
+<div id="01a1d3eb" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span><span class="op">;</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">400</span>]<span class="op">;</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">colors</span> <span class="op">=</span> [<span class="st">"#000000"</span><span class="op">,</span> <span class="st">"#ff9b00"</span><span class="op">,</span> <span class="st">"#a6ee00"</span><span class="op">,</span> <span class="st">"#00eea6"</span><span class="op">,</span> <span class="op">...</span></span>
@@ -421,7 +427,7 @@ TR =
 </section>
 <section id="realign-bold-data" class="level2">
 <h2 class="anchored" data-anchor-id="realign-bold-data">Realign BOLD data</h2>
-<div id="a7b97770" class="cell" data-execution_count="13">
+<div id="71483acc" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'rbold.nii'</span>)<span class="op">;</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
@@ -449,11 +455,11 @@ TR =
 
 
 ------------------------------------------------------------------------
-25-Oct-2023 03:09:27 - Running job #1
+28-Oct-2023 19:37:53 - Running job #1
 ------------------------------------------------------------------------
-25-Oct-2023 03:09:27 - Running 'Realign: Estimate &amp; Reslice'
+28-Oct-2023 19:37:53 - Running 'Realign: Estimate &amp; Reslice'
 
-SPM12: spm_realign (v7141)                         03:09:27 - 25/10/2023
+SPM12: spm_realign (v7141)                         19:37:53 - 28/10/2023
 ========================================================================
 Warning: PostScript format 'psc2' will not be supported in a future release.
 &gt; In inputcheck
@@ -468,14 +474,14 @@ In cfg_util (line 972)
 In spm_jobman&gt;fill_run_job (line 469)
 In spm_jobman (line 247)
 Printing 'Graphics' figure to:
-  /home/ca/work/Projects/CvCrossManova/cvcrossmanova/quarto-docs/tutorial-fmri-spm/spm_2023Oct25.ps
-Completed                               :          03:15:09 - 25/10/2023
+  /home/ca/work/Projects/CvCrossManova/cvcrossmanova/quarto-docs/tutorial-fmri-spm/spm_2023Oct28.ps
+Completed                               :          19:42:36 - 28/10/2023
 
-SPM12: spm_reslice (v7141)                         03:15:09 - 25/10/2023
+SPM12: spm_reslice (v7141)                         19:42:36 - 28/10/2023
 ========================================================================
-Completed                               :          03:17:07 - 25/10/2023
-25-Oct-2023 03:17:08 - Done    'Realign: Estimate &amp; Reslice'
-25-Oct-2023 03:17:08 - Done
+Completed                               :          19:44:37 - 28/10/2023
+28-Oct-2023 19:44:37 - Done    'Realign: Estimate &amp; Reslice'
+28-Oct-2023 19:44:37 - Done
 </code></pre>
 </div>
 <div class="cell-output cell-output-display">
@@ -491,10 +497,9 @@ Completed                               :          03:17:07 - 25/10/2023
 </section>
 <section id="save-information" class="level2">
 <h2 class="anchored" data-anchor-id="save-information">Save information</h2>
-<div id="a47e0c45" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnInfo</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>)<span class="op">;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">save</span>(<span class="va">fnInfo</span><span class="op">,</span> <span class="ss">'regions'</span><span class="op">,</span> <span class="ss">'TR'</span><span class="op">,</span> <span class="ss">'nSessions'</span><span class="op">,</span> <span class="ss">'nVolsPerSession'</span><span class="op">,</span> <span class="op">...</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'conditions'</span><span class="op">,</span> <span class="ss">'nConds'</span><span class="op">,</span> <span class="ss">'onsets'</span><span class="op">,</span> <span class="ss">'durations'</span><span class="op">,</span> <span class="ss">'colors'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6ef6f61a" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">save</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>)<span class="op">,</span> <span class="ss">'regions'</span><span class="op">,</span> <span class="ss">'TR'</span><span class="op">,</span> <span class="ss">'nSessions'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'nVolsPerSession'</span><span class="op">,</span> <span class="ss">'conditions'</span><span class="op">,</span> <span class="ss">'nConds'</span><span class="op">,</span> <span class="ss">'onsets'</span><span class="op">,</span> <span class="ss">'durations'</span><span class="op">,</span> <span class="ss">'colors'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->

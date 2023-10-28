@@ -106,3 +106,7 @@ ylabel("mean pattern distinctness")
 ```
 
 The ranking is similar though not identical. Note that the results cannot be completely equivalent since our analysis is based on one subject, while the mean accuracy is additionally averaged across subjects.
+
+
+<!-- Copyright © 2023 Carsten Allefeld
+SPDX-License-Identifier: GPL-3.0-or-later -->
