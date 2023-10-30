@@ -6,7 +6,12 @@ order: 13
 ---
 
 
-{{< include ../_setup_figure.qmd >}}
+```{matlab}
+%| echo: false
+clear
+run ../setPlotFonts
+setappdata(0, 'MKernel_plot_format', 'svg')
+```
 
 
 ```{matlab}
@@ -23,7 +28,7 @@ modelDir = fullfile(sub, 'model');
 
 We are looking at two effects:
 
-1) the 'effect of stimulus', i.e. quantifying how much patterns associated with the eight different stimuli differ from each other and
+1) the 'effect of category', i.e. quantifying how much patterns associated with the eight different stimulus categories differ from each other and
 2) the 'effect of category within inanimate object', i.e. quantifying how much patterns associated with 'bottle', 'scissors', 'shoe', and 'chair' differ from each other.
 
 The corresponding contrasts consist of 7 and 3 subcontrasts (columns), respectively, each of which targets the difference between two conditions.
@@ -151,7 +156,7 @@ Based on this, we can calculate a *p*-value for the null hypothesis 'no effect o
 for i = 1 : numel(regions)
     D = Ds{2, i};
     pval = mean(D >= D(1));
-    fprintf('%-25s  D = %g, p = %g\n', regions{i}, D(1), pval)
+    fprintf('%-25s  D = %.4f  p = %g\n', regions{i}, D(1), pval)
 end
 ```
 
@@ -170,7 +175,7 @@ The output first reports on loading the data and then displays the created `CvCr
 
 ```{matlab}
 slRadius = 3;
-cvCrossManovaSearchlight(modelDir, slRadius, analyses)
+cvCrossManovaSearchlight(modelDir, slRadius, analyses)  % FIXME
 ```
 
 Results are written to files in the model directory. `ccmsParameters.mat` is a record of the analysis parameters and `VPSL.nii` is an image file where each voxel contains the number of voxels of the searchlight centered on it.
@@ -185,27 +190,50 @@ We visualize sagittal slices of `spmD_A0001_P0001.nii`, i.e. the actual pattern 
 
 ```{matlab}
 % load data
-D = spm_read_vols(spm_vol(fullfile(modelDir, 'spmD_A0001_P0001.nii')));
+[D, XYZ] = spm_read_vols(spm_vol(fullfile(modelDir, 'spmD_A0001_P0001.nii')));
 % plot data
 fig = figure();
 % color map: parula, but black for NaN
 cm = parula();
 cm(1, :) = 0;
 colormap(cm)
-% color limits: rounded to 0.01 away from data range
+% color limits from data
 cl = [min(D(:)), max(D(:))];
-cl = ceil(cl .* [-1, 1] * 100) .* [-1, 1] / 100;
 % sagittal slices
 fig.Position(3:4) = [750, 1200];
 tiledlayout(8, 5, Padding="tight", TileSpacing="tight")
-for i = 1 : size(D, 1)
+for i = 3 : 39
     nexttile
     slice = squeeze(D(i, :, :)) .'; 
     imagesc(slice)
     clim(cl)
     axis off image xy
 end
+cb = colorbar(Location='layout');
+cb.Layout.Tile = 40;
+cb.Label.String = 'D̂';
+cb.TickDirection = 'out';
 ```
+
+The largest values of *D* seem to be attained bilaterally in ventral temporal cortex, presumably the fusiform gyrus. Constrained (approximately) to the right and left hemispheres, the maximal values are:
+
+```{matlab}
+x = reshape(XYZ(1, :), size(D));
+Dright = D .* (x > 0);
+maxDright = max(Dright(:))
+x = reshape(XYZ(1, :), size(D));
+Dleft = D .* (x < 0);
+maxDleft = max(Dleft(:))
+```
+
+
+## Interpretation of pattern distinctness
+
+The method of Cross-validated MANOVA estimates pattern distinctness *D*, which is defined as the amount of multivariate variance of the data explained by the effect encoded in the contrast, in units of the multivariate error variance. As such, *D* is a number larger or equal to zero, but without upper limit.
+
+In the region-of-interest analyses above, we found a maximum value of *D* = 5.3228 for analysis 1 in region 1. This value is quite large, but it has to be interpreted relative to the contrast, which targeted the very broad 'effect of category' for both visually and semantically very different categories. Moreover, *D* accumulates across voxels (not exactly additively, but depending on the error correlation between voxels), and it is therefore larger for larger sets of voxels. In this case, region 1 ('all ventral temporal object-selective cortex') included 572 voxels. By comparison, the same analysis resulted in *D* = 0.36733 in the region 2 ('region maximally responsive to faces'), which at 21 voxels is much smaller, and the searchlight of 123 voxels resulted in a maximum *D* of 2.1622.
+
+Given that *D* is nonnegative, it may be surprising that the color bar for the slices from the searchlight analysis starts below zero, and indeed for analysis 1 *D* attained values from −0.1357 to 2.1622. The explanation is that the method can only provide a statistical estimate of *D*, more precisely denoted *D̂*. The estimator is designed to be unbiased, which means the estimates can be both larger and smaller than the actual value, and therefore an estimate can be negative if the actual value is close to zero. Such values should be disregarded since they can never be significantly different from zero.
 
 
 <!-- Copyright © 2023 Carsten Allefeld

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox - Cross-validated Cross-MANOVA</title>
+<title>CvCrossManova Toolbox - Preparation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -64,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../tutorial-other/index.html" rel="next">
-<link href="../tutorial-fmri-spm/pairwise.html" rel="prev">
+<link href="../reference.html" rel="next">
+<link href="../tutorial-other/index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -115,7 +115,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial: fMRI with SPM</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/cvcrossmanova.html">Cross-validated Cross-MANOVA</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-other/index.html">Tutorial: Other data</a></li><li class="breadcrumb-item"><a href="../tutorial-other/preparation.html">Preparation</a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -181,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorial-fmri-spm/cvcrossmanova.html" class="sidebar-item-text sidebar-link active">
+  <a href="../tutorial-fmri-spm/cvcrossmanova.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Cross-validated Cross-MANOVA</span></a>
   </div>
 </li>
@@ -198,7 +198,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../tutorial-other/preparation.html" class="sidebar-item-text sidebar-link">
+  <a href="../tutorial-other/preparation.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Preparation</span></a>
   </div>
 </li>
@@ -216,15 +216,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
+    <h2 id="toc-title">Preparation</h2>
+   
+  <ul>
+  <li><a href="#download-and-load-data" id="toc-download-and-load-data" class="nav-link active" data-scroll-target="#download-and-load-data">Download and load data</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial: fMRI with SPM</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/cvcrossmanova.html">Cross-validated Cross-MANOVA</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-other/index.html">Tutorial: Other data</a></li><li class="breadcrumb-item"><a href="../tutorial-other/preparation.html">Preparation</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Cross-validated Cross-MANOVA</h1>
-<p class="subtitle lead">Pattern stability is computed in regions of interest and via searchlight</p>
+<h1 class="title">Preparation</h1>
+<p class="subtitle lead">Data are downloaded and design information extracted</p>
 </div>
 
 
@@ -235,7 +241,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–29</p>
+      <p class="date">2023–10–28</p>
     </div>
   </div>
   
@@ -247,21 +253,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="ba7ffaa4" class="cell" data-execution_count="2">
+<section id="download-and-load-data" class="level2">
+<h2 class="anchored" data-anchor-id="download-and-load-data">Download and load data</h2>
+<div id="20bd6f22" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">% directory with estimated model</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'model'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% start from scratch</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>[<span class="op">~</span>] <span class="op">=</span> <span class="va">rmdir</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'s'</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">% URL for `1_P3_shifted_ds_reref_ucbip_hpfilt_ica_corr_cbip_elist_bins_epoch.set`</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">setURL</span> <span class="op">=</span> <span class="ss">'https://osf.io/download/d8yv4/'</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">% URL for `1_P3_shifted_ds_reref_ucbip_hpfilt_ica_corr_cbip_elist_bins_epoch.fdt`</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="va">fdtURL</span> <span class="op">=</span> <span class="ss">'https://osf.io/download/h4dtr/'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<blockquote class="blockquote">
-<p>8 contrasts between animate (“face”, “cat”) and inanimate objects (“bottle”, “scissors”, “shoe”, “chair”). Cross-MANOVA for all pairs of contrasts.</p>
-</blockquote>
-<!-- Copyright © 2023 Carsten Allefeld
-SPDX-License-Identifier: GPL-3.0-or-later -->
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -656,13 +662,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../tutorial-fmri-spm/pairwise.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Pairwise Cross-validated MANOVA</span>
+      <a href="../tutorial-other/index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial: Other data</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../tutorial-other/index.html" class="pagination-link">
-        <span class="nav-page-text">Tutorial: Other data</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../reference.html" class="pagination-link">
+        <span class="nav-page-text">API Reference documentation</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -6,7 +6,12 @@ order: 15
 ---
 
 
-{{< include ../_setup_figure.qmd >}}
+```{matlab}
+%| echo: false
+clear
+run ../setPlotFonts
+setappdata(0, 'MKernel_plot_format', 'svg')
+```
 
 
 ```{matlab}
@@ -17,6 +22,9 @@ load(fullfile(sub, 'info.mat'))
 % directory with estimated model
 modelDir = fullfile(sub, 'model');
 ```
+
+>   8 contrasts between animate ("face", "cat") and inanimate objects ("bottle", "scissors", "shoe", "chair"). Cross-MANOVA for all pairs of contrasts.
+
 
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->

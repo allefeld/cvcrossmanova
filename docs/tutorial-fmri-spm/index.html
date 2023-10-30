@@ -50,6 +50,8 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../tutorial-fmri-spm/preparation.html" rel="next">
+<link href="../installation.html" rel="prev">
 <script src="../site_libs/quarto-listing/list.min.js"></script>
 <script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -204,10 +206,27 @@ div.csl-indent {
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../tutorial-other/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial: Other data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-other/preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reference documentation</span></a>
+ <span class="menu-text">API Reference documentation</span></a>
   </div>
 </li>
     </ul>
@@ -235,7 +254,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–25</p>
+      <p class="date">2023–10–28</p>
     </div>
   </div>
   
@@ -247,10 +266,22 @@ div.csl-indent {
 </header>
 
 
-<p>As an example for how to use the toolbox, here we apply Cross-validated MANOVA as well as Cross-validated Cross-MANOVA to the data of subject&nbsp;1 from <span class="citation" data-cites="haxby2001">Haxby et al. (<a href="#ref-haxby2001" role="doc-biblioref">2001</a>)</span>.</p>
+<p>As an example for how to use the toolbox to analyze fMRI data, here we apply Cross-validated MANOVA as well as Cross-validated Cross-MANOVA to the data of subject&nbsp;1 from <span class="citation" data-cites="haxby2001">Haxby et al. (<a href="#ref-haxby2001" role="doc-biblioref">2001</a>)</span>.</p>
 <div class="no-row-height column-margin column-container"><div id="ref-haxby2001" class="csl-entry" role="listitem">
-Haxby, J. V., Gobbini, M. &nbsp;Ida., Furey, M. L., Ishai, A., Schouten, J. L., &amp; Pietrini, P. (2001). Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex. <em>Science</em>, <em>293</em>, 2425–2430. <a href="https://doi.org/10.1126/science.1063736">https://doi.org/10.1126/science.1063736</a>
-</div></div><p>The analysis is broken down into several steps in the following subpages:</p>
+Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., &amp; Pietrini, P. (2001). Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex. <em>Science</em>, <em>293</em>, 2425–2430. <a href="https://doi.org/10.1126/science.1063736">https://doi.org/10.1126/science.1063736</a>
+</div></div><p>The details of the experiment and analysis are presented in footnotes. From Footnote 18:</p>
+<blockquote class="blockquote">
+<p>Stimuli were gray-scale images of faces, houses, cats, bottles, scissors, shoes, chairs, and nonsense patterns. The categories were chosen so that all stimuli from a given category would have the same base level name. […]<br>
+Twelve time series were obtained in each subject. Each time series began and ended with 12 s of rest and contained eight stimulus blocks of 24-s duration, one for each category, separated by 12-s intervals of rest. Stimuli were presented for 500 ms with an interstimulus interval of 1500 ms. […]<br>
+To determine the patterns of response to each category on even-numbered and odd-numbered runs, we used a 16-regressor model—eight regressors to model the response to each category relative to rest on even runs and eight regressors to model the response to each category on odd runs with no regressor that contrasted all stimulus blocks to rest.</p>
+</blockquote>
+<p>From Footnote 19:</p>
+<blockquote class="blockquote">
+<p>Analysis of the accuracy with which the category being viewed could be identified focused on comparisons between patterns of response for pairs of categories […]<br>
+If the within-category correlation (for example, response to category A on even and odd runs) was larger than the between-category correlation (correlation of the response to category A on even runs with the response to category B on odd runs), that comparison was counted as a correct identiﬁcation.</p>
+</blockquote>
+<p>The main result of the paper is the identification accuracy for each category, determined in a several different regions of interest and presented in Table&nbsp;1.</p>
+<p>Our analysis is broken down into several steps in the following subpages:</p>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
 
@@ -260,7 +291,7 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1698516672000" data-listing-file-modified-sort="1698516672573" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="859">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1698536457000" data-listing-file-modified-sort="1698536457909" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="879">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/preparation.html"></a></p><a href="../tutorial-fmri-spm/preparation.html">
 <h3 class="no-anchor listing-title">
@@ -276,7 +307,7 @@ Data are downloaded, preprocessed, and design information extracted
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1698516210000" data-listing-file-modified-sort="1698516210565" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="833">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1698527447000" data-listing-file-modified-sort="1698527447423" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="785">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/model.html"></a></p><a href="../tutorial-fmri-spm/model.html">
 <h3 class="no-anchor listing-title">
@@ -292,7 +323,7 @@ A model for the data is set up and estimated in SPM
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1698101382000" data-listing-file-modified-sort="1698101382329" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1398">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1698634422000" data-listing-file-modified-sort="1698634422158" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1728">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/cvmanova.html"></a></p><a href="../tutorial-fmri-spm/cvmanova.html">
 <h3 class="no-anchor listing-title">
@@ -308,7 +339,7 @@ Pattern distinctness is computed in regions of interest and via searchlight
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1698516303000" data-listing-file-modified-sort="1698516303059" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="472">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1698634446000" data-listing-file-modified-sort="1698634446197" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="468">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/pairwise.html"></a></p><a href="../tutorial-fmri-spm/pairwise.html">
 <h3 class="no-anchor listing-title">
@@ -324,7 +355,7 @@ Pattern distinctness is computed in a way approximating the original analysis
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1698195328000" data-listing-file-modified-sort="1698195328589" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="25">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1698611617000" data-listing-file-modified-sort="1698611617676" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="48">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/cvcrossmanova.html"></a></p><a href="../tutorial-fmri-spm/cvcrossmanova.html">
 <h3 class="no-anchor listing-title">
@@ -735,6 +766,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../installation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Installation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../tutorial-fmri-spm/preparation.html" class="pagination-link">
+        <span class="nav-page-text">Preparation</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

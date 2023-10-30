@@ -1,0 +1,67 @@
+---
+references:
+- id: allefeld2014
+  author:
+    - family: Allefeld
+      given: Carsten
+    - family: Haynes
+      given: John-Dylan
+  container-title: NeuroImage
+  DOI: 10.1016/j.neuroimage.2013.11.043
+  issued:
+    - year: 2014
+      month: 4
+  page: 345-357
+  title: >-
+    Searchlight-based multi-voxel pattern analysis of fMRI by cross-validated
+    MANOVA
+  type: article-journal
+  volume: '89'
+
+- id: haxby2001
+  author:
+    - family: Haxby
+      given: James V.
+    - family: Gobbini
+      given: M. Ida
+    - family: Furey
+      given: Maura L.
+    - family: Ishai
+      given: Alumit
+    - family: Schouten
+      given: Jennifer L.
+    - family: Pietrini
+      given: Pietro
+  container-title: Science
+  DOI: 10.1126/science.1063736
+  issued:
+    - year: 2001
+      month: 9
+      day: 28
+  page: 2425-2430
+  title: Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex
+  type: article-journal
+  volume: '293'
+
+- id: kappenman2021
+  author:
+    - family: Kappenman
+      given: Emily S.
+    - family: Farrens
+      given: Jaclyn L.
+    - family: Zhang
+      given: Wendy
+    - family: Stewart
+      given: Andrew X.
+    - family: Luck
+      given: Steven J.
+  container-title: NeuroImage
+  DOI: 10.1016/j.neuroimage.2020.117465
+  issued:
+    - year: 2021
+      month: 1
+  page: '117465'
+  title: 'ERP CORE: An open resource for human event-related potential research'
+  type: article-journal
+  volume: '225'
+...

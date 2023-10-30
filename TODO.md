@@ -11,7 +11,8 @@
 -   Rename class `CvCrossManova` / clarify class `Analysis`
     use namespace / package?
 
--   MATLAB Testing Framework
+-   use dedicated tests instead of `asserts` within the tutorial
+    see MATLAB Testing Framework
     https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html
 
 -   Two tutorials:
@@ -19,12 +20,14 @@
         applied to Haxby data
     -   Low-level using class directly, using ERP CORE.
         
--   use dedicated tests instead of `asserts` within the tutorial
-
 -   Do we need an option to omit high-pass filtering & whitening?
 
 -   pre-render script transforms `qmd` to `m` with
     `jupytext file.qmd --to m`
     can we attach these to the pages?
 
--   use `websave` instead of `urlwrite`
+-   integrate documentation of cvmanova,
+    especially explanation negative D-values
+
+-   integrate new repository with old one?
+    making cvcrossmanova an evolution of cvmanova

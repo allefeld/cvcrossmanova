@@ -3,10 +3,16 @@ title: Pairwise Cross-validated MANOVA
 subtitle: Pattern distinctness is computed in a way approximating the original analysis
 jupyter: mkernel
 order: 14
+format-links: [m]
 ---
 
 
-{{< include ../_setup_figure.qmd >}}
+```{matlab}
+%| echo: false
+clear
+run ../setPlotFonts
+setappdata(0, 'MKernel_plot_format', 'svg')
+```
 
 
 ```{matlab}
@@ -21,7 +27,7 @@ modelDir = fullfile(sub, 'model');
 
 ## Define contrasts and analyses
 
-Haxby et al. used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively (see Footnote 18 of the [paper](index.html#ref-haxby2001)).
+Haxby et al. used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively.
 
 Cross-validated MANOVA replaces accuracy based on classification by explained multivariate variance based on contrasts. The equivalent of pairwise classification is a contrast with a 1 for one of the two categories, a −1 for the other, and zeros otherwise. We construct these 28 contrasts, and then analyses based on them using two folds, odd → even and even → odd:
 

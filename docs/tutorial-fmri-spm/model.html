@@ -64,6 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../tutorial-fmri-spm/cvmanova.html" rel="next">
+<link href="../tutorial-fmri-spm/preparation.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -185,10 +187,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../tutorial-other/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial: Other data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-other/preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reference documentation</span></a>
+ <span class="menu-text">API Reference documentation</span></a>
   </div>
 </li>
     </ul>
@@ -236,9 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- Copyright © 2023 Carsten Allefeld
-SPDX-License-Identifier: GPL-3.0-or-later -->
-<div id="2cabce5f" class="cell" data-execution_count="3">
+<div id="7adf1633" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
@@ -254,12 +271,8 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 </div>
 <section id="specify-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="specify-the-model">Specify the model</h2>
-<p>From Footnote 18 of the <a href="index.html#ref-haxby2001">paper</a>:</p>
-<blockquote class="blockquote">
-<p>To determine the patterns of response to each category on even-numbered and odd-numbered runs, we used a 16-regressor model—eight regressors to model the response to each category relative to rest on even runs and eight regressors to model the response to each category on odd runs with no regressor that contrasted all stimulus blocks to rest.</p>
-</blockquote>
-<p>We here instead follow the standard approach of SPM, and use session-wise design matrices. Each of them contains eight HRF-convoluted regressors corresponding to the stimulus presentations of the eight conditions, six motion regressors derived from the realignment parameters, and a constant regressor.</p>
-<div id="9a9a8dd7" class="cell" data-execution_count="5">
+<p>Instead of the approach of the paper to use a single design matrix across all sessions, we here follow the standard approach of SPM, and use session-wise design matrices. Each of them contains eight HRF-convoluted regressors corresponding to the stimulus presentations of the eight conditions, six motion regressors derived from the realignment parameters, and a constant regressor.</p>
+<div id="a5598fc9" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% get realignment parameters for motion regressors</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">V</span> <span class="op">=</span> <span class="va">spm_vol</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">mat</span> <span class="op">=</span> <span class="va">cat</span>(<span class="fl">4</span><span class="op">,</span> <span class="va">V</span>.<span class="va">mat</span>)<span class="op">;</span></span>
@@ -321,30 +334,30 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 
 
 ------------------------------------------------------------------------
-28-Oct-2023 19:45:11 - Running job #1
+30-Oct-2023 03:10:15 - Running job #1
 ------------------------------------------------------------------------
-28-Oct-2023 19:45:12 - Running 'fMRI model specification'
+30-Oct-2023 03:10:16 - Running 'fMRI model specification'
 
-SPM12: spm_fMRI_design (v7739)                     19:45:12 - 28/10/2023
+SPM12: spm_fMRI_design (v7739)                     03:10:17 - 30/10/2023
 ========================================================================
 Saving fMRI design                      :               ...SPM.mat saved
 
-SPM12: spm_fmri_spm_ui (v7738)                     19:45:13 - 28/10/2023
+SPM12: spm_fmri_spm_ui (v7738)                     03:10:17 - 30/10/2023
 ========================================================================
 Mapping files                           :                        ...done
 Calculating globals                     :                        ...done
 Saving SPM configuration                :               ...SPM.mat saved
 Saving SPM configuration                :               ...SPM.mat saved
-Completed                               :          19:45:25 - 28/10/2023
-28-Oct-2023 19:45:25 - Done    'fMRI model specification'
-28-Oct-2023 19:45:25 - Done
+Completed                               :          03:10:29 - 30/10/2023
+30-Oct-2023 03:10:29 - Done    'fMRI model specification'
+30-Oct-2023 03:10:29 - Done
 </code></pre>
 </div>
 </div>
 </section>
 <section id="visualize-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="visualize-the-model">Visualize the model</h2>
-<div id="3f27d037" class="cell" data-execution_count="6">
+<div id="5724cdc9" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'SPM.mat'</span>)<span class="op">,</span> <span class="ss">'SPM'</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">filenames</span> <span class="op">=</span> <span class="va">SPM</span>.<span class="va">xY</span>.<span class="va">P</span>(<span class="op">:,</span> <span class="va">numel</span>(<span class="va">pwd</span>) <span class="op">+</span> <span class="fl">2</span> <span class="op">:</span> <span class="kw">end</span>)<span class="op">;</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">filenames</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">cellstr</span>(<span class="va">filenames</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">SPM</span>.<span class="va">xY</span>.<span class="va">VY</span>))<span class="op">;</span></span>
@@ -353,7 +366,7 @@ Completed                               :          19:45:25 - 28/10/2023
 <div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div>
-<img src="model_files/figure-html/cell-7-output-1.png" id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="img-fluid figure-img">
+<img src="model_files/figure-html/cell-6-output-1.png" id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="img-fluid figure-img">
 </div>
 </figure>
 </div>
@@ -362,7 +375,7 @@ Completed                               :          19:45:25 - 28/10/2023
 </section>
 <section id="estimate-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="estimate-the-model">Estimate the model</h2>
-<div id="2a2b5cb2" class="cell" data-execution_count="7">
+<div id="4649bf24" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">% SPM module 'fMRI model estimation'</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span> <span class="op">=</span> <span class="va">struct</span><span class="op">;</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">spmmat</span> <span class="op">=</span> {<span class="va">fnSPM</span>}<span class="op">;</span>          <span class="co">% path to `SPM.mat`</span></span>
@@ -376,14 +389,14 @@ Completed                               :          19:45:25 - 28/10/2023
 <pre><code>
 
 ------------------------------------------------------------------------
-28-Oct-2023 19:45:32 - Running job #1
+30-Oct-2023 03:10:36 - Running job #1
 ------------------------------------------------------------------------
-28-Oct-2023 19:45:32 - Running 'Model estimation'
+30-Oct-2023 03:10:36 - Running 'Model estimation'
 
-SPM12: spm_spm (v7738)                             19:45:33 - 28/10/2023
+SPM12: spm_spm (v7738)                             03:10:37 - 30/10/2023
 ========================================================================
 
-SPM12: spm_est_non_sphericity (v7577)              19:45:35 - 28/10/2023
+SPM12: spm_est_non_sphericity (v7577)              03:10:39 - 30/10/2023
 ========================================================================
 Chunk   2/2                             :                        ...done
 Temporal non-sphericity (27073 voxels)  :             ...ReML estimation
@@ -434,20 +447,20 @@ Temporal non-sphericity (27073 voxels)  :             ...ReML estimation
   ReML Iteration 1                      :        ...7.075062e+00 [+4.25]
   ReML Iteration 2                      :        ...5.880034e-02 [+4.50]
 
-SPM12: spm_spm (v7738)                             19:45:41 - 28/10/2023
+SPM12: spm_spm (v7738)                             03:10:45 - 30/10/2023
 ========================================================================
 Chunk   2/2                             :                        ...done
 Spatial non-sphericity (over scans)     :                        ...done
 Saving SPM.mat                          :                        ...done
-Completed                               :          19:45:52 - 28/10/2023
+Completed                               :          03:10:56 - 30/10/2023
 Done
-28-Oct-2023 19:45:52 - Done    'Model estimation'
-28-Oct-2023 19:45:52 - Done
+30-Oct-2023 03:10:56 - Done    'Model estimation'
+30-Oct-2023 03:10:56 - Done
 </code></pre>
 </div>
 </div>
 <p>Our analyses only need the updates to the <code>SPM.mat</code> file made during estimation, not the parameter estimates themselves. We therefore delete the created <code>beta_####.nii</code> files.</p>
-<div id="a6b25f95" class="cell" data-execution_count="8">
+<div id="70b24470" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fnSPM</span><span class="op">,</span> <span class="ss">'SPM'</span>)<span class="op">;</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">SPM</span>.<span class="va">Vbeta</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">spm_unlink</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">Vbeta</span>(<span class="va">i</span>).<span class="va">fname</span>))</span>
@@ -850,6 +863,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../tutorial-fmri-spm/preparation.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preparation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../tutorial-fmri-spm/cvmanova.html" class="pagination-link">
+        <span class="nav-page-text">Cross-validated MANOVA</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

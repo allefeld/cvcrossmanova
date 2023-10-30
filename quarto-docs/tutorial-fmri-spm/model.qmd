@@ -6,16 +6,15 @@ order: 12
 ---
 
 
-{{< include ../_setup_figure.qmd >}}
-
 ```{matlab}
 %| echo: false
+clear
+run ../setPlotFonts
+% Only plot is SPM's Graphics window, and an SVG created from that contains a
+% bitmap anyway.
 setappdata(0, 'MKernel_plot_format', 'png')
 setappdata(0, 'MKernel_plot_resolution', 212)
-% Only plot is SPM's Graphics window, and an SVG created from that
-% contains a bitmap anyway.
 ```
-
 
 
 ```{matlab}
@@ -42,11 +41,7 @@ fnSPM = fullfile(modelDir, 'SPM.mat');
 
 ## Specify the model
 
-From Footnote 18 of the [paper](index.html#ref-haxby2001):
-
-> To determine the patterns of response to each category on even-numbered and odd-numbered runs, we used a 16-regressor model—eight regressors to model the response to each category relative to rest on even runs and eight regressors to model the response to each category on odd runs with no regressor that contrasted all stimulus blocks to rest.
-
-We here instead follow the standard approach of SPM, and use session-wise design matrices. Each of them contains eight HRF-convoluted regressors corresponding to the stimulus presentations of the eight conditions, six motion regressors derived from the realignment parameters, and a constant regressor.
+Instead of the approach of the paper to use a single design matrix across all sessions, we here follow the standard approach of SPM, and use session-wise design matrices. Each of them contains eight HRF-convoluted regressors corresponding to the stimulus presentations of the eight conditions, six motion regressors derived from the realignment parameters, and a constant regressor.
 
 ```{matlab}
 % get realignment parameters for motion regressors

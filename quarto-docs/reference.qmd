@@ -1,8 +1,8 @@
 ---
-title: Reference documentation
+title: API Reference documentation
 subtitle: Detailed information about toolbox functions and classes
 jupyter: mkernel
-order: 20
+order: 30
 ---
 
 ```{matlab}

@@ -6,32 +6,31 @@ order: 11
 ---
 
 
-{{< include ../_setup_figure.qmd >}}
-
-
-```{matlab}
-% select subject
-sub = 'subj1';
-```
-
-
 ```{matlab}
 %| echo: false
-% start from scratch
-[~] = rmdir(sub, 's');
+clear
+run ../setPlotFonts
+setappdata(0, 'MKernel_plot_format', 'svg')
 ```
 
 
 ## Download and unpack data
+
+```{matlab}
+% select subject
+sub = 'subj1';
+% start from scratch
+[~] = rmdir(sub, 's');  % FIXME
+```
 
 The data for the subject are downloaded from [PyMVPA](http://dev.pymvpa.org/datadb/haxby2001.html) as a `.tar.gz` archive, and the archive is unpacked.
 
 ```{matlab}
 fn = [sub '-2010.01.14.tar.gz'];
 url = ['http://data.pymvpa.org/datasets/haxby2001/' fn];
-urlwrite(url, fn);
-untar(fn)
-delete(fn)
+websave(fn, url);       % FIXME
+untar(fn)               % FIXME
+delete(fn)              % FIXME
 ```
 
 The included NIfTI images are individually gzip-compressed and need to be uncompressed.
@@ -45,16 +44,13 @@ for i = 1 : numel(files)
 end
 ```
 
-The mask images are not documented in detail. Based on the filenames and the in-mask volume, we assume the following correspondence between regions listed in Table 1 of the paper and mask image files:
+The mask images are not documented in detail. Based on the filenames and the in-mask volume, we assume the following correspondence between regions listed in Table 1 of the paper and mask image files:
 
-`mask4_vt.nii`
-:   'all ventral temporal object-selective cortex'
-
-`mask8b_face_vt.nii`
-:   'region maximally responsive to faces'
-
-`mask8b_house_vt.nii`
-:   'region maximally responsive to houses'
+---------------------  ----------------------------------------------
+`mask4_vt.nii`         'all ventral temporal object-selective cortex'
+`mask8b_face_vt.nii`   'region maximally responsive to faces'
+`mask8b_house_vt.nii`  'region maximally responsive to houses'
+---------------------  ----------------------------------------------
 
 ::: callout-caution
 TODO: do they need to be aligned to the anatomical or the mean BOLD image?
@@ -81,11 +77,7 @@ TR = N.timing.tspace
 
 This file contains a timeseries of 1452 scans at at repetition time of 2.5 s, each of which has 40 × 64 × 64 voxels of size 3.5 × 3.75 × 3.75 mm.
 
-From Footnote 18 of the [paper](index.html#ref-haxby2001):
-
-> Stimuli were gray-scale images of faces, houses, cats, bottles, scissors, shoes, chairs, and nonsense patterns. … Twelve time series were obtained in each subject. Each time series began and ended with 12 s of rest and contained eight stimulus blocks of 24-s duration, one for each category, separated by 12-s intervals of rest. Stimuli were presented for 500 ms with an interstimulus interval of 1500 ms.
-
-Each of the 12 sessions therefore had a duration of (12 + 24) × 8 + 12 = 300 s, corresponding to 120 TRs (121 scans).
+There were 12 sessions, each of which consisted of 8 stimulus blocks of 24 s. There were rest periods of 12 s each at the beginning, end, and in between blocks. Each session therefore had a duration of (12 + 24) × 8 + 12 = 300 s, corresponding to 120 TRs (121 scans).
 
 Information about the onsets and durations of stimuli in this subject are contained in a file `labels.txt`.
 
@@ -105,9 +97,9 @@ conditions = ["face", "house", "cat", "bottle", ...
     "scissors", "shoe", "chair", "scrambledpix"];
 ```
 
-plus `"rest"` for the rest intervals. 
+plus `"rest"` for the rest intervals. Stimulus blocks comprise 9 rows with rest intervals of 5 or 6 rows, which does not exactly correspond to the description above because the stimulus presentation length is incompatible with the TR.
 
-Stimulus blocks comprise 9 rows with rest intervals of 5 or 6 rows, which does not exactly correspond to the description above because the stimulus presentation length is incompatible with the TR. We therefore use these data only to extract the condition index for each block, but recreate more precise stimulus timing information.
+We therefore use these data only to extract the condition index for each block, but recreate more precise stimulus timing information.
 
 ```{matlab}
 nSessions = 12;
@@ -163,6 +155,13 @@ legend(conditions, Location="eastoutside")
 ## Realign BOLD data
 
 ```{matlab}
+%| echo: false
+% SVG created from SPM's Graphics window contains a bitmap anyway.
+setappdata(0, 'MKernel_plot_format', 'png')
+setappdata(0, 'MKernel_plot_resolution', 212)
+```
+
+```{matlab}
 fnrBOLD = fullfile(sub, 'rbold.nii');
 matlabbatch = {};
 for si = 1 : nSessions
@@ -183,8 +182,7 @@ matlabbatch{1}.spm.spatial.realign.estwrite.roptions.interp = 4;
 matlabbatch{1}.spm.spatial.realign.estwrite.roptions.wrap = [0 0 0];
 matlabbatch{1}.spm.spatial.realign.estwrite.roptions.mask = 1;
 matlabbatch{1}.spm.spatial.realign.estwrite.roptions.prefix = 'r';
-set(spm_figure('GetWin', 'Graphics'), 'Visible', 'off')
-spm_jobman('run', matlabbatch)
+spm_jobman('run', matlabbatch)  % FIXME
 ```
 
 

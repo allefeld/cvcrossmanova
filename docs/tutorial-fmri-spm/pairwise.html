@@ -64,6 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../tutorial-fmri-spm/cvcrossmanova.html" rel="next">
+<link href="../tutorial-fmri-spm/cvmanova.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -185,10 +187,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
       </ul>
   </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../tutorial-other/index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial: Other data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../tutorial-other/preparation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preparation</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../reference.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Reference documentation</span></a>
+ <span class="menu-text">API Reference documentation</span></a>
   </div>
 </li>
     </ul>
@@ -224,7 +243,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–28</p>
+      <p class="date">2023–10–30</p>
     </div>
   </div>
   
@@ -236,9 +255,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<!-- Copyright © 2023 Carsten Allefeld
-SPDX-License-Identifier: GPL-3.0-or-later -->
-<div id="a2339efa" class="cell" data-execution_count="2">
+<div id="6658724f" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
@@ -248,9 +265,9 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 </div>
 <section id="define-contrasts-and-analyses" class="level2">
 <h2 class="anchored" data-anchor-id="define-contrasts-and-analyses">Define contrasts and analyses</h2>
-<p>Haxby et al.&nbsp;used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively (see Footnote 18 of the <a href="index.html#ref-haxby2001">paper</a>).</p>
+<p>Haxby et al.&nbsp;used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively.</p>
 <p>Cross-validated MANOVA replaces accuracy based on classification by explained multivariate variance based on contrasts. The equivalent of pairwise classification is a contrast with a 1 for one of the two categories, a −1 for the other, and zeros otherwise. We construct these 28 contrasts, and then analyses based on them using two folds, odd → even and even → odd:</p>
-<div id="665c8161" class="cell" data-execution_count="3">
+<div id="f2e6ffa0" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% construct pairwise contrasts and analyses</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">odd</span> <span class="op">=</span> (<span class="va">mod</span>(<span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span>
@@ -267,7 +284,7 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">analyses</span>(<span class="va">ind</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For illustration, analysis #12 has this structure:</p>
-<div id="3f9e855d" class="cell" data-execution_count="4">
+<div id="e999e05e" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span>{<span class="fl">12</span>}.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
@@ -283,7 +300,7 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 <section id="run-analyses-on-region-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="run-analyses-on-region-of-interest">Run analyses on region of interest</h2>
 <p>Haxby et al.&nbsp;applied their analysis to several regions of interest. The data available to us contain masks for three regions, of which we here use the first.</p>
-<div id="a4b6bf2c" class="cell" data-execution_count="5">
+<div id="db60b356" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -431,7 +448,7 @@ computing Cross-validated (Cross-) MANOVA
 </div>
 </div>
 <p>The results are contained in column 1 of the cell array <code>Ds</code>. We assemble them into a matrix, filling in the identical values in the lower triangular part and leaving zeros on the diagonal, and visualise the matrix as a heatmap:</p>
-<div id="b3b39539" class="cell" data-execution_count="6">
+<div id="e033f0e5" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% assemble</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span>(<span class="va">ind</span>) <span class="op">=</span> [<span class="va">Ds</span>{<span class="op">:,</span> <span class="fl">1</span>}]<span class="op">;</span></span>
@@ -456,11 +473,11 @@ computing Cross-validated (Cross-) MANOVA
 <section id="comparison-with-original-analysis-results" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-with-original-analysis-results">Comparison with original analysis results</h2>
 <p>Haxby et al.’s main result (Table 1) was the identification accuracy for each of the eight categories averaged across classification pairs, and then averaged across six subjects. For ‘all ventral temporal object-selective cortex’, presumably corresponding to the first of the available masks (<code>mask4_vt.nii</code>) they reported the following accuracies (in percent):</p>
-<div id="68826efb" class="cell" data-execution_count="7">
+<div id="69a9a1f8" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanAcc</span> <span class="op">=</span> [<span class="fl">100</span><span class="op">,</span> <span class="fl">100</span><span class="op">,</span>  <span class="fl">98</span><span class="op">,</span>  <span class="fl">90</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">96</span><span class="op">,</span> <span class="fl">100</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our corresponding result is the average pattern distinctness across the 7 pairwise contrasts each category was involved in:</p>
-<div id="37ffb4c6" class="cell" data-execution_count="8">
+<div id="5fbc2a11" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanD</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">DsMatrix</span>) <span class="op">/</span> (<span class="va">nConds</span> <span class="op">-</span> <span class="fl">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>meanD =
@@ -471,7 +488,7 @@ computing Cross-validated (Cross-) MANOVA
 </div>
 </div>
 <p>Plotted against each other:</p>
-<div id="791f11db" class="cell" data-execution_count="9">
+<div id="1b42a4a1" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">713</span>]<span class="op">;</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
@@ -891,6 +908,18 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../tutorial-fmri-spm/cvmanova.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Cross-validated MANOVA</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../tutorial-fmri-spm/cvcrossmanova.html" class="pagination-link">
+        <span class="nav-page-text">Cross-validated Cross-MANOVA</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
 </div> <!-- /content -->
 
 

@@ -6,6 +6,7 @@ listing:
   contents:
     - installation.md
     - tutorial-fmri-spm/index.md
+    - tutorial-other/index.md
     - reference.qmd
   type: default
   fields: [title, subtitle]
