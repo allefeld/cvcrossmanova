@@ -1,26 +1,29 @@
-function [Ys, Xs, mask, misc] = loadDataSPM(modelDir, regions, whitenfilter)
+function [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions, whitenfilter)
 
 % load fMRI data via SPM.mat
 %
-% [Ys, Xs, mask, misc] = loadDataSPM(dirName, regions = {})
+% [Ys, Xs, fs, misc] = loadDataSPM(modelDir, regions = {})
 %
-% modelDir: name of directory that contains SPM.mat
-% regions:  optional additional region mask(s),
-%           cell array of logical 3D volume(s) or filename(s)
-% Ys:       MR data (within mask), cell array with one element for each
-%           session, containing an array of size scans × voxels
-% Xs:       design matrix for each session, cell array with one element
-%           for each session, containing an array of size scans × regressors
-% mask:     analysis brain mask, logical 3D volume;
-%           possibly combined with union of region masks
-% misc:     struct with additional data:
-%     mat   voxels to mm transformation matrix
-%     fs    residual degrees of freedom for each session
-%     rmvi  cell array of mask voxel indices for each region
+% modelDir:      name of directory that contains SPM.mat
+% regions:       optional additional region mask(s),
+%                cell array of logical 3D volume(s) or filename(s)
+%                default {}
+% whitenfilter:  whether to whiten and filter data and design matrices
+%                default true
+% Ys:            fMRI data matrices, cell array with one element for
+%                each session containing an array of size scans × voxels
+% Xs:            design matrices, cell array with one element for each
+%                session containing an array of size scans × regressors
+% names:         names of regressors, cell array of string arrays
+% fs:            residual degrees of freedom, array with one element for
+%                each session
+% misc:          struct with additional information:
+%   mask           analysis brain mask, logical 3D volume;
+%                  intersected with union of region masks if present
+%   mat          voxels to mm transformation matrix
+%   rmvi         cell array of mask voxel indices for each region
 %
-% Y & X and are high-pass filtered and whitened.
-% Y includes only those voxels selected through mask.
-
+% Y includes only voxels within the mask, in the linear order of the mask.
 
 % default argument values
 if nargin < 2
@@ -60,11 +63,12 @@ catch
     VM = spm_vol(fullfile(modelDir, SPM.VM.fname));
     mask = (spm_read_vols(VM) > 0);
 end
+fprintf('  volume of %d × %d × %d = %d voxels\n', size(mask), numel(mask))
 fprintf('  %d voxels within brain mask\n', sum(mask(:)));
 
 % possibly apply region mask(s)
 if isempty(regions)
-    fprintf('  no region mask\n')
+    fprintf('  no region masks\n')
     rmvi = {};
 else
     nRegions = numel(regions);
@@ -72,7 +76,7 @@ else
     for i = 1 : nRegions
         if ~isnumeric(regions{i})
             regionNames{i} = regions{i};
-            regions{i} = (spmReadVolMatched(regions{i}, VY(1)) > 0);
+            regions{i} = (spmReadVolMatched(char(regions{i}), VY(1)) > 0);
         else
             regionNames{i} = sprintf('region %d', i);
         end
@@ -84,7 +88,7 @@ else
     end
     assert(isequal(size(regions(:, :, :, 1)), size(mask)), ...
         'region masks don''t match!')
-    % restrict brain mask to conjunction of regions
+    % intersect brain mask with union of regions
     mask = mask & any(regions, 4);
     % determine mask voxel indices for each region
     regions = reshape(regions, [], nRegions);
@@ -105,80 +109,66 @@ end
 fprintf('  reading images from %s\n', pattern)
 [Y, mask] = spmReadVolsMasked(VY, mask);
 
-% get design matrix
+% whitening and filtering
+% get design matrix and nonsphericity
 X = SPM.xX.X;
-
+V = SPM.xVi.V;
 if whitenfilter
-    % whiten data and design matrix
+    % whiten data matrix, design matrix, and nonsphericity
     if isfield(SPM.xX, 'W')
         fprintf('  whitening\n')
         W = SPM.xX.W;
         Y = W * Y;
         X = W * X;
+        V = W * V * W';
     else
         fprintf('  * SPM.mat does not define whitening matrix!\n')
     end
-
-    % high-pass filter data and design matrix
+    % high-pass filter data matrix, design matrix, and nonsphericity
     fprintf('  high-pass-filtering\n')
     Y = spm_filter(SPM.xX.K, Y);
     X = spm_filter(SPM.xX.K, X);
+    V = spm_filter(SPM.xX.K, spm_filter(SPM.xX.K, V)')';
+    % check consistency with SPM's results
+    assert(norm(X - SPM.xX.xKXs.X) < SPM.xX.xKXs.tol)
+    assert(sqrt(sum(sum((V - SPM.xX.V) .^ 2))) < SPM.xX.xKXs.tol)
 end
 
-% separate Y and X into session blocks; also for Bcov, W, XK = K.X0
+% extract session-wise data matrix, design matrix, and regressor names
+% and calculate degrees of freedom
 m = numel(SPM.nscan);
-Xs = cell(m, 1);
 Ys = cell(m, 1);
-Bcovs = cell(m, 1);
-Ws = cell(m, 1);
-XKs = cell(m, 1);
-if isfield(SPM.xX, 'W')
-    W = SPM.xX.W;
-else
-    W = speye(size(Y, 1), size(Y, 1));
-end
+Xs = cell(m, 1);
+fs = nan(m, 1);
+names = cell(m, 1);
 for si = 1 : m
-    Ys{si} = Y(SPM.Sess(si).row, :);
-    % SPM.Sess(:).col does not include constant regressors,
-    % get those from SPM.xX.iB
-    col = [SPM.Sess(si).col, SPM.xX.iB(si)];
-    Xs{si} = X(SPM.Sess(si).row, col);
-    Bcovs{si} = SPM.xX.Bcov(col, col);
-    Ws{si} = W(SPM.Sess(si).row, SPM.Sess(si).row);
-    XKs{si} = SPM.xX.K(si).X0;
+    % identify rows belonging to session
+    rows = SPM.Sess(si).row;
+    % identify columns belonging to session from regressor names
+    prefix = sprintf('Sn(%d) ', si);    % session prefix
+    cols = find(cellfun(@(x) startsWith(x, prefix), SPM.xX.name));
+    assert(isequal(cols, [SPM.Sess(si).col, SPM.xX.iB(si)]))
+    % data matrix
+    Ys{si} = Y(rows, :);
+    % design matrix
+    Xs{si} = X(rows, cols);
+    % degrees of freedom
+    [trRV, trRVRV] = spm_SpUtil('trRV', Xs{si}, V(rows, rows));
+    fs(si) = trRV^2 / trRVRV;
+    % regressor names, without prefix, as string array
+    names{si} = string( ...
+        cellfun(@(s) s(numel(prefix) + 1 : end), SPM.xX.name(cols), ...
+        'UniformOutput', false));
 end
-clear Y X
-
-% degrees of freedom for each session
-Tdf = nan(m, 1);
-Kdf = nan(m, 1);
-Xdf = nan(m, 1);
-Rdf = nan(m, 1);
-for si = 1 : m
-    Tdf(si) = SPM.nscan(si);                    % total
-    Kdf(si) = rank(SPM.xX.K(si).X0);            % loss from filter
-    Xdf(si) = rank(Xs{si});                     % loss from regressors
-    Rdf(si) = Tdf(si) - Kdf(si) - Xdf(si);      % residual
-end
-fprintf('  sum(fs) = %d - %d - %d = %d', sum(Tdf), sum(Kdf), sum(Xdf), sum(Rdf));
-% other than SPM, we assume that whitening is perfect; for comparison
-fprintf('   [SPM: trRV = %g  erdf = %g]\n', SPM.xX.trRV, SPM.xX.erdf)
 
 % miscellaneous output
+% analysis brain mask
+misc.mask = mask;
 % voxels to mm transformation
 misc.mat = VY(1).mat;
-% residual degrees of freedom for each session
-misc.fs = Rdf;
 % mask voxel indices for each region
 misc.rmvi = rmvi;
-% parameter estimation covariance
-misc.Bcovs = Bcovs;
-if ~whitenfilter
-    % whitening matrix
-    misc.Ws = Ws;
-    % high-pass filter regressors
-    misc.XKs = XKs;
-end
+
 
 % Copyright © 2013–2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later
