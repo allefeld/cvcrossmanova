@@ -1,9 +1,6 @@
 classdef Analysis < handle & matlab.mixin.Scalar
 
-    % data type representing an analysis
-
-    % `handle` is necessary to support modifying method `addPermutations`
-    % `Scalar` prevents forming arrays for wich the class is not designed
+    % object type representing an analysis
 
     properties
         CA           % 'training' contrast, regressors × subcontrasts
@@ -24,7 +21,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
 
     methods
 
-        function self = Analysis(CA, CB, sessionsA, sessionsB)
+        function obj = Analysis(CA, CB, sessionsA, sessionsB)
             % create `Analysis` object
             %
             % analysis = Analysis(CA, CB, sessionsA, sessionsB)
@@ -37,52 +34,52 @@ classdef Analysis < handle & matlab.mixin.Scalar
             end
 
             % store arguments
-            self.CA = CA;
-            self.CB = CB;
-            self.sessionsA = sessionsA;
-            self.sessionsB = sessionsB;
+            obj.CA = CA;
+            obj.CB = CB;
+            obj.sessionsA = sessionsA;
+            obj.sessionsB = sessionsB;
 
             % TODO check whether sessionsA and sessionsB overlap in any fold
             % TODO check whether CB = P CA; isequal(sortrows(CA), sortrows(CB))
 
             % determine number of folds and sessions
-            [self.L, self.m] = size(self.sessionsA);
+            [obj.L, obj.m] = size(obj.sessionsA);
             % check
-            assert(isequaln([self.L, self.m], size(self.sessionsB)), ...
+            assert(isequaln([obj.L, obj.m], size(obj.sessionsB)), ...
                 "cvcrossmanova:sessionssize", ...
                 "sessionsA and sessionsB must have the same size.")
 
             % characterize contrasts & check
-            self.dimensionA = rank(self.CA);
-            self.dimensionB = rank(self.CB);
+            obj.dimensionA = rank(obj.CA);
+            obj.dimensionB = rank(obj.CB);
             % check
             assert(size(CA, 2) == size(CB, 2), ...
                 "cvcrossmanova:subcontrasts", ...
                 "CA and CB must have the same number of subcontrasts (columns).")
-            if self.dimensionA ~= self.dimensionB
+            if obj.dimensionA ~= obj.dimensionB
                 warning("cvcrossmanova:ranks", ...
                     "CA and CB should have the same rank.")
             end
 
             % characterize cross-contrast
-            CBpCA = self.CB * pinv(self.CA);    % (cross-) parameter-effect extracting matrix
-            self.dimensionAB = rank(CBpCA);
-            self.normAB = sum(CBpCA(:) .^ 2);
+            CBpCA = obj.CB * pinv(obj.CA);    % (cross-) parameter-effect extracting matrix
+            obj.dimensionAB = rank(CBpCA);
+            obj.normAB = sum(CBpCA(:) .^ 2);
             % check
-            if self.dimensionAB < min(self.dimensionA, self.dimensionB)
+            if obj.dimensionAB < min(obj.dimensionA, obj.dimensionB)
                 warning("cvcrossmanova:preservedim", ...
                     "CA → CB should preserve dimensionality.")
             end
-            if abs(self.normAB / self.dimensionAB - 1) > 1e-14
+            if abs(obj.normAB / obj.dimensionAB - 1) > 1e-14
                 warning("cvcrossmanova:preservevar", ...
                     "CA → CB should preserve variance.")
             end
 
             % initialize permutations to neutral only
-            self.perms = ones(1, self.m);
+            obj.perms = ones(1, obj.m);
         end
 
-        function addPermutations(self, maxPerms)
+        function addPermutations(obj, maxPerms)
             % add sign permutations of per-session parameter estimates
             %
             % analysis.addPermutations(maxPerms = 1000)
@@ -115,25 +112,25 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % equivalent if they are equivalent in every fold.
 
             arguments
-                self
+                obj
                 maxPerms  (1, 1)  double  = 1000
             end
 
-            assert(self.m <= 21, "Too many possible sign permutations to process.")
+            assert(obj.m <= 21, "Too many possible sign permutations to process.")
 
             % number of sign permutations
-            nPerms = 2 ^ self.m;
+            nPerms = 2 ^ obj.m;
 
             % generate all sign permutations of sessions (permutations × sessions)
             % with the neutral permutation first
-            self.perms = 1 - 2 * (int8(dec2bin(0 : nPerms - 1, self.m)) - '0');
+            obj.perms = 1 - 2 * (int8(dec2bin(0 : nPerms - 1, obj.m)) - '0');
 
             pINA = [];
             % for each fold
-            for l = 1 : self.L
+            for l = 1 : obj.L
                 % reduce permutations to Involved sessions
-                involved = self.sessionsA(l, :) + self.sessionsB(l, :) > 0;
-                pI = self.perms(:, involved);
+                involved = obj.sessionsA(l, :) + obj.sessionsB(l, :) > 0;
+                pI = obj.perms(:, involved);
                 % Normalize sign permutations by multiplying with the first value,
                 % because only relative signs are important
                 pIN = pI(:, 1) .* pI;
@@ -143,8 +140,8 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % determine unique (non-equivalent) permutations
             [~, ind, ~] = unique(pINA, "rows");
             % select these permutations in order
-            self.perms = self.perms(sort(ind), :);
-            nPerms = size(self.perms, 1);
+            obj.perms = obj.perms(sort(ind), :);
+            nPerms = size(obj.perms, 1);
             fprintf("%d permutations possible\n", nPerms)
 
             % Monte Carlo test, following Dwass (1957) and Ernst (2004)
@@ -153,12 +150,12 @@ classdef Analysis < handle & matlab.mixin.Scalar
                 % neutral permutation (1) + a random sample with replacement
                 % from permutations 2 : nPerms, for a total of maxPerms
                 ind = [1, randperm(nPerms - 1, maxPerms - 1) + 1];
-                self.perms = self.perms(sort(ind), :);
+                obj.perms = obj.perms(sort(ind), :);
             end
         end
 
-        function str = disp(self)
-            % textually display information
+        function str = disp(obj)
+            % textually display information about the object
             %
             % analysis.disp()
             %
@@ -168,23 +165,23 @@ classdef Analysis < handle & matlab.mixin.Scalar
 
             % prepare information string
             str = "  Analysis:";
-            str = str + sprintf("\n    %d fold(s), %d session(s)", self.L, self.m);
-            if ~isequal(self.CA, self.CB)
+            str = str + sprintf("\n    %d fold(s), %d session(s)", obj.L, obj.m);
+            if ~isequal(obj.CA, obj.CB)
                 str = str + sprintf("\n    CA:       %d × %d, %d-dimensional", ...
-                    size(self.CA), self.dimensionA);
+                    size(obj.CA), obj.dimensionA);
                 str = str + sprintf("\n    CB:       %d × %d, %d-dimensional", ...
-                    size(self.CB), self.dimensionB);
+                    size(obj.CB), obj.dimensionB);
                 % check cross parameter-effect extracting matrix
                 str = str + sprintf("\n    CA ↔ CB:  %d-dimensional, %g %% variance", ...
-                    self.dimensionAB, self.normAB / self.dimensionAB * 100);
+                    obj.dimensionAB, obj.normAB / obj.dimensionAB * 100);
                 % TODO variance check equivalent to permutation check?
             else
                 str = str + sprintf("\n    CA = CB:  %d × %d, %d-dimensional", ...
-                    size(self.CA), self.dimensionA);
+                    size(obj.CA), obj.dimensionA);
             end
-            if size(self.perms, 1) > 1
+            if size(obj.perms, 1) > 1
                 str = str + sprintf("\n    %d permutations (including neutral)", ...
-                    size(self.perms, 1));
+                    size(obj.perms, 1));
             else
                 str = str + sprintf("\n    no permutations (besides neutral)");
             end
@@ -195,8 +192,8 @@ classdef Analysis < handle & matlab.mixin.Scalar
             end
         end
 
-        function fig = show(self)
-            % graphically display information
+        function fig = show(obj)
+            % graphically display information about the object
             %
             % fig = analysis.show()
             %
@@ -206,7 +203,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
             fig = figure();
 
             % size and layout of figure
-            showPerms = size(self.perms, 1) > 1;
+            showPerms = size(obj.perms, 1) > 1;
             if ~showPerms
                 nRows = 2;
                 fig.Position(3 : 4) = [640, 640];
@@ -219,21 +216,21 @@ classdef Analysis < handle & matlab.mixin.Scalar
             cmap = interp1(0 : 2, [0 0.686 1 ; 1 1 1 ; 1 0.686 0], linspace(0, 2, 511));
 
             % determine scaling of contrasts
-            maxC = max(abs([self.CA(:) ; self.CB(:)]));
+            maxC = max(abs([obj.CA(:) ; obj.CB(:)]));
 
             % heatmap doesn't respect the default font
             fontname = get(0, 'defaultTextFontName');
 
             % contrasts
             subplot(nRows, 2, 1)
-            heatmap(self.CA, ...
+            heatmap(obj.CA, ...
                 ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([-maxC, maxC])
             title('Contrast A')
             xlabel('subcontrast')
             ylabel('regressor')
             subplot(nRows, 2, 2)
-            heatmap(self.CB, ...
+            heatmap(obj.CB, ...
                 ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([-maxC maxC])
             title('Contrast B')
@@ -242,14 +239,14 @@ classdef Analysis < handle & matlab.mixin.Scalar
 
             % sessions
             subplot(nRows, 2, 3)
-            heatmap(double(self.sessionsA), ...
+            heatmap(double(obj.sessionsA), ...
                 ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([-1 1])
             title('Sessions A')
             xlabel('session')
             ylabel('fold')
             subplot(nRows, 2, 4)
-            heatmap(double(self.sessionsB), ...
+            heatmap(double(obj.sessionsB), ...
                 ColorMap=cmap, ColorbarVisible=false, FontName=fontname)
             clim([-1 1])
             title('Sessions B')
@@ -259,7 +256,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % permutations
             if showPerms
                 subplot(nRows, 2, 5:6)
-                imagesc(self.perms .')
+                imagesc(obj.perms .')
                 colormap(cmap)
                 clim([-1 1])
                 title('Sign Permutations')

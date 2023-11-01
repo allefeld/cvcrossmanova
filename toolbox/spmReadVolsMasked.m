@@ -52,6 +52,7 @@ maskInd = find(mask);
 nVols = numel(V);
 Y = nan(nVols, numel(maskInd));
 reported = false;
+line = '';
 for vi = 1 : nVols
     try
         % shift mask indices according to sub-volume (n) of image file
@@ -91,9 +92,14 @@ for vi = 1 : nVols
     end
     % progress report
     if (mod(vi, 100) == 0) || (vi == nVols)
-        fprintf('  %d of %d volumes loaded\n', vi, nVols)
+        fprintf(repmat('\b', 1, numel(line)))
+        line = sprintf('  %d of %d volumes loaded', vi, nVols);
+        fprintf(line)
     end
 end
+fprintf('\n')
+
 
 % Copyright © 2016–2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later
+

@@ -224,11 +224,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis"><span class="smallcaps">class</span> <code>Analysis</code></a>
   <ul class="collapse">
   <li><a href="#analysis-properties" id="toc-analysis-properties" class="nav-link" data-scroll-target="#analysis-properties"><span class="smallcaps">properties</span></a></li>
-  <li><a href="#analysis.leaveonesessionout" id="toc-analysis.leaveonesessionout" class="nav-link" data-scroll-target="#analysis.leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></a></li>
   <li><a href="#analysis.analysis" id="toc-analysis.analysis" class="nav-link" data-scroll-target="#analysis.analysis"><span class="smallcaps">constructor</span> <code>Analysis</code></a></li>
+  <li><a href="#analysis.leaveonesessionout" id="toc-analysis.leaveonesessionout" class="nav-link" data-scroll-target="#analysis.leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></a></li>
   <li><a href="#analysis.addpermutations" id="toc-analysis.addpermutations" class="nav-link" data-scroll-target="#analysis.addpermutations"><span class="smallcaps">method</span> <code>addPermutations</code></a></li>
   <li><a href="#analysis.disp" id="toc-analysis.disp" class="nav-link" data-scroll-target="#analysis.disp"><span class="smallcaps">method</span> <code>disp</code></a></li>
   <li><a href="#analysis.show" id="toc-analysis.show" class="nav-link" data-scroll-target="#analysis.show"><span class="smallcaps">method</span> <code>show</code></a></li>
+  </ul></li>
+  <li><a href="#modeleddata" id="toc-modeleddata" class="nav-link" data-scroll-target="#modeleddata"><span class="smallcaps">class</span> <code>ModeledData</code></a>
+  <ul class="collapse">
+  <li><a href="#modeleddata-properties" id="toc-modeleddata-properties" class="nav-link" data-scroll-target="#modeleddata-properties"><span class="smallcaps">properties</span></a></li>
+  <li><a href="#modeleddata.modeleddata" id="toc-modeleddata.modeleddata" class="nav-link" data-scroll-target="#modeleddata.modeleddata"><span class="smallcaps">constructor</span> <code>ModeledData</code></a></li>
+  <li><a href="#modeleddata.fromspm" id="toc-modeleddata.fromspm" class="nav-link" data-scroll-target="#modeleddata.fromspm"><span class="smallcaps">static method</span> <code>fromSPM</code></a></li>
+  <li><a href="#modeleddata.disp" id="toc-modeleddata.disp" class="nav-link" data-scroll-target="#modeleddata.disp"><span class="smallcaps">method</span> <code>disp</code></a></li>
   </ul></li>
   <li><a href="#cvcrossmanova" id="toc-cvcrossmanova" class="nav-link" data-scroll-target="#cvcrossmanova"><span class="smallcaps">class</span> <code>CvCrossManova</code></a>
   <ul class="collapse">
@@ -259,7 +266,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–28</p>
+      <p class="date">2023–11–1</p>
     </div>
   </div>
   
@@ -346,13 +353,80 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 </tbody>
 </table>
+<p>Note that a voxel is included in a searchlight if its distance from the center voxel is smaller than <em>or equal to</em> the radius. Fractional values are possible and meaningful:</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th><code>slRadius</code></th>
+<th style="text-align: center;">max. number of voxels</th>
+<th><code>slRadius</code></th>
+<th style="text-align: center;">max. number of voxels</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td style="text-align: center;">1</td>
+<td>3.17</td>
+<td style="text-align: center;">147</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td style="text-align: center;">7</td>
+<td>3.32</td>
+<td style="text-align: center;">171</td>
+</tr>
+<tr class="odd">
+<td>1.42</td>
+<td style="text-align: center;">19</td>
+<td>3.47</td>
+<td style="text-align: center;">179</td>
+</tr>
+<tr class="even">
+<td>1.74</td>
+<td style="text-align: center;">27</td>
+<td>3.61</td>
+<td style="text-align: center;">203</td>
+</tr>
+<tr class="odd">
+<td>2</td>
+<td style="text-align: center;">33</td>
+<td>3.75</td>
+<td style="text-align: center;">251</td>
+</tr>
+<tr class="even">
+<td>2.24</td>
+<td style="text-align: center;">57</td>
+<td>4</td>
+<td style="text-align: center;">257</td>
+</tr>
+<tr class="odd">
+<td>2.45</td>
+<td style="text-align: center;">81</td>
+<td>4.13</td>
+<td style="text-align: center;">305</td>
+</tr>
+<tr class="even">
+<td>2.83</td>
+<td style="text-align: center;">93</td>
+<td>4.25</td>
+<td style="text-align: center;">341</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td style="text-align: center;">123</td>
+<td>4.36</td>
+<td style="text-align: center;">365</td>
+</tr>
+</tbody>
+</table>
 <p>The searchlight procedure includes a checkpointing mechanism: Intermediate results are saved to a file <code>ccmsCheckpoint….mat</code>, where <code>…</code> stands for a 32-digit hexadecimal checksum. If an analysis is interrupted, running it again recovers partial results from the checkpoint file and continues from there.</p>
 <p>Note that this only works if the analysis parameters remain identical. In particular, if the analysis includes randomly selected permutations, make sure to initialize Matlab’s random number generator before the selection. It is recommended to run <code>s = rng('shuffle')</code> once, note the values of <code>s.Seed</code> and <code>s.Type</code>, and then to include <code>rng(&lt;seed&gt;, &lt;type&gt;)</code> in your analysis pipeline.</p>
 <p>Regarding the parameters <code>slRadius</code>, <code>analyses</code> and <code>lambda</code> see also <a href="#slsize">slSize</a>, <a href="#analysis">Analysis</a>, <a href="#cvcrossmanova.cvcrossmanova">CvCrossManova.CvCrossManova</a>.</p>
 </section>
 <section id="analysis" class="level2">
 <h2 class="anchored" data-anchor-id="analysis"><span class="smallcaps">class</span> <code>Analysis</code></h2>
-<p>data type representing an analysis</p>
+<p>object type representing an analysis</p>
 <section id="analysis-properties" class="level3">
 <h3 class="anchored" data-anchor-id="analysis-properties"><span class="smallcaps">properties</span></h3>
 <table class="table">
@@ -388,18 +462,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </section>
-<section id="analysis.leaveonesessionout" class="level3">
-<h3 class="anchored" data-anchor-id="analysis.leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></h3>
-<p>create <code>Analysis</code> object for leave-one-session-out cross-validation</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">C</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">CA</span><span class="op">,</span> <span class="va">CB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This is a convenience method which calls the constructor with <code>sessionsB = logical(eye(m))</code> and <code>sessionsA = not(sessionsB)</code>, the specification of standard leave-one-session-out cross-validation.</p>
-<p>If only one contrast <code>C</code> is specified, it is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>).</p>
-</section>
 <section id="analysis.analysis" class="level3">
 <h3 class="anchored" data-anchor-id="analysis.analysis"><span class="smallcaps">constructor</span> <code>Analysis</code></h3>
 <p>create <code>Analysis</code> object</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">CA</span><span class="op">,</span> <span class="va">CB</span><span class="op">,</span> <span class="va">sessionsA</span><span class="op">,</span> <span class="va">sessionsB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">CA</span><span class="op">,</span> <span class="va">CB</span><span class="op">,</span> <span class="va">sessionsA</span><span class="op">,</span> <span class="va">sessionsB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="analysis.leaveonesessionout" class="level3">
+<h3 class="anchored" data-anchor-id="analysis.leaveonesessionout"><span class="smallcaps">static method</span> <code>leaveOneSessionOut</code></h3>
+<p>create <code>Analysis</code> object for leave-one-session-out cross-validation</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">C</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">m</span><span class="op">,</span> <span class="va">CA</span><span class="op">,</span> <span class="va">CB</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This is a convenience method which calls the constructor with <code>sessionsB = logical(eye(m))</code> and <code>sessionsA = not(sessionsB)</code>, the specification of standard leave-one-session-out cross-validation.</p>
+<p>If only one contrast <code>C</code> is specified, it is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>).</p>
 </section>
 <section id="analysis.addpermutations" class="level3">
 <h3 class="anchored" data-anchor-id="analysis.addpermutations"><span class="smallcaps">method</span> <code>addPermutations</code></h3>
@@ -424,20 +498,115 @@ Warning
 </section>
 <section id="analysis.disp" class="level3">
 <h3 class="anchored" data-anchor-id="analysis.disp"><span class="smallcaps">method</span> <code>disp</code></h3>
-<p>textually display information</p>
+<p>textually display information about the object</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(analysis)</code> or simply <code>analysis</code> without semicolon to get the same output.</p>
 </section>
 <section id="analysis.show" class="level3">
 <h3 class="anchored" data-anchor-id="analysis.show"><span class="smallcaps">method</span> <code>show</code></h3>
-<p>graphically display information</p>
+<p>graphically display information about the object</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">analysis</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The method creates a figure and returns the handle.</p>
 </section>
 </section>
+<section id="modeleddata" class="level2">
+<h2 class="anchored" data-anchor-id="modeleddata"><span class="smallcaps">class</span> <code>ModeledData</code></h2>
+<p>object type containing data and design information</p>
+<section id="modeleddata-properties" class="level3">
+<h3 class="anchored" data-anchor-id="modeleddata-properties"><span class="smallcaps">properties</span></h3>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td><code>Ys</code></td>
+<td>cell array of per-session design matrices, observations × variables</td>
+</tr>
+<tr class="even">
+<td><code>Xs</code></td>
+<td>cell array of per-session data matrices, observations × regressors</td>
+</tr>
+<tr class="odd">
+<td><code>fs</code></td>
+<td>array of per-session residual degrees of freedom</td>
+</tr>
+<tr class="even">
+<td><code>m</code></td>
+<td>number of sessions</td>
+</tr>
+<tr class="odd">
+<td><code>ns</code></td>
+<td>array of per-session numbers of observations (rows)</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modeleddata.modeleddata" class="level3">
+<h3 class="anchored" data-anchor-id="modeleddata.modeleddata"><span class="smallcaps">constructor</span> <code>ModeledData</code></h3>
+<p>create <code>ModeledData</code> object</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">modeledData</span> <span class="op">=</span> <span class="va">ModeledData</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> <span class="op">...</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If the per-session residual degrees of freedom <code>fs</code> are not specified, they are calculated under the assumption that the data observations are uncorrelated, as <code>ns(k) - rank(Xs{k})</code>. If the observations have been only approximately decorrelated or have been filtered, correct values should be explicitly specified.</p>
+</section>
+<section id="modeleddata.fromspm" class="level3">
+<h3 class="anchored" data-anchor-id="modeleddata.fromspm"><span class="smallcaps">static method</span> <code>fromSPM</code></h3>
+<p>create <code>ModeledData</code> object from SPM data</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">modeledData</span><span class="op">,</span> <span class="va">misc</span>] <span class="op">=</span> <span class="va">fromSPM</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span> <span class="op">=</span> {}<span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td><code>modelDir</code></td>
+<td>directory where the <code>SPM.mat</code> file referring to an estimated model is located</td>
+</tr>
+<tr class="even">
+<td><code>regions</code></td>
+<td>region mask(s), cell array of logical 3D volumes or filenames</td>
+</tr>
+<tr class="odd">
+<td><code>wf</code></td>
+<td>whether to apply the whitening &amp; high-pass filtering set up by SPM</td>
+</tr>
+</tbody>
+</table>
+<p>Data variables (columns of data matrices <code>Ys</code>) are only read from voxels within the SPM analysis brain mask, after it was intersected with the union of region masks if present.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is recommended to keep <code>wf</code> on its default value <code>true</code>. While the pattern distinctness and pattern stability estimators should still be unbiased because the degrees of freedom are adjusted, not whitening may lead to loss of statistical power and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.</p>
+</div>
+</div>
+<p><code>misc</code> is a structure of fields containing additional information not stored in <code>modeledData</code>:</p>
+<table class="table">
+<tbody>
+<tr class="odd">
+<td><code>mask</code></td>
+<td style="text-align: left;">logical 3D volume indicating which voxels variables correspond to</td>
+</tr>
+<tr class="even">
+<td><code>mat</code></td>
+<td style="text-align: left;">3D voxel indices to mm transformation matrix</td>
+</tr>
+<tr class="odd">
+<td><code>rmvi</code></td>
+<td style="text-align: left;">variable indices corresponding to voxels contained in each region, cell array of arrays</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="modeleddata.disp" class="level3">
+<h3 class="anchored" data-anchor-id="modeleddata.disp"><span class="smallcaps">method</span> <code>disp</code></h3>
+<p>textually display information about the object</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">modeledData</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(modeledData)</code> or simply modeledData without semicolon to get the same output.</p>
+</section>
+</section>
 <section id="cvcrossmanova" class="level2">
 <h2 class="anchored" data-anchor-id="cvcrossmanova"><span class="smallcaps">class</span> <code>CvCrossManova</code></h2>
-<p>data type representing data and analyses</p>
+<p>object type representing data and analyses</p>
 <section id="cvcrossmanova-properties" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova-properties"><span class="smallcaps">properties</span></h3>
 <table class="table">
@@ -480,7 +649,7 @@ Warning
 <section id="cvcrossmanova.cvcrossmanova" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></h3>
 <p>create <code>CvCrossManova</code> object</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> <span class="op">...</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> <span class="op">...</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>A <code>CvCrossManova</code> object stores data matrices, design matrices, analysis definitions, and further parameters. Upon creation, it also estimates GLM parameters and errors. Actual analyses are then performed on subsets of variables by calling the method <code>runAnalyses</code>.</p>
 <p>The parameter λ (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. A small value can be used to improve the numerical and statistical stability of the estimate; the default is 10<sup>−8</sup>. A value of 1 can be used to disregard the covariance structure, because it replaces the estimated error covariance matrix by a diagonal matrix where every diagonal element is the average variance across variables. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t the original data space (Euclidean metric) instead of the whitened space.</p>
 <p>If the per-session residual degrees of freedom <code>fs</code> are not specified, they are calculated under the assumption that the data observations are uncorrelated, as <code>ns(k) - rank(Xs{k})</code>. If the observations have been only approximately decorrelated or have been filtered, correct values should be explicitly specified.</p>
@@ -488,8 +657,8 @@ Warning
 <section id="cvcrossmanova.runanalyses" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></h3>
 <p>run the defined analyses on (a subset of) the variables</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>(<span class="va">vi</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>(<span class="va">vi</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code>. If omitted, all variables are included.</p>
 <p><code>Ds</code> is a cell array of analysis results where each element results from the corresponding element in <code>analyses</code>. Whether this result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts and regressors involved in the analyses.</p>
 <p>For an analysis which does not include permutations, the cell array element is a scalar; otherwise it is an array of permutation values, where the first element is the actual estimate (corresponding to the neutral permutation).</p>
@@ -498,26 +667,25 @@ Warning
 <section id="cvcrossmanova.checkestimability" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></h3>
 <p>check estimability of all analyses’ contrasts in all sessions</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>estimability</code> is a table with one row per session and one column per analysis &amp; contrast. ‘true’ means that the contrast is estimable, ‘false’ that it is not estimable, ‘–’ that the contrast does not apply to the session. The check is performed via the function <code>contrastEstimable</code>.</p>
 <p><code>problems</code> indicates whether there are any inestimable contrasts (logical).</p>
 <p>It is not usually necessary to use this method explicitly, because estimability is checked upon creation of a <code>CvCrossManova</code> object.</p>
 </section>
 <section id="cvcrossmanova.disp" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.disp"><span class="smallcaps">method</span> <code>disp</code></h3>
-<p>textually display information</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>textually display information about the object</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(cm)</code> or simply <code>cm</code> without semicolon to get the same output.</p>
 </section>
 </section>
 <section id="slsize" class="level2">
 <h2 class="anchored" data-anchor-id="slsize"><span class="smallcaps">function</span> <code>slSize</code></h2>
 <p>searchlight size as a function of searchlight radius</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">pMax</span> <span class="op">=</span> <span class="va">slSize</span>(<span class="va">slRadius</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">slSizes</span>(<span class="va">slRadius</span> <span class="op">=</span> <span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With the first syntax, the number of voxels corresponding to <code>slRadius</code> is returned as <code>pMax</code>.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">pMax</span> <span class="op">=</span> <span class="va">slSize</span>(<span class="va">slRadius</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">slSizes</span>(<span class="va">slRadius</span> <span class="op">=</span> <span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With the first syntax, the number of voxels corresponding to <code>slRadius</code> is returned as <code>pMax</code>. Note that this is the maximum number of voxels for a searchlight completely within the brain mask, at the borders the actual number will be smaller.</p>
 <p>With the second syntax, a table of corresponding values of <code>slRadius</code> and <code>pMax</code> is printed. By default, the table includes <code>slRadius</code> values from 0 to 5, but another upper limit can be specified. The values of <code>slRadius</code> are chosen such that all possible searchlight sizes in that range are listed.</p>
-<p>Note that a voxel is included in a searchlight if its distance from the center voxel is <em>smaller than or equal to</em> the radius. Fractional values are possible and meaningful.</p>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
 

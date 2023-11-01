@@ -48,6 +48,10 @@ dd {
 table, .table {
   margin-bottom: 1rem;
 }
+/* table header not bold */
+th {
+  font-weight: normal;
+}
 
 /* retain bottom margin even for narrow media */
 body.nav-sidebar #title-block-header {
@@ -83,4 +87,18 @@ div.cell-output-stdout + div.cell-output-stderr {
 }
 div.cell {
   margin-bottom: 1rem;
+}
+
+/* download button */
+div.margin-footer-item {
+  border: 1px solid #f8f8f8;
+  padding: 0.1em 0.4em;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  background-color: #f8f8f8;
+  border-radius: .25rem;
+}
+div.margin-footer-item p {
+  margin-bottom: 0px;
 }

@@ -19,6 +19,22 @@ function cvCrossManovaSearchlight(modelDir, slRadius, analyses, lambda)
 % `ccmsParameters.mat`     record of the analysis parameters
 % -----------------------  -------------------------------------------------------------------------------------------------------
 %
+% Note that a voxel is included in a searchlight if its distance from the
+% center voxel is smaller than *or equal to* the radius. Fractional values
+% are possible and meaningful:
+% 
+% `slRadius`   max. number of voxels     `slRadius`   max. number of voxels
+% ----------  -----------------------    ----------  -----------------------
+%  0             1                       3.17         147
+%  1             7                       3.32         171
+%  1.42         19                       3.47         179
+%  1.74         27                       3.61         203
+%  2            33                       3.75         251
+%  2.24         57                       4            257
+%  2.45         81                       4.13         305
+%  2.83         93                       4.25         341
+%  3           123                       4.36         365
+% 
 % The searchlight procedure includes a checkpointing mechanism:
 % Intermediate results are saved to a file `ccmsCheckpoint….mat`, where `…`
 % stands for a 32-digit hexadecimal checksum. If an analysis is
@@ -27,16 +43,15 @@ function cvCrossManovaSearchlight(modelDir, slRadius, analyses, lambda)
 %
 % Note that this only works if the analysis parameters remain identical. In
 % particular, if the analysis includes randomly selected permutations, make
-% sure to initialize Matlab's random number generator before the selection. It
-% is recommended to run `s = rng('shuffle')` once, note the values of `s.Seed`
-% and `s.Type`, and then to include `rng(<seed>, <type>)` in your analysis
-% pipeline.
+% sure to initialize Matlab's random number generator before the selection.
+% It is recommended to run `s = rng('shuffle')` once, note the values of
+% `s.Seed` and `s.Type`, and then to include `rng(<seed>, <type>)` in your
+% analysis pipeline.
 %
 % Regarding the parameters `slRadius`, `analyses` and `lambda`
 % see also slSize, Analysis, CvCrossManova.CvCrossManova.
 
-% TODO varargin for any keyword parameters, to be passed to CvCrossManova
-% TODO support `loadDataSPM` option `whitenfilter`?
+% TODO use ModeledData.fromSPM & support and pass through all its parameters.
 
 fprintf('\ncvCrossManovaSearchlight\n\n')
 

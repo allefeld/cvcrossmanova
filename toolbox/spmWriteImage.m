@@ -128,5 +128,7 @@ if nargout == 0
     clear N
 end
 
+
 % Copyright © 2016–2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later
+

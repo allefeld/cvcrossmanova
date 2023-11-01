@@ -3,7 +3,7 @@ title: Pairwise Cross-validated MANOVA
 subtitle: Pattern distinctness is computed in a way approximating the original analysis
 jupyter: mkernel
 order: 14
-format-links: [m]
+margin-footer: "[Download code as Matlab `m`-file](pairwise.m){download=}"
 ---
 
 

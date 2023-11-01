@@ -1,27 +1,23 @@
-function [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions, whitenfilter)
+function [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions, wf)
 
 % load fMRI data via SPM.mat
 %
-% [Ys, Xs, fs, misc] = loadDataSPM(modelDir, regions = {})
+% [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions = {}, wf = true)
 %
-% modelDir:      name of directory that contains SPM.mat
-% regions:       optional additional region mask(s),
-%                cell array of logical 3D volume(s) or filename(s)
-%                default {}
-% whitenfilter:  whether to whiten and filter data and design matrices
-%                default true
-% Ys:            fMRI data matrices, cell array with one element for
-%                each session containing an array of size scans × voxels
-% Xs:            design matrices, cell array with one element for each
-%                session containing an array of size scans × regressors
-% names:         names of regressors, cell array of string arrays
-% fs:            residual degrees of freedom, array with one element for
-%                each session
-% misc:          struct with additional information:
-%   mask           analysis brain mask, logical 3D volume;
-%                  intersected with union of region masks if present
-%   mat          voxels to mm transformation matrix
-%   rmvi         cell array of mask voxel indices for each region
+% modelDir:  name of directory that contains SPM.mat
+% regions:   optional additional region mask(s),
+%            cell array of logical 3D volume(s) or filename(s)
+% wf:        whether to whiten and filter data and design matrices
+%
+% Ys:        fMRI data matrices, 1 × sessions cell array of arrays scans × voxels
+% Xs:        design matrices, 1 × sessions cell array of arrays scans × regressors
+% fs:        residual degrees of freedom, 1 × sessions array
+% names:     names of regressors, 1 × sessions cell array of string arrays 1 × regressors
+% misc:      struct with additional information:
+%   mask       analysis brain mask, logical 3D volume;
+%              intersected with union of region masks if present
+%   mat      3D voxel indices to mm transformation matrix
+%   rmvi     1 × regions cell array of indices into columns of Y
 %
 % Y includes only voxels within the mask, in the linear order of the mask.
 
@@ -30,7 +26,7 @@ if nargin < 2
     regions = {};
 end
 if nargin < 3
-    whitenfilter = true;
+    wf = true;
 end
 
 % load SPM.mat
@@ -113,7 +109,7 @@ fprintf('  reading images from %s\n', pattern)
 % get design matrix and nonsphericity
 X = SPM.xX.X;
 V = SPM.xVi.V;
-if whitenfilter
+if wf
     % whiten data matrix, design matrix, and nonsphericity
     if isfield(SPM.xX, 'W')
         fprintf('  whitening\n')

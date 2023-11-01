@@ -37,7 +37,7 @@ function Y = spmReadVolMatched(V, Vtemplate, hold)
 
 
 % support filename
-if ischar(V)
+if ischar(V) || isstring(V)
     V = spm_vol(V);
 end
 if ischar(Vtemplate)
@@ -66,5 +66,7 @@ for k = 1 : Vtemplate(1).dim(3)    % for each plane
     Y(:, :, k) = spm_slice_vol(V, A, Vtemplate(1).dim(1 : 2), hold);
 end
 
+
 % Copyright © 2016–2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later
+

@@ -16,8 +16,8 @@ function [Ds, ps] = cvCrossManovaRegion(modelDir, regions, analyses, lambda)
 % Regarding the parameters `analyses` and `lambda` and the contents of the cells of `Ds`,
 % see also Analysis, CvCrossManova.CvCrossManova, CvCrossManova.runAnalyses.
 
-% TODO varargin for any keyword parameters, to be passed to CvCrossManova
-% TODO support `loadDataSPM` option `whitenfilter`?
+% TODO use ModeledData.fromSPM & support and pass through all its parameters.
+
 
 fprintf('\ncvCrossManovaRegion\n\n')
 
@@ -42,6 +42,7 @@ clear cm        % release memory
 
 % determine number of voxels per region
 ps = cellfun(@numel, misc.rmvi) .';
+
 
 % Copyright © 2015–2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later

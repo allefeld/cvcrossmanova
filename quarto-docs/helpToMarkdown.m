@@ -69,7 +69,8 @@ if numel(helpText) > 0
 end
 
 % get meta.class
-mc = eval(sprintf("?%s", name));
+% mc = eval(sprintf("?%s", name));
+mc = meta.class.fromName(name);
 
 % process properties
 propertyVisible = ~[mc.PropertyList.Hidden];
@@ -90,17 +91,22 @@ fprintf("%s\n", table{:})
 fprintf("\n\n")
 
 % process methods
-mcml = flip(mc.MethodList);
-for i = 1 : numel(mcml)
-    notInherited = isequal(mcml(i).DefiningClass.Name, name);
-    if ~mcml(i).Hidden && notInherited
-        methodName = mcml(i).Name;
-        if ~mcml(i).Static
-            functionHelpToMarkdown(methodName, name)
-        else
-            functionHelpToMarkdown(methodName, name, 'static')
-        end
-    end
+mcml = fliplr(reshape(mc.MethodList, 1, []));
+% restrict to non-inherited methods
+mcml = mcml(arrayfun(@(m) isequal(m.DefiningClass.Name, name), mcml));
+% restrict to non-hidden methods
+mcml = mcml(~[mcml.Hidden]);
+% remove constructor
+mcml = mcml(arrayfun(@(m) ~isequal(m.Name, name), mcml));
+% process constructor
+functionHelpToMarkdown(name, name)
+% process static methods
+for m = mcml([mcml.Static]);
+    functionHelpToMarkdown(m.Name, name, 'static')
+end
+% process non-static methods
+for m = mcml(~[mcml.Static]);
+    functionHelpToMarkdown(m.Name, name)
 end
 
 

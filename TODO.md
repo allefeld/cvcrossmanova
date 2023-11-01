@@ -31,3 +31,10 @@
 
 -   integrate new repository with old one?
     making cvcrossmanova an evolution of cvmanova
+
+-   use `obj` instead of `self`
+
+-   Implementation notes?
+    classes are derived from `handle & matlab.mixin.Scalar`
+    `handle`: prevents unnecessarily copying data and enables methods to change the object
+    `matlab.mixin.Scalar`: prevents forming object arrays, for wich the classes are not designed

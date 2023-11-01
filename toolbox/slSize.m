@@ -6,17 +6,15 @@ function pMax = slSize(slRadius)
 % slSizes(slRadius = 5)
 %
 % With the first syntax, the number of voxels corresponding to `slRadius`
-% is returned as `pMax`.
+% is returned as `pMax`. Note that this is the maximum number of voxels for
+% a searchlight completely within the brain mask, at the borders the actual
+% number will be smaller.
 %
 % With the second syntax, a table of corresponding values of `slRadius` and
 % `pMax` is printed. By default, the table includes `slRadius` values from
 % 0 to 5, but another upper limit can be specified. The values of
 % `slRadius` are chosen such that all possible searchlight sizes in that
 % range are listed.
-%
-% Note that a voxel is included in a searchlight if its distance from the
-% center voxel is *smaller than or equal to* the radius. Fractional values
-% are possible and meaningful.
 
 if nargin == 0
     slRadius = 5;

@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="7adc2af5" class="cell" data-execution_count="2">
+<div id="4fdee4de" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
@@ -273,7 +273,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>the ‘effect of category within inanimate object’, i.e.&nbsp;quantifying how much patterns associated with ‘bottle’, ‘scissors’, ‘shoe’, and ‘chair’ differ from each other.</li>
 </ol>
 <p>The corresponding contrasts consist of 7 and 3 subcontrasts (columns), respectively, each of which targets the difference between two conditions.</p>
-<div id="6e926f5b" class="cell" data-execution_count="3">
+<div id="0634238e" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">C_stimulus</span> <span class="op">=</span> <span class="op">...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    [  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% face</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% house</span></span>
@@ -304,7 +304,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="define-analyses" class="level2">
 <h2 class="anchored" data-anchor-id="define-analyses">Define analyses</h2>
 <p>An analysis is represented by an object of <a href="../reference.html#analysis">class <code>Analysis</code></a>. It comprises two contrasts, for ‘training’ (A) and ‘validation’ (B), but for cross-validated MANOVA the two are identical. It also defines a validation scheme which for each fold specifies which sessions are used for ‘training’ and ‘validation’. Here we use standard <a href="../reference.html#analysis.leaveonesessionout">leave-one-session-out</a> cross-validation, but more complex schemes can be defined.</p>
-<div id="55cfcf5e" class="cell" data-execution_count="4">
+<div id="ef0476c8" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_stimulus</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">C_stimulus</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>analysis_stimulus = 
@@ -314,7 +314,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     no permutations (besides neutral)</code></pre>
 </div>
 </div>
-<div id="2c21bddc" class="cell" data-execution_count="5">
+<div id="a851fce3" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>( <span class="op">...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">nSessions</span><span class="op">,</span> <span class="va">C_object_category</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -326,7 +326,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <p>By default no permutations are performed, but that can be <a href="../reference.html#analysis.addpermutations">requested explicitly</a>. We here limit the number of permutations to 100, though a larger number is recommended if available.</p>
-<div id="5a6d03e0" class="cell" data-execution_count="6">
+<div id="01513516" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">rng</span>(<span class="fl">1837146515</span><span class="op">,</span> <span class="ss">'twister'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span>.<span class="va">addPermutations</span>(<span class="fl">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -336,7 +336,7 @@ randomly selecting a subset of 100 permutations</code></pre>
 </div>
 <p>If the requested number of permutations (parameter <code>maxPerms</code>, default 1000) is larger than or equal to the number of possible permutations, all possible permutations are performed; if not, a subset is chosen randomly. For reproducibility of analyses it is advisable to <a href="https://uk.mathworks.com/help/matlab/math/generate-random-numbers-that-are-repeatable.html">explicitly initialize</a> Matlab’s random number generator with <code>rng</code>. The arguments used here were originally chosen based on the fields <code>Seed</code> and <code>Type</code> from <code>s = rng('shuffle')</code>.</p>
 <p>As seen above, evaluating an <code>Analysis</code> object prints a <a href="../reference.html#analysis.disp">brief summary</a>. It can also be visualized using the method <a href="../reference.html#analysis.show"><code>show</code></a>:</p>
-<div id="44e67687" class="cell" data-execution_count="7">
+<div id="bf5d4d68" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
@@ -349,7 +349,7 @@ randomly selecting a subset of 100 permutations</code></pre>
 </div>
 </div>
 <p>Below we need a cell array which contains all <code>Analysis</code> objects.</p>
-<div id="ed02b4d6" class="cell" data-execution_count="8">
+<div id="04bdf8a4" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> {<span class="va">analysis_stimulus</span><span class="op">,</span> <span class="va">analysis_object_category</span>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -362,13 +362,14 @@ randomly selecting a subset of 100 permutations</code></pre>
 <li>and then runs the analyses on the regions and returns the results.</li>
 </ul>
 <p>The output first reports on loading the data and then displays the created <code>CvCrossManova</code> object, including information on the contained analyses.</p>
-<div id="6a88c702" class="cell" data-execution_count="9">
+<div id="c59b828d" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 cvCrossManovaRegion
 
 loading data via subj1/model/SPM.mat
+  volume of 40 × 64 × 64 = 163840 voxels
   27638 voxels within brain mask
     572 voxels within brain mask in subj1/mask4_vt.nii
     21 voxels within brain mask in subj1/mask8b_face_vt.nii
@@ -377,85 +378,54 @@ loading data via subj1/model/SPM.mat
   reading images from subj1/rbold.nii,????
   1452 of 1452 volumes loaded
   whitening
-  high-pass-filtering
-  sum(fs) = 1452 - 48 - 180 = 1224   [SPM: trRV = 1224  erdf = 1224]
-
-computing Cross-validated (Cross-) MANOVA
-  CvCrossManova:
-    Data:
-      session     n      p     q      f 
-         1       121    572    15    102
-         2       121    572    15    102
-         3       121    572    15    102
-         4       121    572    15    102
-         5       121    572    15    102
-         6       121    572    15    102
-         7       121    572    15    102
-         8       121    572    15    102
-         9       121    572    15    102
-        10       121    572    15    102
-        11       121    572    15    102
-        12       121    572    15    102
-    lambda: 1e-08
-    Analysis 1:
-      12 fold(s), 12 session(s)
-      CA = CB:  8 × 7, 7-dimensional
-      no permutations (besides neutral)
-    Analysis 2:
-      12 fold(s), 12 session(s)
-      CA = CB:  8 × 3, 3-dimensional
-      100 permutations (including neutral)</code></pre>
+  high-pass-filtering</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Dot indexing is not supported for variables of this type.
+Error in cvCrossManovaRegion (line 30)
+nRegions = numel(misc.rmvi);</code></pre>
 </div>
 </div>
 <p>The result <code>ps</code> is an array with the number of voxels in each region.</p>
-<div id="b32db21d" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">ps</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>ps =
-   572    21   225</code></pre>
+<div id="82a8964e" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">ps</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Unrecognized function or variable 'ps'.</code></pre>
 </div>
 </div>
 <p>The result <code>Ds</code> is a cell array with one row for each analysis, and one column for each region. For the first analysis each cell contains a scalar, which is the estimated value of <em>D</em>.</p>
-<div id="06d13941" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>ans =
-  1x3 cell array
-    {[5.3228]}    {[0.36733]}    {[2.4592]}</code></pre>
-</div>
-</div>
-<div id="c5f2673e" class="cell" data-execution_count="12">
+<div id="bc25f0f6" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Error using assert
-result does not match expected [5.3228309400800411, 0.30012393047769736, 1.6930630901451187]</code></pre>
+<pre><code>Unrecognized function or variable 'Ds'.</code></pre>
+</div>
+</div>
+<div id="92ef12c7" class="cell" data-execution_count="12">
+<div class="cell-output cell-output-stderr">
+<pre><code>Undefined variable 'Ds'.</code></pre>
 </div>
 </div>
 <p>For the second analysis each cell contains an array with 100 elements, corresponding to the 100 permutations we requested. The first value is the actual estimated value of <em>D</em>, the others are permutation values.</p>
-<div id="91acdc1e" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>ans =
-  1x3 cell array
-    {1x100 double}    {1x100 double}    {1x100 double}</code></pre>
-</div>
-</div>
-<div id="c5ec9698" class="cell" data-execution_count="14">
+<div id="a746e4e7" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Error using assert
-result does not match expected [1.2852740961380142, -0.018025507532779275, 0.58444270402859833]</code></pre>
+<pre><code>Unrecognized function or variable 'Ds'.</code></pre>
+</div>
+</div>
+<div id="272c9e4c" class="cell" data-execution_count="14">
+<div class="cell-output cell-output-stderr">
+<pre><code>Undefined variable 'Ds'.</code></pre>
 </div>
 </div>
 <p>Based on this, we can calculate a <em>p</em>-value for the null hypothesis ‘no effect of category within inanimate object’, in each region.</p>
-<div id="aeec81ab" class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">regions</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">D</span> <span class="op">=</span> <span class="va">Ds</span>{<span class="fl">2</span><span class="op">,</span> <span class="va">i</span>}<span class="op">;</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">pval</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">D</span> <span class="op">&gt;=</span> <span class="va">D</span>(<span class="fl">1</span>))<span class="op">;</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'%-25s  D = %.4f  p = %g\n'</span><span class="op">,</span> <span class="va">regions</span>{<span class="va">i</span>}<span class="op">,</span> <span class="va">D</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">pval</span>)</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>subj1/mask4_vt.nii         D = 1.0309  p = 0.01
-subj1/mask8b_face_vt.nii   D = 0.0220  p = 0.05
-subj1/mask8b_house_vt.nii  D = 0.3718  p = 0.01</code></pre>
+<div id="a566223c" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">regions</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">D</span> <span class="op">=</span> <span class="va">Ds</span>{<span class="fl">2</span><span class="op">,</span> <span class="va">i</span>}<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">pval</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">D</span> <span class="op">&gt;=</span> <span class="va">D</span>(<span class="fl">1</span>))<span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'%-25s  D = %.4f  p = %g\n'</span><span class="op">,</span> <span class="va">regions</span>{<span class="va">i</span>}<span class="op">,</span> <span class="va">D</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">pval</span>)</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Undefined variable 'Ds'.</code></pre>
 </div>
 </div>
 <p>The null hypothesis can be rejected in all three regions.</p>
@@ -469,148 +439,83 @@ subj1/mask8b_house_vt.nii  D = 0.3718  p = 0.01</code></pre>
 <li>and then runs the analyses on the voxels included in each searchlight.</li>
 </ul>
 <p>The output first reports on loading the data and then displays the created <code>CvCrossManova</code> object, including information on the contained analyses.</p>
-<div id="43c4ca34" class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">slRadius</span> <span class="op">=</span> <span class="fl">3</span><span class="op">;</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">analyses</span>)  <span class="co">% </span><span class="al">FIXME</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="833be916" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="va">slRadius</span> <span class="op">=</span> <span class="fl">3</span><span class="op">;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">analyses</span>)  <span class="co">% </span><span class="al">FIXME</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 cvCrossManovaSearchlight
 
 loading data via subj1/model/SPM.mat
+  volume of 40 × 64 × 64 = 163840 voxels
   27638 voxels within brain mask
-  no region mask
+  no region masks
   reading images from subj1/rbold.nii,????
   1452 of 1452 volumes loaded
   whitening
   high-pass-filtering
-  sum(fs) = 1452 - 48 - 180 = 1224   [SPM: trRV = 1224  erdf = 1224]
 
-computing Cross-validated (Cross-) MANOVA
-  CvCrossManova:
-    Data:
-      session     n       p      q      f 
-         1       121    27638    15    102
-         2       121    27638    15    102
-         3       121    27638    15    102
-         4       121    27638    15    102
-         5       121    27638    15    102
-         6       121    27638    15    102
-         7       121    27638    15    102
-         8       121    27638    15    102
-         9       121    27638    15    102
-        10       121    27638    15    102
-        11       121    27638    15    102
-        12       121    27638    15    102
-    lambda: 1e-08
-    Analysis 1:
-      12 fold(s), 12 session(s)
-      CA = CB:  8 × 7, 7-dimensional
-      no permutations (besides neutral)
-    Analysis 2:
-      12 fold(s), 12 session(s)
-      CA = CB:  8 × 3, 3-dimensional
-      100 permutations (including neutral)
-  running searchlight of radius 3 (123 voxels)
-  intermediate results are saved to
-      subj1/model/ccmsCheckpoint9E2977B65956AC35D4D41D6D789608EF.mat
-    44.0 min  27638 voxels  100.0 %</code></pre>
+computing Cross-validated (Cross-) MANOVA</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Dot indexing is not supported for variables of this type.
+Error in cvCrossManovaSearchlight (line 83)
+cm = CvCrossManova(Ys, Xs, analyses, fs=misc.fs, lambda=lambda);</code></pre>
 </div>
 </div>
 <p>Results are written to files in the model directory. <code>ccmsParameters.mat</code> is a record of the analysis parameters and <code>VPSL.nii</code> is an image file where each voxel contains the number of voxels of the searchlight centered on it.</p>
-<div id="451852d3" class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="va">dir</span>(<span class="va">modelDir</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="08dfae67" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="va">dir</span>(<span class="va">modelDir</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-.                     spmD_A0002_P0029.nii  spmD_A0002_P0066.nii  
-..                    spmD_A0002_P0030.nii  spmD_A0002_P0067.nii  
-RPV.nii               spmD_A0002_P0031.nii  spmD_A0002_P0068.nii  
-ResMS.nii             spmD_A0002_P0032.nii  spmD_A0002_P0069.nii  
-SPM.mat               spmD_A0002_P0033.nii  spmD_A0002_P0070.nii  
-VPSL.nii              spmD_A0002_P0034.nii  spmD_A0002_P0071.nii  
-ccmsParameters.mat    spmD_A0002_P0035.nii  spmD_A0002_P0072.nii  
-mask.nii              spmD_A0002_P0036.nii  spmD_A0002_P0073.nii  
-spmD_A0001_P0001.nii  spmD_A0002_P0037.nii  spmD_A0002_P0074.nii  
-spmD_A0002_P0001.nii  spmD_A0002_P0038.nii  spmD_A0002_P0075.nii  
-spmD_A0002_P0002.nii  spmD_A0002_P0039.nii  spmD_A0002_P0076.nii  
-spmD_A0002_P0003.nii  spmD_A0002_P0040.nii  spmD_A0002_P0077.nii  
-spmD_A0002_P0004.nii  spmD_A0002_P0041.nii  spmD_A0002_P0078.nii  
-spmD_A0002_P0005.nii  spmD_A0002_P0042.nii  spmD_A0002_P0079.nii  
-spmD_A0002_P0006.nii  spmD_A0002_P0043.nii  spmD_A0002_P0080.nii  
-spmD_A0002_P0007.nii  spmD_A0002_P0044.nii  spmD_A0002_P0081.nii  
-spmD_A0002_P0008.nii  spmD_A0002_P0045.nii  spmD_A0002_P0082.nii  
-spmD_A0002_P0009.nii  spmD_A0002_P0046.nii  spmD_A0002_P0083.nii  
-spmD_A0002_P0010.nii  spmD_A0002_P0047.nii  spmD_A0002_P0084.nii  
-spmD_A0002_P0011.nii  spmD_A0002_P0048.nii  spmD_A0002_P0085.nii  
-spmD_A0002_P0012.nii  spmD_A0002_P0049.nii  spmD_A0002_P0086.nii  
-spmD_A0002_P0013.nii  spmD_A0002_P0050.nii  spmD_A0002_P0087.nii  
-spmD_A0002_P0014.nii  spmD_A0002_P0051.nii  spmD_A0002_P0088.nii  
-spmD_A0002_P0015.nii  spmD_A0002_P0052.nii  spmD_A0002_P0089.nii  
-spmD_A0002_P0016.nii  spmD_A0002_P0053.nii  spmD_A0002_P0090.nii  
-spmD_A0002_P0017.nii  spmD_A0002_P0054.nii  spmD_A0002_P0091.nii  
-spmD_A0002_P0018.nii  spmD_A0002_P0055.nii  spmD_A0002_P0092.nii  
-spmD_A0002_P0019.nii  spmD_A0002_P0056.nii  spmD_A0002_P0093.nii  
-spmD_A0002_P0020.nii  spmD_A0002_P0057.nii  spmD_A0002_P0094.nii  
-spmD_A0002_P0021.nii  spmD_A0002_P0058.nii  spmD_A0002_P0095.nii  
-spmD_A0002_P0022.nii  spmD_A0002_P0059.nii  spmD_A0002_P0096.nii  
-spmD_A0002_P0023.nii  spmD_A0002_P0060.nii  spmD_A0002_P0097.nii  
-spmD_A0002_P0024.nii  spmD_A0002_P0061.nii  spmD_A0002_P0098.nii  
-spmD_A0002_P0025.nii  spmD_A0002_P0062.nii  spmD_A0002_P0099.nii  
-spmD_A0002_P0026.nii  spmD_A0002_P0063.nii  spmD_A0002_P0100.nii  
-spmD_A0002_P0027.nii  spmD_A0002_P0064.nii  
-spmD_A0002_P0028.nii  spmD_A0002_P0065.nii  
+.          ..         RPV.nii    ResMS.nii  SPM.mat    mask.nii   
 </code></pre>
 </div>
 </div>
 <p>Files with names of the form <code>spmD_A####_P####.nii</code> are images of pattern distinctness, i.e each voxel contains the estimated value of <em>D</em> from the voxels of the searchlight centered on it. The digits <code>####</code> after <code>A</code> identify the analysis, and the digits after <code>P</code> the permutation (if no permutations were requested, only <code>P0001</code> for the neutral permutation).</p>
 <p>We visualize sagittal slices of <code>spmD_A0001_P0001.nii</code>, i.e.&nbsp;the actual pattern distinctness from the first analysis.</p>
-<div id="679d2756" class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">% load data</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">XYZ</span>] <span class="op">=</span> <span class="va">spm_read_vols</span>(<span class="va">spm_vol</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'spmD_A0001_P0001.nii'</span>)))<span class="op">;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a><span class="co">% plot data</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co">% color map: parula, but black for NaN</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">parula</span>()<span class="op">;</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a><span class="va">colormap</span>(<span class="va">cm</span>)</span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="co">% color limits from data</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a><span class="va">cl</span> <span class="op">=</span> [<span class="va">min</span>(<span class="va">D</span>(<span class="op">:</span>))<span class="op">,</span> <span class="va">max</span>(<span class="va">D</span>(<span class="op">:</span>))]<span class="op">;</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a><span class="co">% sagittal slices</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">1200</span>]<span class="op">;</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a><span class="va">tiledlayout</span>(<span class="fl">8</span><span class="op">,</span> <span class="fl">5</span><span class="op">,</span> <span class="va">Padding</span><span class="op">=</span><span class="st">"tight"</span><span class="op">,</span> <span class="va">TileSpacing</span><span class="op">=</span><span class="st">"tight"</span>)</span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">3</span> <span class="op">:</span> <span class="fl">39</span></span>
-<span id="cb27-15"><a href="#cb27-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">nexttile</span></span>
-<span id="cb27-16"><a href="#cb27-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">slice</span> <span class="op">=</span> <span class="va">squeeze</span>(<span class="va">D</span>(<span class="va">i</span><span class="op">,</span> <span class="op">:,</span> <span class="op">:</span>)) <span class="op">.';</span> </span>
-<span id="cb27-17"><a href="#cb27-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">imagesc</span>(<span class="va">slice</span>)</span>
-<span id="cb27-18"><a href="#cb27-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">clim</span>(<span class="va">cl</span>)</span>
-<span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">axis</span> <span class="va">off</span> <span class="va">image</span> <span class="va">xy</span></span>
-<span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span> <span class="op">=</span> <span class="va">colorbar</span>(<span class="va">Location</span><span class="op">=</span><span class="ss">'layout'</span>)<span class="op">;</span></span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span>.<span class="va">Layout</span>.<span class="va">Tile</span> <span class="op">=</span> <span class="fl">40</span><span class="op">;</span></span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span>.<span class="va">Label</span>.<span class="va">String</span> <span class="op">=</span> <span class="ss">'D̂'</span><span class="op">;</span></span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span>.<span class="va">TickDirection</span> <span class="op">=</span> <span class="ss">'out'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<div id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div>
-<img src="cvmanova_files/figure-html/cell-19-output-1.svg" id="fig-539a35d47e664c97a50115a146a7f1bd-2" class="img-fluid figure-img">
-</div>
-</figure>
-</div>
+<div id="f61ba4e5" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co">% load data</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">XYZ</span>] <span class="op">=</span> <span class="va">spm_read_vols</span>(<span class="va">spm_vol</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'spmD_A0001_P0001.nii'</span>)))<span class="op">;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">% plot data</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">% color map: parula, but black for NaN</span></span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span> <span class="op">=</span> <span class="va">parula</span>()<span class="op">;</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="fl">0</span><span class="op">;</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="va">colormap</span>(<span class="va">cm</span>)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">% color limits from data</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a><span class="va">cl</span> <span class="op">=</span> [<span class="va">min</span>(<span class="va">D</span>(<span class="op">:</span>))<span class="op">,</span> <span class="va">max</span>(<span class="va">D</span>(<span class="op">:</span>))]<span class="op">;</span></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co">% sagittal slices</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">1200</span>]<span class="op">;</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="va">tiledlayout</span>(<span class="fl">8</span><span class="op">,</span> <span class="fl">5</span><span class="op">,</span> <span class="va">Padding</span><span class="op">=</span><span class="st">"tight"</span><span class="op">,</span> <span class="va">TileSpacing</span><span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">3</span> <span class="op">:</span> <span class="fl">39</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="va">nexttile</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="va">slice</span> <span class="op">=</span> <span class="va">squeeze</span>(<span class="va">D</span>(<span class="va">i</span><span class="op">,</span> <span class="op">:,</span> <span class="op">:</span>)) <span class="op">.';</span> </span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="va">imagesc</span>(<span class="va">slice</span>)</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">clim</span>(<span class="va">cl</span>)</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">axis</span> <span class="va">off</span> <span class="va">image</span> <span class="va">xy</span></span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span> <span class="op">=</span> <span class="va">colorbar</span>(<span class="va">Location</span><span class="op">=</span><span class="ss">'layout'</span>)<span class="op">;</span></span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span>.<span class="va">Layout</span>.<span class="va">Tile</span> <span class="op">=</span> <span class="fl">40</span><span class="op">;</span></span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span>.<span class="va">Label</span>.<span class="va">String</span> <span class="op">=</span> <span class="ss">'D̂'</span><span class="op">;</span></span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="va">cb</span>.<span class="va">TickDirection</span> <span class="op">=</span> <span class="ss">'out'</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Error using spm_vol&gt;spm_vol_hdr
+File "subj1/model/spmD_A0001_P0001.nii" does not exist.
+Error in spm_vol (line 61)
+        v = spm_vol_hdr(deblank(P(i,:)));</code></pre>
 </div>
 </div>
 <p>The largest values of <em>D</em> seem to be attained bilaterally in ventral temporal cortex, presumably the fusiform gyrus. Constrained (approximately) to the right and left hemispheres, the maximal values are:</p>
-<div id="3c4e9831" class="cell" data-execution_count="19">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">XYZ</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">D</span>))<span class="op">;</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="va">Dright</span> <span class="op">=</span> <span class="va">D</span> <span class="op">.*</span> (<span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span>)<span class="op">;</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="va">maxDright</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">Dright</span>(<span class="op">:</span>))</span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">XYZ</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">D</span>))<span class="op">;</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="va">Dleft</span> <span class="op">=</span> <span class="va">D</span> <span class="op">.*</span> (<span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span>)<span class="op">;</span></span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a><span class="va">maxDleft</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">Dleft</span>(<span class="op">:</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>maxDright =
-       2.1622
-maxDleft =
-       2.1156</code></pre>
+<div id="e30dd78f" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">XYZ</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">D</span>))<span class="op">;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="va">Dright</span> <span class="op">=</span> <span class="va">D</span> <span class="op">.*</span> (<span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="va">maxDright</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">Dright</span>(<span class="op">:</span>))</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">XYZ</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">D</span>))<span class="op">;</span></span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a><span class="va">Dleft</span> <span class="op">=</span> <span class="va">D</span> <span class="op">.*</span> (<span class="va">x</span> <span class="op">&lt;</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="va">maxDleft</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">Dleft</span>(<span class="op">:</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Unrecognized function or variable 'XYZ'.</code></pre>
 </div>
 </div>
 </section>

@@ -1,9 +1,6 @@
 classdef CvCrossManova < handle & matlab.mixin.Scalar
 
-    % data type representing data and analyses
-
-    % `handle` is prevents unnecessarily copying data
-    % `Scalar` prevents forming arrays for wich the class is not designed
+    % object type representing data and analyses
 
     properties
         Ys          % cell array of per-session design matrices, observations × variables
@@ -294,7 +291,7 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
         end
 
         function disp(self)
-            % textually display information
+            % textually display information about the object
             %
             % cm.disp()
             %
