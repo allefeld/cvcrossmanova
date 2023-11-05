@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="7115732e" class="cell" data-execution_count="2">
+<div id="a50be16c" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
@@ -269,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="define-contrasts-and-analyses">Define contrasts and analyses</h2>
 <p>Haxby et al.&nbsp;used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively.</p>
 <p>Cross-validated MANOVA replaces accuracy based on classification by explained multivariate variance based on contrasts. The equivalent of pairwise classification is a contrast with a 1 for one of the two categories, a −1 for the other, and zeros otherwise. We construct these 28 contrasts, and then analyses based on them using two folds, odd → even and even → odd:</p>
-<div id="a7e7a97e" class="cell" data-execution_count="3">
+<div id="843d751d" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% construct pairwise contrasts and analyses</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">odd</span> <span class="op">=</span> (<span class="va">mod</span>(<span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span>
@@ -286,7 +286,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">analyses</span>(<span class="va">ind</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For illustration, analysis #12 has this structure:</p>
-<div id="8c06ef34" class="cell" data-execution_count="4">
+<div id="48f148d1" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span>{<span class="fl">12</span>}.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
@@ -302,7 +302,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="run-analyses-on-region-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="run-analyses-on-region-of-interest">Run analyses on region of interest</h2>
 <p>Haxby et al.&nbsp;applied their analysis to several regions of interest. The data available to us contain masks for three regions, of which we here use the first.</p>
-<div id="f4fab2de" class="cell" data-execution_count="5">
+<div id="f2576733" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -325,7 +325,7 @@ nRegions = numel(misc.rmvi);</code></pre>
 </div>
 </div>
 <p>The results are contained in column 1 of the cell array <code>Ds</code>. We assemble them into a matrix, filling in the identical values in the lower triangular part and leaving zeros on the diagonal, and visualise the matrix as a heatmap:</p>
-<div id="b01ce38c" class="cell" data-execution_count="6">
+<div id="21451e50" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">% assemble</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span>(<span class="va">ind</span>) <span class="op">=</span> [<span class="va">Ds</span>{<span class="op">:,</span> <span class="fl">1</span>}]<span class="op">;</span></span>
@@ -344,11 +344,11 @@ nRegions = numel(misc.rmvi);</code></pre>
 <section id="comparison-with-original-analysis-results" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-with-original-analysis-results">Comparison with original analysis results</h2>
 <p>Haxby et al.’s main result (Table 1) was the identification accuracy for each of the eight categories averaged across classification pairs, and then averaged across six subjects. For ‘all ventral temporal object-selective cortex’, presumably corresponding to the first of the available masks (<code>mask4_vt.nii</code>) they reported the following accuracies (in percent):</p>
-<div id="e171fa7a" class="cell" data-execution_count="7">
+<div id="fc13097a" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanAcc</span> <span class="op">=</span> [<span class="fl">100</span><span class="op">,</span> <span class="fl">100</span><span class="op">,</span>  <span class="fl">98</span><span class="op">,</span>  <span class="fl">90</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">96</span><span class="op">,</span> <span class="fl">100</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our corresponding result is the average pattern distinctness across the 7 pairwise contrasts each category was involved in:</p>
-<div id="735f0824" class="cell" data-execution_count="8">
+<div id="5c23d85c" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanD</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">DsMatrix</span>) <span class="op">/</span> (<span class="va">nConds</span> <span class="op">-</span> <span class="fl">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>meanD =
@@ -356,7 +356,7 @@ nRegions = numel(misc.rmvi);</code></pre>
 </div>
 </div>
 <p>Plotted against each other:</p>
-<div id="ec8a894b" class="cell" data-execution_count="9">
+<div id="4d017d1b" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">713</span>]<span class="op">;</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>

@@ -80,7 +80,7 @@ By default no permutations are performed, but that can be [requested explicitly]
 
 ```{matlab}
 rng(1837146515, 'twister')
-analysis_object_category.addPermutations(100)
+analysis_object_category.addPermutations(maxPerms=100)
 ```
 
 If the requested number of permutations (parameter `maxPerms`, default 1000) is larger than or equal to the number of possible permutations, all possible permutations are performed; if not, a subset is chosen randomly. For reproducibility of analyses it is advisable to [explicitly initialize](https://uk.mathworks.com/help/matlab/math/generate-random-numbers-that-are-repeatable.html) Matlab's random number generator with `rng`. The arguments used here were originally chosen based on the fields `Seed` and `Type` from `s = rng('shuffle')`.

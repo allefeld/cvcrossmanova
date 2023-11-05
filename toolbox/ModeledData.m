@@ -1,19 +1,25 @@
 classdef ModeledData < handle & matlab.mixin.Scalar
 
-    % object type containing data and design information
+    % A `ModeledData` object encapsulates data and design matrices for
+    % multiple sessions along with supplementary information. Upon
+    % creation, it estimates and stores GLM parameters and errors. Combined
+    % with one or more `Analysis` objects, it is the basis for analyses
+    % within a `CvCrossManova` object.
 
     properties
-        Ys          % cell array of per-session design matrices, observations × variables
-        Xs          % cell array of per-session data matrices, observations × regressors
-        fs          % array of per-session residual degrees of freedom
-        m           % number of sessions 
-        ns          % array of per-session numbers of observations (rows)
+        Xs      % cell array of per-session data matrices, observations × independent variables
+        Ys      % cell array of per-session design matrices, observations × dependent variables
+        fs      % array of per-session residual degrees of freedom
+        m       % number of sessions 
+        ns      % array of per-session numbers of observations
+        p       % number of dependent variables
+        qs      % array of per-session numbers of independent variables
+        names   % cell array of per-session string arrays of names of independent variables
     end
 
     properties (Hidden = true)
-        nVariables  % number of data variables (columns)
-        hBetas      % cell array of per-session parameter estimates
-        hXis        % cell array of per-session error estimates
+        hBetas  % cell array of per-session parameter estimates
+        hXis    % cell array of per-session error estimates
     end
 
     methods
@@ -21,25 +27,38 @@ classdef ModeledData < handle & matlab.mixin.Scalar
         function obj = ModeledData(Ys, Xs, kwargs)
             % create `ModeledData` object
             %
-            % modeledData = ModeledData(Ys, Xs, fs = ...)
+            % modeledData = ModeledData(Ys, Xs, fs = ..., names = ...)
             %
-            % If the per-session residual degrees of freedom `fs` are not
-            % specified, they are calculated under the assumption that the
-            % data observations are uncorrelated, as `ns(k) - rank(Xs{k})`.
-            % If the observations have been only approximately decorrelated
-            % or have been filtered, correct values should be explicitly
+            % `Ys` and `Xs` are cell arrays of per-session data and design
+            % matrices, respectively.
+            %
+            % The optional `fs` is an array of per-session residual degrees
+            % of freedom. Their default values are `size(Xs{k}, 1) -
+            % rank(Xs{k})`, corresponding to the assumption that
+            % observations are uncorrelated. If observations have been only
+            % approximately decorrelated or have been filtered, correct
+            % values should be explicitly specified.
+            %
+            % The optional `names` is a cell array of per-session string
+            % arrays of names of independent variables. Default names are
+            % identical in all sessions and of the form `"reg(#)"`, where
+            % `#` is the index of the independent variable. If independent
+            % variables with the same index in different sessions have
+            % different meanings, correct names should be explicitly
             % specified.
 
             arguments
                 Ys             (:, :)  cell
                 Xs             (:, :)  cell
                 kwargs.fs      (:, :)  double  = []
+                kwargs.names   (:, :)  cell = {}
             end
 
             % store arguments
-            obj.Ys = Ys(:).';
-            obj.Xs = Xs(:).';
-            obj.fs = kwargs.fs(:).';
+            obj.Ys = Ys(:) .';
+            obj.Xs = Xs(:) .';
+            obj.fs = kwargs.fs(:) .';
+            obj.names = kwargs.names(:) .';
 
             % determine number of sessions
             obj.m = numel(obj.Ys);
@@ -51,18 +70,30 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             assert(isequal(obj.ns, cellfun(@(x) size(x, 1), obj.Xs)), ...
                 "Number of rows of Ys and Xs must match in each session.");
 
+            % determine number of dependent variables
+            obj.p = size(obj.Ys{1}, 2);
+            assert(all(cellfun(@(x) size(x, 2), obj.Ys) == obj.p), ...
+                "Number of columns must match between sessions of Ys.");
+
+            % determine numbers of independent variables
+            obj.qs = cellfun(@(x) size(x, 2), obj.Xs);
+
             % if not specified, calculate residual degrees of freedom for each session
             if isempty(obj.fs)
                 obj.fs = obj.ns - cellfun(@rank, obj.Xs);
-            else
-                assert(obj.m == numel(obj.fs), ...
-                    "Number of sessions of Ys and fs must match.");
             end
+            assert(obj.m == numel(obj.fs), ...
+                "Number of sessions of Ys and fs must match.");
 
-            % determine number of variables
-            obj.nVariables = size(obj.Ys{1}, 2);
-            assert(all(cellfun(@(x) size(x, 2), obj.Ys) == obj.nVariables), ...
-                "Number of columns must match between sessions of Ys.");
+            % if not specified, assign names to independent variables
+            if isempty(obj.names)
+                obj.names = arrayfun(@(q) compose("reg(%d)", 1 : q), ...
+                    obj.qs, 'UniformOutput', false);
+            end
+            assert(obj.m == numel(obj.names), ...
+                "Number of sessions of Ys and names must match.");
+            assert(isequal(cellfun(@numel, obj.names), obj.qs), ...
+                "Numbers of independent variables and names must match in each session.")
 
             % estimate GLM parameters and errors for each session
             obj.hBetas = cell(1, obj.m);
@@ -73,35 +104,90 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             end
         end
 
-        function disp(obj)
+        function str = disp(obj)
             % textually display information about the object
             %
             % modeledData.disp()
             %
             % This method overrides Matlab's `disp`, so you can also use
-            % `disp(modeledData)` or simply modeledData without semicolon
+            % `disp(modeledData)` or simply `modeledData` without semicolon
             % to get the same output.
 
             % TODO make more informative using regressor names if available
 
             % prepare information string
-            str = "  ModeledData:";
-            sess = (1 : obj.m);
-            ps = cellfun(@(x) size(x, 2), obj.Ys);
-            qs = cellfun(@(x) size(x, 2), obj.Xs);
-            tbl = table(sess(:), obj.ns(:), ps(:), qs(:), obj.fs(:), ...
-                VariableNames=["session", 'n', 'p', 'q', 'f']);
-            lines = splitlines(formattedDisplayText(tbl, ...
-                SuppressMarkup=true));
-            str = str + sprintf("\n%s", lines(1));
+            str = sprintf("  ModeledData:");
+            ivns = strings(1, obj.m);
             for k = 1 : obj.m
-                str = str + sprintf("\n%s", lines(k + 2));
+                n = compose("%s", obj.names{k});
+                if numel(n) > 4
+                    n = n(1 : 4);
+                    n(4) = '…';
+                end
+                ivns(k) = join(n, ", ");
             end
-            % display information string
-            disp(str)
+            cn = ["session", "n", "f", "q", "names"];
+            arr = [
+                compose("%d", 1 : obj.m)
+                compose("%d", obj.ns)
+                compose("%.1f", obj.fs)
+                compose("%d", obj.qs)
+                ivns
+                ] .';
+            ws = max(strlength([cn ; arr]));
+            fmt = "\n    " + join(compose("%%-%ds", ws), "  ");
+            str = str + sprintf(fmt, cn .');
+            fmt = "\n    " + join(compose("%%%ds", ws), "  ");
+            str = str + sprintf(fmt, arr .');
+            str = str + sprintf("\n    p = %d", obj.p);
+            % display information string, if not requested as output
+            if nargout == 0
+                disp(str)
+                clear str
+            end
         end
 
-        % TODO show()
+        function fig = show(obj, rescale)
+            % graphically display information about the object
+            %
+            % fig = analysis.show(rescale = true)
+            %
+            % This method creates a figure showing the design matrices of
+            % all sessions.
+            %
+            % The optional `rescale` specifies whether independent
+            % variables are individually rescaled to an absolute maximum of
+            % 1, to aid visibility of details.
+            %
+            % `fig` is the handle of the created figure.
+
+            if nargin < 2
+                rescale = true;
+            end
+
+            % create figure
+            fig = figure();
+            colormap(gray)
+
+            % size and layout of figure
+            fig.Position(3 : 4) = [640, 960];
+            nCols = ceil(sqrt(obj.m));
+            nRows = ceil(obj.m / nCols);
+
+            % plot design matrices
+            for k = 1 : obj.m
+                subplot(nRows, nCols, k)
+                X = obj.Xs{k};
+                if rescale
+                    maX = max(abs(X));
+                    maX(maX < eps) = eps;   % avoid division by 0
+                    X = X * diag(1 ./ maX);
+                end
+                imagesc(X)
+                set(gca, 'XTick', 1 : obj.qs(k))
+                set(gca, 'XTickLabel', obj.names{k})
+            end
+        end
 
     end
 
@@ -112,34 +198,39 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             %
             % [modeledData, misc] = fromSPM(modelDir, regions = {}, wf = true)
             %
-            % ----------  -----------------------------------------------------------------------------
-            % `modelDir`  directory where the `SPM.mat` file referring to an estimated model is located
-            % `regions`   region mask(s), cell array of logical 3D volumes or filenames
-            % `wf`        whether to apply the whitening & high-pass filtering set up by SPM 
-            % ----------  -----------------------------------------------------------------------------
+            % `modelDir` is the directory where the `SPM.mat` file
+            % referring to an estimated model is located.
             %
-            % Data variables (columns of data matrices `Ys`) are only
-            % read from voxels within the SPM analysis brain mask, after it
-            % was intersected with the union of region masks if present.
+            % The optional `regions` is a cell array of logical 3D volumes
+            % or filenames specifying region masks. Without it, only the
+            % SPM brain mask is applied.
+            % 
+            % The optional `wf` specifies whether to apply whitening and
+            % high-pass filtering (set up in SPM) to data and design
+            % matrices.
             %
-            % ::: callout-warning
+            % ::: Warning
             % It is recommended to keep `wf` on its default value `true`.
             % While the pattern distinctness and pattern stability
-            % estimators should still be unbiased because the degrees of
-            % freedom are adjusted, not whitening may lead to loss of
-            % statistical power and not filtering will retain low-frequency
-            % signal components which may act as a confound for
-            % experimental effects.
+            % estimators should still be unbiased because the residual
+            % degrees of freedom are adjusted, not whitening will lead to
+            % decreased precision and not filtering will retain
+            % low-frequency signal components which may act as a confound
+            % for experimental effects.
             % :::
             %
-            % `misc` is a structure of fields containing additional information not
-            % stored in `modeledData`:
+            % Dependent variables (columns of data matrices `Ys`) are only
+            % read from voxels within the SPM analysis brain mask after it
+            % was intersected with the union of region masks (if provided).
             %
-            % ------  --------------------------------------------------------------------------------------- 
-            % `mask`  logical 3D volume indicating which voxels variables correspond to
+            % `misc` is a structure of fields containing additional
+            % information:
+            %
+            % ------  ---------------------------------------------------------------------------------
+            % `mask`  logical 3D volume indicating the voxels which dependent variables correspond to
             % `mat`   3D voxel indices to mm transformation matrix
-            % `rmvi`  variable indices corresponding to voxels contained in each region, cell array of arrays
-            % ------  ---------------------------------------------------------------------------------------
+            % `rmvi`  indices of dependent variables corresponding to each region, cell array of arrays
+            % ------  ---------------------------------------------------------------------------------
 
             arguments
                 modelDir        (1, :)  char
@@ -149,8 +240,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
     
             [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, ...
                 kwargs.regions, kwargs.wf);
-            md = ModeledData(Ys, Xs, fs=fs);
-            % TODO add names to ModeledData
+            md = ModeledData(Ys, Xs, fs=fs, names=names);
         end
 
     end
@@ -159,4 +249,4 @@ end
 
 
 % Copyright © 2016–2023 Carsten Allefeld
-% SPDX-License-Identifier: GPL-3.0-or-later
+% SPDX-License-Identifier: GPL-3.0-or-later%d

@@ -1,12 +1,16 @@
 classdef Analysis < handle & matlab.mixin.Scalar
 
-    % object type representing an analysis
+    % An `Analysis` object encapsulates 'training' and 'validation'
+    % contrasts and sessions as well as permutations, which together
+    % specify a Cross-validated (Cross-) MANOVA analysis. It is combined
+    % with a `ModeledData` object and possibly other `Analysis` objects
+    % within a `CvCrossManova` object, which performs the actual analysis.
 
     properties
-        CA           % 'training' contrast, regressors × subcontrasts
-        CB           % 'validation' contrast, regressors × subcontrasts
-        sessionsA    % 'training' sessions, folds × sessions logical
-        sessionsB    % 'validation' sessions, folds × sessions logical
+        CA           % 'training' contrast matrix, regressors × subcontrasts
+        CB           % 'validation' contrast matrix, regressors × subcontrasts
+        sessionsA    % 'training' sessions logical matrix, folds × sessions
+        sessionsB    % 'validation' sessions logical matrix, folds × sessions
         L            % number of folds
         m            % number of sessions
         perms        % sign permutations, permutations × sessions
@@ -25,6 +29,13 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % create `Analysis` object
             %
             % analysis = Analysis(CA, CB, sessionsA, sessionsB)
+            %
+            % `CA` and `CB` are 'training' and 'validation' contrast
+            % matrices, respectively.
+            %
+            % `sessionsA` and `sessionsB` are logical matrices which
+            % indicate which sessions (columns) are used for 'training' and
+            % 'validation', respectively, in each fold (rows).
 
             arguments
                 CA         (:, :)  double
@@ -79,7 +90,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
             obj.perms = ones(1, obj.m);
         end
 
-        function addPermutations(obj, maxPerms)
+        function addPermutations(obj, kwargs)
             % add sign permutations of per-session parameter estimates
             %
             % analysis.addPermutations(maxPerms = 1000)
@@ -88,24 +99,32 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % sign permutations should be applied, so that different values
             % of *D* for the different permutations are computed.
             %
-            % ::: {.callout-warning}
-            % Sign permutations are used to test a per-subject null
-            % hypothesis of no effect in cross-validated MANOVA analyses.
-            % It does not make sense to apply them to cross-validated
-            % Cross-MANOVAs.
-            % :::
-            %
             % For *m* sessions there are formally 2^*m*^ per-session sign
             % permutations, but not all of them lead to different
-            % permutation values. The number of unique permutations depends
-            % on the 'training' and 'validation' sessions used in different
-            % folds (`sessionsA`, `sessionsB`). This method determines
-            % which permutations lead to different outcomes and makes sure
-            % only those unique permutations are performed.
+            % permutation values of *D*. The number of unique permutations
+            % depends on the 'training' and 'validation' sessions used in
+            % different folds (`sessionsA`, `sessionsB`). This method
+            % determines which permutations lead to different outcomes and
+            % makes sure only those unique permutations are included.
             %
-            % If the number of unique permutations exceeds `maxPerms`, a
-            % random subset of `maxPerms` is chosen (including the neutral
-            % permutation, which is always permutation 1).
+            % The permutations always include the neutral permutation,
+            % which does not modify the data and therefore results in the
+            % actual value of *D*. This neutral permutation is always
+            % permutation 1. A permutation test is implemented by comparing
+            % the neutral permutation value with all permutation values,
+            % and rejecting the null hypothesis at significance level α if
+            % it ranks within the upper α-quantile (see Ernst 2004).
+            %
+            % ::: Warning
+            % Sign permutations are used to test a per-subject null
+            % hypothesis of no effect in cross-validated MANOVA analyses.
+            % It does not make sense to apply them to Cross-MANOVAs.
+            % :::
+            %
+            % The optional `maxPerms` specifies the maximum number of
+            % permutations. If the number of unique permutations exceeds
+            % `maxPerms`, a random subset is chosen for a Monte-Carlo
+            % permutation test (see Dwass 1957).
 
             % Two sign permutations are equivalent in a fold if the relative signs
             % applied to all involved sessions are the same. Two sign permutations are
@@ -113,8 +132,9 @@ classdef Analysis < handle & matlab.mixin.Scalar
 
             arguments
                 obj
-                maxPerms  (1, 1)  double  = 1000
+                kwargs.maxPerms  (1, 1)  double  = 1000
             end
+            maxPerms = kwargs.maxPerms;
 
             assert(obj.m <= 21, "Too many possible sign permutations to process.")
 
@@ -144,7 +164,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
             nPerms = size(obj.perms, 1);
             fprintf("%d permutations possible\n", nPerms)
 
-            % Monte Carlo test, following Dwass (1957) and Ernst (2004)
+            % Monte Carlo test
             if nPerms > maxPerms
                 fprintf("randomly selecting a subset of %d permutations\n", maxPerms)
                 % neutral permutation (1) + a random sample with replacement
@@ -197,7 +217,10 @@ classdef Analysis < handle & matlab.mixin.Scalar
             %
             % fig = analysis.show()
             %
-            % The method creates a figure and returns the handle.
+            % This method creates a figure showing contrast matrices,
+            % session matrices, and if present permutations.
+            %
+            % `fig` is the handle of the created figure.
 
             % create figure
             fig = figure();
@@ -276,16 +299,17 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % create `Analysis` object for leave-one-session-out
             % cross-validation
             %
-            % analysis = Analysis.leaveOneSessionOut(m, C)
             % analysis = Analysis.leaveOneSessionOut(m, CA, CB)
+            % analysis = Analysis.leaveOneSessionOut(m, C)
             %
-            % This is a convenience method which calls the constructor with
-            % `sessionsB = logical(eye(m))` and `sessionsA = not(sessionsB)`,
-            % the specification of standard leave-one-session-out
-            % cross-validation.
+            % `m` is the number of sessions. The object is created with
+            % 'training' sessions `not(logical(eye(m)))` and 'validation'
+            % sessions `logical(eye(m))`, the specification of standard
+            % leave-one-session-out cross-validation.
             %
-            % If only one contrast `C` is specified, it is used for both
-            % 'training' (`CA`) and 'validation' (`CB`).
+            % `CA` and `CB` are 'training' and 'validation' contrast
+            % matrices, respectively. If only one contrast matrix `C` is
+            % specified, it is used for both.
 
             arguments
                 m   (1, 1)  double

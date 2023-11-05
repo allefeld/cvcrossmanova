@@ -1,8 +1,12 @@
 # TODO
 
+-   helpToMarkdown: automatic references?
+
 -   Consistent capitalization of 'Cross-validated MANOVA'
     as well as 'Cross-validated Cross-MANOVA'
     consistent numerus for 'data'
+
+-   Actually, Cross-MANOVA should be called canonical correlation.
 
 -   give ids to errors (asserts) and warnings
 
@@ -38,3 +42,5 @@
     classes are derived from `handle & matlab.mixin.Scalar`
     `handle`: prevents unnecessarily copying data and enables methods to change the object
     `matlab.mixin.Scalar`: prevents forming object arrays, for wich the classes are not designed
+
+-   in documented parameter list. specification of default value with = suggests that it is a keyword parameter. fix. by making them actually keyword parameters?

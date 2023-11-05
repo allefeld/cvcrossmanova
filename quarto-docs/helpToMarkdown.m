@@ -30,7 +30,11 @@ end
 helpText = strsplit(helpText, '\n\n');
 % format second line as code
 if numel(helpText) >= 2
-    helpText{2} = sprintf("```matlab\n%s\n```", helpText{2});
+    helpText{2} = sprintf('```matlab\n%s\n```', helpText{2});
+end
+% adjust class of warnings
+for i = find(startsWith(helpText, ':::'))
+    helpText{i} = strrep(helpText{i}, 'Warning', 'callout-warning');
 end
 % print markdown
 if ~isMethod
