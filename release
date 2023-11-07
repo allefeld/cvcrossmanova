@@ -16,11 +16,18 @@ fi
 VERSION="$1"
 DATE="$(date -I)"
 
-exit 2
-
 # update toolbox description with version and date
 echo "updating toolbox description"
 sed -i 's/^% Version .*/% Version '$VERSION' '$DATE'/' toolbox/Contents.m
+
+# create release file
+echo "zipping toolbox as release asset"
+RFN="cvcrossmanova-$VERSION"
+ln -s toolbox/ "$RFN"
+zip "$RFN.zip" "$RFN"/*
+rm "$RFN"
+
+exit 2
 
 # commit changed toolbox description with release version & push 
 echo "creating commit for release"
@@ -33,13 +40,8 @@ TAG="v$VERSION"
 git tag "$VERSION"
 git push --tags
 
-# create release file
-echo "zipping toolbox as release asset"
-RFN="cvcrossmanova-$VERSION.zip"
-(cd toolbox ; zip -q "../$RFN" *)
-
 # create release
-echo "creating release with tag $TAG and asset $RFN"
-gh release create "$TAG" "$RFN"
+echo "creating release with tag $TAG and asset $RFN.zip"
+gh release create "$TAG" "$RFN.zip"
 
-echo "you can now delete $RFN"
+echo "you can now delete $RFN.zip"

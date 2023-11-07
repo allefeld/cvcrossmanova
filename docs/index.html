@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -103,7 +123,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -218,7 +238,7 @@ ul.task-list li input[type="checkbox"] {
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -234,7 +254,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–29</p>
+      <p class="date">2023–11–7</p>
     </div>
   </div>
   
@@ -246,10 +266,29 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>This project is under development and not yet usable.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Warning
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This project is under development.</p>
+</div>
+</div>
+<p>CvCrossManova is a toolbox for <a href="https://www.mathworks.com/products/matlab.html">Matlab</a> which implements the Cross-validated MANOVA and Cross-validated Cross-MANOVA algorithms.</p>
+<p>Cross-validated MANOVA was introduced by <span class="citation" data-cites="allefeld2014">Allefeld &amp; Haynes (<a href="#ref-allefeld2014" role="doc-biblioref">2014</a>)</span> as a method for multivariate pattern analysis (MVPA) in fMRI. Unlike most MVPA methods, it is not based on the accuracy of a classification algorithm, but estimates the multivariate variance explained by a contrast applied to a general linear model (GLM), called pattern distinctness <em>D</em>. Using the GLM has the advantage of a common basis with univariate fMRI analyses, resulting in an interpretable measure of effect size, and being applicable to designs where there are no classes. Other than standard GLM-based methods however, it uses cross-validation to obtain an unbiased estimator of that explained multivariate variance.</p>
+<div class="no-row-height column-margin column-container"><div id="ref-allefeld2014" class="csl-entry" role="listitem">
+Allefeld, C., &amp; Haynes, J.-D. (2014). Searchlight-based multi-voxel pattern analysis of fMRI by cross-validated MANOVA. <em>NeuroImage</em>, <em>89</em>, 345–357. <a href="https://doi.org/10.1016/j.neuroimage.2013.11.043">https://doi.org/10.1016/j.neuroimage.2013.11.043</a>
+</div></div><p>A limitation of Cross-validated MANOVA was that it provided no analog of cross-classification, i.e.&nbsp;training a classifier on one pair of classes and testing it on another pair of classes, though the original paper pointed to the possibility to use interaction contrasts for a similar purpose. In recent papers, we used an adapted version of Cross-validated MANOVA which uses two different contrasts for ‘training’ and ‘validation’, called Cross-validated Cross-MANOVA, but it was published only in the methods sections of these papers. A forthcoming methodological paper will remedy that, and the CvCrossManova toolbox is the corresponding implementation. Cross-validated Cross-MANOVA estimates the explained multivariate variance shared between two contrasts, called pattern stability <em>D<sup>×</sup></em>.</p>
+<p>An implementation of Cross-validated MANOVA was provided previously by the <a href="https://github.com/allefeld/cvmanova">CvManova toolbox</a>. Because Cross-validated MANOVA is a special case of Cross-validated Cross-MANOVA, the CvCrossManova toolbox implements both and is therefore an extended revision.</p>
+<p>These pages document how to use the CvCrossManova toolbox to estimate both pattern distinctness and pattern stability, including both an example of analysing fMRI data supported by SPM and other data (in this case EEG).</p>
 <div id="listing-subsections" class="quarto-listing quarto-listing-container-default">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1698219843000" data-listing-file-modified-sort="1698219843611" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="1">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1699375617000" data-listing-file-modified-sort="1699375617212" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="87">
 <div class="body">
 <p><a href="./installation.html"></a></p><a href="./installation.html">
 <h3 class="no-anchor listing-title">
@@ -318,9 +357,10 @@ Detailed information about toolbox functions and classes
 No matching items
 </div>
 </div>
-<p>This software is copyrighted © 2023 by <a href="https://allefeld.github.io/">Carsten Allefeld</a> and released under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a> or later. <a href="https://remi-gau.github.io/">Remi Gau</a>, <a href="https://www.timbuschman.com/LabMembers/Polina-Iamshchinina">Polina Iamshchinina</a>, and <a href="https://discolab.eu/team/thomas-christophel/">Thomas Christophel</a> contributed to the code.</p>
-<p>It has been developed with <a href="https://uk.mathworks.com/products/matlab.html">Matlab</a> R2023a (v9.14) and <a href="https://www.fil.ion.ucl.ac.uk/spm/software/spm12/">SPM12</a> r7771, but should work with later and slightly earlier versions.</p>
-<p>The software does not depend on other toolboxes, except <code>cvCrossManovaRegion</code> and <code>cvCrossManovaSearchlight</code> which depend on SPM12 being installed.</p>
+<hr>
+<p>The CvCrossManova toolbox is copyrighted © 2023 by <a href="https://allefeld.github.io/">Carsten Allefeld</a> and released under the terms of the <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU General Public License, version 3</a> or later. <a href="https://remi-gau.github.io/">Remi Gau</a>, <a href="https://www.timbuschman.com/LabMembers/Polina-Iamshchinina">Polina Iamshchinina</a>, and <a href="https://discolab.eu/team/thomas-christophel/">Thomas Christophel</a> contributed to earlier versions of the code.</p>
+<p>This documentation was created with <a href="https://quarto.org/">Quarto</a> using a slightly modified <a href="https://bootswatch.com/cosmo/">Cosmo Bootswatch theme</a>. It is set in <a href="https://fonts.google.com/specimen/Source+Sans+3">Source Sans 3</a> and <a href="https://fonts.google.com/specimen/Source+Code+Pro">Source Code Pro</a>. Matlab code was executed using <a href="https://github.com/allefeld/mkernel">MKernel</a>.</p>
+
 
 
 

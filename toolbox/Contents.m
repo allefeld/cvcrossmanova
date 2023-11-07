@@ -1,5 +1,5 @@
 % cvcrossmanova
-% Version 0.0.0 2023-06-29
+% Version 0.0.0 2023-11-07
 %
 % MVPA by Cross-Validated (Cross-) MANOVA
 %
