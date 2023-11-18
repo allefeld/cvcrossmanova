@@ -31,6 +31,10 @@ pre>code {
 a {
   text-decoration: none;
 }
+/* except on hover */
+a:hover {
+  text-decoration: underline;
+}
 
 /* indent definitions */
 dd {
@@ -87,18 +91,4 @@ div.cell-output-stdout + div.cell-output-stderr {
 }
 div.cell {
   margin-bottom: 1rem;
-}
-
-/* download button */
-div.margin-footer-item {
-  border: 1px solid #f8f8f8;
-  padding: 0.1em 0.4em;
-  margin-left: auto;
-  margin-right: auto;
-  width: fit-content;
-  background-color: #f8f8f8;
-  border-radius: .25rem;
-}
-div.margin-footer-item p {
-  margin-bottom: 0px;
 }

@@ -1,24 +1,152 @@
 ---
 title: API Reference documentation
 subtitle: Detailed information about toolbox functions and classes
-jupyter: mkernel
 order: 30
+jupyter: mkernel
+execute: 
+  cache: refresh
 ---
+
+
+
+## General notes
+
+### Programming interfaces
+
+The CvCrossManova toolbox has two interfaces to perform analyses:
+
+A simplified interface to analyse fMRI data which have been modeled in SPM is provided by the functions [`ccmRegion`](#ccmregion) for region-of-interest analyses and [`ccmSearchlight`](#ccmsearchlight) for searchlight analyses. Both functions take a parameter `analyses` which is a cell array of [`Analysis`](#analysis) objects specifying analyses.
+
+A more complex but also more versatile interface, which can be used with arbitrary suitable data, is provided by objects of class [`CvCrossManova`](#cvcrossmanova). Upon creation, a [`ModeledData`](#modeleddata) object containing data and design matrices as well as an `analyses` cell array have to be provided. After that, analyses can be run on subsets of dependent variables using the method [`runAnalyses`](#cvcrossmanova.runanalyses).
+
+  
+### Pattern distinctness vs pattern stability
+
+The CvCrossManova toolbox implements both Cross-validated MANOVA resulting in pattern distinctness *D* and Cross-validated (Cross-) MANOVA resulting in pattern stability *D*^×^. Which of these a given [`Analysis`](#analysis) specification corresponds to depends on the contrast matrices and the regressors involved in them.
+
+In the simplest case where a regressor has the same meaning (corresponds to the same experimental condition) in all sessions (the same set of regressors is present in all sessions in the same order), Cross-validated MANOVA uses a single contrast matrix, which is used for both 'training' (`CA`) and 'validation' (`CB`), and Cross-validated Cross-MANOVA uses two different contrast matrices. However, if e.g. some experimental events occur only in some sessions and the corresponding regressors therefore do not occur in the others, it may happen that two different contrast matrices are necessary for Cross-validated MANOVA and the that a single contrast matrix can be used for Cross-validated Cross-MANOVA.
+
+::: callout-tip
+It is recommended to always include all regressors in all sessions, even if they may be empty in some of them. This will lead to the corresponding parameter to be inestimable in those sessions, but as long as the contrasts used are estimable, this is not a problem for the analysis.
+:::
+
+### Searchlight radius and size
+
+The numerical parameter `radius` of [`ccmSearchlight`](#ccmsearchlight) specifies the radius of the searchlight sphere in voxels.
+
+::: callout-caution
+Note that a voxel is included in a searchlight if its distance from the
+center voxel is smaller than __or equal to__ the radius. This convention may be different from the one used by other software packages.
+:::
+
+Note also that fractional values of `radius` are possible and meaningful:
+
+:::::: {.columns layout-ncol="3"}
+::: {.column}
+`radius`   `pMax`
+--------  ------
+0              1
+1              7
+1.5           19
+1.8           27
+2             33
+2.3           57
+2.5           81
+2.9           93
+3            123
+3.2          147
+3.4          171
+:::
+::: {.column}
+`radius`   `pMax`
+--------  ------
+3.5          179
+3.7          203
+3.8          251
+4            257
+4.2          305
+4.3          341
+4.4          365
+4.5          389
+4.6          437
+4.7          461
+4.9          485
+:::
+::: {.column}
+`radius`   `pMax`
+--------  ------
+5            515
+5.1          587
+5.2          619
+5.4          691
+5.5          739
+5.7          751
+5.8          799
+5.9          847
+5.92         895
+6            925
+6.1          949
+:::
+::::::
+
+`pMax` is the maximum number of voxels, which is reached by a searchlight completely within the brain mask; at its boundaries the actual number will be smaller.
+
+### Permutations
+
+[`analysis.addPermutations`](#analysis.addpermutations) adds information to an [`Analysis`](#analysis) object that permutations should be applied, so that subsequent analysis runs return not just the actual estimate but also permutation values, which can be used for a permutation test. 
+
+The 'permutation' method implemented is to switch the sign (±) of GLM parameter estimates in each session separately, as proposed by @allefeld2014. For *m* sessions there are formally 2^*m*^ per-session sign permutations, but not all of them lead to different permutation values of *D*; the number of unique permutations depends on the 'training' and 'validation' sessions used in different folds. `addPermutations` determines which permutations can lead to different outcomes and makes sure only those unique permutations are included.
+
+::: callout-caution
+Sign permutations are used to test a per-unit (e.g. participant) null hypothesis of no effect in Cross-validated MANOVA analyses resulting in estimates of *D*. It does not make sense to apply them to Cross-MANOVA analyses resulting in estimates of *D*^×^.
+:::
+
+If the number of unique permutations is too large, a maximum number of permutations to be applied can be specified via the parameter `maxPerms`. In that case, a random subset of permutations is chosen which can be used for a Monte-Carlo permutation test [@dwass1957].
+
+::: callout-tip
+Note that if the permutations are chosen randomly, the result of the permutation test is in principle random, too. To ensure reproducible results, it is recommended to run `s = rng('shuffle')` once, note the values of `s.Seed` and `s.Type`, and then to include `rng(<Seed>, <Type>)` in your analysis pipeline. This is also necessary for the checkpointing mechanism in [`ccmSearchlight`](#ccmsearchlight) to be effective.
+:::
+
+If permutations are applied, an analysis which would normally return a single value (the actual estimate) instead returns an array of permutation values.
+Permutations always include the neutral permutation which does not modify the data, and it is always permutation 1, i.e. the actual estimate is always the first in an array of permutation values.
+
+Note that the toolbox does not implement the actual permutation test. For a single unit (participant), a permutation test can be implemented by comparing the actual value with all permutation values (including the actual value resulting from the neutral permutation) and rejecting the null hypothesis at significance level α if the actual value ranks within the upper α-quantile. A simple implementation is `pvalue = mean(D >= D(1))`. See @ernst2004 for details, including how to correct for multiple comparisons. For permutation-based population inference for MVPA, see @allefeld2016.
+
+### Whitening and filtering
+
+The logical parameter `wf` of [`ccmRegion`](#ccmregion), [`ccmSearchlight`](#ccmsearchlight), and [`ModeledData.fromSPM`](#modeleddata.fromspm) specifies whether to apply the whitening and high-pass filtering (set up in SPM) to data and design matrices. The default value is `true`.
+
+::: callout-caution
+It is recommended to keep the default value. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.
+:::
+
+### Shrinkage regularization
+
+The numerical parameter `lambda` (from 0 to 1) of [`ccmRegion`](#ccmregion), [`ccmSearchlight`](#ccmsearchlight), and [`CvCrossManova`](#cvcrossmanova.cvcrossmanova) controls the amount of [shrinkage regularization](https://en.wikipedia.org/wiki/Shrinkage_(statistics)) applied to the estimate of the error covariance matrix, which improves the numerical and statistical stability of the estimates of *D* and *D*^×^. A drawback of regularization is that with it this estimation is no longer unbiased. The small default value of 10^−8^ was chosen to limit this effect while still providing somewhat improved numerical stability.
+
+A larger value may be necessary if a larger number of dependent variables (voxels) enter an analysis. While there are approaches to determine the optimal amount of shrinkage regularization from the data [cf. @schaefer2005], in our experience they are not sufficiently reliable to be applied automatically.
+
+::: callout-tip
+It is recommended to usually keep the default value and rather restrict the number of dependent variables (voxels) analyzed together. If that is not possible, one pragmatic approach would be to manually optimize `lambda` on one unit (e.g. participant) which is then not used for further analysis.
+:::
+
+The target of the shrinkage regularization is the diagonal matrix where every diagonal element is identical to the error variance averaged across dependent variables. A `lambda` value of 1 can therefore be used to disregard the error covariance structure, because it replaces the estimated error covariance matrix by this shrinkage target. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t. the original data space (Euclidean metric) instead of the whitened space.
+
 
 ```{matlab}
 %| output: asis
 %| echo: false
 clear all
 names = {
-    "cvCrossManovaRegion",
-    "cvCrossManovaSearchlight",
+    "ccmRegion",
+    "ccmSearchlight",
     "Analysis",
     "ModeledData",
-    "CvCrossManova",
-    "slSize"
+    "CvCrossManova"
 };
 helpToMarkdown(names)
 ```
+
 
 
 <!-- Copyright © 2023 Carsten Allefeld

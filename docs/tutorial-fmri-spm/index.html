@@ -125,7 +125,7 @@ div.csl-indent {
 <link rel="stylesheet" href="../styles.css">
 </head>
 
-<body class="nav-sidebar floating slimcontent">
+<body class="nav-sidebar floating">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -238,7 +238,7 @@ div.csl-indent {
         
     </div>
 <!-- main -->
-<main class="content page-columns page-full" id="quarto-document-content">
+<main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -254,7 +254,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–10–28</p>
+      <p class="date">2023–11–11</p>
     </div>
   </div>
   
@@ -267,9 +267,7 @@ div.csl-indent {
 
 
 <p>As an example for how to use the toolbox to analyze fMRI data, here we apply Cross-validated MANOVA as well as Cross-validated Cross-MANOVA to the data of subject&nbsp;1 from <span class="citation" data-cites="haxby2001">Haxby et al. (<a href="#ref-haxby2001" role="doc-biblioref">2001</a>)</span>.</p>
-<div class="no-row-height column-margin column-container"><div id="ref-haxby2001" class="csl-entry" role="listitem">
-Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., &amp; Pietrini, P. (2001). Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex. <em>Science</em>, <em>293</em>, 2425–2430. <a href="https://doi.org/10.1126/science.1063736">https://doi.org/10.1126/science.1063736</a>
-</div></div><p>The details of the experiment and analysis are presented in footnotes. From Footnote 18:</p>
+<p>The details of the experiment and analysis are presented in footnotes. From Footnote 18:</p>
 <blockquote class="blockquote">
 <p>Stimuli were gray-scale images of faces, houses, cats, bottles, scissors, shoes, chairs, and nonsense patterns. The categories were chosen so that all stimuli from a given category would have the same base level name. […]<br>
 Twelve time series were obtained in each subject. Each time series began and ended with 12 s of rest and contained eight stimulus blocks of 24-s duration, one for each category, separated by 12-s intervals of rest. Stimuli were presented for 500 ms with an interstimulus interval of 1500 ms. […]<br>
@@ -280,7 +278,7 @@ To determine the patterns of response to each category on even-numbered and odd-
 <p>Analysis of the accuracy with which the category being viewed could be identified focused on comparisons between patterns of response for pairs of categories […]<br>
 If the within-category correlation (for example, response to category A on even and odd runs) was larger than the between-category correlation (correlation of the response to category A on even runs with the response to category B on odd runs), that comparison was counted as a correct identiﬁcation.</p>
 </blockquote>
-<p>The main result of the paper is the identification accuracy for each category, determined in a several different regions of interest and presented in Table&nbsp;1.</p>
+<p>The main result of the paper is the identification accuracy for each category, determined in several different regions of interest and presented in Table&nbsp;1.</p>
 <p>Our analysis is broken down into several steps in the following subpages:</p>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
@@ -291,7 +289,7 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 
 <div class="quarto-listing quarto-listing-container-default" id="listing-listing">
 <div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1698536457000" data-listing-file-modified-sort="1698536457909" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="879">
+<div class="quarto-post image-right" data-index="0" data-listing-date-sort="1699735663000" data-listing-file-modified-sort="1699735663314" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="821">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/preparation.html"></a></p><a href="../tutorial-fmri-spm/preparation.html">
 <h3 class="no-anchor listing-title">
@@ -307,7 +305,7 @@ Data are downloaded, preprocessed, and design information extracted
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1698527447000" data-listing-file-modified-sort="1698527447423" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="785">
+<div class="quarto-post image-right" data-index="1" data-listing-date-sort="1699736142000" data-listing-file-modified-sort="1699736142946" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="786">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/model.html"></a></p><a href="../tutorial-fmri-spm/model.html">
 <h3 class="no-anchor listing-title">
@@ -323,7 +321,7 @@ A model for the data is set up and estimated in SPM
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1699148442000" data-listing-file-modified-sort="1699148442478" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1728">
+<div class="quarto-post image-right" data-index="2" data-listing-date-sort="1699736101000" data-listing-file-modified-sort="1699736101235" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1722">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/cvmanova.html"></a></p><a href="../tutorial-fmri-spm/cvmanova.html">
 <h3 class="no-anchor listing-title">
@@ -339,7 +337,7 @@ Pattern distinctness is computed in regions of interest and via searchlight
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1698744610000" data-listing-file-modified-sort="1698744610194" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="468">
+<div class="quarto-post image-right" data-index="3" data-listing-date-sort="1699736794000" data-listing-file-modified-sort="1699736794191" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="467">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/pairwise.html"></a></p><a href="../tutorial-fmri-spm/pairwise.html">
 <h3 class="no-anchor listing-title">
@@ -355,7 +353,7 @@ Pattern distinctness is computed in a way approximating the original analysis
 </a>
 </div>
 </div>
-<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1698611617000" data-listing-file-modified-sort="1698611617676" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="48">
+<div class="quarto-post image-right" data-index="4" data-listing-date-sort="1699647424000" data-listing-file-modified-sort="1699647424629" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="69">
 <div class="body">
 <p><a href="../tutorial-fmri-spm/cvcrossmanova.html"></a></p><a href="../tutorial-fmri-spm/cvcrossmanova.html">
 <h3 class="no-anchor listing-title">
@@ -375,7 +373,11 @@ Pattern stability is computed in regions of interest and via searchlight
 <div class="listing-no-matching d-none">
 No matching items
 </div>
-</div></main> <!-- /main -->
+</div><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-haxby2001" class="csl-entry" role="listitem">
+Haxby, J. V., Gobbini, M. I., Furey, M. L., Ishai, A., Schouten, J. L., &amp; Pietrini, P. (2001). Distributed and overlapping representations of faces and objects in ventral temporal cortex. <em>Science</em>, <em>293</em>, 2425–2430. <a href="https://doi.org/10.1126/science.1063736">https://doi.org/10.1126/science.1063736</a>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

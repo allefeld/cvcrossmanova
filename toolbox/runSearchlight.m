@@ -1,18 +1,15 @@
-function [res, ps] = runSearchlight(checkpoint, slRadius, mask, cm)
+function [res, ps] = runSearchlight(checkpoint, radius, mask, ccm)
 
-% searchlight: apply function to data contained in a sliding spherical window
+% apply object methods to data contained in a sliding spherical window
 %
-% [res, p] = runSearchlight(checkpoint, slRadius, mask, cm)
+% [res, p] = runSearchlight(checkpoint, radius, mask, ccm)
 %
 % checkpoint:   name of checkpoint file ([] to disable checkpointing)
-% slRadius:     radius of searchlight in voxels
+% radius:       radius of searchlight in voxels
 % mask:         3-dimensional logical array indicating which voxels to use
-% cm:           CrossManova object
+% ccm:          object providing `nResults` and `runAnalyses` methods
 % res:          cell array with results per analysis
 % p:            number of voxels in each searchlight, column vector
-%
-% Run `slSize` for a table of meaningful values and resulting searchlight
-% sizes.
 %
 % `res` is a cell array with one cell for each analysis included in
 % `cm`, each containing an array of size voxels × results.
@@ -20,8 +17,6 @@ function [res, ps] = runSearchlight(checkpoint, slRadius, mask, cm)
 % Intermediate results are saved at regular intervals to the checkpoint
 % file, if given. If the checkpoint file already exists, its contents are
 % loaded and the computation continues from that point.
-%
-% See also slSize.
 
 
 % normalize checkpoint file name, preserving emptiness
@@ -39,8 +34,10 @@ nMaskVoxels = sum(mask(:));
 
 % determine searchlight voxel offsets relative to center voxel
 % prototype searchlight
-[dxi, dyi, dzi] = ndgrid(-ceil(slRadius) : ceil(slRadius));
-PSL = (dxi .^ 2 + dyi .^ 2 + dzi .^ 2 <= slRadius .^ 2);
+[dxi, dyi, dzi] = ndgrid(-ceil(radius) : ceil(radius));
+d = sqrt(dxi .^ 2 + dyi .^ 2 + dzi .^ 2);
+PSL = (d <= radius);
+pMax = nnz(PSL);
 % spatial offsets
 dxi = dxi(PSL);
 dyi = dyi(PSL);
@@ -64,7 +61,7 @@ vvi2mvi = nan(nVolumeVoxels, 1);
 vvi2mvi(mask) = 1 : nMaskVoxels;
 
 % initialize result volume(s)
-nResults = cm.nResults;
+nResults = ccm.nResults();
 nAnalyses = numel(nResults);
 res = cell(1, nAnalyses);
 for i = 1 : nAnalyses
@@ -107,7 +104,7 @@ while cvvi < nVolumeVoxels
         mvi = vvi2mvi(vvi);
 
         % call CrossManova object and store output
-        Ds = cm.runAnalyses(mvi);
+        Ds = ccm.runAnalyses(mvi);
         for i = 1 : nAnalyses
             res{i}(cvvi, :) = Ds{i};
         end
@@ -133,6 +130,7 @@ fprintf('\n')
 if ~isempty(checkpoint)
     spm_unlink(checkpoint)
 end
+
 
 % Copyright © 2013–2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later

@@ -27,7 +27,7 @@ website:
   sidebar:
     title: "CvCrossManova Toolbox"
     search: true
-    contents: auto    # ordered by `order:` metadata
+    contents: auto
   page-navigation: true
 
 format:
@@ -49,4 +49,4 @@ date-format: YYYY–M–D
 published-title: "last modified"
 csl: https://www.zotero.org/styles/apa
 bibliography: bibliography.yaml
-citation-location: margin
+# citation-location: margin

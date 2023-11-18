@@ -2,9 +2,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
 
     % An `Analysis` object encapsulates 'training' and 'validation'
     % contrasts and sessions as well as permutations, which together
-    % specify a Cross-validated (Cross-) MANOVA analysis. It is combined
-    % with a `ModeledData` object and possibly other `Analysis` objects
-    % within a `CvCrossManova` object, which performs the actual analysis.
+    % specify a Cross-validated (Cross-) MANOVA analysis.
 
     properties
         CA           % 'training' contrast matrix, regressors × subcontrasts
@@ -90,51 +88,29 @@ classdef Analysis < handle & matlab.mixin.Scalar
             obj.perms = ones(1, obj.m);
         end
 
-        function addPermutations(obj, kwargs)
+        function addPermutations(obj, nvargs)
             % add sign permutations of per-session parameter estimates
             %
             % analysis.addPermutations(maxPerms = 1000)
             %
-            % This method adds information to `analysis` that
-            % sign permutations should be applied, so that different values
-            % of *D* for the different permutations are computed.
-            %
-            % For *m* sessions there are formally 2^*m*^ per-session sign
-            % permutations, but not all of them lead to different
-            % permutation values of *D*. The number of unique permutations
-            % depends on the 'training' and 'validation' sessions used in
-            % different folds (`sessionsA`, `sessionsB`). This method
-            % determines which permutations lead to different outcomes and
-            % makes sure only those unique permutations are included.
-            %
-            % The permutations always include the neutral permutation,
-            % which does not modify the data and therefore results in the
-            % actual value of *D*. This neutral permutation is always
-            % permutation 1. A permutation test is implemented by comparing
-            % the neutral permutation value with all permutation values,
-            % and rejecting the null hypothesis at significance level α if
-            % it ranks within the upper α-quantile (see Ernst 2004).
-            %
-            % ::: Warning
-            % Sign permutations are used to test a per-subject null
-            % hypothesis of no effect in cross-validated MANOVA analyses.
-            % It does not make sense to apply them to Cross-MANOVAs.
-            % :::
+            % This method adds information to `analysis` that sign
+            % permutations should be applied, so that different values of
+            % pattern distinctness *D* for the different permutations are
+            % computed.
             %
             % The optional `maxPerms` specifies the maximum number of
-            % permutations. If the number of unique permutations exceeds
-            % `maxPerms`, a random subset is chosen for a Monte-Carlo
-            % permutation test (see Dwass 1957).
+            % permutations.
 
-            % Two sign permutations are equivalent in a fold if the relative signs
-            % applied to all involved sessions are the same. Two sign permutations are
-            % equivalent if they are equivalent in every fold.
+            % Two sign permutations are equivalent in a fold if the
+            % relative signs applied to all involved sessions are the same.
+            % Two sign permutations are equivalent if they are equivalent
+            % in every fold.
 
             arguments
                 obj
-                kwargs.maxPerms  (1, 1)  double  = 1000
+                nvargs.maxPerms  (1, 1)  double  = 1000
             end
-            maxPerms = kwargs.maxPerms;
+            maxPerms = nvargs.maxPerms;
 
             assert(obj.m <= 21, "Too many possible sign permutations to process.")
 

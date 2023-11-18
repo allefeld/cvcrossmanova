@@ -130,25 +130,25 @@ if numel(helpText) >= 3
         helpText = helpText(1 : end - 3);
     end
 end
-% turn "see also" into links
-if numel(helpText) >= 2
-    line = helpText{end - 1};
-    ind = strfind(lower(line), 'see also ');
-    if ~isempty(ind)
-        terms = line(ind + 9 : end);
-        line = line(1 : ind + 8);
-        if terms(end) == '.'
-            terms = terms(1 : end - 1);
-        end
-        terms = split(terms, ', ');
-        for i = 1 : numel(terms)
-            terms{i} = sprintf('[%s](#%s)', terms{i}, lower(terms{i}));
-        end
-        terms = join(terms, ', ');
-        line = [line, terms{1}, '.'];
-        helpText{end - 1} = line;
-    end
-end
+% % turn "see also" into links
+% if numel(helpText) >= 2
+%     line = helpText{end - 1};
+%     ind = strfind(lower(line), 'see also ');
+%     if ~isempty(ind)
+%         terms = line(ind + 9 : end);
+%         line = line(1 : ind + 8);
+%         if terms(end) == '.'
+%             terms = terms(1 : end - 1);
+%         end
+%         terms = split(terms, ', ');
+%         for i = 1 : numel(terms)
+%             terms{i} = sprintf('[%s](#%s)', terms{i}, lower(terms{i}));
+%         end
+%         terms = join(terms, ', ');
+%         line = [line, terms{1}, '.'];
+%         helpText{end - 1} = line;
+%     end
+% end
 % rejoin lines
 helpText = strjoin(helpText, '\n');
 

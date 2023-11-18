@@ -1,25 +1,9 @@
----
-title: Preparation
-subtitle: Data are downloaded and design information extracted
-order: 21
-jupyter: mkernel
----
+% Preparation
+% 
+% converted from quarto-docs/tutorial-other/preparation.qmd
 
+% ## Download and load data
 
-```{matlab}
-%| echo: false
-%| output: asis
-clear
-addpath(fileparts(pwd))
-setPlotFonts
-quartoToScript
-setappdata(0, 'MKernel_plot_format', 'svg')
-```
-
-
-## Download and load data
-
-```{matlab}
 % select subject
 sub = 'subj1';
 % start from scratch
@@ -28,5 +12,6 @@ sub = 'subj1';
 setURL = 'https://osf.io/download/d8yv4/';
 % URL for `1_P3_shifted_ds_reref_ucbip_hpfilt_ica_corr_cbip_elist_bins_epoch.fdt`
 fdtURL = 'https://osf.io/download/h4dtr/';
-```
+
+%%
 

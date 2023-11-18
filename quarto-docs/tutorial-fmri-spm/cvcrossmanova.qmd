@@ -1,18 +1,26 @@
 ---
 title: Cross-validated Cross-MANOVA
 subtitle: Pattern stability is computed in regions of interest and via searchlight
-jupyter: mkernel
 order: 15
+jupyter: mkernel
 ---
+
+Intro
 
 
 ```{matlab}
 %| echo: false
+%| output: asis
 clear
-run ../setPlotFonts
+addpath(fileparts(pwd))
+setPlotFonts
+quartoToScript
 setappdata(0, 'MKernel_plot_format', 'svg')
 ```
 
+## Heading
+
+This is an introductory text which explains all the very important things that are going to be done in this section.
 
 ```{matlab}
 % select subject

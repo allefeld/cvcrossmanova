@@ -1,5 +1,6 @@
 ---
 references:
+
 - id: allefeld2014
   author:
     - family: Allefeld
@@ -39,7 +40,7 @@ references:
       month: 9
       day: 28
   page: 2425-2430
-  title: Distributed and Overlapping Representations of Faces and Objects in Ventral Temporal Cortex
+  title: Distributed and overlapping representations of faces and objects in ventral temporal cortex
   type: article-journal
   volume: '293'
 
@@ -64,4 +65,72 @@ references:
   title: 'ERP CORE: An open resource for human event-related potential research'
   type: article-journal
   volume: '225'
+
+- id: schaefer2005
+  author:
+    - family: Schäfer
+      given: Juliane
+    - family: Strimmer
+      given: Korbinian
+  container-title: Statistical Applications in Genetics and Molecular Biology
+  DOI: 10.2202/1544-6115.1175
+  issue: '1'
+  issued:
+    - year: 2005
+      month: 1
+      day: 14
+  title: >-
+    A shrinkage approach to large-scale covariance matrix estimation and
+    implications for functional genomics
+  type: article-journal
+  volume: '4'
+
+- id: ernst2004
+  author:
+    - family: Ernst
+      given: Michael D.
+  container-title: Statistical Science
+  DOI: 10.1214/088342304000000396
+  issue: '4'
+  issued:
+    - year: 2004
+      month: 11
+  page: 676-685
+  title: 'Permutation methods: A basis for exact inference'
+  type: article-journal
+  volume: '19'
+
+- id: dwass1957
+  author:
+    - family: Dwass
+      given: Meyer
+  container-title: Annals of Mathematical Statistics
+  DOI: 10.1214/aoms/1177707045
+  issue: '1'
+  issued:
+    - year: 1957
+  page: 181-187
+  title: Modified randomization tests for nonparametric hypotheses
+  type: article-journal
+  volume: '28'
+
+- id: allefeld2016
+  author:
+    - family: Allefeld
+      given: Carsten
+    - family: Görgen
+      given: Kai
+    - family: Haynes
+      given: John-Dylan
+  container-title: NeuroImage
+  DOI: 10.1016/j.neuroimage.2016.07.040
+  issued:
+    - year: 2016
+      month: 11
+  page: 378-392
+  title: >-
+    Valid population inference for information-based imaging: From the
+    second-level *t*-test to prevalence inference
+  type: article-journal
+  volume: '141'
 ...

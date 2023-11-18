@@ -24,7 +24,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
 
     methods
 
-        function obj = ModeledData(Ys, Xs, kwargs)
+        function obj = ModeledData(Ys, Xs, nvargs)
             % create `ModeledData` object
             %
             % modeledData = ModeledData(Ys, Xs, fs = ..., names = ...)
@@ -50,15 +50,15 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             arguments
                 Ys             (:, :)  cell
                 Xs             (:, :)  cell
-                kwargs.fs      (:, :)  double  = []
-                kwargs.names   (:, :)  cell = {}
+                nvargs.fs      (:, :)  double  = []
+                nvargs.names   (:, :)  cell = {}
             end
 
             % store arguments
             obj.Ys = Ys(:) .';
             obj.Xs = Xs(:) .';
-            obj.fs = kwargs.fs(:) .';
-            obj.names = kwargs.names(:) .';
+            obj.fs = nvargs.fs(:) .';
+            obj.names = nvargs.names(:) .';
 
             % determine number of sessions
             obj.m = numel(obj.Ys);
@@ -193,7 +193,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
 
     methods (Static)
 
-        function [md, misc] = fromSPM(modelDir, kwargs)
+        function [md, misc] = fromSPM(modelDir, nvargs)
             % create `ModeledData` object from SPM data
             %
             % [modeledData, misc] = fromSPM(modelDir, regions = {}, wf = true)
@@ -207,17 +207,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             % 
             % The optional `wf` specifies whether to apply whitening and
             % high-pass filtering (set up in SPM) to data and design
-            % matrices.
-            %
-            % ::: Warning
-            % It is recommended to keep `wf` on its default value `true`.
-            % While the pattern distinctness and pattern stability
-            % estimators should still be unbiased because the residual
-            % degrees of freedom are adjusted, not whitening will lead to
-            % decreased precision and not filtering will retain
-            % low-frequency signal components which may act as a confound
-            % for experimental effects.
-            % :::
+            % matrices. It should usually be kept at its default value.
             %
             % Dependent variables (columns of data matrices `Ys`) are only
             % read from voxels within the SPM analysis brain mask after it
@@ -234,12 +224,12 @@ classdef ModeledData < handle & matlab.mixin.Scalar
 
             arguments
                 modelDir        (1, :)  char
-                kwargs.regions  (:, :)  cell  = {}
-                kwargs.wf       (1, 1)  logical = true
+                nvargs.regions  (:, :)  cell     = {}
+                nvargs.wf       (1, 1)  logical  = true
             end
     
             [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, ...
-                kwargs.regions, kwargs.wf);
+                nvargs.regions, nvargs.wf);
             md = ModeledData(Ys, Xs, fs=fs, names=names);
         end
 

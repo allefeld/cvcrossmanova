@@ -54,7 +54,27 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -219,8 +239,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">API Reference documentation</h2>
    
   <ul>
-  <li><a href="#cvcrossmanovaregion" id="toc-cvcrossmanovaregion" class="nav-link active" data-scroll-target="#cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></a></li>
-  <li><a href="#cvcrossmanovasearchlight" id="toc-cvcrossmanovasearchlight" class="nav-link" data-scroll-target="#cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></a></li>
+  <li><a href="#general-notes" id="toc-general-notes" class="nav-link active" data-scroll-target="#general-notes">General notes</a>
+  <ul class="collapse">
+  <li><a href="#programming-interfaces" id="toc-programming-interfaces" class="nav-link" data-scroll-target="#programming-interfaces">Programming interfaces</a></li>
+  <li><a href="#pattern-distinctness-vs-pattern-stability" id="toc-pattern-distinctness-vs-pattern-stability" class="nav-link" data-scroll-target="#pattern-distinctness-vs-pattern-stability">Pattern distinctness vs pattern stability</a></li>
+  <li><a href="#searchlight-radius-and-size" id="toc-searchlight-radius-and-size" class="nav-link" data-scroll-target="#searchlight-radius-and-size">Searchlight radius and size</a></li>
+  <li><a href="#permutations" id="toc-permutations" class="nav-link" data-scroll-target="#permutations">Permutations</a></li>
+  <li><a href="#whitening-and-filtering" id="toc-whitening-and-filtering" class="nav-link" data-scroll-target="#whitening-and-filtering">Whitening and filtering</a></li>
+  <li><a href="#shrinkage-regularization" id="toc-shrinkage-regularization" class="nav-link" data-scroll-target="#shrinkage-regularization">Shrinkage regularization</a></li>
+  </ul></li>
+  <li><a href="#ccmregion" id="toc-ccmregion" class="nav-link" data-scroll-target="#ccmregion"><span class="smallcaps">function</span> <code>ccmRegion</code></a></li>
+  <li><a href="#ccmsearchlight" id="toc-ccmsearchlight" class="nav-link" data-scroll-target="#ccmsearchlight"><span class="smallcaps">function</span> <code>ccmSearchlight</code></a></li>
   <li><a href="#analysis" id="toc-analysis" class="nav-link" data-scroll-target="#analysis"><span class="smallcaps">class</span> <code>Analysis</code></a>
   <ul class="collapse">
   <li><a href="#analysis-properties" id="toc-analysis-properties" class="nav-link" data-scroll-target="#analysis-properties"><span class="smallcaps">properties</span></a></li>
@@ -243,10 +272,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#cvcrossmanova-properties" id="toc-cvcrossmanova-properties" class="nav-link" data-scroll-target="#cvcrossmanova-properties"><span class="smallcaps">properties</span></a></li>
   <li><a href="#cvcrossmanova.cvcrossmanova" id="toc-cvcrossmanova.cvcrossmanova" class="nav-link" data-scroll-target="#cvcrossmanova.cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></a></li>
   <li><a href="#cvcrossmanova.runanalyses" id="toc-cvcrossmanova.runanalyses" class="nav-link" data-scroll-target="#cvcrossmanova.runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></a></li>
+  <li><a href="#cvcrossmanova.nresults" id="toc-cvcrossmanova.nresults" class="nav-link" data-scroll-target="#cvcrossmanova.nresults"><span class="smallcaps">method</span> <code>nResults</code></a></li>
   <li><a href="#cvcrossmanova.checkestimability" id="toc-cvcrossmanova.checkestimability" class="nav-link" data-scroll-target="#cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></a></li>
   <li><a href="#cvcrossmanova.disp" id="toc-cvcrossmanova.disp" class="nav-link" data-scroll-target="#cvcrossmanova.disp"><span class="smallcaps">method</span> <code>disp</code></a></li>
   </ul></li>
-  <li><a href="#slsize" id="toc-slsize" class="nav-link" data-scroll-target="#slsize"><span class="smallcaps">function</span> <code>slSize</code></a></li>
   </ul>
 </nav>
     </div>
@@ -267,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–11–5</p>
+      <p class="date">2023–11–18</p>
     </div>
   </div>
   
@@ -279,155 +308,327 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="cvcrossmanovaregion" class="level2">
-<h2 class="anchored" data-anchor-id="cvcrossmanovaregion"><span class="smallcaps">function</span> <code>cvCrossManovaRegion</code></h2>
-<p>cross-validated (Cross-) MANOVA on regions</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">cvCrossManovaRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<table class="table">
-<tbody>
-<tr class="odd">
-<td><code>modelDir</code></td>
-<td>directory where the <code>SPM.mat</code> file referring to an estimated model is located</td>
-</tr>
-<tr class="even">
-<td><code>regions</code></td>
-<td>region mask(s), cell array of logical 3D volumes or filenames</td>
-</tr>
-<tr class="odd">
-<td><code>analyses</code></td>
-<td>cell array of analysis specifications</td>
-</tr>
-<tr class="even">
-<td><code>lambda</code></td>
-<td>regularization parameter (0–1)</td>
-</tr>
-<tr class="odd">
-<td><code>Ds</code></td>
-<td>pattern distinctness or pattern stability, cell array analyses × regions</td>
-</tr>
-<tr class="even">
-<td><code>ps</code></td>
-<td>number of voxels in the regions</td>
-</tr>
-</tbody>
-</table>
-<p>Regarding the parameters <code>analyses</code> and <code>lambda</code> and the contents of the cells of <code>Ds</code>, see also <a href="#analysis">Analysis</a>, <a href="#cvcrossmanova.cvcrossmanova">CvCrossManova.CvCrossManova</a>, <a href="#cvcrossmanova.runanalyses">CvCrossManova.runAnalyses</a>.</p>
+<section id="general-notes" class="level2">
+<h2 class="anchored" data-anchor-id="general-notes">General notes</h2>
+<section id="programming-interfaces" class="level3">
+<h3 class="anchored" data-anchor-id="programming-interfaces">Programming interfaces</h3>
+<p>The CvCrossManova toolbox has two interfaces to perform analyses:</p>
+<p>A simplified interface to analyse fMRI data which have been modeled in SPM is provided by the functions <a href="#ccmregion"><code>ccmRegion</code></a> for region-of-interest analyses and <a href="#ccmsearchlight"><code>ccmSearchlight</code></a> for searchlight analyses. Both functions take a parameter <code>analyses</code> which is a cell array of <a href="#analysis"><code>Analysis</code></a> objects specifying analyses.</p>
+<p>A more complex but also more versatile interface, which can be used with arbitrary suitable data, is provided by objects of class <a href="#cvcrossmanova"><code>CvCrossManova</code></a>. Upon creation, a <a href="#modeleddata"><code>ModeledData</code></a> object containing data and design matrices as well as an <code>analyses</code> cell array have to be provided. After that, analyses can be run on subsets of dependent variables using the method <a href="#cvcrossmanova.runanalyses"><code>runAnalyses</code></a>.</p>
 </section>
-<section id="cvcrossmanovasearchlight" class="level2">
-<h2 class="anchored" data-anchor-id="cvcrossmanovasearchlight"><span class="smallcaps">function</span> <code>cvCrossManovaSearchlight</code></h2>
-<p>cross-validated (Cross-) MANOVA on searchlight</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">cvCrossManovaSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<table class="table">
-<tbody>
-<tr class="odd">
-<td><code>modelDir</code></td>
-<td>directory where the <code>SPM.mat</code> file referring to an estimated model is located</td>
-</tr>
-<tr class="even">
-<td><code>slRadius</code></td>
-<td>radius of the searchlight sphere in voxels</td>
-</tr>
-<tr class="odd">
-<td><code>analyses</code></td>
-<td>cell array of analysis specifications</td>
-</tr>
-<tr class="even">
-<td><code>lambda</code></td>
-<td>regularization parameter (0–1)</td>
-</tr>
-</tbody>
-</table>
-<p>Results are written to files the same directory:</p>
-<table class="table">
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><code>spmD_A####_P####.nii</code></td>
-<td>images of pattern distinctness or pattern stability; analysis and permutation are identified by numbers</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>VPSL.nii</code></td>
-<td>image of the number of voxels for each searchlight</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>ccmsParameters.mat</code></td>
-<td>record of the analysis parameters</td>
-</tr>
-</tbody>
-</table>
-<p>Note that a voxel is included in a searchlight if its distance from the center voxel is smaller than <em>or equal to</em> the radius. Fractional values are possible and meaningful:</p>
+<section id="pattern-distinctness-vs-pattern-stability" class="level3">
+<h3 class="anchored" data-anchor-id="pattern-distinctness-vs-pattern-stability">Pattern distinctness vs pattern stability</h3>
+<p>The CvCrossManova toolbox implements both Cross-validated MANOVA resulting in pattern distinctness <em>D</em> and Cross-validated (Cross-) MANOVA resulting in pattern stability <em>D</em><sup>×</sup>. Which of these a given <a href="#analysis"><code>Analysis</code></a> specification corresponds to depends on the contrast matrices and the regressors involved in them.</p>
+<p>In the simplest case where a regressor has the same meaning (corresponds to the same experimental condition) in all sessions (the same set of regressors is present in all sessions in the same order), Cross-validated MANOVA uses a single contrast matrix, which is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>), and Cross-validated Cross-MANOVA uses two different contrast matrices. However, if e.g.&nbsp;some experimental events occur only in some sessions and the corresponding regressors therefore do not occur in the others, it may happen that two different contrast matrices are necessary for Cross-validated MANOVA and the that a single contrast matrix can be used for Cross-validated Cross-MANOVA.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is recommended to always include all regressors in all sessions, even if they may be empty in some of them. This will lead to the corresponding parameter to be inestimable in those sessions, but as long as the contrasts used are estimable, this is not a problem for the analysis.</p>
+</div>
+</div>
+</section>
+<section id="searchlight-radius-and-size" class="level3">
+<h3 class="anchored" data-anchor-id="searchlight-radius-and-size">Searchlight radius and size</h3>
+<p>The numerical parameter <code>radius</code> of <a href="#ccmsearchlight"><code>ccmSearchlight</code></a> specifies the radius of the searchlight sphere in voxels.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that a voxel is included in a searchlight if its distance from the center voxel is smaller than <strong>or equal to</strong> the radius. This convention may be different from the one used by other software packages.</p>
+</div>
+</div>
+<p>Note also that fractional values of <code>radius</code> are possible and meaningful:</p>
+<div>
+
+</div>
+<div class="columns quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="column quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <table class="table">
 <thead>
 <tr class="header">
-<th><code>slRadius</code></th>
-<th style="text-align: center;">max. number of voxels</th>
-<th><code>slRadius</code></th>
-<th style="text-align: center;">max. number of voxels</th>
+<th style="text-align: left;"><code>radius</code></th>
+<th style="text-align: right;"><code>pMax</code></th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>0</td>
-<td style="text-align: center;">1</td>
-<td>3.17</td>
-<td style="text-align: center;">147</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">1</td>
 </tr>
 <tr class="even">
-<td>1</td>
-<td style="text-align: center;">7</td>
-<td>3.32</td>
-<td style="text-align: center;">171</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">7</td>
 </tr>
 <tr class="odd">
-<td>1.42</td>
-<td style="text-align: center;">19</td>
-<td>3.47</td>
-<td style="text-align: center;">179</td>
+<td style="text-align: left;">1.5</td>
+<td style="text-align: right;">19</td>
 </tr>
 <tr class="even">
-<td>1.74</td>
-<td style="text-align: center;">27</td>
-<td>3.61</td>
-<td style="text-align: center;">203</td>
+<td style="text-align: left;">1.8</td>
+<td style="text-align: right;">27</td>
 </tr>
 <tr class="odd">
-<td>2</td>
-<td style="text-align: center;">33</td>
-<td>3.75</td>
-<td style="text-align: center;">251</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: right;">33</td>
 </tr>
 <tr class="even">
-<td>2.24</td>
-<td style="text-align: center;">57</td>
-<td>4</td>
-<td style="text-align: center;">257</td>
+<td style="text-align: left;">2.3</td>
+<td style="text-align: right;">57</td>
 </tr>
 <tr class="odd">
-<td>2.45</td>
-<td style="text-align: center;">81</td>
-<td>4.13</td>
-<td style="text-align: center;">305</td>
+<td style="text-align: left;">2.5</td>
+<td style="text-align: right;">81</td>
 </tr>
 <tr class="even">
-<td>2.83</td>
-<td style="text-align: center;">93</td>
-<td>4.25</td>
-<td style="text-align: center;">341</td>
+<td style="text-align: left;">2.9</td>
+<td style="text-align: right;">93</td>
 </tr>
 <tr class="odd">
-<td>3</td>
-<td style="text-align: center;">123</td>
-<td>4.36</td>
-<td style="text-align: center;">365</td>
+<td style="text-align: left;">3</td>
+<td style="text-align: right;">123</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3.2</td>
+<td style="text-align: right;">147</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3.4</td>
+<td style="text-align: right;">171</td>
 </tr>
 </tbody>
 </table>
-<p>The searchlight procedure includes a checkpointing mechanism: Intermediate results are saved to a file <code>ccmsCheckpoint….mat</code>, where <code>…</code> stands for a 32-digit hexadecimal checksum. If an analysis is interrupted, running it again recovers partial results from the checkpoint file and continues from there.</p>
-<p>Note that this only works if the analysis parameters remain identical. In particular, if the analysis includes randomly selected permutations, make sure to initialize Matlab’s random number generator before the selection. It is recommended to run <code>s = rng('shuffle')</code> once, note the values of <code>s.Seed</code> and <code>s.Type</code>, and then to include <code>rng(&lt;seed&gt;, &lt;type&gt;)</code> in your analysis pipeline.</p>
-<p>Regarding the parameters <code>slRadius</code>, <code>analyses</code> and <code>lambda</code> see also <a href="#slsize">slSize</a>, <a href="#analysis">Analysis</a>, <a href="#cvcrossmanova.cvcrossmanova">CvCrossManova.CvCrossManova</a>.</p>
+</div>
+<div class="column quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><code>radius</code></th>
+<th style="text-align: right;"><code>pMax</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">3.5</td>
+<td style="text-align: right;">179</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">3.7</td>
+<td style="text-align: right;">203</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3.8</td>
+<td style="text-align: right;">251</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: right;">257</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4.2</td>
+<td style="text-align: right;">305</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4.3</td>
+<td style="text-align: right;">341</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4.4</td>
+<td style="text-align: right;">365</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4.5</td>
+<td style="text-align: right;">389</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4.6</td>
+<td style="text-align: right;">437</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4.7</td>
+<td style="text-align: right;">461</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">4.9</td>
+<td style="text-align: right;">485</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"><code>radius</code></th>
+<th style="text-align: right;"><code>pMax</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">5</td>
+<td style="text-align: right;">515</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5.1</td>
+<td style="text-align: right;">587</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5.2</td>
+<td style="text-align: right;">619</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5.4</td>
+<td style="text-align: right;">691</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5.5</td>
+<td style="text-align: right;">739</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5.7</td>
+<td style="text-align: right;">751</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5.8</td>
+<td style="text-align: right;">799</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">5.9</td>
+<td style="text-align: right;">847</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">5.92</td>
+<td style="text-align: right;">895</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">6</td>
+<td style="text-align: right;">925</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">6.1</td>
+<td style="text-align: right;">949</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p><code>pMax</code> is the maximum number of voxels, which is reached by a searchlight completely within the brain mask; at its boundaries the actual number will be smaller.</p>
+</section>
+<section id="permutations" class="level3">
+<h3 class="anchored" data-anchor-id="permutations">Permutations</h3>
+<p><a href="#analysis.addpermutations"><code>analysis.addPermutations</code></a> adds information to an <a href="#analysis"><code>Analysis</code></a> object that permutations should be applied, so that subsequent analysis runs return not just the actual estimate but also permutation values, which can be used for a permutation test.</p>
+<p>The ‘permutation’ method implemented is to switch the sign (±) of GLM parameter estimates in each session separately, as proposed by <span class="citation" data-cites="allefeld2014">Allefeld &amp; Haynes (<a href="#ref-allefeld2014" role="doc-biblioref">2014</a>)</span>. For <em>m</em> sessions there are formally 2<sup><em>m</em></sup> per-session sign permutations, but not all of them lead to different permutation values of <em>D</em>; the number of unique permutations depends on the ‘training’ and ‘validation’ sessions used in different folds. <code>addPermutations</code> determines which permutations can lead to different outcomes and makes sure only those unique permutations are included.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Sign permutations are used to test a per-unit (e.g.&nbsp;participant) null hypothesis of no effect in Cross-validated MANOVA analyses resulting in estimates of <em>D</em>. It does not make sense to apply them to Cross-MANOVA analyses resulting in estimates of <em>D</em><sup>×</sup>.</p>
+</div>
+</div>
+<p>If the number of unique permutations is too large, a maximum number of permutations to be applied can be specified via the parameter <code>maxPerms</code>. In that case, a random subset of permutations is chosen which can be used for a Monte-Carlo permutation test <span class="citation" data-cites="dwass1957">(<a href="#ref-dwass1957" role="doc-biblioref">Dwass, 1957</a>)</span>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Note that if the permutations are chosen randomly, the result of the permutation test is in principle random, too. To ensure reproducible results, it is recommended to run <code>s = rng('shuffle')</code> once, note the values of <code>s.Seed</code> and <code>s.Type</code>, and then to include <code>rng(&lt;Seed&gt;, &lt;Type&gt;)</code> in your analysis pipeline. This is also necessary for the checkpointing mechanism in <a href="#ccmsearchlight"><code>ccmSearchlight</code></a> to be effective.</p>
+</div>
+</div>
+<p>If permutations are applied, an analysis which would normally return a single value (the actual estimate) instead returns an array of permutation values. Permutations always include the neutral permutation which does not modify the data, and it is always permutation 1, i.e.&nbsp;the actual estimate is always the first in an array of permutation values.</p>
+<p>Note that the toolbox does not implement the actual permutation test. For a single unit (participant), a permutation test can be implemented by comparing the actual value with all permutation values (including the actual value resulting from the neutral permutation) and rejecting the null hypothesis at significance level α if the actual value ranks within the upper α-quantile. A simple implementation is <code>pvalue = mean(D &gt;= D(1))</code>. See <span class="citation" data-cites="ernst2004">Ernst (<a href="#ref-ernst2004" role="doc-biblioref">2004</a>)</span> for details, including how to correct for multiple comparisons. For permutation-based population inference for MVPA, see <span class="citation" data-cites="allefeld2016">Allefeld et al. (<a href="#ref-allefeld2016" role="doc-biblioref">2016</a>)</span>.</p>
+</section>
+<section id="whitening-and-filtering" class="level3">
+<h3 class="anchored" data-anchor-id="whitening-and-filtering">Whitening and filtering</h3>
+<p>The logical parameter <code>wf</code> of <a href="#ccmregion"><code>ccmRegion</code></a>, <a href="#ccmsearchlight"><code>ccmSearchlight</code></a>, and <a href="#modeleddata.fromspm"><code>ModeledData.fromSPM</code></a> specifies whether to apply the whitening and high-pass filtering (set up in SPM) to data and design matrices. The default value is <code>true</code>.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is recommended to keep the default value. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.</p>
+</div>
+</div>
+</section>
+<section id="shrinkage-regularization" class="level3">
+<h3 class="anchored" data-anchor-id="shrinkage-regularization">Shrinkage regularization</h3>
+<p>The numerical parameter <code>lambda</code> (from 0 to 1) of <a href="#ccmregion"><code>ccmRegion</code></a>, <a href="#ccmsearchlight"><code>ccmSearchlight</code></a>, and <a href="#cvcrossmanova.cvcrossmanova"><code>CvCrossManova</code></a> controls the amount of <a href="https://en.wikipedia.org/wiki/Shrinkage_(statistics)">shrinkage regularization</a> applied to the estimate of the error covariance matrix, which improves the numerical and statistical stability of the estimates of <em>D</em> and <em>D</em><sup>×</sup>. A drawback of regularization is that with it this estimation is no longer unbiased. The small default value of 10<sup>−8</sup> was chosen to limit this effect while still providing somewhat improved numerical stability.</p>
+<p>A larger value may be necessary if a larger number of dependent variables (voxels) enter an analysis. While there are approaches to determine the optimal amount of shrinkage regularization from the data <span class="citation" data-cites="schaefer2005">(cf. <a href="#ref-schaefer2005" role="doc-biblioref">Schäfer &amp; Strimmer, 2005</a>)</span>, in our experience they are not sufficiently reliable to be applied automatically.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is recommended to usually keep the default value and rather restrict the number of dependent variables (voxels) analyzed together. If that is not possible, one pragmatic approach would be to manually optimize <code>lambda</code> on one unit (e.g.&nbsp;participant) which is then not used for further analysis.</p>
+</div>
+</div>
+<p>The target of the shrinkage regularization is the diagonal matrix where every diagonal element is identical to the error variance averaged across dependent variables. A <code>lambda</code> value of 1 can therefore be used to disregard the error covariance structure, because it replaces the estimated error covariance matrix by this shrinkage target. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t. the original data space (Euclidean metric) instead of the whitened space.</p>
+</section>
+</section>
+<section id="ccmregion" class="level2">
+<h2 class="anchored" data-anchor-id="ccmregion"><span class="smallcaps">function</span> <code>ccmRegion</code></h2>
+<p>run Cross-validated (Cross-) MANOVA on regions</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">ccmRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>modelDir</code> is the directory where the <code>SPM.mat</code> file referring to an estimated model is located.</p>
+<p><code>regions</code> is a cell array of logical 3D volumes or filenames specifying region masks. Without it, only the SPM brain mask is applied.</p>
+<p><code>analyses</code> is a cell array of <code>Analysis</code> objects specifying analyses.</p>
+<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices. It should usually be kept at its default value.</p>
+<p>The optional <code>lambda</code> (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. It should usually be kept at its default value.</p>
+<p><code>Ds</code> is a two-dimensional cell array of analysis results where each cell corresponds to the combination of an analysis (rows) and a region (columns).</p>
+<p>Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+</section>
+<section id="ccmsearchlight" class="level2">
+<h2 class="anchored" data-anchor-id="ccmsearchlight"><span class="smallcaps">function</span> <code>ccmSearchlight</code></h2>
+<p>run Cross-validated (Cross-) MANOVA on searchlight</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccmSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">radius</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>modelDir</code> is the directory where the <code>SPM.mat</code> file referring to an estimated model is located.</p>
+<p><code>radius</code> is the radius of the searchlight sphere in voxels.</p>
+<p><code>analyses</code> is a cell array of <code>Analysis</code> objects specifying analyses.</p>
+<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices. It should usually be kept at its default value.</p>
+<p>The optional <code>lambda</code> (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. It should usually be kept at its default value.</p>
+<p>Analysis results are written to image files the same directory <code>modelDir</code>, with names of the form <code>spmD_A####_P####.nii</code>. The number following <code>A</code> indicates the analysis and the number following <code>P</code> indicates the permutation.</p>
+<p>Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+<p>In addition, an image file <code>VPSL.nii</code> is written containing the numbers of voxels for each searchlight, and a Matlab file <code>ccmSearchlightParams.mat</code> is written containing a record of the analysis parameters.</p>
+<p>The searchlight procedure includes a checkpointing mechanism: Intermediate results are saved to a file <code>ccmsCheckpoint….mat</code>, where <code>…</code> stands for a 32-digit hexadecimal checksum of the analysis parameters. If a run of <code>ccmSearchlight</code> is interrupted, running it again recovers partial results from the checkpoint file and continues from there.</p>
+<p>Note that checkpointing only works if <em>all</em> analysis parameters remain identical. In particular, if the analysis includes randomly selected permutations, make sure to initialize Matlab’s random number generator before the selection.</p>
 </section>
 <section id="analysis" class="level2">
 <h2 class="anchored" data-anchor-id="analysis"><span class="smallcaps">class</span> <code>Analysis</code></h2>
-<p>An <code>Analysis</code> object encapsulates ‘training’ and ‘validation’ contrasts and sessions as well as permutations, which together specify a Cross-validated (Cross-) MANOVA analysis. It is combined with a <code>ModeledData</code> object and possibly other <code>Analysis</code> objects within a <code>CvCrossManova</code> object, which performs the actual analysis.</p>
+<p>An <code>Analysis</code> object encapsulates ‘training’ and ‘validation’ contrasts and sessions as well as permutations, which together specify a Cross-validated (Cross-) MANOVA analysis.</p>
 <section id="analysis-properties" class="level3">
 <h3 class="anchored" data-anchor-id="analysis-properties"><span class="smallcaps">properties</span></h3>
 <table class="table">
@@ -482,23 +683,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="analysis.addpermutations"><span class="smallcaps">method</span> <code>addPermutations</code></h3>
 <p>add sign permutations of per-session parameter estimates</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis</span>.<span class="va">addPermutations</span>(<span class="va">maxPerms</span> <span class="op">=</span> <span class="fl">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This method adds information to <code>analysis</code> that sign permutations should be applied, so that different values of <em>D</em> for the different permutations are computed.</p>
-<p>For <em>m</em> sessions there are formally 2<sup><em>m</em></sup> per-session sign permutations, but not all of them lead to different permutation values of <em>D</em>. The number of unique permutations depends on the ‘training’ and ‘validation’ sessions used in different folds (<code>sessionsA</code>, <code>sessionsB</code>). This method determines which permutations lead to different outcomes and makes sure only those unique permutations are included.</p>
-<p>The permutations always include the neutral permutation, which does not modify the data and therefore results in the actual value of <em>D</em>. This neutral permutation is always permutation 1. A permutation test is implemented by comparing the neutral permutation value with all permutation values, and rejecting the null hypothesis at significance level α if it ranks within the upper α-quantile (see Ernst 2004).</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Sign permutations are used to test a per-subject null hypothesis of no effect in cross-validated MANOVA analyses. It does not make sense to apply them to Cross-MANOVAs.</p>
-</div>
-</div>
-<p>The optional <code>maxPerms</code> specifies the maximum number of permutations. If the number of unique permutations exceeds <code>maxPerms</code>, a random subset is chosen for a Monte-Carlo permutation test (see Dwass 1957).</p>
+<p>This method adds information to <code>analysis</code> that sign permutations should be applied, so that different values of pattern distinctness <em>D</em> for the different permutations are computed.</p>
+<p>The optional <code>maxPerms</code> specifies the maximum number of permutations.</p>
 </section>
 <section id="analysis.disp" class="level3">
 <h3 class="anchored" data-anchor-id="analysis.disp"><span class="smallcaps">method</span> <code>disp</code></h3>
@@ -570,20 +756,7 @@ Warning
 <div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">modeledData</span><span class="op">,</span> <span class="va">misc</span>] <span class="op">=</span> <span class="va">fromSPM</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span> <span class="op">=</span> {}<span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>modelDir</code> is the directory where the <code>SPM.mat</code> file referring to an estimated model is located.</p>
 <p>The optional <code>regions</code> is a cell array of logical 3D volumes or filenames specifying region masks. Without it, only the SPM brain mask is applied.</p>
-<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices.</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>It is recommended to keep <code>wf</code> on its default value <code>true</code>. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.</p>
-</div>
-</div>
+<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices. It should usually be kept at its default value.</p>
 <p>Dependent variables (columns of data matrices <code>Ys</code>) are only read from voxels within the SPM analysis brain mask after it was intersected with the union of region masks (if provided).</p>
 <p><code>misc</code> is a structure of fields containing additional information:</p>
 <table class="table">
@@ -620,42 +793,26 @@ Warning
 </section>
 <section id="cvcrossmanova" class="level2">
 <h2 class="anchored" data-anchor-id="cvcrossmanova"><span class="smallcaps">class</span> <code>CvCrossManova</code></h2>
-<p>object type representing data and analyses</p>
+<p>A <code>CvCrossManova</code> object implements the Cross-validated (Cross-) MANOVA algorithm. It combines the data and design matrices encapsulated in a <code>ModeledData</code> object with the analysis specifications of one or more <code>Analysis</code> objects. If its method <code>runAnalyses</code> is called for a set of dependent variables, all specified analyses are performed on these variables concurrently. This enables a more efficient implementation of the algorithm, because partial results shared between analyses only have to be computed once.</p>
 <section id="cvcrossmanova-properties" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova-properties"><span class="smallcaps">properties</span></h3>
 <table class="table">
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><code>Ys</code></td>
-<td>cell array of per-session design matrices, observations × variables</td>
+<td><code>modeledData</code></td>
+<td style="text-align: left;">data and design information, <code>ModeledData</code> object</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>Xs</code></td>
-<td>cell array of per-session data matrices, observations × regressors</td>
+<td><code>analyses</code></td>
+<td style="text-align: left;">analysis specifications, cell array of <code>Analysis</code> objects</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><code>analyses</code></td>
-<td>cell array of Analysis objects</td>
+<td><code>lambda</code></td>
+<td style="text-align: left;">amount of shrinkage regularization</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><code>lambda</code></td>
-<td>strength of regularization (0–1) towards Euclidean metric</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>fs</code></td>
-<td>array of per-session residual degrees of freedom</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>m</code></td>
-<td>number of sessions</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><code>ns</code></td>
-<td>array of per-session numbers of observations (rows)</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><code>nResults</code></td>
-<td>array of per-analysis returned numbers of results</td>
+<td><code>nAnalyses</code></td>
+<td style="text-align: left;">number of analyses</td>
 </tr>
 </tbody>
 </table>
@@ -663,25 +820,31 @@ Warning
 <section id="cvcrossmanova.cvcrossmanova" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></h3>
 <p>create <code>CvCrossManova</code> object</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">Ys</span><span class="op">,</span> <span class="va">Xs</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span><span class="op">,</span> <span class="va">fs</span> <span class="op">=</span> <span class="op">...</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>A <code>CvCrossManova</code> object stores data matrices, design matrices, analysis definitions, and further parameters. Upon creation, it also estimates GLM parameters and errors. Actual analyses are then performed on subsets of variables by calling the method <code>runAnalyses</code>.</p>
-<p>The parameter λ (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. A small value can be used to improve the numerical and statistical stability of the estimate; the default is 10<sup>−8</sup>. A value of 1 can be used to disregard the covariance structure, because it replaces the estimated error covariance matrix by a diagonal matrix where every diagonal element is the average variance across variables. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t the original data space (Euclidean metric) instead of the whitened space.</p>
-<p>If the per-session residual degrees of freedom <code>fs</code> are not specified, they are calculated under the assumption that the data observations are uncorrelated, as <code>ns(k) - rank(Xs{k})</code>. If the observations have been only approximately decorrelated or have been filtered, correct values should be explicitly specified.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span> <span class="op">=</span> <span class="va">CvCrossManova</span>(<span class="va">modeledData</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>modeledData</code> is a <code>ModeledData</code> object encapsulating data and design matrices for multiple sessions.</p>
+<p><code>analyses</code> is a cell array of <code>Analysis</code> objects specifying analyses.</p>
+<p>The optional <code>lambda</code> (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. It should usually be kept at its default value.</p>
 </section>
 <section id="cvcrossmanova.runanalyses" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></h3>
-<p>run the defined analyses on (a subset of) the variables</p>
+<p>run analyses on (a subset of) the dependent variables</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>(<span class="va">vi</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code>. If omitted, all variables are included.</p>
-<p><code>Ds</code> is a cell array of analysis results where each element results from the corresponding element in <code>analyses</code>. Whether this result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts and regressors involved in the analyses.</p>
-<p>For an analysis which does not include permutations, the cell array element is a scalar; otherwise it is an array of permutation values, where the first element is the actual estimate (corresponding to the neutral permutation).</p>
-<p>To determine how many values will be included in each of the elements of <code>Ds</code> before actually running an analysis, e.g. for preallocation, use the property <code>nResults</code>. It is a vector where each element gives the number of values returned for the corresponding analysis (i.e.&nbsp;the number of permutations).</p>
+<p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code> of <code>modeledData</code>. If omitted, all variables are included.</p>
+<p><code>Ds</code> is a cell array of analysis results where each cell corresponds to a cell of <code>analyses</code>, either a scalar value or an array of permutation values.</p>
+<p>Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+<p>To determine how many values will be included in each of the cells of <code>Ds</code> before actually running the analyses, e.g.&nbsp;for preallocation, use the method <code>nResults</code>.</p>
+</section>
+<section id="cvcrossmanova.nresults" class="level3">
+<h3 class="anchored" data-anchor-id="cvcrossmanova.nresults"><span class="smallcaps">method</span> <code>nResults</code></h3>
+<p>return the number of values returned by <code>runAnalyses</code></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">nr</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">nResults</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>nr</code> is an array where each element corresponds to an analysis, and the value specifies the number of results returned for that analysis. For an analysis without permutations, that value is 1; otherwise it is the number of permutations.</p>
 </section>
 <section id="cvcrossmanova.checkestimability" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></h3>
-<p>check estimability of all analyses’ contrasts in all sessions</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>check estimability of all contrasts of all analyses in all sessions</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>estimability</code> is a table with one row per session and one column per analysis &amp; contrast. ‘true’ means that the contrast is estimable, ‘false’ that it is not estimable, ‘–’ that the contrast does not apply to the session. The check is performed via the function <code>contrastEstimable</code>.</p>
 <p><code>problems</code> indicates whether there are any inestimable contrasts (logical).</p>
 <p>It is not usually necessary to use this method explicitly, because estimability is checked upon creation of a <code>CvCrossManova</code> object.</p>
@@ -689,24 +852,33 @@ Warning
 <section id="cvcrossmanova.disp" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.disp"><span class="smallcaps">method</span> <code>disp</code></h3>
 <p>textually display information about the object</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">cm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(cm)</code> or simply <code>cm</code> without semicolon to get the same output.</p>
-</section>
-</section>
-<section id="slsize" class="level2">
-<h2 class="anchored" data-anchor-id="slsize"><span class="smallcaps">function</span> <code>slSize</code></h2>
-<p>searchlight size as a function of searchlight radius</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">pMax</span> <span class="op">=</span> <span class="va">slSize</span>(<span class="va">slRadius</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">slSizes</span>(<span class="va">slRadius</span> <span class="op">=</span> <span class="fl">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>With the first syntax, the number of voxels corresponding to <code>slRadius</code> is returned as <code>pMax</code>. Note that this is the maximum number of voxels for a searchlight completely within the brain mask, at the borders the actual number will be smaller.</p>
-<p>With the second syntax, a table of corresponding values of <code>slRadius</code> and <code>pMax</code> is printed. By default, the table includes <code>slRadius</code> values from 0 to 5, but another upper limit can be specified. The values of <code>slRadius</code> are chosen such that all possible searchlight sizes in that range are listed.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(ccm)</code> or simply <code>ccm</code> without semicolon to get the same output.</p>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
 
 
+
+</section>
 </section>
 
-</main> <!-- /main -->
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-allefeld2016" class="csl-entry" role="listitem">
+Allefeld, C., Görgen, K., &amp; Haynes, J.-D. (2016). Valid population inference for information-based imaging: From the second-level <em>t</em>-test to prevalence inference. <em>NeuroImage</em>, <em>141</em>, 378–392. <a href="https://doi.org/10.1016/j.neuroimage.2016.07.040">https://doi.org/10.1016/j.neuroimage.2016.07.040</a>
+</div>
+<div id="ref-allefeld2014" class="csl-entry" role="listitem">
+Allefeld, C., &amp; Haynes, J.-D. (2014). Searchlight-based multi-voxel pattern analysis of fMRI by cross-validated MANOVA. <em>NeuroImage</em>, <em>89</em>, 345–357. <a href="https://doi.org/10.1016/j.neuroimage.2013.11.043">https://doi.org/10.1016/j.neuroimage.2013.11.043</a>
+</div>
+<div id="ref-dwass1957" class="csl-entry" role="listitem">
+Dwass, M. (1957). Modified randomization tests for nonparametric hypotheses. <em>Annals of Mathematical Statistics</em>, <em>28</em>(1), 181–187. <a href="https://doi.org/10.1214/aoms/1177707045">https://doi.org/10.1214/aoms/1177707045</a>
+</div>
+<div id="ref-ernst2004" class="csl-entry" role="listitem">
+Ernst, M. D. (2004). Permutation methods: A basis for exact inference. <em>Statistical Science</em>, <em>19</em>(4), 676–685. <a href="https://doi.org/10.1214/088342304000000396">https://doi.org/10.1214/088342304000000396</a>
+</div>
+<div id="ref-schaefer2005" class="csl-entry" role="listitem">
+Schäfer, J., &amp; Strimmer, K. (2005). A shrinkage approach to large-scale covariance matrix estimation and implications for functional genomics. <em>Statistical Applications in Genetics and Molecular Biology</em>, <em>4</em>(1). <a href="https://doi.org/10.2202/1544-6115.1175">https://doi.org/10.2202/1544-6115.1175</a>
+</div>
+</div></section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

@@ -1,115 +1,61 @@
 classdef CvCrossManova < handle & matlab.mixin.Scalar
 
-    % object type representing data and analyses
+    % A `CvCrossManova` object implements the Cross-validated (Cross-)
+    % MANOVA algorithm. It combines the data and design matrices
+    % encapsulated in a `ModeledData` object with the analysis
+    % specifications of one or more `Analysis` objects. If its method
+    % `runAnalyses` is called for a set of dependent variables, all
+    % specified analyses are performed on these variables concurrently.
+    % This enables a more efficient implementation of the algorithm,
+    % because partial results shared between analyses only have to be
+    % computed once.
 
     properties
-        Ys          % cell array of per-session design matrices, observations × variables
-        Xs          % cell array of per-session data matrices, observations × regressors
-        analyses    % cell array of Analysis objects
-        lambda      % strength of regularization (0–1) towards Euclidean metric
-        fs          % array of per-session residual degrees of freedom
-        m           % number of sessions
-        ns          % array of per-session numbers of observations (rows)
-    end
-
-    properties (Hidden = true)
-        nVariables  % number of data variables (columns)
-        hBetas      % cell array of per-session parameter estimates
-        hXis        % cell array of per-session error estimates
-        nAnalyses   % number of analyses
-    end
-
-    properties (Dependent)
-        nResults    % array of per-analysis returned numbers of results
+        modeledData     % data and design information, `ModeledData` object
+        analyses        % analysis specifications, cell array of `Analysis` objects
+        lambda          % amount of shrinkage regularization
+        nAnalyses       % number of analyses
     end
 
     methods
 
-        function self = CvCrossManova(Ys, Xs, analyses, kwargs)
+        function obj = CvCrossManova(modeledData, analyses, nvargs)
             % create `CvCrossManova` object
             %
-            % ccm = CvCrossManova(Ys, Xs, analyses, lambda = 1e-8, fs = ...)
+            % ccm = CvCrossManova(modeledData, analyses, lambda = 1e-8)
             %
-            % A `CvCrossManova` object stores data matrices, design
-            % matrices, analysis definitions, and further parameters. Upon
-            % creation, it also estimates GLM parameters and errors. Actual
-            % analyses are then performed on subsets of variables by
-            % calling the method `runAnalyses`.
+            % `modeledData` is a `ModeledData` object encapsulating data
+            % and design matrices for multiple sessions.
             %
-            % The parameter λ (from 0 to 1) controls the amount of
+            % `analyses` is a cell array of `Analysis` objects specifying
+            % analyses.
+            %
+            % The optional `lambda` (from 0 to 1) controls the amount of
             % shrinkage regularization applied to the estimate of the error
-            % covariance matrix. A small value can be used to improve the
-            % numerical and statistical stability of the estimate; the
-            % default is 10^−8^. A value of 1 can be used to disregard the
-            % covariance structure, because it replaces the estimated error
-            % covariance matrix by a diagonal matrix where every diagonal
-            % element is the average variance across variables. This can be
-            % useful for Cross-MANOVA if it is intended to quantify
-            % orthogonality w.r.t the original data space (Euclidean
-            % metric) instead of the whitened space.
-            %
-            % If the per-session residual degrees of freedom `fs` are not
-            % specified, they are calculated under the assumption that the
-            % data observations are uncorrelated, as `ns(k) - rank(Xs{k})`.
-            % If the observations have been only approximately decorrelated
-            % or have been filtered, correct values should be explicitly
-            % specified.
+            % covariance matrix. It should usually be kept at its default
+            % value.
+
 
             arguments
-                Ys             (:, :)  cell
-                Xs             (:, :)  cell
+                modeledData    (1, 1)  ModeledData
                 analyses       (:, :)  cell
-                kwargs.lambda  (1, 1)  double  = 1e-8
-                kwargs.fs      (:, :)  double  = []
+                nvargs.lambda  (1, 1)  double  = 1e-8
             end
 
             % store arguments
-            self.Ys = Ys(:).';
-            self.Xs = Xs(:).';
-            self.analyses = analyses(:).';
-            self.lambda = kwargs.lambda;
-            self.fs = kwargs.fs(:).';
-
-            % determine number of sessions
-            self.m = numel(self.Ys);
-            assert(self.m == numel(self.Xs), ...
-                "Number of sessions of Ys and Xs must match.");
-
-            % determine number of observations for each session
-            self.ns = cellfun(@(x) size(x, 1), self.Ys);
-            assert(isequal(self.ns, cellfun(@(x) size(x, 1), self.Xs)), ...
-                "Number of rows of Ys and Xs must match in each session.");
-
-            % if not specified, calculate residual degrees of freedom for each session
-            if isempty(self.fs)
-                self.fs = self.ns - cellfun(@rank, self.Xs);
-            else
-                assert(self.m == numel(self.fs), ...
-                    "Number of sessions of Ys and fs must match.");
-            end
-
-            % determine number of variables
-            self.nVariables = size(self.Ys{1}, 2);
-            assert(all(cellfun(@(x) size(x, 2), self.Ys) == self.nVariables), ...
-                "Number of columns must match between sessions of Ys.");
-
-            % estimate GLM parameters and errors for each session
-            self.hBetas = cell(1, self.m);
-            self.hXis = cell(1, self.m);
-            for k = 1 : self.m
-                self.hBetas{k} = pinv(self.Xs{k}) * self.Ys{k};
-                self.hXis{k} = self.Ys{k} - self.Xs{k} * self.hBetas{k};
-            end
+            obj.modeledData = modeledData;
+            obj.analyses = analyses(:) .';
+            obj.lambda = nvargs.lambda;
 
             % determine number of analyses
-            self.nAnalyses = numel(self.analyses);
+            obj.nAnalyses = numel(analyses);
             assert(all(cellfun(@(x) isa(x, 'Analysis'), analyses)), ...
                 "analyses must contain Analysis objects.")
-            assert(all(cellfun(@(x) x.m, self.analyses) == self.m), ...
-                "Number of sessions of Ys and analyses must match.");
+            assert(all(cellfun(@(x) x.m, analyses) == modeledData.m), ...
+                "Number of sessions of modeledData and analyses must match.");
 
             % check estimability of contrasts w.r.t. design matrices
-            [estimability, problems] = self.checkEstimability();
+            [estimability, problems] = obj.checkEstimability();
             if problems
                 warning("Some contrasts are not estimable.")
                 fprintf("Estimability:\n")
@@ -117,131 +63,136 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             end
         end
 
-        function Ds = runAnalyses(self, vi)
-            % run the defined analyses on (a subset of) the variables
+        function Ds = runAnalyses(obj, vi)
+            % run analyses on (a subset of) the dependent variables
             %
             % Ds = ccm.runAnalyses(vi)
             % Ds = ccm.runAnalyses()
             %
             % `vi` specifies the variables to be included in the analysis,
-            % as column indices into the data matrices `Ys`. If omitted,
-            % all variables are included.
+            % as column indices into the data matrices `Ys` of
+            % `modeledData`. If omitted, all variables are included.
             %
-            % `Ds` is a cell array of analysis results where each element
-            % results from the corresponding element in `analyses`. Whether
-            % this result is an estimate of pattern distinctness *D* or
-            % pattern stability *D*^×^ depends on the contrasts and
-            % regressors involved in the analyses.
-            %
-            % For an analysis which does not include permutations, the cell
-            % array element is a scalar; otherwise it is an array of
-            % permutation values, where the first element is the actual
-            % estimate (corresponding to the neutral permutation).
+            % `Ds` is a cell array of analysis results where each cell
+            % corresponds to a cell of `analyses`, either a scalar value or
+            % an array of permutation values.
+            % 
+            % Whether a result is an estimate of pattern distinctness *D*
+            % or pattern stability *D*^×^ depends on the contrasts of the
+            % corresponding analysis and the regressors involved in them.
             %
             % To determine how many values will be included in each of the
-            % elements of `Ds` before actually running an analysis, e.g.
-            % for preallocation, use the property `nResults`. It is a
-            % vector where each element gives the number of values returned
-            % for the corresponding analysis (i.e. the number of
-            % permutations).
+            % cells of `Ds` before actually running the analyses, e.g. for
+            % preallocation, use the method `nResults`.
 
             if nargin < 2
-                vi = 1 : self.nVariables;
+                vi = 1 : obj.modeledData.p;
             else
                 vi = vi(:).';
             end
 
-            % determine number of variables
-            p = numel(vi);
+            % short names to simplify code
+            md = obj.modeledData;
+            m = md.m;
 
-            % estimate error covariance matrix Sigma for specified variables
+            % estimate error covariance matrix Sigma
             hXiXis = 0;
-            for k = 1 : self.m
-                x = self.hXis{k}(:, vi);
+            for k = 1 : m
+                x = md.hXis{k}(:, vi);      % faster if in variable
                 hXiXis = hXiXis + x' * x;
             end
             % we estimate such that the inverse is an unbiased estimator
-            hSigma = hXiXis / (sum(self.fs) - p - 1);
+            % of the inverse of the true error matrix
+            hSigma = hXiXis / (sum(md.fs) - numel(vi) - 1);
 
             % regularize Sigma towards Euclidean metric
-            hSigmaEuc = eye(p) * mean(diag(hXiXis)) / (sum(self.fs) - 2);
-            hSigma = (1 - self.lambda) * hSigma + self.lambda * hSigmaEuc;
-            % Euclidean metric means that an estimate of the error covariance
-            % matrix is used which is a scaled identity matrix. Because in this
-            % case the inverse is the element-wise and therefore 1-dimensional
-            % inverse, the correction -p-1 becomes -2.
+            hSigmaEuc = eye(numel(vi)) * mean(diag(hXiXis)) / (sum(md.fs) - 2);
+            hSigma = (1 - obj.lambda) * hSigma + obj.lambda * hSigmaEuc;
+            % Euclidean metric means that an estimate of the error
+            % covariance matrix is used which is a scaled identity matrix.
+            % Because in this case the inverse is the element-wise and
+            % therefore 1-dimensional inverse, the correction (- p - 1)
+            % becomes (- 2).
             % The regularization parameter lambda interpolates between the
-            % proper (lambda = 0) and the scaled-identity estimate (lambda = 1).
-            % A small default value of is used to avoid numerical instability.
+            % proper (lambda = 0) and the scaled-identity estimate (lambda
+            % = 1).
+            clear hXiXis hSigmaEuc      % release memory
 
             % TODO add check of numerical stability of whitening
 
-            % extract parameter estimates for specified variables,
-            % and pre-whiten them by dividing by the Cholesky factor of Sigma
-            hBs = cell(1, self.m);
-            for k = 1 : self.m
-                hBs{k} = self.hBetas{k}(:, vi) / chol(hSigma);
+            % extract parameter estimates for specified variables and
+            % pre-whiten them by dividing by the Cholesky factor of Sigma
+            hBs = cell(1, m);
+            for k = 1 : m
+                hBs{k} = md.hBetas{k}(:, vi) / chol(hSigma);
             end
+            clear hSigma                % release memory
 
             % run analyses
-            Ds = cell(1, self.nAnalyses);
-            for i = 1 : self.nAnalyses
-                % extract analysis definition
-                CA = self.analyses{i}.CA;
-                CB = self.analyses{i}.CB;
-                sessionsA = self.analyses{i}.sessionsA;
-                sessionsB = self.analyses{i}.sessionsB;
-                L = self.analyses{i}.L;
-                perms = self.analyses{i}.perms;
+            Ds = cell(obj.nAnalyses, 1);
+            for i = 1 : obj.nAnalyses
+                % short name to simplify code
+                an = obj.analyses{i};
 
-                % restrict to involved regressors
+                % restrict to involved independent variables
                 % dim 1
-                riA = find(any(CA ~= 0, 2));
-                riB = find(any(CB ~= 0, 2));
+                riA = find(any(an.CA ~= 0, 2));
+                riB = find(any(an.CB ~= 0, 2));
 
                 % pre-compute parameter-effect matrices
                 % and design matrix inner products for each session
-                hDBAs = cell(1, self.m);
-                hDBs = cell(1, self.m);
-                XXns = cell(1, self.m);
-                for k = 1 : self.m
-                    if any(sessionsA(:, k))
-                        hDBAs{k} = CB(riB, :) * pinv(CA(riA, :)) * hBs{k}(riA, :);
+                hDBAs = cell(1, m);
+                hDBs = cell(1, m);
+                XXns = cell(1, m);
+                for k = 1 : m
+                    if any(an.sessionsA(:, k))
+                        hDBAs{k} = an.CB(riB, :) * pinv(an.CA(riA, :)) ...
+                            * hBs{k}(riA, :);
                     end
-                    if any(sessionsB(:, k))
-                        hDBs{k} = CB(riB, :) * pinv(CB(riB, :)) * hBs{k}(riB, :);
-                        XXns{k} = self.Xs{k}(:, riB)' * self.Xs{k}(:, riB) / self.ns(k);
+                    if any(an.sessionsB(:, k))
+                        hDBs{k} = an.CB(riB, :) * pinv(an.CB(riB, :)) ...
+                            * hBs{k}(riB, :);
+                        x = md.Xs{k}(:, riB);       % faster if in variable
+                        XXns{k} = x' * x / md.ns(k);
                     end
                 end
 
-                % for each fold
-                nPerms = size(perms, 1);
+                % for each fold and permutation
+                nPerms = size(an.perms, 1);
                 D = zeros(1, nPerms);
-                for l = 1 : L
-                    A = sessionsA(l, :);
-                    B = sessionsB(l, :);
+                for l = 1 : an.L
+                    A = an.sessionsA(l, :);
+                    B = an.sessionsB(l, :);
                     for j = 1 : nPerms
-                        perm = double(permute(perms(j, :), [1, 3, 2]));
+                        perm = double(permute(an.perms(j, :), [1, 3, 2]));
 
-                        % this is "Strategy 1" in the paper
+                        % this is "Strategy 1" in the draft
                         mhDBA = mean(cat(3, hDBAs{A}) .* perm(A), 3);
                         mXXn = mean(cat(3, XXns{B}), 3);
                         mhDB = mean(cat(3, hDBs{B}) .* perm(B), 3);
                         D(j) = D(j) + trace(mhDBA' * mXXn * mhDB);
                     end
                 end
-                Ds{i} = D / L;
+                Ds{i} = D / an.L;
             end
         end
 
-        function nr = get.nResults(self)
+        function nr = nResults(obj)
             % return the number of values returned by `runAnalyses`
+            %
+            % nr = ccm.nResults()
+            %
+            % `nr` is an array where each element corresponds to an
+            % analysis, and the value specifies the number of results
+            % returned for that analysis. For an analysis without
+            % permutations, that value is 1; otherwise it is the number of
+            % permutations.
 
-            nr = cellfun(@(x) size(x.perms, 1), self.analyses);
+            nr = cellfun(@(x) size(x.perms, 1), obj.analyses);
         end
 
-        function [estimability, problems] = checkEstimability(self)
-            % check estimability of all analyses' contrasts in all sessions
+        function [estimability, problems] = checkEstimability(obj)
+            % check estimability of all contrasts  of all analyses in all sessions
             %
             % [estimability, problems] = ccm.checkEstimability()
             %
@@ -258,11 +209,12 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             % because estimability is checked upon creation of a
             % `CvCrossManova` object.
 
+            m = obj.modeledData.m;
             estimability = table('RowNames', ...
-                cellfun(@(k) sprintf("session %d", k), num2cell(1 : self.m)));
+                cellfun(@(k) sprintf("session %d", k), num2cell(1 : m)));
             problems = false;   % shared with nested function `est`
-            for i = 1 : self.nAnalyses
-                analysis = self.analyses{i};
+            for i = 1 : obj.nAnalyses
+                analysis = obj.analyses{i};
                 if ~isequal(analysis.CA, analysis.CB)
                     % different contrasts checked in their respective sessions
                     estimability.(sprintf("%d A", i)) = est(...
@@ -281,48 +233,41 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             % nested function to check estimability of one contrast over
             % multiple sessions
             function e = est(sessions, C)
-                e = repmat("–", self.m, 1);
+                e = repmat("–", m, 1);
                 for kk = find(sessions)
-                    e(kk) = contrastEstimable(C, self.Xs{kk});
+                    e(kk) = contrastEstimable(C, obj.modeledData.Xs{kk});
                 end
                 e = categorical(e);
                 problems = problems || ismember("false", e);
             end
         end
 
-        function disp(self)
+        function disp(obj)
             % textually display information about the object
             %
-            % cm.disp()
+            % ccm.disp()
             %
             % This method overrides Matlab's `disp`, so you can also use
-            % `disp(cm)` or simply `cm` without semicolon to
+            % `disp(ccm)` or simply `ccm` without semicolon to
             % get the same output.
 
             % TODO make more informative using regressor labels if available
 
             % prepare information string
             str = "  CvCrossManova:";
-            str = str + sprintf("\n    Data:");
-            sess = (1 : self.m);
-            ps = cellfun(@(x) size(x, 2), self.Ys);
-            qs = cellfun(@(x) size(x, 2), self.Xs);
-            tbl = table(sess(:), self.ns(:), ps(:), qs(:), self.fs(:), ...
-                VariableNames=["session", 'n', 'p', 'q', 'f']);
-            lines = splitlines(formattedDisplayText(tbl, ...
-                SuppressMarkup=true));
-            str = str + sprintf("\n  %s", lines(1));
-            for k = 1 : self.m
-                str = str + sprintf("\n  %s", lines(k + 2));
+            str = str + sprintf("\n    ModeledData:");
+            lines = splitlines(obj.modeledData.disp());
+            for j = 2 : numel(lines)
+                str = str + sprintf("\n  %s", lines(j));
             end
-            str = str + sprintf("\n    lambda: %g", self.lambda);
-            for i = 1 : self.nAnalyses
+            for i = 1 : obj.nAnalyses
                 str = str + sprintf("\n    Analysis %d:", i);
-                lines = splitlines(self.analyses{i}.disp());
+                lines = splitlines(obj.analyses{i}.disp());
                 for j = 2 : numel(lines)
                     str = str + sprintf("\n  %s", lines(j));
                 end
             end
+            str = str + sprintf("\n    lambda: %g", obj.lambda);
             % display information string
             disp(str)
         end

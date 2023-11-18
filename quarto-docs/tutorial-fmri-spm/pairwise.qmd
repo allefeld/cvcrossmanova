@@ -1,16 +1,18 @@
 ---
 title: Pairwise Cross-validated MANOVA
 subtitle: Pattern distinctness is computed in a way approximating the original analysis
-jupyter: mkernel
 order: 14
-margin-footer: "[Download code as Matlab `m`-file](pairwise.m){download=}"
+jupyter: mkernel
 ---
 
 
 ```{matlab}
 %| echo: false
+%| output: asis
 clear
-run ../setPlotFonts
+addpath(fileparts(pwd))
+setPlotFonts
+quartoToScript
 setappdata(0, 'MKernel_plot_format', 'svg')
 ```
 
@@ -60,7 +62,7 @@ analyses{12}.show()
 Haxby et al. applied their analysis to several regions of interest. The data available to us contain masks for three regions, of which we here use the first.
 
 ```{matlab}
-[Ds, ps] = cvCrossManovaRegion(modelDir, regions(1), analyses);
+[Ds, ps] = ccmRegion(modelDir, regions(1), analyses);
 ```
 
 The results are contained in column 1 of the cell array `Ds`. We assemble them into a matrix, filling in the identical values in the lower triangular part and leaving zeros on the diagonal, and visualise the matrix as a heatmap:
@@ -81,7 +83,7 @@ ylabel(gca().NodeChildren(2), 'D')
 
 ## Comparison with original analysis results
 
-Haxby et al.'s main result (Table 1) was the identification accuracy for each of the eight categories averaged across classification pairs, and then averaged across six subjects. For 'all ventral temporal object-selective cortex', presumably corresponding to the first of the available masks (`mask4_vt.nii`) they reported the following accuracies (in percent):
+Haxby et al.'s main result (Table 1) was the identification accuracy for each of the eight categories averaged across classification pairs, and then averaged across six subjects. For 'all ventral temporal object-selective cortex', presumably corresponding to the region 1 used here (`mask4_vt.nii`), they reported the following accuracies (in percent):
 
 
 ```{matlab}

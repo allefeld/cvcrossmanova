@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–11–7</p>
+      <p class="date">2023–11–11</p>
     </div>
   </div>
   
@@ -246,9 +246,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>The CvCrossManova toolbox has been developed with Matlab R2023b, but should work with later and slightly earlier versions. The core functionality does not depend on other toolboxes. However, functions which read data modeled in SPM (<code>cvCrossManovaRegion</code>, <code>cvCrossManovaSearchlight</code>, <code>ModeledData.fromSPM</code>) depend on it being installed. You can download SPM from the pages of the <a href="https://www.fil.ion.ucl.ac.uk/spm/software/spm12/">Functional Imaging Lab at UCL</a>. The toolbox was developed using SPM12 r7771, but later and slightly earlier versions should work, too.</p>
-<p>To install the toolbox, download the file <code>cvcrossmanova-v#.#.#.zip</code> attached to the latest GitHub <a href="https://github.com/allefeld/cvcrossmanova/releases">release</a>. Unzip the file into a directory, and make sure that the created directory <code>cvcrossmanova-v#.#.#/</code> is on the <a href="https://www.mathworks.com/help/matlab/matlab_env/what-is-the-matlab-search-path.html">Matlab search path</a>. If you update the toolbox to a newer version, make sure that the old version is no longer on the path.</p>
-<p>The code for the toolbox as well as this documentation is maintained in a <a href="https://github.com/allefeld/cvcrossmanova">git repository</a> on GitHub. If you need the latest not yet released version, <a href="https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository">clone</a> the repository with</p>
+<p>The CvCrossManova toolbox has been developed with Matlab R2023b, but should work with later and slightly earlier versions; the most recently introduced feature used by the code is from R2021a.</p>
+<p>The core functionality does not depend on other toolboxes. However, functions which read data modeled in SPM12 (<code>ccmRegion</code>, <code>ccmSearchlight</code>, <code>ModeledData.fromSPM</code>) depend on it being installed. You can download SPM12 from the pages of the <a href="https://www.fil.ion.ucl.ac.uk/spm/software/spm12/">Functional Imaging Lab at UCL</a>. The toolbox was developed using r7771, but other versions of SPM12 should work, too. It has not been tested with SPM8 or earlier.</p>
+<p>To install the toolbox, download the file <code>cvcrossmanova-v#.#.#.zip</code> from the latest GitHub <a href="https://github.com/allefeld/cvcrossmanova/releases">release</a>. Unzip the file into a directory, and make sure that the created directory <code>cvcrossmanova-v#.#.#/</code> is on the <a href="https://www.mathworks.com/help/matlab/matlab_env/what-is-the-matlab-search-path.html">Matlab search path</a>. If you install a newer version, make sure that the old version is no longer on the path.</p>
+<p>The code for the toolbox as well as this documentation is maintained in a git <a href="https://github.com/allefeld/cvcrossmanova">repository</a> on GitHub. If you need the latest not yet released version, <a href="https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository">clone</a> the repository with</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/allefeld/cvcrossmanova.git</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>and copy the files in the <code>toolbox/</code> subdirectory into a directory on the Matlab search path.</p>
 <p>If you found a bug or have an idea for improvement, you can create an <a href="https://github.com/allefeld/cvcrossmanova/issues">issue</a> on the repository.</p>

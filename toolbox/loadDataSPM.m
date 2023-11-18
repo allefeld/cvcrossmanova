@@ -164,6 +164,8 @@ misc.mask = mask;
 misc.mat = VY(1).mat;
 % mask voxel indices for each region
 misc.rmvi = rmvi;
+% whether whitening and filtering has been applied.
+misc.wf = wf;
 
 
 % Copyright © 2013–2023 Carsten Allefeld

@@ -22,7 +22,7 @@ From Footnote 19:
 >   Analysis of the accuracy with which the category being viewed could be identified focused on comparisons between patterns of response for pairs of categories […]\
 >   If the within-category correlation (for example, response to category A on even and odd runs) was larger than the between-category correlation (correlation of the response to category A on even runs with the response to category B on odd runs), that comparison was counted as a correct identiﬁcation.
 
-The main result of the paper is the identification accuracy for each category, determined in a several different regions of interest and presented in Table 1.
+The main result of the paper is the identification accuracy for each category, determined in several different regions of interest and presented in Table 1.
 
 Our analysis is broken down into several steps in the following subpages:
 

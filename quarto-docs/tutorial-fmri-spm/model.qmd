@@ -1,15 +1,18 @@
 ---
 title: Model
 subtitle: A model for the data is set up and estimated in SPM
-jupyter: mkernel
 order: 12
+jupyter: mkernel
 ---
 
 
 ```{matlab}
 %| echo: false
+%| output: asis
 clear
-run ../setPlotFonts
+addpath(fileparts(pwd))
+setPlotFonts
+quartoToScript
 % Only plot is SPM's Graphics window, and an SVG created from that contains a
 % bitmap anyway.
 setappdata(0, 'MKernel_plot_format', 'png')
