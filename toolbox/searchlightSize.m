@@ -27,23 +27,23 @@ end
 radiusMin = min(radius);
 radiusMax = max(radius);
 
-% compute distances from center voxel on grid
-[dxi, dyi, dzi] = ndgrid(-ceil(radiusMax + 1) : ceil(radiusMax + 1));
-d = sqrt(dxi .^ 2 + dyi .^ 2 + dzi .^ 2);
+% get distances from center voxel on grid
+[~, dist] = searchlight(radiusMax + 1);
 
 % first syntax
 if radiusMin == radiusMax
-    ret = nnz(d <= radiusMax);
+    ret = nnz(dist <= radiusMax);
     return
 end
 
 % list radii and sizes
-radius = unique(d);
-radius = radius(radius <= radiusMax + 1);
+% radius = unique(d);
+% radius = radius(radius <= radiusMax + 1);
+radius = unique(dist(~isnan(dist)));
 pMax = nan(size(radius));
 for i = 1 : numel(radius)
     % number of voxels within radius
-    pMax(i) = nnz(d <= radius(i));
+    pMax(i) = nnz(dist <= radius(i));
 end
 
 % round up radii within necessary precision
@@ -76,6 +76,7 @@ if nargout == 0
     fprintf('`radius`   `pMax`\n--------  ------\n')
     fprintf('%-8g  %6d\n', [radius, pMax] .')
     % column widths are sufficient up to radius = 62.04, pMax = 999665
+    clear ret
 end
 
 

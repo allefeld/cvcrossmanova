@@ -86,21 +86,24 @@ uid = reshape(dec2hex(uid).', 1, 32);
 % checkpoint filename
 checkpoint = fullfile(modelDir, ['ccmSearchlightCheckpoint' uid '.mat']);
 
+% get prototype searchlight
+PSL = searchlight(radius);
+
 % run searchlight
 fprintf('\ncomputing Cross-validated (Cross-) MANOVA\n')
 disp(ccm)
-fprintf('  running searchlight of radius %d (%d voxels)\n', radius, ...
-    searchlightSize(radius))
+fprintf('  running searchlight of radius %d (%d voxels)\n', radius, nnz(PSL))
 fprintf('  intermediate results are saved to\n')
 fprintf('      %s\n', checkpoint)
-[res, ps] = runSearchlight(checkpoint, radius, misc.mask, ccm);
+[res, ps] = runSearchlight(checkpoint, PSL, misc.mask, ccm);
 nResults = ccm.nResults;
 clear ccm        % release memory
 
 % save results
 for i = 1 : numel(nResults)
     for j = 1 : nResults(i)
-        volume = reshape(res{i}(:, j), size(misc.mask));
+        volume = nan(size(misc.mask));
+        volume(misc.mask) = res{i}(:, j);
         fn = fullfile(modelDir, sprintf('spmD_A%04d_P%04d.nii', i, j));
         spmWriteImage(volume, fn, misc.mat, ...
             'descrip', 'pattern distinctness / stability')
@@ -108,7 +111,8 @@ for i = 1 : numel(nResults)
 end
 
 % save voxels per searchlight as image
-volume = reshape(ps, size(misc.mask));
+volume = nan(size(misc.mask));
+volume(misc.mask) = ps;
 fn = fullfile(modelDir, 'VPSL.nii');
 spmWriteImage(volume, fn, misc.mat, 'descrip', 'voxels per searchlight')
 
