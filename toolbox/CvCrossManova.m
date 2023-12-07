@@ -75,11 +75,10 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             %
             % `Ds` is a cell array of analysis results where each cell
             % corresponds to a cell of `analyses`, either a scalar value or
-            % an array of permutation values.
-            % 
-            % Whether a result is an estimate of pattern distinctness *D*
-            % or pattern stability *D*^×^ depends on the contrasts of the
-            % corresponding analysis and the regressors involved in them.
+            % an array of permutation values. Whether a result is an
+            % estimate of pattern distinctness *D* or pattern stability
+            % *D*^×^ depends on the contrasts of the corresponding analysis
+            % and the regressors involved in them.
             %
             % To determine how many values will be included in each of the
             % cells of `Ds` before actually running the analyses, e.g. for
@@ -199,8 +198,7 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             % `estimability` is a table with one row per session and one
             % column per analysis & contrast. 'true' means that the
             % contrast is estimable, 'false' that it is not estimable, '–'
-            % that the contrast does not apply to the session. The check is
-            % performed via the function `contrastEstimable`.
+            % that the contrast does not apply to the session.
             %
             % `problems` indicates whether there are any inestimable
             % contrasts (logical).

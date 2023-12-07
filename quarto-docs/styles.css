@@ -35,6 +35,13 @@ a {
 a:hover {
   text-decoration: underline;
 }
+/* download link */
+a[download]::before {
+  content: '↓';
+  padding-right: 0.2em;
+  font-weight: bold;
+}
+
 
 /* indent definitions */
 dd {

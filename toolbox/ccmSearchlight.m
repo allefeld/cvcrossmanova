@@ -1,32 +1,37 @@
-function ccmSearchlight(modelDir, radius, analyses, nvargs_md, nvargs_ccm)
+function ccmSearchlight(modelDir, radius, analyses, ...
+    nvargs, nvargs_md, nvargs_ccm)
 
 % run Cross-validated (Cross-) MANOVA on searchlight
 %
-% ccmSearchlight(modelDir, radius, analyses, wf = true, lambda = 1e-8)
+% ccmSearchlight(modelDir, radius, analyses, ...
+%     mmUnits = false, wf = true, lambda = 1e-8)
 %
 % `modelDir` is the directory where the `SPM.mat` file referring to an
 % estimated model is located.
 %
-% `radius` is the radius of the searchlight sphere in voxels.
+% `radius` is the radius of the searchlight sphere.
 %
 % `analyses` is a cell array of `Analysis` objects specifying analyses.
 %
-% The optional `wf` specifies whether to apply whitening and high-pass
-% filtering (set up in SPM) to data and design matrices. It should usually
+% The optional `mmUnits` specifies whether the searchlight radius is in
+% voxels or millimeters. By default the value of `radius` is interpreted as
+% voxels, while interpretation as mm has to be requested by `mmUnits =
+% true`.
+%
+% The optional `wf` specifies whether to apply the whitening and high-pass
+% filtering set up in SPM to data and design matrices. It should usually
 % be kept at its default value.
 %
 % The optional `lambda` (from 0 to 1) controls the amount of shrinkage
 % regularization applied to the estimate of the error covariance matrix. It
 % should usually be kept at its default value.
 %
-% Analysis results are written to image files the same directory
+% Analysis results are written to image files in the same directory
 % `modelDir`, with names of the form `spmD_A####_P####.nii`. The number
 % following `A` indicates the analysis and the number following `P`
-% indicates the permutation.
-% 
-% Whether a result is an estimate of pattern distinctness *D* or pattern
-% stability *D*^×^ depends on the contrasts of the corresponding analysis
-% and the regressors involved in them.
+% indicates the permutation. Whether a result is an estimate of pattern
+% distinctness *D* or pattern stability *D*^×^ depends on the contrasts of
+% the corresponding analysis and the regressors involved in them.
 % 
 % In addition, an image file `VPSL.nii` is written containing the numbers
 % of voxels for each searchlight, and a Matlab file
@@ -37,9 +42,8 @@ function ccmSearchlight(modelDir, radius, analyses, nvargs_md, nvargs_ccm)
 % Intermediate results are saved to a file `ccmsCheckpoint….mat`, where `…`
 % stands for a 32-digit hexadecimal checksum of the analysis parameters. If
 % a run of `ccmSearchlight` is interrupted, running it again recovers
-% partial results from the checkpoint file and continues from there.
-%
-% Note that checkpointing only works if *all* analysis parameters remain
+% partial results from the checkpoint file and continues from there. Note
+% that checkpointing only works if *all* analysis parameters remain
 % identical. In particular, if the analysis includes randomly selected
 % permutations, make sure to initialize Matlab's random number generator
 % before the selection.
@@ -48,6 +52,7 @@ arguments
     modelDir           (1, :)  char
     radius             (1, 1)  double
     analyses           (1, :)  cell
+    nvargs.mmUnits     (1, 1)  logical = false
     nvargs_md.wf       (1, 1)  logical
     nvargs_ccm.lambda  (1, 1)  double
 end
@@ -71,6 +76,7 @@ params.date = getfield(dir(fullfile(modelDir, 'SPM.mat')), 'date');
 params.modelDir = modelDir;
 params.radius = radius;
 params.analyses = analyses;
+params.mmUnits = nvargs.mmUnits;
 params.wf = misc.wf;
 params.lambda = ccm.lambda;
 % encode parameters as string
@@ -87,12 +93,19 @@ uid = reshape(dec2hex(uid).', 1, 32);
 checkpoint = fullfile(modelDir, ['ccmSearchlightCheckpoint' uid '.mat']);
 
 % get prototype searchlight
-PSL = searchlight(radius);
+if nvargs.mmUnits
+    PSL = searchlight(radius, misc.mat);
+    unit = 'mm';
+else
+    PSL = searchlight(radius);
+    unit = 'voxels';
+end
 
 % run searchlight
 fprintf('\ncomputing Cross-validated (Cross-) MANOVA\n')
 disp(ccm)
-fprintf('  running searchlight of radius %d (%d voxels)\n', radius, nnz(PSL))
+fprintf('  running searchlight of radius %d %s (%d voxels)\n', ...
+    radius, unit, nnz(PSL))
 fprintf('  intermediate results are saved to\n')
 fprintf('      %s\n', checkpoint)
 [res, ps] = runSearchlight(checkpoint, PSL, misc.mask, ccm);

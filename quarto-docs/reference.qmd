@@ -1,12 +1,23 @@
 ---
-title: API Reference documentation
+title: API reference
 subtitle: Detailed information about toolbox functions and classes
 order: 30
 jupyter: mkernel
+header-includes: |
+  <style>
+      #srs {
+          max-width: 30em;
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+      }
+  </style>
 execute: 
   cache: refresh
 ---
 
+
+This section documents the public API (application programming interface) of functions and classes provided by the CvCrossManova toolbox. The toolbox contains further helper functions which may also be useful, and they are documented with standard Matlab help comments, but they are not part of the public interface and are not described here.
 
 
 ## General notes
@@ -24,72 +35,11 @@ A more complex but also more versatile interface, which can be used with arbitra
 
 The CvCrossManova toolbox implements both Cross-validated MANOVA resulting in pattern distinctness *D* and Cross-validated (Cross-) MANOVA resulting in pattern stability *D*^×^. Which of these a given [`Analysis`](#analysis) specification corresponds to depends on the contrast matrices and the regressors involved in them.
 
-In the simplest case where a regressor has the same meaning (corresponds to the same experimental condition) in all sessions (the same set of regressors is present in all sessions in the same order), Cross-validated MANOVA uses a single contrast matrix, which is used for both 'training' (`CA`) and 'validation' (`CB`), and Cross-validated Cross-MANOVA uses two different contrast matrices. However, if e.g. some experimental events occur only in some sessions and the corresponding regressors therefore do not occur in the others, it may happen that two different contrast matrices are necessary for Cross-validated MANOVA and the that a single contrast matrix can be used for Cross-validated Cross-MANOVA.
+In the simplest case where a regressor has the same meaning (corresponds to the same experimental condition) in all sessions (the same set of regressors is present in all sessions in the same order), Cross-validated MANOVA uses a single contrast matrix, which is used for both 'training' and 'validation', and Cross-validated Cross-MANOVA uses two different contrast matrices. However, if e.g. some experimental events occur only in some sessions and the corresponding regressors therefore do not occur in the others, it may happen that two different contrast matrices are necessary for Cross-validated MANOVA and that a single contrast matrix can be used for Cross-validated Cross-MANOVA.
 
 ::: callout-tip
 It is recommended to always include all regressors in all sessions, even if they may be empty in some of them. This will lead to the corresponding parameter to be inestimable in those sessions, but as long as the contrasts used are estimable, this is not a problem for the analysis.
 :::
-
-### Searchlight radius and size
-
-The numerical parameter `radius` of [`ccmSearchlight`](#ccmsearchlight) specifies the radius of the searchlight sphere in voxels.
-
-::: callout-caution
-Note that a voxel is included in a searchlight if its distance from the
-center voxel is smaller than __or equal to__ the radius. This convention may be different from the one used by other software packages.
-:::
-
-Note also that fractional values of `radius` are possible and meaningful:
-
-:::::: {.columns layout-ncol="3"}
-::: {.column}
-`radius`   `pMax`
---------  ------
-0              1
-1              7
-1.5           19
-1.8           27
-2             33
-2.3           57
-2.5           81
-2.9           93
-3            123
-3.2          147
-3.4          171
-:::
-::: {.column}
-`radius`   `pMax`
---------  ------
-3.5          179
-3.7          203
-3.8          251
-4            257
-4.2          305
-4.3          341
-4.4          365
-4.5          389
-4.6          437
-4.7          461
-4.9          485
-:::
-::: {.column}
-`radius`   `pMax`
---------  ------
-5            515
-5.1          587
-5.2          619
-5.4          691
-5.5          739
-5.7          751
-5.8          799
-5.9          847
-5.92         895
-6            925
-6.1          949
-:::
-::::::
-
-`pMax` is the maximum number of voxels, which is reached by a searchlight completely within the brain mask; at its boundaries the actual number will be smaller.
 
 ### Permutations
 
@@ -110,15 +60,46 @@ Note that if the permutations are chosen randomly, the result of the permutation
 If permutations are applied, an analysis which would normally return a single value (the actual estimate) instead returns an array of permutation values.
 Permutations always include the neutral permutation which does not modify the data, and it is always permutation 1, i.e. the actual estimate is always the first in an array of permutation values.
 
-Note that the toolbox does not implement the actual permutation test. For a single unit (participant), a permutation test can be implemented by comparing the actual value with all permutation values (including the actual value resulting from the neutral permutation) and rejecting the null hypothesis at significance level α if the actual value ranks within the upper α-quantile. A simple implementation is `pvalue = mean(D >= D(1))`. See @ernst2004 for details, including how to correct for multiple comparisons. For permutation-based population inference for MVPA, see @allefeld2016.
+The toolbox does not implement the actual permutation test. For a single unit (participant), a permutation test can be implemented by comparing the actual value with all permutation values (including the actual value resulting from the neutral permutation) and rejecting the null hypothesis at significance level α if the actual value ranks within the upper α-quantile. A simple implementation is `pValue = mean(Ds >= Ds(1))`. See @ernst2004 for details, including how to correct for multiple comparisons. For permutation-based population inference for MVPA, see @allefeld2016.
 
-### Whitening and filtering
+### Searchlight radius and size
 
-The logical parameter `wf` of [`ccmRegion`](#ccmregion), [`ccmSearchlight`](#ccmsearchlight), and [`ModeledData.fromSPM`](#modeleddata.fromspm) specifies whether to apply the whitening and high-pass filtering (set up in SPM) to data and design matrices. The default value is `true`.
+The numerical parameter `radius` of [`ccmSearchlight`](#ccmsearchlight) specifies the radius of the searchlight sphere.
 
 ::: callout-caution
-It is recommended to keep the default value. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.
+Note that a voxel is included in a searchlight if its distance from the center voxel is smaller than *or equal to* the radius. This convention may be different from the one used by other software packages.
 :::
+
+By default the radius is in voxels. That can be changed to millimeters by additionally passing `mmUnits = true`, which uses the information on dimensions and orientation of voxels stored in fMRI data files. If the voxel dimensions are different in different directions, the searchlight sphere in physical space will be an ellipsoid in voxel space.
+
+Fractional values of `radius` are possible and meaningful:
+
+:::::: {.columns id="srs" layout-ncol="2"}
+::: {.column}
+```{matlab}
+%| echo: false
+%| output: asis
+tableToMarkdown(searchlightSize([0 3]))
+```
+
+:   Radius in voxels\
+    \ 
+:::
+::: {.column}
+```{matlab}
+%| echo: false
+%| output: asis
+tableToMarkdown(searchlightSize([0, 4], mat = diag([1 1 2])))
+```
+
+:   Radius in mm\
+    for voxel size 1 × 1 × 2 mm
+:::
+::::::
+
+`p` is the maximum number of voxels, which is reached by a searchlight completely within the brain mask; at its boundaries the actual number will be smaller.
+
+You can use the function [`searchlightSize`](#searchlightsize) to explore meaningful radii and corresponding searchlight sizes before running an analysis.
 
 ### Shrinkage regularization
 
@@ -132,6 +113,14 @@ It is recommended to usually keep the default value and rather restrict the numb
 
 The target of the shrinkage regularization is the diagonal matrix where every diagonal element is identical to the error variance averaged across dependent variables. A `lambda` value of 1 can therefore be used to disregard the error covariance structure, because it replaces the estimated error covariance matrix by this shrinkage target. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t. the original data space (Euclidean metric) instead of the whitened space.
 
+### Whitening and filtering
+
+The logical parameter `wf` of [`ccmRegion`](#ccmregion), [`ccmSearchlight`](#ccmsearchlight), and [`ModeledData.fromSPM`](#modeleddata.fromspm) specifies whether to apply the whitening and high-pass filtering set up in SPM to data and design matrices. The default value is `true`.
+
+::: callout-caution
+It is recommended to keep the default value. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.
+:::
+
 
 ```{matlab}
 %| output: asis
@@ -142,7 +131,8 @@ names = {
     "ccmSearchlight",
     "Analysis",
     "ModeledData",
-    "CvCrossManova"
+    "CvCrossManova",
+    "searchlightSize"
 };
 helpToMarkdown(names)
 ```

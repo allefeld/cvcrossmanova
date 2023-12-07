@@ -121,4 +121,3 @@ end
 
 % <!-- Copyright © 2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later -->
-

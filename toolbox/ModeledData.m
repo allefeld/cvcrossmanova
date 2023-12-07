@@ -147,7 +147,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             end
         end
 
-        function fig = show(obj, rescale)
+        function fig = show(obj, nvargs)
             % graphically display information about the object
             %
             % fig = analysis.show(rescale = true)
@@ -161,8 +161,9 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             %
             % `fig` is the handle of the created figure.
 
-            if nargin < 2
-                rescale = true;
+            arguments
+                obj
+                nvargs.rescale  (1, 1)  logical = true
             end
 
             % create figure
@@ -178,7 +179,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             for k = 1 : obj.m
                 subplot(nRows, nCols, k)
                 X = obj.Xs{k};
-                if rescale
+                if nvargs.rescale
                     maX = max(abs(X));
                     maX(maX < eps) = eps;   % avoid division by 0
                     X = X * diag(1 ./ maX);
@@ -201,12 +202,12 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             % `modelDir` is the directory where the `SPM.mat` file
             % referring to an estimated model is located.
             %
-            % The optional `regions` is a cell array of logical 3D volumes
-            % or filenames specifying region masks. Without it, only the
-            % SPM brain mask is applied.
+            % The optional `regions` is a cell array of logical region
+            % masks specified as three-dimensional arrays or filenames.
+            % Without it, only the SPM brain mask is applied.
             % 
-            % The optional `wf` specifies whether to apply whitening and
-            % high-pass filtering (set up in SPM) to data and design
+            % The optional `wf` specifies whether to apply the whitening
+            % and high-pass filtering set up in SPM to data and design
             % matrices. It should usually be kept at its default value.
             %
             % Dependent variables (columns of data matrices `Ys`) are only

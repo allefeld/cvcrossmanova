@@ -2,12 +2,13 @@ function Y = spmReadVolMatched(V, Vtemplate, hold)
 
 % read MR image data such that it matches the voxel grid of a template
 %
+% Y = spmReadVolMatched(V, Vtemplate)
 % Y = spmReadVolMatched(V, Vtemplate, hold = 0)
 %
 % V:            volume struct to read from (or filename)
 % Vtemplate:    volume struct to match (or filename)
 % hold:         interpolation method (see spm_slice_vol)
-%                    0         : nearest neighbour
+%                    0         : nearest neighbour (default)
 %                    1         : trilinear interpolation
 %                    2 – 127   : higher-order Lagrange interpolation
 %                    -127 – -1 : sinc interpolation

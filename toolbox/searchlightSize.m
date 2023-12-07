@@ -1,34 +1,57 @@
-function ret = searchlightSize(radius)
+function ret = searchlightSize(radius, nvargs)
 
 % searchlight size as a function of searchlight radius
 %
-% pMax = searchlightSize(radius)
-% tbl = searchlightSize()
-% tbl = searchlightSize([radiusMin, radiusMax])
+% p = searchlightSize(radius, mat = eye(3), file = "")
+% tbl = searchlightSize(mat = eye(3), file = "")
+% tbl = searchlightSize([radiusMin, radiusMax], mat = eye(3), file = "")
 %
-% With the first syntax, the number of voxels corresponding to `radius` is
-% returned as `pMax`.
+% With the first syntax, the number of voxels contained in a searchlight of
+% radius `radius` is returned as `p`.
 %
-% With the second and third syntax, a table of corresponding values of
-% `radius` and `pMax` is returned. By default, the table includes `radius`
-% values from 0 to 5, but other limits can be specified. The values of
-% `radius` are chosen such that all possible searchlight sizes in that
-% range are listed. If the output argument is omitted, the table is printed
-% in Markdown-compatible form.
+% With the other syntaxes, a table of corresponding values of `radius` and
+% `p` is returned as `tbl`. By default, the table includes `radius` values
+% from 0 to 5, but another range can be specified as `[radiusMin,
+% radiusMax]`. The tabulated values of `radius` are chosen such that all
+% possible searchlight sizes in that range are listed.
+%
+% Without further information, `radius` is in voxels. The optional `mat`
+% can be used to specify a transformation matrix from voxel space to
+% physical space, and then `radius` is in the same physical units as `mat`.
+% Alternatively, the optional `file` can be used to specify the filename of
+% an `SPM.mat` file or NIfTI file from which to read the transformation
+% matrix, and then `radius` is in mm. If both are given, `file` overrides
+% `mat`.
 
 arguments
-    radius  (1, 2) double  = [0 5]
+    radius      (1, 2) double  = [0 5]
     % no argument uses the default
     % 1-element argument is duplicated
     % 2-element argument is used as is
     % more than 2 elements is rejected
+    nvargs.mat  (:, :) double  = eye(3)
+    nvargs.file (1, :) char    = ''
 end
 
+% get range of radius
 radiusMin = min(radius);
 radiusMax = max(radius);
 
+% get transformation from voxel space to physical space
+mat = nvargs.mat;
+if ~isempty(nvargs.file)
+    % obtain volume from SPM.mat or NIfTI file
+    if endsWith(nvargs.file, ".mat")
+        load(nvargs.file, "SPM");
+        V = SPM.xY.VY;
+    else
+        V = spm_vol(nvargs.file);
+    end
+    mat = V(1).mat;
+end
+
 % get distances from center voxel on grid
-[~, dist] = searchlight(radiusMax + 1);
+[~, dist] = searchlight(radiusMax, mat);
 
 % first syntax
 if radiusMin == radiusMax
@@ -37,13 +60,12 @@ if radiusMin == radiusMax
 end
 
 % list radii and sizes
-% radius = unique(d);
-% radius = radius(radius <= radiusMax + 1);
-radius = unique(dist(~isnan(dist)));
-pMax = nan(size(radius));
+radius = unique(dist);
+radius = radius(radius <= radiusMax);
+p = nan(size(radius));
 for i = 1 : numel(radius)
     % number of voxels within radius
-    pMax(i) = nnz(dist <= radius(i));
+    p(i) = nnz(dist <= radius(i));
 end
 
 % round up radii within necessary precision
@@ -65,19 +87,11 @@ end
 
 % limit to range
 ind = ((radius >= radiusMin) & (radius <= radiusMax));
-pMax = pMax(ind);
+p = p(ind);
 radius = radius(ind);
 
 % create table
-ret = table(radius, pMax);
-
-if nargout == 0
-    % print table
-    fprintf('`radius`   `pMax`\n--------  ------\n')
-    fprintf('%-8g  %6d\n', [radius, pMax] .')
-    % column widths are sufficient up to radius = 62.04, pMax = 999665
-    clear ret
-end
+ret = table(radius, p);
 
 
 % Copyright © 2016–2023 Carsten Allefeld

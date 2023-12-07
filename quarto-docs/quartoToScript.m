@@ -1,5 +1,8 @@
 function quartoToScript(filename)
 
+% convert a Quarto `qmd` file to a script file,
+% and add HTML for a download button
+
 % get name of notebook corresponding to document
 if nargin < 1
     notebooks = dir("*.ipynb");
@@ -52,7 +55,8 @@ lines = {
     '<div id="script">'
     '<div class="quarto-title-meta-heading">Matlab script</div>'
     '<div class="quarto-title-meta-contents">'
-    sprintf('<p><a href="%s" download=>download</a></p>', name + ".m")
+    sprintf('<p><a href="%s" download=><code>%s</code></a></p>', ...
+        name + ".m", name + ".m")
     '</div>'
     '</div>'
     '<script>'
@@ -62,3 +66,7 @@ lines = {
     '</script>'
 };
 fprintf('%s\n', string(lines))
+
+
+% <!-- Copyright © 2023 Carsten Allefeld
+% SPDX-License-Identifier: GPL-3.0-or-later -->

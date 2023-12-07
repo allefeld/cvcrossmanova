@@ -2,12 +2,16 @@ function [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions, wf)
 
 % load fMRI data via SPM.mat
 %
-% [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions = {}, wf = true)
+% [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir)
+% [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions)
+% [Ys, Xs, fs, names, misc] = loadDataSPM(modelDir, regions, wf)
 %
 % modelDir:  name of directory that contains SPM.mat
 % regions:   optional additional region mask(s),
 %            cell array of logical 3D volume(s) or filename(s)
+%            default {}
 % wf:        whether to whiten and filter data and design matrices
+%            default true
 %
 % Ys:        fMRI data matrices, 1 × sessions cell array of arrays scans × voxels
 % Xs:        design matrices, 1 × sessions cell array of arrays scans × regressors
@@ -70,30 +74,40 @@ else
     nRegions = numel(regions);
     regionNames = cell(1, nRegions);
     for i = 1 : nRegions
-        if ~isnumeric(regions{i})
+        if isstring(regions{i})
+            % normalize string to char
+            regions{i} = char(regions{i});
+        end
+        if ischar(regions{i})
+            % char: filename, keep as name and load region mask from file
             regionNames{i} = regions{i};
-            regions{i} = (spmReadVolMatched(char(regions{i}), VY(1)) > 0);
+            regions{i} = (spmReadVolMatched(regions{i}, VY(1)) > 0);
         else
+            % otherwise: region mask, keep it and create name
             regionNames{i} = sprintf('region %d', i);
         end
+        if isnumeric(regions{i})
+            % normalize numeric to logical
+            regions{i} = (regions{i} > 0);
+        end
+        % check whether region mask matches brain mask
+        assert(isequal(size(regions{i}), size(mask)), ...
+            '%s dimensions do not match volume!', regionNames{i})
     end
-    try
-        regions = (cat(4, regions{:}) > 0);
-    catch
-        error('region masks don''t match!')
-    end
-    assert(isequal(size(regions(:, :, :, 1)), size(mask)), ...
-        'region masks don''t match!')
-    % intersect brain mask with union of regions
+    % concatenate masks into 4-dimensional array
+    regions = cat(4, regions{:});
+    % restrict brain mask to intersection with union of region masks
     mask = mask & any(regions, 4);
     % determine mask voxel indices for each region
     regions = reshape(regions, [], nRegions);
     rmvi = cell(nRegions, 1);
     for i = 1 : nRegions
         rmvi{i} = find(regions(mask(:), i));
-        fprintf('    %d voxels within brain mask in %s\n', numel(rmvi{i}), regionNames{i})
+        fprintf('    %d voxels within brain mask in %s\n', ...
+            numel(rmvi{i}), regionNames{i})
     end
-    fprintf('  %d voxels within brain mask in all regions\n', sum(mask(:)));
+    fprintf('  %d voxels within brain mask in all regions\n', ...
+        sum(mask(:)));
 end
 
 % read and mask data

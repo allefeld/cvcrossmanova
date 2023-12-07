@@ -11,4 +11,3 @@ The directory `toolbox/` contains the toolbox `m`-files.
 The directory `docs/` contains the documentation as HTML files.
 
 The directory `quarto-docs/` contains the Quarto source files for the documentation.
-

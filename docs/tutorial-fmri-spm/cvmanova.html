@@ -245,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–11–11</p>
+      <p class="date">2023–12–4</p>
     </div>
   </div>
   
@@ -263,7 +263,7 @@ Matlab script
 </div>
 <div class="quarto-title-meta-contents">
 <p>
-<a href="cvmanova.m" download="">download</a>
+<a href="cvmanova.m" download=""><code>cvmanova.m</code></a>
 </p>
 </div>
 </div>
@@ -272,7 +272,7 @@ let script = document.getElementById("script");
 let meta = document.getElementsByClassName("quarto-title-meta");
 meta[0].append(script);
 </script>
-<div id="81fc169b" class="cell" data-execution_count="2">
+<div id="87c51dd8" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
@@ -288,7 +288,7 @@ meta[0].append(script);
 <li>the ‘effect of category within inanimate object’, i.e.&nbsp;quantifying how much patterns associated with ‘bottle’, ‘scissors’, ‘shoe’, and ‘chair’ differ from each other.</li>
 </ol>
 <p>The corresponding contrasts consist of 7 and 3 subcontrasts (columns), respectively, each of which targets the difference between two conditions.</p>
-<div id="17380c5b" class="cell" data-execution_count="3">
+<div id="010f2e36" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">C_stimulus</span> <span class="op">=</span> <span class="op">...</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    [  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% face</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="op">-</span><span class="fl">1</span>  <span class="fl">1</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>  <span class="fl">0</span>      <span class="co">% house</span></span>
@@ -319,7 +319,7 @@ meta[0].append(script);
 <section id="define-analyses" class="level2">
 <h2 class="anchored" data-anchor-id="define-analyses">Define analyses</h2>
 <p>An analysis is represented by an object of class <a href="../reference.html#analysis"><code>Analysis</code></a>. It comprises two contrasts, for ‘training’ (A) and ‘validation’ (B), but for cross-validated MANOVA the two are identical. It also defines a validation scheme which for each fold specifies which sessions are used for ‘training’ and ‘validation’. Here we use standard <a href="../reference.html#analysis.leaveonesessionout">leave-one-session-out</a> cross-validation, but more complex schemes can be defined.</p>
-<div id="6b6e52dc" class="cell" data-execution_count="4">
+<div id="79d90374" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_stimulus</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">C_stimulus</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>analysis_stimulus = 
@@ -329,7 +329,7 @@ meta[0].append(script);
     no permutations (besides neutral)</code></pre>
 </div>
 </div>
-<div id="e9890ea1" class="cell" data-execution_count="5">
+<div id="de0ba08b" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span> <span class="op">=</span> <span class="va">Analysis</span>.<span class="va">leaveOneSessionOut</span>( <span class="op">...</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">nSessions</span><span class="op">,</span> <span class="va">C_object_category</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -341,7 +341,7 @@ meta[0].append(script);
 </div>
 </div>
 <p>By default no permutations are performed, but that can be <a href="../reference.html#analysis.addpermutations">requested explicitly</a>. We here limit the number of permutations to 100, though a larger number is recommended if available.</p>
-<div id="c55ffe7c" class="cell" data-execution_count="6">
+<div id="33beec3c" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">rng</span>(<span class="fl">1837146515</span><span class="op">,</span> <span class="ss">'twister'</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span>.<span class="va">addPermutations</span>(<span class="va">maxPerms</span><span class="op">=</span><span class="fl">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -351,7 +351,7 @@ randomly selecting a subset of 100 permutations</code></pre>
 </div>
 <p>If the requested number of permutations (parameter <code>maxPerms</code>, default 1000) is larger than or equal to the number of possible permutations, all possible permutations are performed; if not, a subset is chosen randomly. For reproducibility of analyses it is advisable to <a href="https://uk.mathworks.com/help/matlab/math/generate-random-numbers-that-are-repeatable.html">explicitly initialize</a> Matlab’s random number generator with <code>rng</code>. The arguments used here were originally chosen based on the fields <code>Seed</code> and <code>Type</code> from running <code>s = rng('shuffle')</code> <em>once</em>.</p>
 <p>As seen above, evaluating an <code>Analysis</code> object prints a <a href="../reference.html#analysis.disp">brief summary</a>. It can also be visualized using the method <a href="../reference.html#analysis.show"><code>show</code></a>:</p>
-<div id="d34c53c9" class="cell" data-execution_count="7">
+<div id="b6961cb2" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">analysis_object_category</span>.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
@@ -364,14 +364,14 @@ randomly selecting a subset of 100 permutations</code></pre>
 </div>
 </div>
 <p>Below we need a cell array which contains all <code>Analysis</code> objects.</p>
-<div id="58413959" class="cell" data-execution_count="8">
+<div id="3088bd28" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> {<span class="va">analysis_stimulus</span><span class="op">,</span> <span class="va">analysis_object_category</span>}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="run-analyses-on-regions-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="run-analyses-on-regions-of-interest">Run analyses on regions of interest</h2>
 <p>To perform region-of-interest analyses, use the function <a href="../reference.html#ccmregion"><code>ccmRegion</code></a>. The output first reports on loading the data and then displays the involved objects<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, including information on data, design matrices, and analyses.</p>
-<div id="0d2a7d07" class="cell" data-execution_count="9">
+<div id="27ec0106" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">ccmRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -418,7 +418,7 @@ computing Cross-validated (Cross-) MANOVA
 </div>
 </div>
 <p>The result <code>ps</code> is an array with the number of voxels in each region.</p>
-<div id="4aa5ac67" class="cell" data-execution_count="10">
+<div id="5c83388a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">ps</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ps =
@@ -426,7 +426,7 @@ computing Cross-validated (Cross-) MANOVA
 </div>
 </div>
 <p>The result <code>Ds</code> is a cell array with one row for each analysis, and one column for each region. For the first analysis each cell contains a scalar, which is the estimated value of <em>D</em>.</p>
-<div id="cffbd8ea" class="cell" data-execution_count="11">
+<div id="b74763d4" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
@@ -435,7 +435,7 @@ computing Cross-validated (Cross-) MANOVA
 </div>
 </div>
 <p>For the second analysis each cell contains an array with 100 elements, corresponding to the 100 permutations we requested. The first value is the actual estimated value of <em>D</em>, the others are permutation values.</p>
-<div id="7dd9a0c0" class="cell" data-execution_count="12">
+<div id="039bba2d" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span>(<span class="fl">2</span><span class="op">,</span> <span class="op">:</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
@@ -444,7 +444,7 @@ computing Cross-validated (Cross-) MANOVA
 </div>
 </div>
 <p>Based on this, we can calculate a <em>p</em>-value for the null hypothesis ‘no effect of category within inanimate object’, in each region.</p>
-<div id="3556eb67" class="cell" data-execution_count="13">
+<div id="0840b09b" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">regions</span>)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">D</span> <span class="op">=</span> <span class="va">Ds</span>{<span class="fl">2</span><span class="op">,</span> <span class="va">i</span>}<span class="op">;</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">pval</span> <span class="op">=</span> <span class="va">mean</span>(<span class="va">D</span> <span class="op">&gt;=</span> <span class="va">D</span>(<span class="fl">1</span>))<span class="op">;</span></span>
@@ -461,7 +461,7 @@ subj1/mask8b_house_vt.nii  D = 0.3718  p = 0.01</code></pre>
 <section id="run-analyses-with-searchlight" class="level2">
 <h2 class="anchored" data-anchor-id="run-analyses-with-searchlight">Run analyses with searchlight</h2>
 <p>To perform searchlight analyses, use the function <a href="../reference.html#ccmsearchlight"><code>ccmSearchlight</code></a>. As before, the output first reports on loading the data and then displays the involved objects<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, including information on data, design matrices, and analyses.</p>
-<div id="905ae29d" class="cell" data-execution_count="14">
+<div id="15682569" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="va">slRadius</span> <span class="op">=</span> <span class="fl">3</span><span class="op">;</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="va">ccmSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">slRadius</span><span class="op">,</span> <span class="va">analyses</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -505,12 +505,12 @@ computing Cross-validated (Cross-) MANOVA
     lambda: 1e-08
   running searchlight of radius 3 (123 voxels)
   intermediate results are saved to
-      subj1/model/ccmSearchlightCheckpointC5455E411A34A2718B687FA5966503B2.mat
-    42.3 min  27638 voxels  100.0 %</code></pre>
+      subj1/model/ccmSearchlightCheckpoint07E52EAB5F1B4DFAF8A02D63EF8F08D1.mat
+    42.6 min  27638 voxels  100.0 %</code></pre>
 </div>
 </div>
 <p>Results are written to files in the model directory. <code>ccmSearchlightParams.mat</code> is a record of the analysis parameters and <code>VPSL.nii</code> is an image file where each voxel contains the number of voxels of the searchlight centered on it.</p>
-<div id="37727504" class="cell" data-execution_count="15">
+<div id="c06820e9" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="va">dir</span>(<span class="va">modelDir</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -556,7 +556,7 @@ spmD_A0002_P0028.nii      spmD_A0002_P0065.nii
 </div>
 <p>Files with names of the form <code>spmD_A####_P####.nii</code> are images of pattern distinctness, i.e each voxel contains the estimated value of <em>D</em> from the voxels of the searchlight centered on it. The digits <code>####</code> after <code>A</code> identify the analysis, and the digits after <code>P</code> the permutation (if no permutations were requested, only <code>P0001</code> for the neutral permutation).</p>
 <p>We visualize sagittal slices of <code>spmD_A0001_P0001.nii</code>, i.e.&nbsp;the actual pattern distinctness from the first analysis.</p>
-<div id="90ee9a4c" class="cell" data-execution_count="16">
+<div id="1918f3b7" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co">% load data</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">D</span><span class="op">,</span> <span class="va">XYZ</span>] <span class="op">=</span> <span class="va">spm_read_vols</span>(<span class="va">spm_vol</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'spmD_A0001_P0001.nii'</span>)))<span class="op">;</span></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="co">% plot data</span></span>
@@ -592,7 +592,7 @@ spmD_A0002_P0028.nii      spmD_A0002_P0065.nii
 </div>
 </div>
 <p>The largest values of <em>D</em> seem to be attained bilaterally in ventral temporal cortex, presumably the fusiform gyrus. Constrained (approximately) to the right and left hemispheres, the maximal values are:</p>
-<div id="d267691d" class="cell" data-execution_count="17">
+<div id="e7aa6391" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="va">x</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">XYZ</span>(<span class="fl">1</span><span class="op">,</span> <span class="op">:</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">D</span>))<span class="op">;</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="va">Dright</span> <span class="op">=</span> <span class="va">D</span> <span class="op">.*</span> (<span class="va">x</span> <span class="op">&gt;</span> <span class="fl">0</span>)<span class="op">;</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="va">maxDright</span> <span class="op">=</span> <span class="va">max</span>(<span class="va">Dright</span>(<span class="op">:</span>))</span>

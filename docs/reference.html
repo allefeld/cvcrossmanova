@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox - API Reference documentation</title>
+<title>CvCrossManova Toolbox - API reference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -120,6 +120,14 @@ div.csl-indent {
     "search-label": "Search"
   }
 }</script>
+<style>
+    #srs {
+        max-width: 30em;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 
 
 <link rel="stylesheet" href="styles.css">
@@ -236,17 +244,17 @@ div.csl-indent {
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
-    <h2 id="toc-title">API Reference documentation</h2>
+    <h2 id="toc-title">API reference</h2>
    
   <ul>
   <li><a href="#general-notes" id="toc-general-notes" class="nav-link active" data-scroll-target="#general-notes">General notes</a>
   <ul class="collapse">
   <li><a href="#programming-interfaces" id="toc-programming-interfaces" class="nav-link" data-scroll-target="#programming-interfaces">Programming interfaces</a></li>
   <li><a href="#pattern-distinctness-vs-pattern-stability" id="toc-pattern-distinctness-vs-pattern-stability" class="nav-link" data-scroll-target="#pattern-distinctness-vs-pattern-stability">Pattern distinctness vs pattern stability</a></li>
-  <li><a href="#searchlight-radius-and-size" id="toc-searchlight-radius-and-size" class="nav-link" data-scroll-target="#searchlight-radius-and-size">Searchlight radius and size</a></li>
   <li><a href="#permutations" id="toc-permutations" class="nav-link" data-scroll-target="#permutations">Permutations</a></li>
-  <li><a href="#whitening-and-filtering" id="toc-whitening-and-filtering" class="nav-link" data-scroll-target="#whitening-and-filtering">Whitening and filtering</a></li>
+  <li><a href="#searchlight-radius-and-size" id="toc-searchlight-radius-and-size" class="nav-link" data-scroll-target="#searchlight-radius-and-size">Searchlight radius and size</a></li>
   <li><a href="#shrinkage-regularization" id="toc-shrinkage-regularization" class="nav-link" data-scroll-target="#shrinkage-regularization">Shrinkage regularization</a></li>
+  <li><a href="#whitening-and-filtering" id="toc-whitening-and-filtering" class="nav-link" data-scroll-target="#whitening-and-filtering">Whitening and filtering</a></li>
   </ul></li>
   <li><a href="#ccmregion" id="toc-ccmregion" class="nav-link" data-scroll-target="#ccmregion"><span class="smallcaps">function</span> <code>ccmRegion</code></a></li>
   <li><a href="#ccmsearchlight" id="toc-ccmsearchlight" class="nav-link" data-scroll-target="#ccmsearchlight"><span class="smallcaps">function</span> <code>ccmSearchlight</code></a></li>
@@ -276,6 +284,7 @@ div.csl-indent {
   <li><a href="#cvcrossmanova.checkestimability" id="toc-cvcrossmanova.checkestimability" class="nav-link" data-scroll-target="#cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></a></li>
   <li><a href="#cvcrossmanova.disp" id="toc-cvcrossmanova.disp" class="nav-link" data-scroll-target="#cvcrossmanova.disp"><span class="smallcaps">method</span> <code>disp</code></a></li>
   </ul></li>
+  <li><a href="#searchlightsize" id="toc-searchlightsize" class="nav-link" data-scroll-target="#searchlightsize"><span class="smallcaps">function</span> <code>searchlightSize</code></a></li>
   </ul>
 </nav>
     </div>
@@ -284,7 +293,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">API Reference documentation</h1>
+<h1 class="title">API reference</h1>
 <p class="subtitle lead">Detailed information about toolbox functions and classes</p>
 </div>
 
@@ -296,7 +305,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–11–18</p>
+      <p class="date">2023–12–7</p>
     </div>
   </div>
   
@@ -308,6 +317,7 @@ div.csl-indent {
 </header>
 
 
+<p>This section documents the public API (application programming interface) of functions and classes provided by the CvCrossManova toolbox. The toolbox contains further helper functions which may also be useful, and they are documented with standard Matlab help comments, but they are not part of the public interface and are not described here.</p>
 <section id="general-notes" class="level2">
 <h2 class="anchored" data-anchor-id="general-notes">General notes</h2>
 <section id="programming-interfaces" class="level3">
@@ -319,7 +329,7 @@ div.csl-indent {
 <section id="pattern-distinctness-vs-pattern-stability" class="level3">
 <h3 class="anchored" data-anchor-id="pattern-distinctness-vs-pattern-stability">Pattern distinctness vs pattern stability</h3>
 <p>The CvCrossManova toolbox implements both Cross-validated MANOVA resulting in pattern distinctness <em>D</em> and Cross-validated (Cross-) MANOVA resulting in pattern stability <em>D</em><sup>×</sup>. Which of these a given <a href="#analysis"><code>Analysis</code></a> specification corresponds to depends on the contrast matrices and the regressors involved in them.</p>
-<p>In the simplest case where a regressor has the same meaning (corresponds to the same experimental condition) in all sessions (the same set of regressors is present in all sessions in the same order), Cross-validated MANOVA uses a single contrast matrix, which is used for both ‘training’ (<code>CA</code>) and ‘validation’ (<code>CB</code>), and Cross-validated Cross-MANOVA uses two different contrast matrices. However, if e.g.&nbsp;some experimental events occur only in some sessions and the corresponding regressors therefore do not occur in the others, it may happen that two different contrast matrices are necessary for Cross-validated MANOVA and the that a single contrast matrix can be used for Cross-validated Cross-MANOVA.</p>
+<p>In the simplest case where a regressor has the same meaning (corresponds to the same experimental condition) in all sessions (the same set of regressors is present in all sessions in the same order), Cross-validated MANOVA uses a single contrast matrix, which is used for both ‘training’ and ‘validation’, and Cross-validated Cross-MANOVA uses two different contrast matrices. However, if e.g.&nbsp;some experimental events occur only in some sessions and the corresponding regressors therefore do not occur in the others, it may happen that two different contrast matrices are necessary for Cross-validated MANOVA and that a single contrast matrix can be used for Cross-validated Cross-MANOVA.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -333,200 +343,6 @@ Tip
 <p>It is recommended to always include all regressors in all sessions, even if they may be empty in some of them. This will lead to the corresponding parameter to be inestimable in those sessions, but as long as the contrasts used are estimable, this is not a problem for the analysis.</p>
 </div>
 </div>
-</section>
-<section id="searchlight-radius-and-size" class="level3">
-<h3 class="anchored" data-anchor-id="searchlight-radius-and-size">Searchlight radius and size</h3>
-<p>The numerical parameter <code>radius</code> of <a href="#ccmsearchlight"><code>ccmSearchlight</code></a> specifies the radius of the searchlight sphere in voxels.</p>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Note that a voxel is included in a searchlight if its distance from the center voxel is smaller than <strong>or equal to</strong> the radius. This convention may be different from the one used by other software packages.</p>
-</div>
-</div>
-<p>Note also that fractional values of <code>radius</code> are possible and meaningful:</p>
-<div>
-
-</div>
-<div class="columns quarto-layout-panel" data-layout-ncol="3">
-<div class="quarto-layout-row quarto-layout-valign-top">
-<div class="column quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"><code>radius</code></th>
-<th style="text-align: right;"><code>pMax</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">0</td>
-<td style="text-align: right;">1</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">1</td>
-<td style="text-align: right;">7</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">1.5</td>
-<td style="text-align: right;">19</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">1.8</td>
-<td style="text-align: right;">27</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2</td>
-<td style="text-align: right;">33</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2.3</td>
-<td style="text-align: right;">57</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">2.5</td>
-<td style="text-align: right;">81</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">2.9</td>
-<td style="text-align: right;">93</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3</td>
-<td style="text-align: right;">123</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">3.2</td>
-<td style="text-align: right;">147</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3.4</td>
-<td style="text-align: right;">171</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="column quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"><code>radius</code></th>
-<th style="text-align: right;"><code>pMax</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">3.5</td>
-<td style="text-align: right;">179</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">3.7</td>
-<td style="text-align: right;">203</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">3.8</td>
-<td style="text-align: right;">251</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4</td>
-<td style="text-align: right;">257</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">4.2</td>
-<td style="text-align: right;">305</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4.3</td>
-<td style="text-align: right;">341</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">4.4</td>
-<td style="text-align: right;">365</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4.5</td>
-<td style="text-align: right;">389</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">4.6</td>
-<td style="text-align: right;">437</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">4.7</td>
-<td style="text-align: right;">461</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">4.9</td>
-<td style="text-align: right;">485</td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="column quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"><code>radius</code></th>
-<th style="text-align: right;"><code>pMax</code></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">5</td>
-<td style="text-align: right;">515</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">5.1</td>
-<td style="text-align: right;">587</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5.2</td>
-<td style="text-align: right;">619</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">5.4</td>
-<td style="text-align: right;">691</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5.5</td>
-<td style="text-align: right;">739</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">5.7</td>
-<td style="text-align: right;">751</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5.8</td>
-<td style="text-align: right;">799</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">5.9</td>
-<td style="text-align: right;">847</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">5.92</td>
-<td style="text-align: right;">895</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">6</td>
-<td style="text-align: right;">925</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">6.1</td>
-<td style="text-align: right;">949</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<p><code>pMax</code> is the maximum number of voxels, which is reached by a searchlight completely within the brain mask; at its boundaries the actual number will be smaller.</p>
 </section>
 <section id="permutations" class="level3">
 <h3 class="anchored" data-anchor-id="permutations">Permutations</h3>
@@ -560,11 +376,11 @@ Tip
 </div>
 </div>
 <p>If permutations are applied, an analysis which would normally return a single value (the actual estimate) instead returns an array of permutation values. Permutations always include the neutral permutation which does not modify the data, and it is always permutation 1, i.e.&nbsp;the actual estimate is always the first in an array of permutation values.</p>
-<p>Note that the toolbox does not implement the actual permutation test. For a single unit (participant), a permutation test can be implemented by comparing the actual value with all permutation values (including the actual value resulting from the neutral permutation) and rejecting the null hypothesis at significance level α if the actual value ranks within the upper α-quantile. A simple implementation is <code>pvalue = mean(D &gt;= D(1))</code>. See <span class="citation" data-cites="ernst2004">Ernst (<a href="#ref-ernst2004" role="doc-biblioref">2004</a>)</span> for details, including how to correct for multiple comparisons. For permutation-based population inference for MVPA, see <span class="citation" data-cites="allefeld2016">Allefeld et al. (<a href="#ref-allefeld2016" role="doc-biblioref">2016</a>)</span>.</p>
+<p>The toolbox does not implement the actual permutation test. For a single unit (participant), a permutation test can be implemented by comparing the actual value with all permutation values (including the actual value resulting from the neutral permutation) and rejecting the null hypothesis at significance level α if the actual value ranks within the upper α-quantile. A simple implementation is <code>pValue = mean(Ds &gt;= Ds(1))</code>. See <span class="citation" data-cites="ernst2004">Ernst (<a href="#ref-ernst2004" role="doc-biblioref">2004</a>)</span> for details, including how to correct for multiple comparisons. For permutation-based population inference for MVPA, see <span class="citation" data-cites="allefeld2016">Allefeld et al. (<a href="#ref-allefeld2016" role="doc-biblioref">2016</a>)</span>.</p>
 </section>
-<section id="whitening-and-filtering" class="level3">
-<h3 class="anchored" data-anchor-id="whitening-and-filtering">Whitening and filtering</h3>
-<p>The logical parameter <code>wf</code> of <a href="#ccmregion"><code>ccmRegion</code></a>, <a href="#ccmsearchlight"><code>ccmSearchlight</code></a>, and <a href="#modeleddata.fromspm"><code>ModeledData.fromSPM</code></a> specifies whether to apply the whitening and high-pass filtering (set up in SPM) to data and design matrices. The default value is <code>true</code>.</p>
+<section id="searchlight-radius-and-size" class="level3">
+<h3 class="anchored" data-anchor-id="searchlight-radius-and-size">Searchlight radius and size</h3>
+<p>The numerical parameter <code>radius</code> of <a href="#ccmsearchlight"><code>ccmSearchlight</code></a> specifies the radius of the searchlight sphere.</p>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -575,9 +391,136 @@ Caution
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>It is recommended to keep the default value. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.</p>
+<p>Note that a voxel is included in a searchlight if its distance from the center voxel is smaller than <em>or equal to</em> the radius. This convention may be different from the one used by other software packages.</p>
 </div>
 </div>
+<p>By default the radius is in voxels. That can be changed to millimeters by additionally passing <code>mmUnits = true</code>, which uses the information on dimensions and orientation of voxels stored in fMRI data files. If the voxel dimensions are different in different directions, the searchlight sphere in physical space will be an ellipsoid in voxel space.</p>
+<p>Fractional values of <code>radius</code> are possible and meaningful:</p>
+<div>
+
+</div>
+<div id="srs" class="columns quarto-layout-panel" data-layout-ncol="2">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>Radius in voxels<br>
+&nbsp;</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><code>radius</code></th>
+<th style="text-align: center;"><code>p</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0  </td>
+<td style="text-align: center;">  1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1  </td>
+<td style="text-align: center;">  7</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;"> 19</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1.8</td>
+<td style="text-align: center;"> 27</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2  </td>
+<td style="text-align: center;"> 33</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.3</td>
+<td style="text-align: center;"> 57</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;"> 81</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.9</td>
+<td style="text-align: center;"> 93</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3  </td>
+<td style="text-align: center;">123</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<table class="table">
+<caption>Radius in mm<br>
+for voxel size 1 × 1 × 2 mm</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><code>radius</code></th>
+<th style="text-align: center;"><code>p</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">0  </td>
+<td style="text-align: center;">  1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">1  </td>
+<td style="text-align: center;">  5</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">1.5</td>
+<td style="text-align: center;">  9</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2  </td>
+<td style="text-align: center;"> 15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2.3</td>
+<td style="text-align: center;"> 31</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;"> 39</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">2.9</td>
+<td style="text-align: center;"> 51</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3  </td>
+<td style="text-align: center;"> 71</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3.2</td>
+<td style="text-align: center;"> 79</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3.5</td>
+<td style="text-align: center;"> 87</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3.7</td>
+<td style="text-align: center;">103</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">3.8</td>
+<td style="text-align: center;">119</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">4  </td>
+<td style="text-align: center;">125</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<p><code>p</code> is the maximum number of voxels, which is reached by a searchlight completely within the brain mask; at its boundaries the actual number will be smaller.</p>
+<p>You can use the function <a href="#searchlightsize"><code>searchlightSize</code></a> to explore meaningful radii and corresponding searchlight sizes before running an analysis.</p>
 </section>
 <section id="shrinkage-regularization" class="level3">
 <h3 class="anchored" data-anchor-id="shrinkage-regularization">Shrinkage regularization</h3>
@@ -598,33 +541,50 @@ Tip
 </div>
 <p>The target of the shrinkage regularization is the diagonal matrix where every diagonal element is identical to the error variance averaged across dependent variables. A <code>lambda</code> value of 1 can therefore be used to disregard the error covariance structure, because it replaces the estimated error covariance matrix by this shrinkage target. This can be useful for Cross-MANOVA if it is intended to quantify orthogonality w.r.t. the original data space (Euclidean metric) instead of the whitened space.</p>
 </section>
+<section id="whitening-and-filtering" class="level3">
+<h3 class="anchored" data-anchor-id="whitening-and-filtering">Whitening and filtering</h3>
+<p>The logical parameter <code>wf</code> of <a href="#ccmregion"><code>ccmRegion</code></a>, <a href="#ccmsearchlight"><code>ccmSearchlight</code></a>, and <a href="#modeleddata.fromspm"><code>ModeledData.fromSPM</code></a> specifies whether to apply the whitening and high-pass filtering set up in SPM to data and design matrices. The default value is <code>true</code>.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It is recommended to keep the default value. While the pattern distinctness and pattern stability estimators should still be unbiased because the residual degrees of freedom are adjusted, not whitening will lead to decreased precision and not filtering will retain low-frequency signal components which may act as a confound for experimental effects.</p>
+</div>
+</div>
+</section>
 </section>
 <section id="ccmregion" class="level2">
 <h2 class="anchored" data-anchor-id="ccmregion"><span class="smallcaps">function</span> <code>ccmRegion</code></h2>
 <p>run Cross-validated (Cross-) MANOVA on regions</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">ccmRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>modelDir</code> is the directory where the <code>SPM.mat</code> file referring to an estimated model is located.</p>
-<p><code>regions</code> is a cell array of logical 3D volumes or filenames specifying region masks. Without it, only the SPM brain mask is applied.</p>
+<p><code>regions</code> is a cell array of logical region masks specified as three-dimensional arrays or filenames.</p>
 <p><code>analyses</code> is a cell array of <code>Analysis</code> objects specifying analyses.</p>
-<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices. It should usually be kept at its default value.</p>
+<p>The optional <code>wf</code> specifies whether to apply the whitening and high-pass filtering set up in SPM to data and design matrices. It should usually be kept at its default value.</p>
 <p>The optional <code>lambda</code> (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. It should usually be kept at its default value.</p>
-<p><code>Ds</code> is a two-dimensional cell array of analysis results where each cell corresponds to the combination of an analysis (rows) and a region (columns).</p>
-<p>Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+<p><code>Ds</code> is a two-dimensional cell array of analysis results. Each cell corresponds to the combination of an analysis (rows) and a region (columns) and contains either a scalar value or an array of permutation values. Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+<p><code>ps</code> is an array with the numbers of voxels contained in each region.</p>
 </section>
 <section id="ccmsearchlight" class="level2">
 <h2 class="anchored" data-anchor-id="ccmsearchlight"><span class="smallcaps">function</span> <code>ccmSearchlight</code></h2>
 <p>run Cross-validated (Cross-) MANOVA on searchlight</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccmSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">radius</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccmSearchlight</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">radius</span><span class="op">,</span> <span class="va">analyses</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">mmUnits</span> <span class="op">=</span> <span class="va">false</span><span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span><span class="op">,</span> <span class="va">lambda</span> <span class="op">=</span> <span class="fl">1e-8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>modelDir</code> is the directory where the <code>SPM.mat</code> file referring to an estimated model is located.</p>
-<p><code>radius</code> is the radius of the searchlight sphere in voxels.</p>
+<p><code>radius</code> is the radius of the searchlight sphere.</p>
 <p><code>analyses</code> is a cell array of <code>Analysis</code> objects specifying analyses.</p>
-<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices. It should usually be kept at its default value.</p>
+<p>The optional <code>mmUnits</code> specifies whether the searchlight radius is in voxels or millimeters. By default the value of <code>radius</code> is interpreted as voxels, while interpretation as mm has to be requested by <code>mmUnits = true</code>.</p>
+<p>The optional <code>wf</code> specifies whether to apply the whitening and high-pass filtering set up in SPM to data and design matrices. It should usually be kept at its default value.</p>
 <p>The optional <code>lambda</code> (from 0 to 1) controls the amount of shrinkage regularization applied to the estimate of the error covariance matrix. It should usually be kept at its default value.</p>
-<p>Analysis results are written to image files the same directory <code>modelDir</code>, with names of the form <code>spmD_A####_P####.nii</code>. The number following <code>A</code> indicates the analysis and the number following <code>P</code> indicates the permutation.</p>
-<p>Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+<p>Analysis results are written to image files in the same directory <code>modelDir</code>, with names of the form <code>spmD_A####_P####.nii</code>. The number following <code>A</code> indicates the analysis and the number following <code>P</code> indicates the permutation. Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
 <p>In addition, an image file <code>VPSL.nii</code> is written containing the numbers of voxels for each searchlight, and a Matlab file <code>ccmSearchlightParams.mat</code> is written containing a record of the analysis parameters.</p>
-<p>The searchlight procedure includes a checkpointing mechanism: Intermediate results are saved to a file <code>ccmsCheckpoint….mat</code>, where <code>…</code> stands for a 32-digit hexadecimal checksum of the analysis parameters. If a run of <code>ccmSearchlight</code> is interrupted, running it again recovers partial results from the checkpoint file and continues from there.</p>
-<p>Note that checkpointing only works if <em>all</em> analysis parameters remain identical. In particular, if the analysis includes randomly selected permutations, make sure to initialize Matlab’s random number generator before the selection.</p>
+<p>The searchlight procedure includes a checkpointing mechanism: Intermediate results are saved to a file <code>ccmsCheckpoint….mat</code>, where <code>…</code> stands for a 32-digit hexadecimal checksum of the analysis parameters. If a run of <code>ccmSearchlight</code> is interrupted, running it again recovers partial results from the checkpoint file and continues from there. Note that checkpointing only works if <em>all</em> analysis parameters remain identical. In particular, if the analysis includes randomly selected permutations, make sure to initialize Matlab’s random number generator before the selection.</p>
 </section>
 <section id="analysis" class="level2">
 <h2 class="anchored" data-anchor-id="analysis"><span class="smallcaps">class</span> <code>Analysis</code></h2>
@@ -755,8 +715,8 @@ Tip
 <p>create <code>ModeledData</code> object from SPM data</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">modeledData</span><span class="op">,</span> <span class="va">misc</span>] <span class="op">=</span> <span class="va">fromSPM</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span> <span class="op">=</span> {}<span class="op">,</span> <span class="va">wf</span> <span class="op">=</span> <span class="va">true</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>modelDir</code> is the directory where the <code>SPM.mat</code> file referring to an estimated model is located.</p>
-<p>The optional <code>regions</code> is a cell array of logical 3D volumes or filenames specifying region masks. Without it, only the SPM brain mask is applied.</p>
-<p>The optional <code>wf</code> specifies whether to apply whitening and high-pass filtering (set up in SPM) to data and design matrices. It should usually be kept at its default value.</p>
+<p>The optional <code>regions</code> is a cell array of logical region masks specified as three-dimensional arrays or filenames. Without it, only the SPM brain mask is applied.</p>
+<p>The optional <code>wf</code> specifies whether to apply the whitening and high-pass filtering set up in SPM to data and design matrices. It should usually be kept at its default value.</p>
 <p>Dependent variables (columns of data matrices <code>Ys</code>) are only read from voxels within the SPM analysis brain mask after it was intersected with the union of region masks (if provided).</p>
 <p><code>misc</code> is a structure of fields containing additional information:</p>
 <table class="table">
@@ -831,8 +791,7 @@ Tip
 <div class="sourceCode" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>(<span class="va">vi</span>)</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">Ds</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">runAnalyses</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code> of <code>modeledData</code>. If omitted, all variables are included.</p>
-<p><code>Ds</code> is a cell array of analysis results where each cell corresponds to a cell of <code>analyses</code>, either a scalar value or an array of permutation values.</p>
-<p>Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
+<p><code>Ds</code> is a cell array of analysis results where each cell corresponds to a cell of <code>analyses</code>, either a scalar value or an array of permutation values. Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
 <p>To determine how many values will be included in each of the cells of <code>Ds</code> before actually running the analyses, e.g.&nbsp;for preallocation, use the method <code>nResults</code>.</p>
 </section>
 <section id="cvcrossmanova.nresults" class="level3">
@@ -845,7 +804,7 @@ Tip
 <h3 class="anchored" data-anchor-id="cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></h3>
 <p>check estimability of all contrasts of all analyses in all sessions</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>estimability</code> is a table with one row per session and one column per analysis &amp; contrast. ‘true’ means that the contrast is estimable, ‘false’ that it is not estimable, ‘–’ that the contrast does not apply to the session. The check is performed via the function <code>contrastEstimable</code>.</p>
+<p><code>estimability</code> is a table with one row per session and one column per analysis &amp; contrast. ‘true’ means that the contrast is estimable, ‘false’ that it is not estimable, ‘–’ that the contrast does not apply to the session.</p>
 <p><code>problems</code> indicates whether there are any inestimable contrasts (logical).</p>
 <p>It is not usually necessary to use this method explicitly, because estimability is checked upon creation of a <code>CvCrossManova</code> object.</p>
 </section>
@@ -854,12 +813,22 @@ Tip
 <p>textually display information about the object</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(ccm)</code> or simply <code>ccm</code> without semicolon to get the same output.</p>
+</section>
+</section>
+<section id="searchlightsize" class="level2">
+<h2 class="anchored" data-anchor-id="searchlightsize"><span class="smallcaps">function</span> <code>searchlightSize</code></h2>
+<p>searchlight size as a function of searchlight radius</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="va">searchlightSize</span>(<span class="va">radius</span><span class="op">,</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">tbl</span> <span class="op">=</span> <span class="va">searchlightSize</span>(<span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="va">tbl</span> <span class="op">=</span> <span class="va">searchlightSize</span>([<span class="va">radiusMin</span><span class="op">,</span> <span class="va">radiusMax</span>]<span class="op">,</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>With the first syntax, the number of voxels contained in a searchlight of radius <code>radius</code> is returned as <code>p</code>.</p>
+<p>With the other syntaxes, a table of corresponding values of <code>radius</code> and <code>p</code> is returned as <code>tbl</code>. By default, the table includes <code>radius</code> values from 0 to 5, but another range can be specified as <code>[radiusMin, radiusMax]</code>. The tabulated values of <code>radius</code> are chosen such that all possible searchlight sizes in that range are listed.</p>
+<p>Without further information, <code>radius</code> is in voxels. The optional <code>mat</code> can be used to specify a transformation matrix from voxel space to physical space, and then <code>radius</code> is in the same physical units as <code>mat</code>. Alternatively, the optional <code>file</code> can be used to specify the filename of an <code>SPM.mat</code> file or NIfTI file from which to read the transformation matrix, and then <code>radius</code> is in mm. If both are given, <code>file</code> overrides <code>mat</code>.</p>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
 
 
 
-</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">

@@ -191,8 +191,8 @@ end
 % each searchlight of radius `radius`, and instead of returning the results it
 % writes them to image files.
 
-slRadius = 3;
-ccmSearchlight(modelDir, slRadius, analyses)
+radius = 11;
+ccmSearchlight(modelDir, radius, analyses, mmUnits=true)
 
 %%
 

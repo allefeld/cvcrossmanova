@@ -7,26 +7,27 @@ function [Ds, ps] = ccmRegion(modelDir, regions, analyses, nvargs_md, nvargs_ccm
 % `modelDir` is the directory where the `SPM.mat` file referring to an
 % estimated model is located.
 %
-% `regions` is a cell array of logical 3D volumes or filenames specifying
-% region masks. Without it, only the SPM brain mask is applied.
+% `regions` is a cell array of logical region masks specified as
+% three-dimensional arrays or filenames.
 % 
 % `analyses` is a cell array of `Analysis` objects specifying analyses.
 %
-% The optional `wf` specifies whether to apply whitening and high-pass
-% filtering (set up in SPM) to data and design matrices. It should usually
-% be kept at its default value.
+% The optional `wf` specifies whether to apply the whitening and high-pass
+% filtering set up in SPM to data and design matrices. It should usually be
+% kept at its default value.
 %
 % The optional `lambda` (from 0 to 1) controls the amount of shrinkage
 % regularization applied to the estimate of the error covariance matrix. It
 % should usually be kept at its default value.
 %
-% `Ds` is a two-dimensional cell array of analysis results where each cell
+% `Ds` is a two-dimensional cell array of analysis results. Each cell
 % corresponds to the combination of an analysis (rows) and a region
-% (columns).
-% 
-% Whether a result is an estimate of pattern distinctness *D* or pattern
-% stability *D*^×^ depends on the contrasts of the corresponding analysis
-% and the regressors involved in them.
+% (columns) and contains either a scalar value or an array of permutation
+% values. Whether a result is an estimate of pattern distinctness *D* or
+% pattern stability *D*^×^ depends on the contrasts of the corresponding
+% analysis and the regressors involved in them.
+%
+% `ps` is an array with the numbers of voxels contained in each region.
 
 
 arguments

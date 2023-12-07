@@ -1,4 +1,5 @@
 function helpToMarkdown(names)
+    
 % print Matlab help texts as Markdown for use in Quarto
 
 for i = 1 : numel(names)
@@ -151,6 +152,7 @@ end
 % end
 % rejoin lines
 helpText = strjoin(helpText, '\n');
+
 
 % Copyright © 2023 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later
