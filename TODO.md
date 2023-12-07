@@ -2,8 +2,6 @@
 
 ## important for first publication
 
--   fix bug in quartoToScript which de-indents code
-
 -   `reference.qmd` / `helpToMarkdown`: references from method / function documentation to General Notes. Implemented as a number of search strings.
 
 -   Consistent capitalization of 'Cross-validated MANOVA'

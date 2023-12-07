@@ -25,23 +25,23 @@ modelDir = fullfile(sub, 'model');
 % respectively, each of which targets the difference between two conditions.
 
 C_stimulus = ...
-[  1  0  0  0  0  0  0      % face
--1  1  0  0  0  0  0      % house
-0 -1  1  0  0  0  0      % cat
-0  0 -1  1  0  0  0      % bottle
-0  0  0 -1  1  0  0      % scissors
-0  0  0  0 -1  1  0      % shoe
-0  0  0  0  0 -1  1      % chair
-0  0  0  0  0  0 -1 ];   % scrambledpix
+    [  1  0  0  0  0  0  0      % face
+      -1  1  0  0  0  0  0      % house
+       0 -1  1  0  0  0  0      % cat
+       0  0 -1  1  0  0  0      % bottle
+       0  0  0 -1  1  0  0      % scissors
+       0  0  0  0 -1  1  0      % shoe
+       0  0  0  0  0 -1  1      % chair
+       0  0  0  0  0  0 -1 ];   % scrambledpix
 C_object_category = ...
-[  0  0  0                  % face
-0  0  0                  % house
-0  0  0                  % cat
-1  0  0                  % bottle
--1  1  0                  % scissors
-0 -1  1                  % shoe
-0  0 -1                  % chair
-0  0  0 ];               % scrambledpix
+    [  0  0  0                  % face
+       0  0  0                  % house
+       0  0  0                  % cat
+       1  0  0                  % bottle
+      -1  1  0                  % scissors
+       0 -1  1                  % shoe
+       0  0 -1                  % chair
+       0  0  0 ];               % scrambledpix
 
 %%
 
@@ -77,7 +77,7 @@ analysis_stimulus = Analysis.leaveOneSessionOut(nSessions, C_stimulus)
 %%
 
 analysis_object_category = Analysis.leaveOneSessionOut( ...
-nSessions, C_object_category)
+    nSessions, C_object_category)
 
 %%
 
@@ -163,9 +163,9 @@ Ds(2, :)
 % effect of category within inanimate object', in each region.
 
 for i = 1 : numel(regions)
-D = Ds{2, i};
-pval = mean(D >= D(1));
-fprintf('%-25s  D = %.4f  p = %g\n', regions{i}, D(1), pval)
+    D = Ds{2, i};
+    pval = mean(D >= D(1));
+    fprintf('%-25s  D = %.4f  p = %g\n', regions{i}, D(1), pval)
 end
 
 %%
@@ -228,11 +228,11 @@ cl = [min(D(:)), max(D(:))];
 fig.Position(3:4) = [750, 1200];
 tiledlayout(8, 5, Padding="tight", TileSpacing="tight")
 for i = 3 : 39
-nexttile
-slice = squeeze(D(i, :, :)) .';
-imagesc(slice)
-clim(cl)
-axis off image xy
+    nexttile
+    slice = squeeze(D(i, :, :)) .';
+    imagesc(slice)
+    clim(cl)
+    axis off image xy
 end
 cb = colorbar(Location='layout');
 cb.Layout.Tile = 40;

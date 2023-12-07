@@ -28,11 +28,11 @@ analyses = cell(nConds, nConds);
 odd = (mod(1 : nSessions, 2) == 1);
 even = (mod(1 : nSessions, 2) == 0);
 for i = 1 : nConds
-for j = i + 1 : nConds
-C = zeros(nConds, 1);
-C([i, j]) = [1, -1];
-analyses{i, j} = Analysis(C, C, [odd ; even], [even ; odd]);
-end
+    for j = i + 1 : nConds
+        C = zeros(nConds, 1);
+        C([i, j]) = [1, -1];
+        analyses{i, j} = Analysis(C, C, [odd ; even], [even ; odd]);
+    end
 end
 % reduce to defined analyses
 ind = find(~cellfun(@isempty, analyses)) .';
@@ -69,7 +69,7 @@ DsMatrix = DsMatrix + DsMatrix .';
 fig = figure();
 fig.Position(3:4) = [750, 674];
 heatmap(conditions, conditions, DsMatrix, ...
-FontName=get(0, 'defaultTextFontName'));
+    FontName=get(0, 'defaultTextFontName'));
 ylabel(gca().NodeChildren(2), 'D')
 
 %%
@@ -98,8 +98,8 @@ meanD = sum(DsMatrix) / (nConds - 1)
 fig = figure();
 fig.Position(3:4) = [750, 713];
 for i = 1 : nConds
-plot(meanAcc(i), meanD(i), '.', Color=colors(i), MarkerSize=20)
-hold all
+    plot(meanAcc(i), meanD(i), '.', Color=colors(i), MarkerSize=20)
+    hold all
 end
 legend(conditions, Interpreter="none", Location="NorthWest")
 xlim([89, 101])

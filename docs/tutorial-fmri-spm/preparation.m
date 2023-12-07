@@ -28,9 +28,9 @@ delete(fn)
 
 files = dir(fullfile(sub, '*.nii.gz'));
 for i = 1 : numel(files)
-fprintf('uncompressing %s\n', files(i).name)
-gunzip(fullfile(sub, files(i).name))
-delete(fullfile(sub, files(i).name))
+    fprintf('uncompressing %s\n', files(i).name)
+    gunzip(fullfile(sub, files(i).name))
+    delete(fullfile(sub, files(i).name))
 end
 
 %%
@@ -47,8 +47,8 @@ end
 
 fnBOLD = fullfile(sub, 'bold.nii');
 regions = {fullfile(sub, 'mask4_vt.nii'), ...
-fullfile(sub, 'mask8b_face_vt.nii'), ...
-fullfile(sub, 'mask8b_house_vt.nii')};
+           fullfile(sub, 'mask8b_face_vt.nii'), ...
+           fullfile(sub, 'mask8b_house_vt.nii')};
 
 %%
 
@@ -90,7 +90,7 @@ tail(labels)
 % the paper, the condition names are
 
 conditions = ["face", "house", "cat", "bottle", ...
-"scissors", "shoe", "chair", "scrambledpix"];
+    "scissors", "shoe", "chair", "scrambledpix"];
 
 %%
 
@@ -108,19 +108,19 @@ onsets = cell(nSessions, nConds);
 durations = cell(nSessions, nConds);
 % for each session
 for si = 1 : nSessions
-% extract condition for each block (from its middle)
-cond = labels.labels(labels.chunks == si - 1);
-[~, condInd] = ismember(cond, conditions);
-condInd = condInd(round((24 :(12 + 24): 300) / TR) + 1);
-assert(isequal(sort(condInd).', 1:8))
-% for each condition
-for ci = 1 : nConds
-% assemble stimulus onset and duration information in s
-blockInd = find(condInd == ci);
-blockStart = (blockInd - 1) * (12 + 24) + 12;
-onsets{si, ci} = blockStart + (0 : 11) * (0.5 + 1.5);
-durations{si, ci} = 0.5 * ones(1, 12);
-end
+    % extract condition for each block (from its middle)
+    cond = labels.labels(labels.chunks == si - 1);
+    [~, condInd] = ismember(cond, conditions);
+    condInd = condInd(round((24 :(12 + 24): 300) / TR) + 1);
+    assert(isequal(sort(condInd).', 1:8))
+    % for each condition
+    for ci = 1 : nConds
+        % assemble stimulus onset and duration information in s
+        blockInd = find(condInd == ci);
+        blockStart = (blockInd - 1) * (12 + 24) + 12;
+        onsets{si, ci} = blockStart + (0 : 11) * (0.5 + 1.5);
+        durations{si, ci} = 0.5 * ones(1, 12);
+    end
 end
 nVolsPerSession = height(labels) / nSessions;
 
@@ -131,16 +131,16 @@ nVolsPerSession = height(labels) / nSessions;
 fig = figure;
 fig.Position(3:4) = [750, 400];
 colors = ["#000000", "#ff9b00", "#a6ee00", "#00eea6", ...
-"#009bff", "#a600ff", "#ff00a6", "#aaaaaa"];
+    "#009bff", "#a600ff", "#ff00a6", "#aaaaaa"];
 for ci = 1 : nConds
-ons = [];
-ses = [];
-for si = 1 : nSessions
-ons = [ons, onsets{si, ci}];
-ses = [ses, si * ones(size(onsets{si, ci}))];
-end
-plot(ons, ses, '.', 'Color', colors(ci))
-hold all
+    ons = [];
+    ses = [];
+    for si = 1 : nSessions
+        ons = [ons, onsets{si, ci}];
+        ses = [ses, si * ones(size(onsets{si, ci}))];
+    end
+    plot(ons, ses, '.', 'Color', colors(ci))
+    hold all
 end
 xlim([-1 , nVolsPerSession] * TR)
 ylim([0.5, nSessions + 0.5])
@@ -157,10 +157,10 @@ legend(conditions, Location="eastoutside")
 fnrBOLD = fullfile(sub, 'rbold.nii');
 matlabbatch = {};
 for si = 1 : nSessions
-vi = (si - 1) * nVolsPerSession + (1 : nVolsPerSession);
-vn = arrayfun(@(i) sprintf('%s,%d', fnBOLD, i), ...
-vi, 'UniformOutput', false);
-matlabbatch{1}.spm.spatial.realign.estwrite.data{si} = vn';
+    vi = (si - 1) * nVolsPerSession + (1 : nVolsPerSession);
+    vn = arrayfun(@(i) sprintf('%s,%d', fnBOLD, i), ...
+        vi, 'UniformOutput', false);
+    matlabbatch{1}.spm.spatial.realign.estwrite.data{si} = vn';
 end
 matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.quality = 0.9;
 matlabbatch{1}.spm.spatial.realign.estwrite.eoptions.sep = 4;
@@ -181,7 +181,7 @@ spm_jobman('run', matlabbatch)
 % ## Save information
 
 save(fullfile(sub, 'info.mat'), 'regions', 'TR', 'nSessions', ...
-'nVolsPerSession', 'conditions', 'nConds', 'onsets', 'durations', 'colors')
+    'nVolsPerSession', 'conditions', 'nConds', 'onsets', 'durations', 'colors')
 
 %%
 

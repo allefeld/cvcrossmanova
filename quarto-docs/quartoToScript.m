@@ -20,7 +20,7 @@ reldir = wd(strfind(wd, "quarto-docs") : end);
 fid = fopen(name + ".m", 'w');
 for i = 1 : numel(nb.cells)
     cell_type = nb.cells{i}.cell_type;
-    source = strip(string(nb.cells{i}.source));
+    source = strip(string(nb.cells{i}.source), "right");
     switch cell_type
     case 'raw'
         % raw: metadata, keep only title, add relative directory
