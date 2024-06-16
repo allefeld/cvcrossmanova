@@ -100,22 +100,28 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
                 x = md.hXis{k}(:, vi);      % faster if in variable
                 hXiXis = hXiXis + x' * x;
             end
-            % we estimate such that the inverse is an unbiased estimator
-            % of the inverse of the true error matrix
+            % We estimate such that the inverse is an unbiased estimator
+            % of the inverse of the true error covariance matrix.
             hSigma = hXiXis / (sum(md.fs) - numel(vi) - 1);
 
-            % regularize Sigma towards Euclidean metric
-            hSigmaEuc = eye(numel(vi)) * mean(diag(hXiXis)) / (sum(md.fs) - 2);
-            hSigma = (1 - obj.lambda) * hSigma + obj.lambda * hSigmaEuc;
-            % Euclidean metric means that an estimate of the error
-            % covariance matrix is used which is a scaled identity matrix.
+            % regularization target: scaled identity matrix
+            hSigmaTarget = eye(numel(vi)) * mean(diag(hXiXis)) / (sum(md.fs) - 2);
             % Because in this case the inverse is the element-wise and
-            % therefore 1-dimensional inverse, the correction (- p - 1)
-            % becomes (- 2).
+            % therefore 1-dimensional inverse, the correction to the
+            % degrees of freedom, − p − 1, becomes − 2.
+            % The scaled identity matrix can be seen as implementing a
+            % Euclidean metric, because it preserves angles and relative
+            % distances in original data space. Apart from regularization,
+            % this is useful if the user intends to test orthogonality in
+            % that space.
+            clear hXiXis                % release memory
+
+            % regularize towards target
+            hSigma = (1 - obj.lambda) * hSigma + obj.lambda * hSigmaTarget;
             % The regularization parameter lambda interpolates between the
             % proper (lambda = 0) and the scaled-identity estimate (lambda
             % = 1).
-            clear hXiXis hSigmaEuc      % release memory
+            clear hSigmaTarget          % release memory
 
             % check condition number (invertibility)
             cond_hSigma = cond(hSigma);
@@ -127,12 +133,14 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             end
 
             % extract parameter estimates for specified variables and
-            % pre-whiten them by dividing by the Cholesky factor of Sigma
+            % spatially pre-whiten them by dividing by the Cholesky factor
+            % of Sigma
+            chol_hSigma = chol(hSigma);
             hBs = cell(1, m);
             for k = 1 : m
-                hBs{k} = md.hBetas{k}(:, vi) / chol(hSigma);
+                hBs{k} = md.hBetas{k}(:, vi) / chol_hSigma;
             end
-            clear hSigma                % release memory
+            clear hSigma chol_hSigma    % release memory
 
             % run analyses
             Ds = cell(obj.nAnalyses, 1);
@@ -181,6 +189,95 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
                 end
                 Ds{i} = D / an.L;
             end
+        end
+
+        function [ol, MSE] = optimizeLambda(obj, vi)
+            % optimize regularization parameter for (a subset of) the dependent variables
+            %
+            % [ol, MSE] = ccm.optimizeLambda(vi)
+            % [ol, MSE] = ccm.optimizeLambda()
+            %
+            % `vi` specifies the variables to be included in the analysis,
+            % as column indices into the data matrices `Ys` of
+            % `modeledData`. If omitted, all variables are included.
+            %
+            % `ol` is the optimal shrinkage regularization parameter
+            % `lambda`, a number between 0 and 1.
+            %
+            % `MSE` is the mean squared error of whitening at `ol`.
+            %
+            % The optimal value is determined via leave-one-session-out
+            % cross-validation. The error covariance matrix is estimated
+            % from 'training' and 'validation' sessions, and the latter is
+            % whitened using a regularized version of the former. The
+            % deviation from the optimal result, the identity matrix, is
+            % quantified by the squared error, averaged across matrix
+            % elements and cross-validation folds. The regularization
+            % parameter is chosen such that the mean squared error is
+            % minimal. Because the 'training' error covariance matrix used
+            % for whitening is calculated from less than the full number of
+            % samples, `ol` will likely overestimate the optimum for the
+            % actual analysis.
+
+            if nargin < 2
+                vi = 1 : obj.modeledData.p;
+            else
+                vi = vi(:).';
+            end
+
+            % short names to simplify code
+            md = obj.modeledData;
+            m = md.m;
+
+            % compute inner products
+            hXiXis = cell(1, m);
+            for k = 1 : m
+                x = md.hXis{k}(:, vi);      % faster if in variable
+                hXiXis{k} = x' * x;
+            end
+
+            % pre-compute 'training' error variance, regularization target,
+            % and 'validation' error variance for each fold
+            hSigmaA = cell(1, m);
+            hSigmaATarget = cell(1, m);
+            hSigmaB = cell(1, m);
+            I = eye(numel(vi));
+            for ll = 1 : m
+                A = ((1 : m) ~= ll);    % 'training' sessions
+                B = ((1 : m) == ll);    % 'validation' session
+                % 'training' error variance
+                % degrees of freedom for unbiased inverse
+                hXiXisA = sum(cat(3, hXiXis{A}), 3);
+                fA = sum(md.fs(A));
+                hSigmaA{ll} = hXiXisA / (fA - numel(vi) - 1);
+                % regularization target, scaled identity matrix
+                hSigmaATarget{ll} = I * mean(diag(hXiXisA)) / (fA - 2);
+                % 'validation' error variance
+                % degrees of freedom for unbiased estimate
+                hXiXisB = sum(cat(3, hXiXis{B}), 3);
+                fB = sum(md.fs(B));
+                hSigmaB{ll} = hXiXisB / fB;
+            end
+
+            % objective function
+            function MSE = MSEfun(lambda)
+                MSE = 0;
+                % leave-one-session-out cross-validation
+                for l = 1 : m
+                    % regularize 'training' error variance by lambda
+                    hSigmaAReg = (1 - lambda) * hSigmaA{l} + lambda * hSigmaATarget{l};
+                    % use it to whiten 'validation' error variance,
+                    cholhSigmaAReg = chol(hSigmaAReg);
+                    % and quantify error
+                    error = cholhSigmaAReg' \ hSigmaB{l} / cholhSigmaAReg - I;
+                    MSE = MSE + mean(error(:) .^ 2);  % equivalent to Frobenius norm
+                end
+                MSE = MSE / m;
+            end
+
+            % determine lambda optimal for whitening
+            % by minimizing the objective function
+            [ol, MSE] = fminbnd(@MSEfun, 0, 1);
         end
 
         function nr = nResults(obj)
@@ -281,5 +378,5 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
 
 end
 
-% Copyright © 2016–2023 Carsten Allefeld
+% Copyright © 2016–2024 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later

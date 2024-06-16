@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    style="fill-opacity:1; color-rendering:auto; color-interpolation:auto; text-rendering:auto; stroke:black; stroke-linecap:square; stroke-miterlimit:10; shape-rendering:auto; stroke-opacity:1; fill:black; stroke-dasharray:none; font-weight:normal; stroke-width:1; font-family:'Dialog'; font-style:normal; stroke-linejoin:miter; font-size:12px; stroke-dashoffset:0; image-rendering:auto;"
-   width="750"
-   height="713"
+   width="665"
+   height="475"
    version="1.1"
    id="svg380"
    sodipodi:docname="cell-10-output-1.svg"
@@ -30,7 +30,7 @@
          clipPathUnits="userSpaceOnUse"
          id="clipPath1">
         <path
-           d="M 0,0 H 750 V 713 H 0 Z"
+           d="M 0,0 H 665 V 475 H 0 Z"
            id="path3" />
       </clipPath>
       <font
@@ -220,7 +220,7 @@
          id="rect76"
          clip-path="url(#clipPath1)"
          style="stroke:none"
-         d="M 0,0 H 750 V 713 H 0 Z" />
+         d="M 0,0 H 665 V 475 H 0 Z" />
     </g>
     <g
        style="color-interpolation:sRGB;fill:#ffffff;stroke:#ffffff;color-rendering:optimizeSpeed;image-rendering:optimizeSpeed;shape-rendering:crispEdges;text-rendering:optimizeSpeed"
@@ -228,10 +228,10 @@
       <path
          id="rect80"
          style="stroke:none"
-         d="M 0,0 H 750 V 713 H 0 Z" />
+         d="M 0,0 H 665 V 475 H 0 Z" />
       <path
          style="stroke:none"
-         d="M 98,635 H 679 V 53 H 98 Z"
+         d="M 86,423 H 602 V 36 H 86 Z"
          id="path82" />
     </g>
     <g
@@ -240,62 +240,62 @@
       <path
          id="line86"
          style="fill:none"
-         d="M 98,635 H 679" />
+         d="M 86,423 H 602" />
       <path
          id="line88"
          style="fill:none"
-         d="M 98,53 H 679" />
+         d="M 86,36 H 602" />
       <path
          id="line90"
          style="fill:none"
-         d="m 146.4167,635 v -5.82001" />
+         d="m 129,423 v -5.16" />
       <path
          id="line92"
          style="fill:none"
-         d="m 243.25,635 v -5.82001" />
+         d="m 215,423 v -5.16" />
       <path
          id="line94"
          style="fill:none"
-         d="m 340.08331,635 v -5.82001" />
+         d="m 301,423 v -5.16" />
       <path
          id="line96"
          style="fill:none"
-         d="m 436.91669,635 v -5.82001" />
+         d="m 387,423 v -5.16" />
       <path
          id="line98"
          style="fill:none"
-         d="m 533.75,635 v -5.82001" />
+         d="m 473,423 v -5.16" />
       <path
          id="line100"
          style="fill:none"
-         d="m 630.58331,635 v -5.82001" />
+         d="m 559,423 v -5.16" />
       <path
          id="line102"
          style="fill:none"
-         d="m 146.4167,53 v 5.82" />
+         d="m 129,36 v 5.16" />
       <path
          id="line104"
          style="fill:none"
-         d="m 243.25,53 v 5.82" />
+         d="m 215,36 v 5.16" />
       <path
          id="line106"
          style="fill:none"
-         d="m 340.08331,53 v 5.82" />
+         d="m 301,36 v 5.16" />
       <path
          id="line108"
          style="fill:none"
-         d="m 436.91669,53 v 5.82" />
+         d="m 387,36 v 5.16" />
       <path
          id="line110"
          style="fill:none"
-         d="m 533.75,53 v 5.82" />
+         d="m 473,36 v 5.16" />
       <path
          id="line112"
          style="fill:none"
-         d="m 630.58331,53 v 5.82" />
+         d="m 559,36 v 5.16" />
     </g>
     <g
-       transform="translate(146.4167,640.2778)"
+       transform="translate(129,428.2778)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g118">
       <g
@@ -311,7 +311,7 @@
       </g>
     </g>
     <g
-       transform="translate(243.25,640.2778)"
+       transform="translate(215,428.2778)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g122">
       <g
@@ -327,7 +327,7 @@
       </g>
     </g>
     <g
-       transform="translate(340.0833,640.2778)"
+       transform="translate(301,428.2778)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g126">
       <g
@@ -343,7 +343,7 @@
       </g>
     </g>
     <g
-       transform="translate(436.9167,640.2778)"
+       transform="translate(387,428.2778)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g130">
       <g
@@ -359,7 +359,7 @@
       </g>
     </g>
     <g
-       transform="translate(533.75,640.2778)"
+       transform="translate(473,428.2778)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g134">
       <g
@@ -375,7 +375,7 @@
       </g>
     </g>
     <g
-       transform="translate(630.5833,640.2778)"
+       transform="translate(559,428.2778)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g138">
       <g
@@ -394,7 +394,7 @@
       </g>
     </g>
     <g
-       transform="translate(388.5004,661.5972)"
+       transform="translate(344.0003,449.5972)"
        style="font-size:14.5139px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g142">
       <g
@@ -451,70 +451,70 @@
       <path
          id="line144"
          style="fill:none"
-         d="M 98,635 V 53" />
+         d="M 86,423 V 36" />
       <path
          id="line146"
          style="fill:none"
-         d="M 679,635 V 53" />
+         d="M 602,423 V 36" />
       <path
          id="line148"
          style="fill:none"
-         d="m 98,593.42859 h 5.8201" />
+         d="m 86,395.35709 h 5.160103" />
       <path
          id="line150"
          style="fill:none"
-         d="m 98,510.28571 h 5.8201" />
+         d="m 86,340.07141 h 5.160103" />
       <path
          id="line152"
          style="fill:none"
-         d="m 98,427.14291 h 5.8201" />
+         d="m 86,284.78571 h 5.160103" />
       <path
          id="line154"
          style="fill:none"
-         d="m 98,344 h 5.8201" />
+         d="m 86,229.5 h 5.160103" />
       <path
          id="line156"
          style="fill:none"
-         d="m 98,260.85721 h 5.8201" />
+         d="m 86,174.21429 h 5.160103" />
       <path
          id="line158"
          style="fill:none"
-         d="m 98,177.71429 h 5.8201" />
+         d="m 86,118.9286 h 5.160103" />
       <path
          id="line160"
          style="fill:none"
-         d="m 98,94.571404 h 5.8201" />
+         d="m 86,63.642799 h 5.160103" />
       <path
          id="line162"
          style="fill:none"
-         d="m 679,593.42859 h -5.82013" />
+         d="m 602,395.35709 h -5.1601" />
       <path
          id="line164"
          style="fill:none"
-         d="m 679,510.28571 h -5.82013" />
+         d="m 602,340.07141 h -5.1601" />
       <path
          id="line166"
          style="fill:none"
-         d="m 679,427.14291 h -5.82013" />
+         d="m 602,284.78571 h -5.1601" />
       <path
          id="line168"
          style="fill:none"
-         d="m 679,344 h -5.82013" />
+         d="m 602,229.5 h -5.1601" />
       <path
          id="line170"
          style="fill:none"
-         d="m 679,260.85721 h -5.82013" />
+         d="m 602,174.21429 h -5.1601" />
       <path
          id="line172"
          style="fill:none"
-         d="m 679,177.71429 h -5.82013" />
+         d="m 602,118.9286 h -5.1601" />
       <path
          id="line174"
          style="fill:none"
-         d="m 679,94.571404 h -5.82013" />
+         d="m 602,63.642799 h -5.1601" />
     </g>
     <g
-       transform="translate(92.7222,593.4286)"
+       transform="translate(80.7221,395.3571)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g180">
       <g
@@ -533,7 +533,7 @@
       </g>
     </g>
     <g
-       transform="translate(92.7222,510.2857)"
+       transform="translate(80.7221,340.0714)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g184">
       <g
@@ -552,7 +552,7 @@
       </g>
     </g>
     <g
-       transform="translate(92.7222,427.1429)"
+       transform="translate(80.7221,284.7857)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g188">
       <g
@@ -571,7 +571,7 @@
       </g>
     </g>
     <g
-       transform="translate(92.7222,344)"
+       transform="translate(80.7221,229.5)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g192">
       <g
@@ -590,7 +590,7 @@
       </g>
     </g>
     <g
-       transform="translate(92.7222,260.8572)"
+       transform="translate(80.7221,174.2143)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g196">
       <g
@@ -609,7 +609,7 @@
       </g>
     </g>
     <g
-       transform="translate(92.7222,177.7143)"
+       transform="translate(80.7221,118.9286)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g200">
       <g
@@ -622,7 +622,7 @@
       </g>
     </g>
     <g
-       transform="translate(92.7222,94.5714)"
+       transform="translate(80.7221,63.6428)"
        style="font-size:13.1944px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g204">
       <g
@@ -641,7 +641,7 @@
       </g>
     </g>
     <g
-       transform="rotate(-90,207.88175,136.11805)"
+       transform="rotate(-90,144.63175,84.86805)"
        style="font-size:14.5139px;font-family:'Source Sans 3';color-interpolation:linearRGB;fill:#262626;stroke:#262626;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g208">
       <g
@@ -721,7 +721,7 @@
     </g>
     <g
        style="color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
-       transform="translate(630.5833,256.9934)"
+       transform="translate(559,171.6451)"
        id="g212">
       <path
          id="circle210"
@@ -729,7 +729,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(630.5833,256.9934)"
+       transform="translate(559,171.6451)"
        style="color-interpolation:linearRGB;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g216">
       <path
@@ -738,7 +738,7 @@
          id="path214" />
     </g>
     <g
-       transform="translate(630.5833,109.4656)"
+       transform="translate(559,73.5467)"
        style="color-interpolation:linearRGB;fill:#ff9b00;stroke:#ff9b00;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g220">
       <path
@@ -747,7 +747,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(630.5833,109.4656)"
+       transform="translate(559,73.5467)"
        style="color-interpolation:linearRGB;fill:#ff9b00;stroke:#ff9b00;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g224">
       <path
@@ -756,7 +756,7 @@
          id="path222" />
     </g>
     <g
-       transform="translate(533.75,319.1946)"
+       transform="translate(473,213.0057)"
        style="color-interpolation:linearRGB;fill:#a6ee00;stroke:#a6ee00;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g228">
       <path
@@ -765,7 +765,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(533.75,319.1946)"
+       transform="translate(473,213.0057)"
        style="color-interpolation:linearRGB;fill:#a6ee00;stroke:#a6ee00;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g232">
       <path
@@ -774,7 +774,7 @@
          id="path230" />
     </g>
     <g
-       transform="translate(146.4167,563.1354)"
+       transform="translate(129,375.2138)"
        style="color-interpolation:linearRGB;fill:#00eea6;stroke:#00eea6;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g236">
       <path
@@ -783,7 +783,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(146.4167,563.1354)"
+       transform="translate(129,375.2138)"
        style="color-interpolation:linearRGB;fill:#00eea6;stroke:#00eea6;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g240">
       <path
@@ -792,7 +792,7 @@
          id="path238" />
     </g>
     <g
-       transform="translate(243.25,498.4437)"
+       transform="translate(215,332.1971)"
        style="color-interpolation:linearRGB;fill:#009bff;stroke:#009bff;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g244">
       <path
@@ -801,7 +801,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(243.25,498.4437)"
+       transform="translate(215,332.1971)"
        style="color-interpolation:linearRGB;fill:#009bff;stroke:#009bff;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g248">
       <path
@@ -810,7 +810,7 @@
          id="path246" />
     </g>
     <g
-       transform="translate(243.25,463.4401)"
+       transform="translate(215,308.9215)"
        style="color-interpolation:linearRGB;fill:#a600ff;stroke:#a600ff;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g252">
       <path
@@ -819,7 +819,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(243.25,463.4401)"
+       transform="translate(215,308.9215)"
        style="color-interpolation:linearRGB;fill:#a600ff;stroke:#a600ff;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g256">
       <path
@@ -828,7 +828,7 @@
          id="path254" />
     </g>
     <g
-       transform="translate(436.9167,484.2043)"
+       transform="translate(387,322.7286)"
        style="color-interpolation:linearRGB;fill:#ff00a6;stroke:#ff00a6;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g260">
       <path
@@ -837,7 +837,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(436.9167,484.2043)"
+       transform="translate(387,322.7286)"
        style="color-interpolation:linearRGB;fill:#ff00a6;stroke:#ff00a6;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g264">
       <path
@@ -846,7 +846,7 @@
          id="path262" />
     </g>
     <g
-       transform="translate(630.5833,290.9761)"
+       transform="translate(559,194.2418)"
        style="color-interpolation:linearRGB;fill:#aaaaaa;stroke:#aaaaaa;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g268">
       <path
@@ -855,7 +855,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(630.5833,290.9761)"
+       transform="translate(559,194.2418)"
        style="color-interpolation:linearRGB;fill:#aaaaaa;stroke:#aaaaaa;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g272">
       <path
@@ -868,11 +868,11 @@
        id="g276">
       <path
          style="stroke:none"
-         d="M 227,215 V 64 H 109 v 151 z"
+         d="M 215,198 V 47 H 97 v 151 z"
          id="path274" />
     </g>
     <g
-       transform="translate(155.3542,74.9637)"
+       transform="translate(143.3542,57.9637)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g280">
       <g
@@ -895,7 +895,7 @@
     </g>
     <g
        style="color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
-       transform="translate(132.6746,74.9637)"
+       transform="translate(120.6746,57.9637)"
        id="g284">
       <path
          id="circle282"
@@ -903,7 +903,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,74.9637)"
+       transform="translate(120.6746,57.9637)"
        style="color-interpolation:linearRGB;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g288">
       <path
@@ -912,7 +912,7 @@
          id="path286" />
     </g>
     <g
-       transform="translate(155.3542,93.4026)"
+       transform="translate(143.3542,76.4026)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g292">
       <g
@@ -937,7 +937,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,93.4026)"
+       transform="translate(120.6746,76.4026)"
        style="color-interpolation:linearRGB;fill:#ff9b00;stroke:#ff9b00;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g296">
       <path
@@ -946,7 +946,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,93.4026)"
+       transform="translate(120.6746,76.4026)"
        style="color-interpolation:linearRGB;fill:#ff9b00;stroke:#ff9b00;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g300">
       <path
@@ -955,7 +955,7 @@
          id="path298" />
     </g>
     <g
-       transform="translate(155.3542,111.8416)"
+       transform="translate(143.3542,94.8416)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g304">
       <g
@@ -974,7 +974,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,111.8416)"
+       transform="translate(120.6746,94.8416)"
        style="color-interpolation:linearRGB;fill:#a6ee00;stroke:#a6ee00;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g308">
       <path
@@ -983,7 +983,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,111.8416)"
+       transform="translate(120.6746,94.8416)"
        style="color-interpolation:linearRGB;fill:#a6ee00;stroke:#a6ee00;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g312">
       <path
@@ -992,7 +992,7 @@
          id="path310" />
     </g>
     <g
-       transform="translate(155.3542,130.2805)"
+       transform="translate(143.3542,113.2805)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g316">
       <g
@@ -1020,7 +1020,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,130.2805)"
+       transform="translate(120.6746,113.2805)"
        style="color-interpolation:linearRGB;fill:#00eea6;stroke:#00eea6;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g320">
       <path
@@ -1029,7 +1029,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,130.2805)"
+       transform="translate(120.6746,113.2805)"
        style="color-interpolation:linearRGB;fill:#00eea6;stroke:#00eea6;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g324">
       <path
@@ -1038,7 +1038,7 @@
          id="path322" />
     </g>
     <g
-       transform="translate(155.3542,148.7195)"
+       transform="translate(143.3542,131.7195)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g328">
       <g
@@ -1072,7 +1072,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,148.7195)"
+       transform="translate(120.6746,131.7195)"
        style="color-interpolation:linearRGB;fill:#009bff;stroke:#009bff;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g332">
       <path
@@ -1081,7 +1081,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,148.7195)"
+       transform="translate(120.6746,131.7195)"
        style="color-interpolation:linearRGB;fill:#009bff;stroke:#009bff;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g336">
       <path
@@ -1090,7 +1090,7 @@
          id="path334" />
     </g>
     <g
-       transform="translate(155.3542,167.1584)"
+       transform="translate(143.3542,150.1584)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g340">
       <g
@@ -1112,7 +1112,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,167.1584)"
+       transform="translate(120.6746,150.1584)"
        style="color-interpolation:linearRGB;fill:#a600ff;stroke:#a600ff;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g344">
       <path
@@ -1121,7 +1121,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,167.1584)"
+       transform="translate(120.6746,150.1584)"
        style="color-interpolation:linearRGB;fill:#a600ff;stroke:#a600ff;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g348">
       <path
@@ -1130,7 +1130,7 @@
          id="path346" />
     </g>
     <g
-       transform="translate(155.3542,185.5974)"
+       transform="translate(143.3542,168.5974)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g352">
       <g
@@ -1155,7 +1155,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,185.5974)"
+       transform="translate(120.6746,168.5974)"
        style="color-interpolation:linearRGB;fill:#ff00a6;stroke:#ff00a6;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g356">
       <path
@@ -1164,7 +1164,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,185.5974)"
+       transform="translate(120.6746,168.5974)"
        style="color-interpolation:linearRGB;fill:#ff00a6;stroke:#ff00a6;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g360">
       <path
@@ -1173,7 +1173,7 @@
          id="path358" />
     </g>
     <g
-       transform="translate(155.3542,204.0363)"
+       transform="translate(143.3542,187.0363)"
        style="font-size:11.875px;font-family:'Source Sans 3';color-interpolation:linearRGB;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g364">
       <g
@@ -1219,7 +1219,7 @@
       </g>
     </g>
     <g
-       transform="translate(132.6746,204.0363)"
+       transform="translate(120.6746,187.0363)"
        style="color-interpolation:linearRGB;fill:#aaaaaa;stroke:#aaaaaa;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g368">
       <path
@@ -1228,7 +1228,7 @@
          d="M 3.8704,0 A 3.8704,3.8704 0 0 1 0,3.8704 3.8704,3.8704 0 0 1 -3.8704,0 3.8704,3.8704 0 0 1 0,-3.8704 3.8704,3.8704 0 0 1 3.8704,0 Z" />
     </g>
     <g
-       transform="translate(132.6746,204.0363)"
+       transform="translate(120.6746,187.0363)"
        style="color-interpolation:linearRGB;fill:#aaaaaa;stroke:#aaaaaa;stroke-width:0.6597;stroke-linejoin:round;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g372">
       <path
@@ -1240,7 +1240,7 @@
        style="color-interpolation:linearRGB;fill:#262626;stroke:#262626;stroke-width:0.6597;stroke-linecap:butt;color-rendering:optimizeQuality;image-rendering:optimizeQuality;text-rendering:geometricPrecision"
        id="g376">
       <path
-         d="M 109,215 V 64 h 118 v 151 z"
+         d="M 97,198 V 47 h 118 v 151 z"
          style="fill:none;fill-rule:evenodd"
          id="path374" />
     </g>

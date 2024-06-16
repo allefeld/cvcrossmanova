@@ -1,11 +1,5 @@
 [
   {
-    "listing": "/tutorial-other/index.html",
-    "items": [
-      "/tutorial-other/preparation.html"
-    ]
-  },
-  {
     "listing": "/tutorial-fmri-spm/index.html",
     "items": [
       "/tutorial-fmri-spm/preparation.html",
@@ -22,6 +16,12 @@
       "/tutorial-fmri-spm/index.html",
       "/tutorial-other/index.html",
       "/reference.html"
+    ]
+  },
+  {
+    "listing": "/tutorial-other/index.html",
+    "items": [
+      "/tutorial-other/preparation.html"
     ]
   }
 ]

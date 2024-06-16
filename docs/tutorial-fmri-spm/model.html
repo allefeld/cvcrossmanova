@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.388">
+<meta name="generator" content="quarto-1.5.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox - Model</title>
+<title>CvCrossManova Toolbox – Model</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -81,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
@@ -96,6 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -112,13 +113,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/index.html">Tutorial: fMRI with SPM</a></li><li class="breadcrumb-item"><a href="../tutorial-fmri-spm/model.html">Model</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -127,7 +128,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">CvCrossManova Toolbox</a> 
@@ -150,7 +151,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../tutorial-fmri-spm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial: fMRI with SPM</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -191,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../tutorial-other/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial: Other data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -213,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
@@ -255,134 +256,120 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<div id="script">
-<div class="quarto-title-meta-heading">
-Matlab script
-</div>
-<div class="quarto-title-meta-contents">
-<p>
-<a href="model.m" download=""><code>model.m</code></a>
-</p>
-</div>
-</div>
-<script>
-let script = document.getElementById("script");
-let meta = document.getElementsByClassName("quarto-title-meta");
-meta[0].append(script);
-</script>
-<div id="af4719d4" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>))</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">% BOLD data (contains realignment information)</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'bold.nii'</span>)<span class="op">;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">% realigned BOLD data</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'rbold.nii'</span>)<span class="op">;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">% directory for model</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'model'</span>)<span class="op">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">% file containing model</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="va">fnSPM</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'SPM.mat'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Insufficient number of outputs from right hand side of equal sign to satisfy assignment.
+Error in quartoToScript (line 10)
+    filename = notebooks(ind).name;</code></pre>
+<div id="b37ec3fd" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">% BOLD data (contains realignment information)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'bold.nii'</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">% realigned BOLD data</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'rbold.nii'</span>)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">% directory for model</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'model'</span>)<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">% file containing model</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="va">fnSPM</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'SPM.mat'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="specify-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="specify-the-model">Specify the model</h2>
 <p>Instead of the approach of the paper to use a single design matrix across all sessions, we here follow the standard approach of SPM, and use session-wise design matrices. Each of them contains eight HRF-convoluted regressors corresponding to the stimulus presentations of the eight conditions, six motion regressors derived from the realignment parameters, and a constant regressor.</p>
-<div id="f8b42ad3" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% get realignment parameters for motion regressors</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">V</span> <span class="op">=</span> <span class="va">spm_vol</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">mat</span> <span class="op">=</span> <span class="va">cat</span>(<span class="fl">4</span><span class="op">,</span> <span class="va">V</span>.<span class="va">mat</span>)<span class="op">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">% create directory</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="va">mkdir</span>(<span class="va">modelDir</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">% SPM module 'fMRI model specification'</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span> <span class="op">=</span> <span class="va">struct</span><span class="op">;</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">dir</span> <span class="op">=</span> {<span class="va">modelDir</span>}<span class="op">;</span>         <span class="co">% model directory</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">units</span> <span class="op">=</span> <span class="ss">'secs'</span><span class="op">;</span>    <span class="co">% units for onsets and durations</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">RT</span> <span class="op">=</span> <span class="va">TR</span><span class="op">;</span>           <span class="co">% repetition time (interscan interval)</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">fmri_t</span> <span class="op">=</span> <span class="fl">25</span><span class="op">;</span>       <span class="co">% microtime resolution: 0.1 s</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">fmri_t0</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span>      <span class="co">% microtime onset: middle of scan</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">% for each session</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">% indices of scans in 4d BOLD image corresponding to session</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">scans</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="op">...</span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> <span class="op">...</span>                <span class="co">% SPM's &lt;filename&gt;,&lt;scan&gt; syntax</span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">fullfile</span>(<span class="va">pwd</span><span class="op">,</span> <span class="va">fnrBOLD</span>)<span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span> <span class="co">% filename must include full path</span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">vi</span><span class="op">,</span> <span class="op">...</span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>            <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">';</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for each condition</span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">% name, onsets, and durations</span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">name</span> <span class="op">=</span> <span class="va">conditions</span>{<span class="va">ci</span>}<span class="op">;</span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">onset</span> <span class="op">=</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}<span class="op">;</span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">duration</span> <span class="op">=</span> <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}<span class="op">;</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">tmod</span> <span class="op">=</span> <span class="fl">0</span><span class="op">;</span>   <span class="co">% no time modulation</span></span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">orth</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">multi</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span>        <span class="co">% no 'multiple conditions'</span></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">% motion regressors from realignment parameters</span></span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    <span class="va">Q</span> <span class="op">=</span> <span class="va">nan</span>(<span class="va">nVolsPerSession</span><span class="op">,</span> <span class="fl">6</span>)<span class="op">;</span></span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span></span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">qq</span> <span class="op">=</span> <span class="va">spm_imatrix</span>(<span class="va">mat</span>(<span class="op">:,</span> <span class="op">:,</span> <span class="va">vi</span>(<span class="va">i</span>)) <span class="op">/</span> <span class="va">mat</span>(<span class="op">:,</span> <span class="op">:,</span> <span class="va">vi</span>(<span class="fl">1</span>)))<span class="op">;</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">Q</span>(<span class="va">i</span><span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="va">qq</span>(<span class="fl">1</span> <span class="op">:</span> <span class="fl">6</span>)<span class="op">;</span></span>
-<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">mi</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">6</span></span>
-<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">regress</span>(<span class="va">mi</span>).<span class="va">name</span> <span class="op">=</span> <span class="va">sprintf</span>(<span class="ss">'motion(%d)'</span><span class="op">,</span> <span class="va">mi</span>)<span class="op">;</span></span>
-<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">regress</span>(<span class="va">mi</span>).<span class="va">val</span> <span class="op">=</span> <span class="va">Q</span>(<span class="op">:,</span> <span class="va">mi</span>)<span class="op">;</span></span>
-<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">multi_reg</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span>    <span class="co">% no 'multiple regressors'</span></span>
-<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">hpf</span> <span class="op">=</span> <span class="fl">128</span><span class="op">;</span>           <span class="co">% high-pass cutoff time (def.)</span></span>
-<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">bases</span>.<span class="va">hrf</span>.<span class="va">derivs</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span> <span class="co">% no HRF derivatives</span></span>
-<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">volt</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span>                 <span class="co">% do not model interactions</span></span>
-<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="kw">global</span> <span class="op">=</span> <span class="ss">'None'</span><span class="op">;</span>          <span class="co">% no global intensity normalization</span></span>
-<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">mthresh</span> <span class="op">=</span> <span class="fl">0.8</span><span class="op">;</span>            <span class="co">% masking threshold (def.)</span></span>
-<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">mask</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span>              <span class="co">% no explicit mask</span></span>
-<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">cvi</span> <span class="op">=</span> <span class="ss">'AR(1)'</span><span class="op">;</span>            <span class="co">% model serial correlations as AR(1) (def.)</span></span>
-<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a><span class="co">% run module</span></span>
-<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
-<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_spec</span> <span class="op">=</span> <span class="va">fmri_spec</span><span class="op">;</span></span>
-<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>(<span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="2c52e1a6" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">% get realignment parameters for motion regressors</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">V</span> <span class="op">=</span> <span class="va">spm_vol</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">mat</span> <span class="op">=</span> <span class="va">cat</span>(<span class="fl">4</span><span class="op">,</span> <span class="va">V</span>.<span class="va">mat</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">% create directory</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">mkdir</span>(<span class="va">modelDir</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">% SPM module 'fMRI model specification'</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span> <span class="op">=</span> <span class="va">struct</span><span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">dir</span> <span class="op">=</span> {<span class="va">modelDir</span>}<span class="op">;</span>         <span class="co">% model directory</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">units</span> <span class="op">=</span> <span class="ss">'secs'</span><span class="op">;</span>    <span class="co">% units for onsets and durations</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">RT</span> <span class="op">=</span> <span class="va">TR</span><span class="op">;</span>           <span class="co">% repetition time (interscan interval)</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">fmri_t</span> <span class="op">=</span> <span class="fl">25</span><span class="op">;</span>       <span class="co">% microtime resolution: 0.1 s</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">timing</span>.<span class="va">fmri_t0</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span>      <span class="co">% microtime onset: middle of scan</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">% for each session</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co">% indices of scans in 4d BOLD image corresponding to session</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">scans</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="op">...</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> <span class="op">...</span>                <span class="co">% SPM's &lt;filename&gt;,&lt;scan&gt; syntax</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">fullfile</span>(<span class="va">pwd</span><span class="op">,</span> <span class="va">fnrBOLD</span>)<span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span> <span class="co">% filename must include full path</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">vi</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>            <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">';</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for each condition</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>        <span class="co">% name, onsets, and durations</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">name</span> <span class="op">=</span> <span class="va">conditions</span>{<span class="va">ci</span>}<span class="op">;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">onset</span> <span class="op">=</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">duration</span> <span class="op">=</span> <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}<span class="op">;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">tmod</span> <span class="op">=</span> <span class="fl">0</span><span class="op">;</span>   <span class="co">% no time modulation</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">cond</span>(<span class="va">ci</span>).<span class="va">orth</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">multi</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span>        <span class="co">% no 'multiple conditions'</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">% motion regressors from realignment parameters</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="va">Q</span> <span class="op">=</span> <span class="va">nan</span>(<span class="va">nVolsPerSession</span><span class="op">,</span> <span class="fl">6</span>)<span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">qq</span> <span class="op">=</span> <span class="va">spm_imatrix</span>(<span class="va">mat</span>(<span class="op">:,</span> <span class="op">:,</span> <span class="va">vi</span>(<span class="va">i</span>)) <span class="op">/</span> <span class="va">mat</span>(<span class="op">:,</span> <span class="op">:,</span> <span class="va">vi</span>(<span class="fl">1</span>)))<span class="op">;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">Q</span>(<span class="va">i</span><span class="op">,</span> <span class="op">:</span>) <span class="op">=</span> <span class="va">qq</span>(<span class="fl">1</span> <span class="op">:</span> <span class="fl">6</span>)<span class="op">;</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">mi</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="fl">6</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">regress</span>(<span class="va">mi</span>).<span class="va">name</span> <span class="op">=</span> <span class="va">sprintf</span>(<span class="ss">'motion(%d)'</span><span class="op">,</span> <span class="va">mi</span>)<span class="op">;</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>        <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">regress</span>(<span class="va">mi</span>).<span class="va">val</span> <span class="op">=</span> <span class="va">Q</span>(<span class="op">:,</span> <span class="va">mi</span>)<span class="op">;</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">multi_reg</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span>    <span class="co">% no 'multiple regressors'</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="va">fmri_spec</span>.<span class="va">sess</span>(<span class="va">si</span>).<span class="va">hpf</span> <span class="op">=</span> <span class="fl">128</span><span class="op">;</span>           <span class="co">% high-pass cutoff time (def.)</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">bases</span>.<span class="va">hrf</span>.<span class="va">derivs</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span> <span class="co">% no HRF derivatives</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">volt</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span>                 <span class="co">% do not model interactions</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="kw">global</span> <span class="op">=</span> <span class="ss">'None'</span><span class="op">;</span>          <span class="co">% no global intensity normalization</span></span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">mthresh</span> <span class="op">=</span> <span class="fl">0.8</span><span class="op">;</span>            <span class="co">% masking threshold (def.)</span></span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">mask</span> <span class="op">=</span> {<span class="ss">''</span>}<span class="op">;</span>              <span class="co">% no explicit mask</span></span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_spec</span>.<span class="va">cvi</span> <span class="op">=</span> <span class="ss">'AR(1)'</span><span class="op">;</span>            <span class="co">% model serial correlations as AR(1) (def.)</span></span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="co">% run module</span></span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_spec</span> <span class="op">=</span> <span class="va">fmri_spec</span><span class="op">;</span></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>(<span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Initialising batch system... done.
 
 
 ------------------------------------------------------------------------
-07-Dec-2023 10:51:37 - Running job #1
+16-Jun-2024 22:31:37 - Running job #1
 ------------------------------------------------------------------------
-07-Dec-2023 10:51:38 - Running 'fMRI model specification'
+16-Jun-2024 22:31:38 - Running 'fMRI model specification'
 
-SPM12: spm_fMRI_design (v7739)                     10:51:38 - 07/12/2023
+SPM12: spm_fMRI_design (v7739)                     22:31:38 - 16/06/2024
 ========================================================================
 Saving fMRI design                      :               ...SPM.mat saved
 
-SPM12: spm_fmri_spm_ui (v7738)                     10:51:39 - 07/12/2023
+SPM12: spm_fmri_spm_ui (v7738)                     22:31:39 - 16/06/2024
 ========================================================================
 Mapping files                           :                        ...done
 Calculating globals                     :                        ...done
 Saving SPM configuration                :               ...SPM.mat saved
 Saving SPM configuration                :               ...SPM.mat saved
-Completed                               :          10:51:51 - 07/12/2023
-07-Dec-2023 10:51:51 - Done    'fMRI model specification'
-07-Dec-2023 10:51:51 - Done
+Completed                               :          22:31:52 - 16/06/2024
+16-Jun-2024 22:31:52 - Done    'fMRI model specification'
+16-Jun-2024 22:31:52 - Done
 </code></pre>
 </div>
 </div>
 </section>
 <section id="visualize-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="visualize-the-model">Visualize the model</h2>
-<div id="74704adb" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'SPM.mat'</span>)<span class="op">,</span> <span class="ss">'SPM'</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">filenames</span> <span class="op">=</span> <span class="va">SPM</span>.<span class="va">xY</span>.<span class="va">P</span>(<span class="op">:,</span> <span class="va">numel</span>(<span class="va">pwd</span>) <span class="op">+</span> <span class="fl">2</span> <span class="op">:</span> <span class="kw">end</span>)<span class="op">;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="va">filenames</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">cellstr</span>(<span class="va">filenames</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">SPM</span>.<span class="va">xY</span>.<span class="va">VY</span>))<span class="op">;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="va">spm_DesRep</span>(<span class="ss">'DesMtx'</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">xX</span><span class="op">,</span> <span class="va">filenames</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">xsDes</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ce43dc88" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="ss">'SPM.mat'</span>)<span class="op">,</span> <span class="ss">'SPM'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">filenames</span> <span class="op">=</span> <span class="va">SPM</span>.<span class="va">xY</span>.<span class="va">P</span>(<span class="op">:,</span> <span class="va">numel</span>(<span class="va">pwd</span>) <span class="op">+</span> <span class="fl">2</span> <span class="op">:</span> <span class="kw">end</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">filenames</span> <span class="op">=</span> <span class="va">reshape</span>(<span class="va">cellstr</span>(<span class="va">filenames</span>)<span class="op">,</span> <span class="va">size</span>(<span class="va">SPM</span>.<span class="va">xY</span>.<span class="va">VY</span>))<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">spm_DesRep</span>(<span class="ss">'DesMtx'</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">xX</span><span class="op">,</span> <span class="va">filenames</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">xsDes</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<div id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
 <div>
-<img src="model_files/figure-html/cell-6-output-1.png" id="fig-539a35d47e664c97a50115a146a7f1bd-1" class="img-fluid figure-img">
-</div>
+<figure class="figure">
+<p><img src="model_files/figure-html/cell-6-output-1.svg" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
@@ -390,28 +377,28 @@ Completed                               :          10:51:51 - 07/12/2023
 </section>
 <section id="estimate-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="estimate-the-model">Estimate the model</h2>
-<div id="56cb38f1" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">% SPM module 'fMRI model estimation'</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span> <span class="op">=</span> <span class="va">struct</span><span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">spmmat</span> <span class="op">=</span> {<span class="va">fnSPM</span>}<span class="op">;</span>          <span class="co">% path to `SPM.mat`</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">write_residuals</span> <span class="op">=</span> <span class="fl">0</span><span class="op">;</span>       <span class="co">% do not write residuals</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">method</span>.<span class="va">Classical</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span>      <span class="co">% frequentist statistical estimation</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">% run module</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_est</span> <span class="op">=</span> <span class="va">fmri_est</span><span class="op">;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>(<span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="567f842d" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% SPM module 'fMRI model estimation'</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span> <span class="op">=</span> <span class="va">struct</span><span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">spmmat</span> <span class="op">=</span> {<span class="va">fnSPM</span>}<span class="op">;</span>          <span class="co">% path to `SPM.mat`</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">write_residuals</span> <span class="op">=</span> <span class="fl">0</span><span class="op">;</span>       <span class="co">% do not write residuals</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="va">fmri_est</span>.<span class="va">method</span>.<span class="va">Classical</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span>      <span class="co">% frequentist statistical estimation</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">% run module</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">stats</span>.<span class="va">fmri_est</span> <span class="op">=</span> <span class="va">fmri_est</span><span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>(<span class="fl">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 
 ------------------------------------------------------------------------
-07-Dec-2023 10:51:58 - Running job #1
+16-Jun-2024 22:32:00 - Running job #1
 ------------------------------------------------------------------------
-07-Dec-2023 10:51:58 - Running 'Model estimation'
+16-Jun-2024 22:32:01 - Running 'Model estimation'
 
-SPM12: spm_spm (v7738)                             10:51:59 - 07/12/2023
+SPM12: spm_spm (v7738)                             22:32:01 - 16/06/2024
 ========================================================================
 
-SPM12: spm_est_non_sphericity (v7577)              10:52:01 - 07/12/2023
+SPM12: spm_est_non_sphericity (v7577)              22:32:03 - 16/06/2024
 ========================================================================
 Chunk   2/2                             :                        ...done
 Temporal non-sphericity (27073 voxels)  :             ...ReML estimation
@@ -462,24 +449,24 @@ Temporal non-sphericity (27073 voxels)  :             ...ReML estimation
   ReML Iteration 1                      :        ...7.075062e+00 [+4.25]
   ReML Iteration 2                      :        ...5.880034e-02 [+4.50]
 
-SPM12: spm_spm (v7738)                             10:52:07 - 07/12/2023
+SPM12: spm_spm (v7738)                             22:32:09 - 16/06/2024
 ========================================================================
 Chunk   2/2                             :                        ...done
 Spatial non-sphericity (over scans)     :                        ...done
 Saving SPM.mat                          :                        ...done
-Completed                               :          10:52:19 - 07/12/2023
+Completed                               :          22:32:20 - 16/06/2024
 Done
-07-Dec-2023 10:52:19 - Done    'Model estimation'
-07-Dec-2023 10:52:19 - Done
+16-Jun-2024 22:32:20 - Done    'Model estimation'
+16-Jun-2024 22:32:20 - Done
 </code></pre>
 </div>
 </div>
 <p>Our analyses only need the updates to the <code>SPM.mat</code> file made during estimation, not the parameter estimates themselves. We therefore delete the created <code>beta_####.nii</code> files.</p>
-<div id="35d4e7c4" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fnSPM</span><span class="op">,</span> <span class="ss">'SPM'</span>)<span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">SPM</span>.<span class="va">Vbeta</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">spm_unlink</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">Vbeta</span>(<span class="va">i</span>).<span class="va">fname</span>))</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="28cdd2d8" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fnSPM</span><span class="op">,</span> <span class="ss">'SPM'</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">SPM</span>.<span class="va">Vbeta</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">spm_unlink</span>(<span class="va">fullfile</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">SPM</span>.<span class="va">Vbeta</span>(<span class="va">i</span>).<span class="va">fname</span>))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <!-- Copyright © 2023 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
@@ -523,18 +510,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -566,7 +542,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -601,7 +617,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -616,38 +636,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -656,8 +666,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -880,12 +897,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../tutorial-fmri-spm/preparation.html" class="pagination-link">
+      <a href="../tutorial-fmri-spm/preparation.html" class="pagination-link" aria-label="Preparation">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preparation</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../tutorial-fmri-spm/cvmanova.html" class="pagination-link">
+      <a href="../tutorial-fmri-spm/cvmanova.html" class="pagination-link" aria-label="Cross-validated MANOVA">
         <span class="nav-page-text">Cross-validated MANOVA</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.4.388">
+<meta name="generator" content="quarto-1.5.37">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox - API reference</title>
+<title>CvCrossManova Toolbox – API reference</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -33,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -100,7 +100,7 @@ div.csl-indent {
   "collapse-after": 3,
   "panel-placement": "start",
   "type": "textbox",
-  "limit": 20,
+  "limit": 50,
   "keyboard-shortcut": [
     "f",
     "/",
@@ -115,6 +115,7 @@ div.csl-indent {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -139,13 +140,13 @@ div.csl-indent {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
         <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./reference.html">API reference</a></li></ol></nav>
-        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -154,7 +155,7 @@ div.csl-indent {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">CvCrossManova Toolbox</a> 
@@ -177,7 +178,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./tutorial-fmri-spm/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial: fMRI with SPM</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -218,7 +219,7 @@ div.csl-indent {
       <div class="sidebar-item-container"> 
             <a href="./tutorial-other/index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial: Other data</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
@@ -240,7 +241,7 @@ div.csl-indent {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="99">
@@ -280,6 +281,7 @@ div.csl-indent {
   <li><a href="#cvcrossmanova-properties" id="toc-cvcrossmanova-properties" class="nav-link" data-scroll-target="#cvcrossmanova-properties"><span class="smallcaps">properties</span></a></li>
   <li><a href="#cvcrossmanova.cvcrossmanova" id="toc-cvcrossmanova.cvcrossmanova" class="nav-link" data-scroll-target="#cvcrossmanova.cvcrossmanova"><span class="smallcaps">constructor</span> <code>CvCrossManova</code></a></li>
   <li><a href="#cvcrossmanova.runanalyses" id="toc-cvcrossmanova.runanalyses" class="nav-link" data-scroll-target="#cvcrossmanova.runanalyses"><span class="smallcaps">method</span> <code>runAnalyses</code></a></li>
+  <li><a href="#cvcrossmanova.optimizelambda" id="toc-cvcrossmanova.optimizelambda" class="nav-link" data-scroll-target="#cvcrossmanova.optimizelambda"><span class="smallcaps">method</span> <code>optimizeLambda</code></a></li>
   <li><a href="#cvcrossmanova.nresults" id="toc-cvcrossmanova.nresults" class="nav-link" data-scroll-target="#cvcrossmanova.nresults"><span class="smallcaps">method</span> <code>nResults</code></a></li>
   <li><a href="#cvcrossmanova.checkestimability" id="toc-cvcrossmanova.checkestimability" class="nav-link" data-scroll-target="#cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></a></li>
   <li><a href="#cvcrossmanova.disp" id="toc-cvcrossmanova.disp" class="nav-link" data-scroll-target="#cvcrossmanova.disp"><span class="smallcaps">method</span> <code>disp</code></a></li>
@@ -400,7 +402,7 @@ Caution
 
 </div>
 <div id="srs" class="columns quarto-layout-panel" data-layout-ncol="2">
-<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-row">
 <div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
 <table class="table">
 <caption>Radius in voxels<br>
@@ -794,16 +796,26 @@ Caution
 <p><code>Ds</code> is a cell array of analysis results where each cell corresponds to a cell of <code>analyses</code>, either a scalar value or an array of permutation values. Whether a result is an estimate of pattern distinctness <em>D</em> or pattern stability <em>D</em><sup>×</sup> depends on the contrasts of the corresponding analysis and the regressors involved in them.</p>
 <p>To determine how many values will be included in each of the cells of <code>Ds</code> before actually running the analyses, e.g.&nbsp;for preallocation, use the method <code>nResults</code>.</p>
 </section>
+<section id="cvcrossmanova.optimizelambda" class="level3">
+<h3 class="anchored" data-anchor-id="cvcrossmanova.optimizelambda"><span class="smallcaps">method</span> <code>optimizeLambda</code></h3>
+<p>optimize regularization parameter for (a subset of) the dependent variables</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">ol</span><span class="op">,</span> <span class="va">MSE</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">optimizeLambda</span>(<span class="va">vi</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>[<span class="va">ol</span><span class="op">,</span> <span class="va">MSE</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">optimizeLambda</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>vi</code> specifies the variables to be included in the analysis, as column indices into the data matrices <code>Ys</code> of <code>modeledData</code>. If omitted, all variables are included.</p>
+<p><code>ol</code> is the optimal shrinkage regularization parameter <code>lambda</code>, a number between 0 and 1.</p>
+<p><code>MSE</code> is the mean squared error of whitening at <code>ol</code>.</p>
+<p>The optimal value is determined via leave-one-session-out cross-validation. The error covariance matrix is estimated from ‘training’ and ‘validation’ sessions, and the latter is whitened using a regularized version of the former. The deviation from the optimal result, the identity matrix, is quantified by the squared error, averaged across matrix elements and cross-validation folds. The regularization parameter is chosen such that the mean squared error is minimal. Because the ‘training’ error covariance matrix used for whitening is calculated from less than the full number of samples, <code>ol</code> will likely overestimate the optimum for the actual analysis.</p>
+</section>
 <section id="cvcrossmanova.nresults" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.nresults"><span class="smallcaps">method</span> <code>nResults</code></h3>
 <p>return the number of values returned by <code>runAnalyses</code></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">nr</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">nResults</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">nr</span> <span class="op">=</span> <span class="va">ccm</span>.<span class="va">nResults</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>nr</code> is an array where each element corresponds to an analysis, and the value specifies the number of results returned for that analysis. For an analysis without permutations, that value is 1; otherwise it is the number of permutations.</p>
 </section>
 <section id="cvcrossmanova.checkestimability" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.checkestimability"><span class="smallcaps">method</span> <code>checkEstimability</code></h3>
 <p>check estimability of all contrasts of all analyses in all sessions</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">estimability</span><span class="op">,</span> <span class="va">problems</span>] <span class="op">=</span> <span class="va">ccm</span>.<span class="va">checkEstimability</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><code>estimability</code> is a table with one row per session and one column per analysis &amp; contrast. ‘true’ means that the contrast is estimable, ‘false’ that it is not estimable, ‘–’ that the contrast does not apply to the session.</p>
 <p><code>problems</code> indicates whether there are any inestimable contrasts (logical).</p>
 <p>It is not usually necessary to use this method explicitly, because estimability is checked upon creation of a <code>CvCrossManova</code> object.</p>
@@ -811,16 +823,16 @@ Caution
 <section id="cvcrossmanova.disp" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova.disp"><span class="smallcaps">method</span> <code>disp</code></h3>
 <p>textually display information about the object</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">ccm</span>.<span class="va">disp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This method overrides Matlab’s <code>disp</code>, so you can also use <code>disp(ccm)</code> or simply <code>ccm</code> without semicolon to get the same output.</p>
 </section>
 </section>
 <section id="searchlightsize" class="level2">
 <h2 class="anchored" data-anchor-id="searchlightsize"><span class="smallcaps">function</span> <code>searchlightSize</code></h2>
 <p>searchlight size as a function of searchlight radius</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="va">searchlightSize</span>(<span class="va">radius</span><span class="op">,</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="va">tbl</span> <span class="op">=</span> <span class="va">searchlightSize</span>(<span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="va">tbl</span> <span class="op">=</span> <span class="va">searchlightSize</span>([<span class="va">radiusMin</span><span class="op">,</span> <span class="va">radiusMax</span>]<span class="op">,</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">p</span> <span class="op">=</span> <span class="va">searchlightSize</span>(<span class="va">radius</span><span class="op">,</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="va">tbl</span> <span class="op">=</span> <span class="va">searchlightSize</span>(<span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="va">tbl</span> <span class="op">=</span> <span class="va">searchlightSize</span>([<span class="va">radiusMin</span><span class="op">,</span> <span class="va">radiusMax</span>]<span class="op">,</span> <span class="va">mat</span> <span class="op">=</span> <span class="va">eye</span>(<span class="fl">3</span>)<span class="op">,</span> <span class="va">file</span> <span class="op">=</span> <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>With the first syntax, the number of voxels contained in a searchlight of radius <code>radius</code> is returned as <code>p</code>.</p>
 <p>With the other syntaxes, a table of corresponding values of <code>radius</code> and <code>p</code> is returned as <code>tbl</code>. By default, the table includes <code>radius</code> values from 0 to 5, but another range can be specified as <code>[radiusMin, radiusMax]</code>. The tabulated values of <code>radius</code> are chosen such that all possible searchlight sizes in that range are listed.</p>
 <p>Without further information, <code>radius</code> is in voxels. The optional <code>mat</code> can be used to specify a transformation matrix from voxel space to physical space, and then <code>radius</code> is in the same physical units as <code>mat</code>. Alternatively, the optional <code>file</code> can be used to specify the filename of an <code>SPM.mat</code> file or NIfTI file from which to read the transformation matrix, and then <code>radius</code> is in mm. If both are given, <code>file</code> overrides <code>mat</code>.</p>
@@ -831,7 +843,7 @@ SPDX-License-Identifier: GPL-3.0-or-later -->
 
 </section>
 
-<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-allefeld2016" class="csl-entry" role="listitem">
 Allefeld, C., Görgen, K., &amp; Haynes, J.-D. (2016). Valid population inference for information-based imaging: From the second-level <em>t</em>-test to prevalence inference. <em>NeuroImage</em>, <em>141</em>, 378–392. <a href="https://doi.org/10.1016/j.neuroimage.2016.07.040">https://doi.org/10.1016/j.neuroimage.2016.07.040</a>
 </div>
@@ -883,18 +895,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
     return false;
   }
-  const clipboard = new window.ClipboardJS('.code-copy-button', {
-    text: function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-    }
-  });
-  clipboard.on('success', function(e) {
+  const onCopySuccess = function(e) {
     // button target
     const button = e.trigger;
     // don't keep focus
@@ -926,7 +927,47 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }, 1000);
     // clear code selection
     e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
   });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
   function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
@@ -961,7 +1002,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
     });
   }
   const xrefs = window.document.querySelectorAll('a.quarto-xref');
@@ -976,38 +1021,28 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       }
     }
     stripColumnClz(note)
-    const typesetMath = (el) => {
-      if (window.MathJax) {
-        // MathJax Typeset
-        window.MathJax.typeset([el]);
-      } else if (window.katex) {
-        // KaTeX Render
-        var mathElements = el.getElementsByClassName("math");
-        var macros = [];
-        for (var i = 0; i < mathElements.length; i++) {
-          var texText = mathElements[i].firstChild;
-          if (mathElements[i].tagName == "SPAN") {
-            window.katex.render(texText.data, mathElements[i], {
-              displayMode: mathElements[i].classList.contains('display'),
-              throwOnError: false,
-              macros: macros,
-              fleqn: false
-            });
-          }
-        }
-      }
-    }
     if (id === null || id.startsWith('sec-')) {
       // Special case sections, only their first couple elements
       const container = document.createElement("div");
       if (note.children && note.children.length > 2) {
-        for (let i = 0; i < 2; i++) {
-          container.appendChild(note.children[i].cloneNode(true));
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
         }
-        typesetMath(container);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
         return container.innerHTML
       } else {
-        typesetMath(note);
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
         return note.innerHTML;
       }
     } else {
@@ -1016,8 +1051,15 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (anchorLink) {
         anchorLink.remove();
       }
-      typesetMath(note);
-      return note.innerHTML;
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
     }
   }
   for (var i=0; i<xrefs.length; i++) {
@@ -1240,7 +1282,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./tutorial-other/preparation.html" class="pagination-link">
+      <a href="./tutorial-other/preparation.html" class="pagination-link" aria-label="Preparation">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preparation</span>
       </a>          
   </div>
