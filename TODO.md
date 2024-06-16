@@ -35,10 +35,6 @@
     see MATLAB Testing Framework
     https://www.mathworks.com/help/matlab/matlab-unit-test-framework.html
 
--   do this again:
-    The implementation contains a hard-coded limit on the number of voxels within a searchlight or ROI regardless of regularization, of 90% of the available error degrees of freedom. That is already a rather large threshold, which one should normally not get close to.
-    or rather, check numerical / statistical stability
-
 -   Implementation notes?
     classes are derived from `handle & matlab.mixin.Scalar`
     `handle`: prevents unnecessarily copying data and enables methods to change the object

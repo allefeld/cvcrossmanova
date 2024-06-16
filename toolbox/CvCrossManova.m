@@ -117,7 +117,14 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             % = 1).
             clear hXiXis hSigmaEuc      % release memory
 
-            % TODO add check of numerical stability of whitening
+            % check condition number (invertibility)
+            cond_hSigma = cond(hSigma);
+            fprintf("Condition number of error covariance matrix: %g\n", ...
+                cond_hSigma)
+            if cond_hSigma > 1000
+                warning("Spatial whitening may be unreliable; " ...
+                    + "choose a larger regularization parameter lambda.")
+            end
 
             % extract parameter estimates for specified variables and
             % pre-whiten them by dividing by the Cholesky factor of Sigma
