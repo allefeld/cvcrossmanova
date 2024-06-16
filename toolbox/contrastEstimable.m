@@ -51,7 +51,7 @@ ind = (s > tol);
 opp = V(:, ind) * V(:, ind)';
 % check whether contrast C is unchanged under this operator
 error = norm(opp * C - C) / norm(C);
-estimable = (error < max(size(C)) * eps);
+estimable = (error < max(size(C)) * 10 * eps);
 
 % output for interactive use
 if nargout == 0
