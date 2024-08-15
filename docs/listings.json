@@ -1,5 +1,14 @@
 [
   {
+    "listing": "/index.html",
+    "items": [
+      "/installation.html",
+      "/tutorial-fmri-spm/index.html",
+      "/tutorial-other/index.html",
+      "/reference.html"
+    ]
+  },
+  {
     "listing": "/tutorial-fmri-spm/index.html",
     "items": [
       "/tutorial-fmri-spm/preparation.html",
@@ -7,15 +16,6 @@
       "/tutorial-fmri-spm/cvmanova.html",
       "/tutorial-fmri-spm/pairwise.html",
       "/tutorial-fmri-spm/cvcrossmanova.html"
-    ]
-  },
-  {
-    "listing": "/index.html",
-    "items": [
-      "/installation.html",
-      "/tutorial-fmri-spm/index.html",
-      "/tutorial-other/index.html",
-      "/reference.html"
     ]
   },
   {

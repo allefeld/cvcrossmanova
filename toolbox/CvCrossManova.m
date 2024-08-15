@@ -123,13 +123,13 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
             % = 1).
             clear hSigmaTarget          % release memory
 
-            % check condition number (invertibility)
+            % check condition number
             cond_hSigma = cond(hSigma);
-            fprintf("Condition number of error covariance matrix: %g\n", ...
-                cond_hSigma)
             if cond_hSigma > 1000
-                warning("Spatial whitening may be unreliable; " ...
-                    + "choose a larger regularization parameter lambda.")
+                warning("CCM:invertibility", ...
+                    "Spatial whitening may be unreliable " ...
+                    + "(cond = %g); choose lambda larger than %g.", ...
+                    cond_hSigma, obj.lambda)
             end
 
             % extract parameter estimates for specified variables and
@@ -378,5 +378,5 @@ classdef CvCrossManova < handle & matlab.mixin.Scalar
 
 end
 
-% Copyright © 2016–2024 Carsten Allefeld
+% Copyright © 2016–24 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later

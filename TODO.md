@@ -2,6 +2,20 @@
 
 ## important for first publication
 
+-   integrate estimation of optimal lambda
+    `CvCrossManova.optimizeLambda`
+    `lambda` as a property of of `CvCrossManova` is inappropriate since it depends on the data given to `runAnalyses`
+
+-   make automatic in `runAnalyses`, or only in `ccmRegion` and `ccmSearchlight`
+
+-   prevent multiple reports on condition number (`CvCrossManova.runAnalyses`), especially in `ccmSearchlight`
+
+
+-   Move contrast-explaining note and note on negative Ds
+    from `cvmanova.qmd` to reference. Rename "API Reference" to "Notes and Reference".
+
+-   Mention RSA in `pairwise.qmd`.
+
 -   `reference.qmd` / `helpToMarkdown`: references from method / function documentation to General Notes. Implemented as a number of search strings.
 
 -   Consistent capitalization of 'Cross-validated MANOVA'

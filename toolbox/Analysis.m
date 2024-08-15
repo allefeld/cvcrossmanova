@@ -199,7 +199,7 @@ classdef Analysis < handle & matlab.mixin.Scalar
             % `fig` is the handle of the created figure.
 
             % create figure
-            fig = figure();
+            fig = figure(PaperPositionMode='auto');
 
             % size and layout of figure
             showPerms = size(obj.perms, 1) > 1;
@@ -302,5 +302,5 @@ classdef Analysis < handle & matlab.mixin.Scalar
 
 end
 
-% Copyright © 2023 Carsten Allefeld
+% Copyright © 2023-24 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later

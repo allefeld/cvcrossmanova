@@ -1,29 +1,30 @@
-function quartoToScript(filename)
+function quartoToScript
 
-% convert a Quarto `qmd` file to a script file,
+% convert a Quarto `qmd` file to a script file from within that file,
 % and add HTML for a download button
 
-% get name of notebook corresponding to document
-if nargin < 1
-    notebooks = dir("*.ipynb");
-    [~, ind] = max([notebooks.datenum]);
-    filename = notebooks(ind).name;
-end
-[~, name, ~] = fileparts(filename);
-nb = jsondecode(fileread(name + ".ipynb"));
+% This takes advantage of the fact that for executing a `qmd` file,
+% Quarto converts it into a Jupyter Notebook file. The notebook file (JSON)
+% is read and cells written to a script file.
+
+% get notebook corresponding to document
+notebooks = dir("*ipynb");
+[~, ind] = max([notebooks.datenum]);
+filename = notebooks(ind).name;
+nb = jsondecode(fileread(filename));
 
 % get relative directory
 wd = pwd();
 reldir = wd(strfind(wd, "quarto-docs") : end);
 
 % transform notebook to m-script
-fid = fopen(name + ".m", 'w');
+[~, name, ~] = fileparts(filename);
+fid = fopen(name + ".m", "w");
 for i = 1 : numel(nb.cells)
     cell_type = nb.cells{i}.cell_type;
     source = strip(string(nb.cells{i}.source), "right");
-    switch cell_type
-    case 'raw'
-        % raw: metadata, keep only title, add relative directory
+    if (cell_type == "raw") || ((cell_type == "markdown") && (source(1) == "---"))
+        % metadata: keep only title, add relative directory
         for j = 1 : numel(source)
             if startsWith(source(j), "title: ")
                 fprintf(fid, "%% %s\n", source{j}(8 : end));
@@ -32,14 +33,14 @@ for i = 1 : numel(nb.cells)
         end
         fprintf(fid, "%% converted from %s\n", fullfile(reldir, name + ".qmd"));
         fprintf(fid, "\n");
-    case 'markdown'
+    elseif cell_type == "markdown"
         % markdown: wrapped and commented
         for j = 1 : numel(source)
             lines = strip(string(textwrap(source(j), 78)), "right");
             fprintf(fid, "%% %s\n", lines);
         end
         fprintf(fid, "\n");
-    case 'code'
+    elseif cell_type == "code"
         % code: as is, plus cell delimiter
         if ~any(startsWith(source, "%| echo: false"))
             fprintf(fid, "%s\n", source);
@@ -68,5 +69,5 @@ lines = {
 fprintf('%s\n', string(lines))
 
 
-% <!-- Copyright © 2023 Carsten Allefeld
+% <!-- Copyright © 2023–24 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later -->

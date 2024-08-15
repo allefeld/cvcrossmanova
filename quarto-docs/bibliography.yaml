@@ -1,6 +1,5 @@
 ---
 references:
-
 - id: allefeld2014
   author:
     - family: Allefeld
@@ -12,12 +11,64 @@ references:
   issued:
     - year: 2014
       month: 4
+  language: en
   page: 345-357
   title: >-
     Searchlight-based multi-voxel pattern analysis of fMRI by cross-validated
     MANOVA
   type: article-journal
   volume: '89'
+
+- id: allefeld2016
+  author:
+    - family: Allefeld
+      given: Carsten
+    - family: Görgen
+      given: Kai
+    - family: Haynes
+      given: John-Dylan
+  container-title: NeuroImage
+  DOI: 10.1016/j.neuroimage.2016.07.040
+  issued:
+    - year: 2016
+      month: 11
+  language: en
+  page: 378-392
+  title: >-
+    Valid population inference for information-based imaging: From the
+    second-level *t*-test to prevalence inference
+  type: article-journal
+  volume: '141'
+
+- id: dwass1957
+  author:
+    - family: Dwass
+      given: Meyer
+  container-title: Annals of Mathematical Statistics
+  DOI: 10.1214/aoms/1177707045
+  issue: '1'
+  issued:
+    - year: 1957
+  page: 181-187
+  title: Modified randomization tests for nonparametric hypotheses
+  type: article-journal
+  volume: '28'
+
+- id: ernst2004
+  author:
+    - family: Ernst
+      given: Michael D.
+  container-title: Statistical Science
+  DOI: 10.1214/088342304000000396
+  issue: '4'
+  issued:
+    - year: 2004
+      month: 11
+  language: en
+  page: 676-685
+  title: 'Permutation methods: A basis for exact inference'
+  type: article-journal
+  volume: '19'
 
 - id: haxby2001
   author:
@@ -35,12 +86,16 @@ references:
       given: Pietro
   container-title: Science
   DOI: 10.1126/science.1063736
+  issue: '5539'
   issued:
     - year: 2001
       month: 9
       day: 28
+  language: en
   page: 2425-2430
-  title: Distributed and overlapping representations of faces and objects in ventral temporal cortex
+  title: >-
+    Distributed and overlapping representations of faces and objects in ventral
+    temporal cortex
   type: article-journal
   volume: '293'
 
@@ -61,6 +116,7 @@ references:
   issued:
     - year: 2021
       month: 1
+  language: en
   page: '117465'
   title: 'ERP CORE: An open resource for human event-related potential research'
   type: article-journal
@@ -79,58 +135,10 @@ references:
     - year: 2005
       month: 1
       day: 14
+  language: en
   title: >-
     A shrinkage approach to large-scale covariance matrix estimation and
     implications for functional genomics
   type: article-journal
   volume: '4'
-
-- id: ernst2004
-  author:
-    - family: Ernst
-      given: Michael D.
-  container-title: Statistical Science
-  DOI: 10.1214/088342304000000396
-  issue: '4'
-  issued:
-    - year: 2004
-      month: 11
-  page: 676-685
-  title: 'Permutation methods: A basis for exact inference'
-  type: article-journal
-  volume: '19'
-
-- id: dwass1957
-  author:
-    - family: Dwass
-      given: Meyer
-  container-title: Annals of Mathematical Statistics
-  DOI: 10.1214/aoms/1177707045
-  issue: '1'
-  issued:
-    - year: 1957
-  page: 181-187
-  title: Modified randomization tests for nonparametric hypotheses
-  type: article-journal
-  volume: '28'
-
-- id: allefeld2016
-  author:
-    - family: Allefeld
-      given: Carsten
-    - family: Görgen
-      given: Kai
-    - family: Haynes
-      given: John-Dylan
-  container-title: NeuroImage
-  DOI: 10.1016/j.neuroimage.2016.07.040
-  issued:
-    - year: 2016
-      month: 11
-  page: 378-392
-  title: >-
-    Valid population inference for information-based imaging: From the
-    second-level *t*-test to prevalence inference
-  type: article-journal
-  volume: '141'
 ...

@@ -167,7 +167,7 @@ classdef ModeledData < handle & matlab.mixin.Scalar
             end
 
             % create figure
-            fig = figure();
+            fig = figure(PaperPositionMode='auto');
             colormap(gray)
 
             % size and layout of figure
@@ -239,5 +239,5 @@ classdef ModeledData < handle & matlab.mixin.Scalar
 end
 
 
-% Copyright © 2016–2023 Carsten Allefeld
+% Copyright © 2016–2024 Carsten Allefeld
 % SPDX-License-Identifier: GPL-3.0-or-later%d

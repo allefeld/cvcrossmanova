@@ -127,7 +127,7 @@ nVolsPerSession = height(labels) / nSessions;
 Visualization of stimulus onsets in each session:
 
 ```{matlab}
-fig = figure;
+fig = figure(PaperPositionMode='auto');
 fig.Position(3:4) = [750, 400];
 colors = ["#000000", "#ff9b00", "#a6ee00", "#00eea6", ...
     "#009bff", "#a600ff", "#ff00a6", "#aaaaaa"];
@@ -193,5 +193,5 @@ save(fullfile(sub, 'info.mat'), 'regions', 'TR', 'nSessions', ...
 ```
 
 
-<!-- Copyright © 2023 Carsten Allefeld
+<!-- Copyright © 2023–24 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->

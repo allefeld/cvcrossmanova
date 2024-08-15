@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.37">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox – API reference</title>
+<title>API reference – CvCrossManova Toolbox</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -404,7 +404,7 @@ Caution
 <div id="srs" class="columns quarto-layout-panel" data-layout-ncol="2">
 <div class="quarto-layout-row">
 <div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<table class="table">
+<table class="caption-top table">
 <caption>Radius in voxels<br>
 &nbsp;</caption>
 <thead>
@@ -454,7 +454,7 @@ Caution
 </table>
 </div>
 <div class="column quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<table class="table">
+<table class="caption-top table">
 <caption>Radius in mm<br>
 for voxel size 1 × 1 × 2 mm</caption>
 <thead>
@@ -593,7 +593,7 @@ Caution
 <p>An <code>Analysis</code> object encapsulates ‘training’ and ‘validation’ contrasts and sessions as well as permutations, which together specify a Cross-validated (Cross-) MANOVA analysis.</p>
 <section id="analysis-properties" class="level3">
 <h3 class="anchored" data-anchor-id="analysis-properties"><span class="smallcaps">properties</span></h3>
-<table class="table">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>CA</code></td>
@@ -667,7 +667,7 @@ Caution
 <p>A <code>ModeledData</code> object encapsulates data and design matrices for multiple sessions along with supplementary information. Upon creation, it estimates and stores GLM parameters and errors. Combined with one or more <code>Analysis</code> objects, it is the basis for analyses within a <code>CvCrossManova</code> object.</p>
 <section id="modeleddata-properties" class="level3">
 <h3 class="anchored" data-anchor-id="modeleddata-properties"><span class="smallcaps">properties</span></h3>
-<table class="table">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>Xs</code></td>
@@ -721,7 +721,7 @@ Caution
 <p>The optional <code>wf</code> specifies whether to apply the whitening and high-pass filtering set up in SPM to data and design matrices. It should usually be kept at its default value.</p>
 <p>Dependent variables (columns of data matrices <code>Ys</code>) are only read from voxels within the SPM analysis brain mask after it was intersected with the union of region masks (if provided).</p>
 <p><code>misc</code> is a structure of fields containing additional information:</p>
-<table class="table">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td><code>mask</code></td>
@@ -758,7 +758,7 @@ Caution
 <p>A <code>CvCrossManova</code> object implements the Cross-validated (Cross-) MANOVA algorithm. It combines the data and design matrices encapsulated in a <code>ModeledData</code> object with the analysis specifications of one or more <code>Analysis</code> objects. If its method <code>runAnalyses</code> is called for a set of dependent variables, all specified analyses are performed on these variables concurrently. This enables a more efficient implementation of the algorithm, because partial results shared between analyses only have to be computed once.</p>
 <section id="cvcrossmanova-properties" class="level3">
 <h3 class="anchored" data-anchor-id="cvcrossmanova-properties"><span class="smallcaps">properties</span></h3>
-<table class="table">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td><code>modeledData</code></td>

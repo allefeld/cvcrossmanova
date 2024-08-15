@@ -130,7 +130,7 @@ matlabbatch{1}.spm.stats.fmri_est = fmri_est;
 spm_jobman('run', matlabbatch(1))
 ```
 
-Our analyses only need the updates to the `SPM.mat` file made during estimation, not the parameter estimates themselves. We therefore delete the created `beta_####.nii` files.
+The toolbox only needs the updates to the `SPM.mat` file made during estimation, not the parameter estimates themselves. We therefore delete the created `beta_####.nii` files.
 
 ```{matlab}
 load(fnSPM, 'SPM');
@@ -140,5 +140,5 @@ end
 ```
 
 
-<!-- Copyright © 2023 Carsten Allefeld
+<!-- Copyright © 2023–24 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->

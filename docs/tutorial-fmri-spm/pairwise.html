@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.37">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox – Pairwise Cross-validated MANOVA</title>
+<title>Pairwise Cross-validated MANOVA – CvCrossManova Toolbox</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -244,7 +244,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–11–11</p>
+      <p class="date">2024–8–12</p>
     </div>
   </div>
   
@@ -256,40 +256,52 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<pre><code>Insufficient number of outputs from right hand side of equal sign to satisfy assignment.
-Error in quartoToScript (line 10)
-    filename = notebooks(ind).name;</code></pre>
-<div id="a4425ec7" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>))</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">% directory with estimated model</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'model'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="script">
+<div class="quarto-title-meta-heading">
+Matlab script
+</div>
+<div class="quarto-title-meta-contents">
+<p>
+<a href="pairwise.m" download=""><code>pairwise.m</code></a>
+</p>
+</div>
+</div>
+<script>
+let script = document.getElementById("script");
+let meta = document.getElementsByClassName("quarto-title-meta");
+meta[0].append(script);
+</script>
+<div id="29174ffb" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% load information</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">load</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">% directory with estimated model</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="va">modelDir</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'model'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="define-contrasts-and-analyses" class="level2">
 <h2 class="anchored" data-anchor-id="define-contrasts-and-analyses">Define contrasts and analyses</h2>
 <p>Haxby et al.&nbsp;used a pairwise correlation-based classifier applied to parameter estimates for each condition, estimated across even and odd sessions, respectively.</p>
 <p>Cross-validated MANOVA replaces accuracy based on classification by explained multivariate variance based on contrasts. The equivalent of pairwise classification is a contrast with a 1 for one of the two categories, a −1 for the other, and zeros otherwise. We construct these 28 contrasts, and then analyses based on them using two folds, odd → even and even → odd:</p>
-<div id="3b51d36f" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">% construct pairwise contrasts and analyses</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">odd</span> <span class="op">=</span> (<span class="va">mod</span>(<span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">even</span> <span class="op">=</span> (<span class="va">mod</span>(<span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">==</span> <span class="fl">0</span>)<span class="op">;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">j</span> <span class="op">=</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">C</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">nConds</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">C</span>([<span class="va">i</span><span class="op">,</span> <span class="va">j</span>]) <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="op">-</span><span class="fl">1</span>]<span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">analyses</span>{<span class="va">i</span><span class="op">,</span> <span class="va">j</span>} <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C</span><span class="op">,</span> <span class="va">C</span><span class="op">,</span> [<span class="va">odd</span> <span class="op">;</span> <span class="va">even</span>]<span class="op">,</span> [<span class="va">even</span> <span class="op">;</span> <span class="va">odd</span>])<span class="op">;</span></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">% reduce to defined analyses</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="va">ind</span> <span class="op">=</span> <span class="va">find</span>(<span class="op">~</span><span class="va">cellfun</span>(<span class="op">@</span><span class="va">isempty</span><span class="op">,</span> <span class="va">analyses</span>)) <span class="op">.';</span></span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">analyses</span>(<span class="va">ind</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="1c9929ca" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% construct pairwise contrasts and analyses</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">odd</span> <span class="op">=</span> (<span class="va">mod</span>(<span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">==</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">even</span> <span class="op">=</span> (<span class="va">mod</span>(<span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span><span class="op">,</span> <span class="fl">2</span>) <span class="op">==</span> <span class="fl">0</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">j</span> <span class="op">=</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">C</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">nConds</span><span class="op">,</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">C</span>([<span class="va">i</span><span class="op">,</span> <span class="va">j</span>]) <span class="op">=</span> [<span class="fl">1</span><span class="op">,</span> <span class="op">-</span><span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">analyses</span>{<span class="va">i</span><span class="op">,</span> <span class="va">j</span>} <span class="op">=</span> <span class="va">Analysis</span>(<span class="va">C</span><span class="op">,</span> <span class="va">C</span><span class="op">,</span> [<span class="va">odd</span> <span class="op">;</span> <span class="va">even</span>]<span class="op">,</span> [<span class="va">even</span> <span class="op">;</span> <span class="va">odd</span>])<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">% reduce to defined analyses</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="va">ind</span> <span class="op">=</span> <span class="va">find</span>(<span class="op">~</span><span class="va">cellfun</span>(<span class="op">@</span><span class="va">isempty</span><span class="op">,</span> <span class="va">analyses</span>)) <span class="op">.';</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span> <span class="op">=</span> <span class="va">analyses</span>(<span class="va">ind</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>For illustration, analysis #12 has this structure:</p>
-<div id="b74bc26e" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span>{<span class="fl">12</span>}.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="73fcaba7" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">analyses</span>{<span class="fl">12</span>}.<span class="va">show</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -302,8 +314,8 @@ Error in quartoToScript (line 10)
 <section id="run-analyses-on-region-of-interest" class="level2">
 <h2 class="anchored" data-anchor-id="run-analyses-on-region-of-interest">Run analyses on region of interest</h2>
 <p>Haxby et al.&nbsp;applied their analysis to several regions of interest. The data available to us contain masks for three regions, of which we here use the first.</p>
-<div id="0fb799d2" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">ccmRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="43c913ce" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>[<span class="va">Ds</span><span class="op">,</span> <span class="va">ps</span>] <span class="op">=</span> <span class="va">ccmRegion</span>(<span class="va">modelDir</span><span class="op">,</span> <span class="va">regions</span>(<span class="fl">1</span>)<span class="op">,</span> <span class="va">analyses</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 ccmRegion
@@ -448,24 +460,23 @@ computing Cross-validated (Cross-) MANOVA
       CA = CB:  8 × 1, 1-dimensional
       no permutations (besides neutral)
     lambda: 1e-08
-Condition number of error covariance matrix: 2920.7
-Warning: Spatial whitening may be unreliable; choose a larger regularization parameter lambda.
-&gt; In CvCrossManova/runAnalyses (line 131)
+Warning: Spatial whitening may be unreliable (cond = 2920.7); choose lambda larger than 1e-08.
+&gt; In CvCrossManova/runAnalyses (line 129)
 In ccmRegion (line 59)</code></pre>
 </div>
 </div>
 <p>The results are contained in column 1 of the cell array <code>Ds</code>. We assemble them into a matrix, filling in the identical values in the lower triangular part and leaving zeros on the diagonal, and visualise the matrix as a heatmap:</p>
-<div id="3d254a69" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">% assemble</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span>(<span class="va">ind</span>) <span class="op">=</span> [<span class="va">Ds</span>{<span class="op">:,</span> <span class="fl">1</span>}]<span class="op">;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span> <span class="op">=</span> <span class="va">DsMatrix</span> <span class="op">+</span> <span class="va">DsMatrix</span> <span class="op">.';</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">% visualize</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">674</span>]<span class="op">;</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="va">heatmap</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">conditions</span><span class="op">,</span> <span class="va">DsMatrix</span><span class="op">,</span> <span class="op">...</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">FontName</span><span class="op">=</span><span class="va">get</span>(<span class="fl">0</span><span class="op">,</span> <span class="ss">'defaultTextFontName'</span>))<span class="op">;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="va">gca</span>().<span class="va">NodeChildren</span>(<span class="fl">2</span>)<span class="op">,</span> <span class="ss">'D'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ab947f2e" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">% assemble</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span> <span class="op">=</span> <span class="va">zeros</span>(<span class="va">nConds</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span>(<span class="va">ind</span>) <span class="op">=</span> [<span class="va">Ds</span>{<span class="op">:,</span> <span class="fl">1</span>}]<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">DsMatrix</span> <span class="op">=</span> <span class="va">DsMatrix</span> <span class="op">+</span> <span class="va">DsMatrix</span> <span class="op">.';</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">% visualize</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>(<span class="va">PaperPositionMode</span><span class="op">=</span><span class="ss">'auto'</span>)<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">674</span>]<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="va">heatmap</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">conditions</span><span class="op">,</span> <span class="va">DsMatrix</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="va">FontName</span><span class="op">=</span><span class="va">get</span>(<span class="fl">0</span><span class="op">,</span> <span class="ss">'defaultTextFontName'</span>))<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="va">gca</span>().<span class="va">NodeChildren</span>(<span class="fl">2</span>)<span class="op">,</span> <span class="ss">'D'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -478,12 +489,12 @@ In ccmRegion (line 59)</code></pre>
 <section id="comparison-with-original-analysis-results" class="level2">
 <h2 class="anchored" data-anchor-id="comparison-with-original-analysis-results">Comparison with original analysis results</h2>
 <p>Haxby et al.’s main result (Table 1) was the identification accuracy for each of the eight categories averaged across classification pairs, and then averaged across six subjects. For ‘all ventral temporal object-selective cortex’, presumably corresponding to the region&nbsp;1 used here (<code>mask4_vt.nii</code>), they reported the following accuracies (in percent):</p>
-<div id="c1ee4946" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanAcc</span> <span class="op">=</span> [<span class="fl">100</span><span class="op">,</span> <span class="fl">100</span><span class="op">,</span>  <span class="fl">98</span><span class="op">,</span>  <span class="fl">90</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">96</span><span class="op">,</span> <span class="fl">100</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="18e302bc" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanAcc</span> <span class="op">=</span> [<span class="fl">100</span><span class="op">,</span> <span class="fl">100</span><span class="op">,</span>  <span class="fl">98</span><span class="op">,</span>  <span class="fl">90</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">92</span><span class="op">,</span>  <span class="fl">96</span><span class="op">,</span> <span class="fl">100</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our corresponding result is the average pattern distinctness across the 7 pairwise contrasts each category was involved in:</p>
-<div id="4e6897d2" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanD</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">DsMatrix</span>) <span class="op">/</span> (<span class="va">nConds</span> <span class="op">-</span> <span class="fl">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="98a8ecca" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">meanD</span> <span class="op">=</span> <span class="va">sum</span>(<span class="va">DsMatrix</span>) <span class="op">/</span> (<span class="va">nConds</span> <span class="op">-</span> <span class="fl">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>meanD =
   Columns 1 through 6
@@ -493,18 +504,18 @@ In ccmRegion (line 59)</code></pre>
 </div>
 </div>
 <p>Plotted against each other:</p>
-<div id="5a9ccb91" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">713</span>]<span class="op">;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">meanAcc</span>(<span class="va">i</span>)<span class="op">,</span> <span class="va">meanD</span>(<span class="va">i</span>)<span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="va">Color</span><span class="op">=</span><span class="va">colors</span>(<span class="va">i</span>)<span class="op">,</span> <span class="va">MarkerSize</span><span class="op">=</span><span class="fl">20</span>)</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Interpreter</span><span class="op">=</span><span class="st">"none"</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"NorthWest"</span>)</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="fl">89</span><span class="op">,</span> <span class="fl">101</span>])</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.45</span><span class="op">,</span> <span class="fl">1.15</span>])</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="st">"mean accuracy / %"</span>)</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="st">"mean pattern distinctness"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="de5d8159" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>()<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">713</span>]<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">meanAcc</span>(<span class="va">i</span>)<span class="op">,</span> <span class="va">meanD</span>(<span class="va">i</span>)<span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="va">Color</span><span class="op">=</span><span class="va">colors</span>(<span class="va">i</span>)<span class="op">,</span> <span class="va">MarkerSize</span><span class="op">=</span><span class="fl">20</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Interpreter</span><span class="op">=</span><span class="st">"none"</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"NorthWest"</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="fl">89</span><span class="op">,</span> <span class="fl">101</span>])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.45</span><span class="op">,</span> <span class="fl">1.15</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="st">"mean accuracy / %"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="st">"mean pattern distinctness"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -513,8 +524,8 @@ In ccmRegion (line 59)</code></pre>
 </div>
 </div>
 </div>
-<p>The ranking is similar though not identical. Note that the results cannot be completely equivalent since our analysis is based on one subject, while the mean accuracy is additionally averaged across subjects.</p>
-<!-- Copyright © 2023 Carsten Allefeld
+<p>The ranking is similar though not identical. Note that the results cannot be completely equivalent since our analysis is based on one subject, while the mean accuracy is additionally averaged across subjects. Moreover, (even averaged) accuracy is restricted to a discrete set, while <em>D</em> can take on arbitrary values.</p>
+<!-- Copyright © 2023–24 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
 
 

@@ -57,13 +57,15 @@ C_object_category = ...
        0  0  0 ];               % scrambledpix
 ```
 
+::: callout-note
 Note that though the subcontrasts only combine neighboring conditions, the null hypothesis defined by all of them together says that there is no difference in the patterns associated with any of the involved conditions. For example for `C_object_category`, the three subcontrasts state
 
 1) pattern of 'bottle' = pattern of 'scissors',
 2) pattern of 'scissors' = pattern of 'shoe', and
 3) pattern of 'shoe' = pattern of 'chair'.
 
-If all three statements hold, that also implies that there is no difference e.g. between the pattern of 'bottle' and the pattern of 'chair'. The result of cross-validated MANOVA, pattern distinctness *D*, estimates how much multivariate variance deviates from the null hypothesis encoded in a contrast.
+If all three statements hold, that also implies that there is no difference e.g. between the pattern of 'bottle' and the pattern of 'chair'. The result of cross-validated MANOVA, pattern distinctness *D*, estimates how much multivariate variance deviates from this complex null hypothesis encoded in the contrast.
+:::
 
 
 ## Define analyses
@@ -167,7 +169,7 @@ We visualize sagittal slices of `spmD_A0001_P0001.nii`, i.e. the actual pattern 
 % load data
 [D, XYZ] = spm_read_vols(spm_vol(fullfile(modelDir, 'spmD_A0001_P0001.nii')));
 % plot data
-fig = figure();
+fig = figure(PaperPositionMode='auto');
 % color map: parula, but black for NaN
 cm = parula();
 cm(1, :) = 0;
@@ -211,5 +213,5 @@ In the region-of-interest analyses above, we found a maximum value of *D* = 5.32
 Given that *D* is nonnegative, it may be surprising that the color bar for the slices from the searchlight analysis starts below zero, and indeed for analysis 1 *D* attained values from −0.1357 to 2.1622. The explanation is that the method can only provide a statistical estimate of *D*, more precisely denoted *D̂*. The estimator is designed to be unbiased, which means the estimates can be both larger and smaller than the actual value, and therefore an estimate can be negative if the actual value is close to zero. Such values should be disregarded since they can never be significantly different from zero.
 
 
-<!-- Copyright © 2023 Carsten Allefeld
+<!-- Copyright © 2023–24 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->

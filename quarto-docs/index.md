@@ -33,7 +33,7 @@ These pages document how to use the CvCrossManova toolbox to estimate both patte
 
 ***
 
-The CvCrossManova toolbox is copyrighted © 2023 by [Carsten Allefeld](https://allefeld.github.io/) and released under the terms of the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or later. [Remi Gau](https://remi-gau.github.io/), [Polina Iamshchinina](https://www.timbuschman.com/LabMembers/Polina-Iamshchinina), and [Thomas Christophel](https://discolab.eu/team/thomas-christophel/) contributed to earlier versions of the code.
+The CvCrossManova toolbox is copyrighted © 2023–24 by [Carsten Allefeld](https://allefeld.github.io/) and released under the terms of the [GNU General Public License, version 3](https://www.gnu.org/licenses/gpl-3.0.en.html) or later. [Remi Gau](https://remi-gau.github.io/), [Polina Iamshchinina](https://www.timbuschman.com/LabMembers/Polina-Iamshchinina), and [Thomas Christophel](https://discolab.eu/team/thomas-christophel/) contributed to earlier versions of the code.
 
 This documentation was created with [Quarto](https://quarto.org/) using a slightly modified [Cosmo Bootswatch theme](https://bootswatch.com/cosmo/).
 It is set in [Source Sans 3](https://fonts.google.com/specimen/Source+Sans+3) and [Source Code Pro](https://fonts.google.com/specimen/Source+Code+Pro). Matlab code was executed using [MKernel](https://github.com/allefeld/mkernel).

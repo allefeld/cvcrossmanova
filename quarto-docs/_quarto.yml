@@ -1,26 +1,9 @@
 project:
   type: website
-# Define render order, important for tutorial.
-# If this is present, other files need to be listed to be rendered.
-  render:
-    - index.md
-    - installation.md
-    - tutorial-fmri-spm/index.md
-    - tutorial-fmri-spm/preparation.qmd
-    - tutorial-fmri-spm/model.qmd
-    - tutorial-fmri-spm/cvmanova.qmd
-    - tutorial-fmri-spm/pairwise.qmd
-    - tutorial-fmri-spm/cvcrossmanova.qmd
-    - tutorial-other/index.md
-    - tutorial-other/preparation.qmd
-    - reference.qmd
   output-dir: ../docs/
-  pre-render: ./render.sh pre
-  post-render: ./render.sh post
 
 execute:
   cache: true
-  # enabled: false
 
 website:
   title: "CvCrossManova Toolbox"
@@ -49,4 +32,3 @@ date-format: YYYY–M–D
 published-title: "last modified"
 csl: https://www.zotero.org/styles/apa
 bibliography: bibliography.yaml
-# citation-location: margin

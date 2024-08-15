@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.37">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>CvCrossManova Toolbox – Preparation</title>
+<title>Preparation – CvCrossManova Toolbox</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -245,7 +245,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">last modified</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2023–11–11</p>
+      <p class="date">2024–8–12</p>
     </div>
   </div>
   
@@ -257,33 +257,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<pre><code>Insufficient number of outputs from right hand side of equal sign to satisfy assignment.
-Error in quartoToScript (line 10)
-    filename = notebooks(ind).name;</code></pre>
+<div id="script">
+<div class="quarto-title-meta-heading">
+Matlab script
+</div>
+<div class="quarto-title-meta-contents">
+<p>
+<a href="preparation.m" download=""><code>preparation.m</code></a>
+</p>
+</div>
+</div>
+<script>
+let script = document.getElementById("script");
+let meta = document.getElementsByClassName("quarto-title-meta");
+meta[0].append(script);
+</script>
 <section id="download-and-unpack-data" class="level2">
 <h2 class="anchored" data-anchor-id="download-and-unpack-data">Download and unpack data</h2>
-<div id="20246e19" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">% start from scratch</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>[<span class="op">~</span>] <span class="op">=</span> <span class="va">rmdir</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'s'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="695bda64" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">% select subject</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="va">sub</span> <span class="op">=</span> <span class="ss">'subj1'</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">% start from scratch</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>[<span class="op">~</span>] <span class="op">=</span> <span class="va">rmdir</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'s'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The data for the subject are downloaded from <a href="http://dev.pymvpa.org/datadb/haxby2001.html">PyMVPA</a> as a <code>.tar.gz</code> archive, and the archive is unpacked.</p>
-<div id="81c2f870" class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">fn</span> <span class="op">=</span> [<span class="va">sub</span> <span class="ss">'-2010.01.14.tar.gz'</span>]<span class="op">;</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">url</span> <span class="op">=</span> [<span class="ss">'http://data.pymvpa.org/datasets/haxby2001/'</span> <span class="va">fn</span>]<span class="op">;</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">websave</span>(<span class="va">fn</span><span class="op">,</span> <span class="va">url</span>)<span class="op">;</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">untar</span>(<span class="va">fn</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">delete</span>(<span class="va">fn</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="3e10d183" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">fn</span> <span class="op">=</span> [<span class="va">sub</span> <span class="ss">'-2010.01.14.tar.gz'</span>]<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">url</span> <span class="op">=</span> [<span class="ss">'http://data.pymvpa.org/datasets/haxby2001/'</span> <span class="va">fn</span>]<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">websave</span>(<span class="va">fn</span><span class="op">,</span> <span class="va">url</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="va">untar</span>(<span class="va">fn</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="va">delete</span>(<span class="va">fn</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The included NIfTI images are individually gzip-compressed and need to be uncompressed.</p>
-<div id="83626c22" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">files</span> <span class="op">=</span> <span class="va">dir</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'*.nii.gz'</span>))<span class="op">;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">files</span>)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'uncompressing %s\n'</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">gunzip</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>))</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">delete</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>))</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="6030e95a" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">files</span> <span class="op">=</span> <span class="va">dir</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'*.nii.gz'</span>))<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">i</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">numel</span>(<span class="va">files</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">fprintf</span>(<span class="ss">'uncompressing %s\n'</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">gunzip</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">delete</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="va">files</span>(<span class="va">i</span>).<span class="va">name</span>))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>uncompressing anat.nii.gz
 uncompressing bold.nii.gz
@@ -295,7 +307,7 @@ uncompressing mask8b_house_vt.nii.gz</code></pre>
 </div>
 </div>
 <p>The mask images are not documented in detail. Based on the filenames and the in-mask volume, we assume the following correspondence between regions listed in Table&nbsp;1 of the paper and mask image files:</p>
-<table class="table">
+<table class="caption-top table">
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><code>mask4_vt.nii</code></td>
@@ -311,21 +323,21 @@ uncompressing mask8b_house_vt.nii.gz</code></pre>
 </tr>
 </tbody>
 </table>
-<div id="08a88486" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'bold.nii'</span>)<span class="op">;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">regions</span> <span class="op">=</span> {<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask4_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_face_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_house_vt.nii'</span>)}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="8095e50d" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'bold.nii'</span>)<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">regions</span> <span class="op">=</span> {<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask4_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_face_vt.nii'</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>           <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'mask8b_house_vt.nii'</span>)}<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="obtain-experimental-design-information" class="level2">
 <h2 class="anchored" data-anchor-id="obtain-experimental-design-information">Obtain experimental design information</h2>
 <p>The BOLD data are contained in a single 4-dimensional NIfTI file.</p>
-<div id="6b82d908" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="va">nifti</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="va">size</span>(<span class="va">N</span>.<span class="va">dat</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="va">diag</span>(<span class="va">N</span>.<span class="va">mat</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">,</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>)) <span class="op">.'</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="va">TR</span> <span class="op">=</span> <span class="va">N</span>.<span class="va">timing</span>.<span class="va">tspace</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="609d8713" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">N</span> <span class="op">=</span> <span class="va">nifti</span>(<span class="va">fnBOLD</span>)<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">size</span>(<span class="va">N</span>.<span class="va">dat</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">diag</span>(<span class="va">N</span>.<span class="va">mat</span>(<span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">,</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>)) <span class="op">.'</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">TR</span> <span class="op">=</span> <span class="va">N</span>.<span class="va">timing</span>.<span class="va">tspace</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ans =
           40          64          64        1452
@@ -338,9 +350,9 @@ TR =
 <p>This file contains a timeseries of 1452 scans at at repetition time of 2.5&nbsp;s, each of which has 40 × 64 × 64 voxels of size 3.5 × 3.75 × 3.75&nbsp;mm.</p>
 <p>There were 12 sessions, each of which consisted of 8 stimulus blocks of 24&nbsp;s. There were rest periods of 12&nbsp;s each at the beginning, end, and in between blocks. Each session therefore had a duration of (12 + 24) × 8 + 12 = 300&nbsp;s, corresponding to 120 TRs (121 scans).</p>
 <p>Information about the onsets and durations of stimuli in this subject are contained in a file <code>labels.txt</code>.</p>
-<div id="6387e9a1" class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="va">labels</span> <span class="op">=</span> <span class="va">readtable</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'labels.txt'</span>)<span class="op">,</span> <span class="ss">'Delimiter'</span><span class="op">,</span> <span class="ss">' '</span>)<span class="op">;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="va">head</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="0f62caf7" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="va">labels</span> <span class="op">=</span> <span class="va">readtable</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'labels.txt'</span>)<span class="op">,</span> <span class="ss">'Delimiter'</span><span class="op">,</span> <span class="ss">' '</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">head</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       labels       chunks
     ____________    ______
@@ -354,8 +366,8 @@ TR =
     {'scissors'}      0   </code></pre>
 </div>
 </div>
-<div id="9709babf" class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="va">tail</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="ddb71626" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="va">tail</span>(<span class="va">labels</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       labels       chunks
     ____________    ______
@@ -370,58 +382,58 @@ TR =
 </div>
 </div>
 <p>It has 1452 rows, corresponding to the scans of the BOLD data. The format is not documented, but it appears that the column <code>labels</code> contains the experimental condition (stimulus type), and the column <code>chunk</code> distinguishes the 12 sessions by an index from 0 to 11, each with 121 rows. In the order of the paper, the condition names are</p>
-<div id="deffc3ed" class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">conditions</span> <span class="op">=</span> [<span class="st">"face"</span><span class="op">,</span> <span class="st">"house"</span><span class="op">,</span> <span class="st">"cat"</span><span class="op">,</span> <span class="st">"bottle"</span><span class="op">,</span> <span class="op">...</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span><span class="op">,</span> <span class="st">"shoe"</span><span class="op">,</span> <span class="st">"chair"</span><span class="op">,</span> <span class="st">"scrambledpix"</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="774cc0e2" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="va">conditions</span> <span class="op">=</span> [<span class="st">"face"</span><span class="op">,</span> <span class="st">"house"</span><span class="op">,</span> <span class="st">"cat"</span><span class="op">,</span> <span class="st">"bottle"</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"scissors"</span><span class="op">,</span> <span class="st">"shoe"</span><span class="op">,</span> <span class="st">"chair"</span><span class="op">,</span> <span class="st">"scrambledpix"</span>]<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>plus <code>"rest"</code> for the rest intervals. Stimulus blocks comprise 9 rows with rest intervals of 5 or 6 rows, which does not exactly correspond to the description above because the stimulus presentation length is incompatible with the TR.</p>
 <p>We therefore use these data only to extract the condition index for each block, but recreate more precise stimulus timing information.</p>
-<div id="cc67d186" class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">nSessions</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">nConds</span> <span class="op">=</span> <span class="va">numel</span>(<span class="va">conditions</span>)<span class="op">;</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">onsets</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="va">durations</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co">% for each session</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">% extract condition for each block (from its middle)</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">cond</span> <span class="op">=</span> <span class="va">labels</span>.<span class="va">labels</span>(<span class="va">labels</span>.<span class="va">chunks</span> <span class="op">==</span> <span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    [<span class="op">~,</span> <span class="va">condInd</span>] <span class="op">=</span> <span class="va">ismember</span>(<span class="va">cond</span><span class="op">,</span> <span class="va">conditions</span>)<span class="op">;</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">condInd</span> <span class="op">=</span> <span class="va">condInd</span>(<span class="va">round</span>((<span class="fl">24</span> <span class="op">:</span>(<span class="fl">12</span> <span class="op">+</span> <span class="fl">24</span>)<span class="op">:</span> <span class="fl">300</span>) <span class="op">/</span> <span class="va">TR</span>) <span class="op">+</span> <span class="fl">1</span>)<span class="op">;</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">assert</span>(<span class="va">isequal</span>(<span class="va">sort</span>(<span class="va">condInd</span>)<span class="op">.',</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span>))</span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for each condition</span></span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">% assemble stimulus onset and duration information in s</span></span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">blockInd</span> <span class="op">=</span> <span class="va">find</span>(<span class="va">condInd</span> <span class="op">==</span> <span class="va">ci</span>)<span class="op">;</span></span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">blockStart</span> <span class="op">=</span> (<span class="va">blockInd</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> (<span class="fl">12</span> <span class="op">+</span> <span class="fl">24</span>) <span class="op">+</span> <span class="fl">12</span><span class="op">;</span></span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="va">blockStart</span> <span class="op">+</span> (<span class="fl">0</span> <span class="op">:</span> <span class="fl">11</span>) <span class="op">*</span> (<span class="fl">0.5</span> <span class="op">+</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">12</span>)<span class="op">;</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="va">nVolsPerSession</span> <span class="op">=</span> <span class="va">height</span>(<span class="va">labels</span>) <span class="op">/</span> <span class="va">nSessions</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="c0830736" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="va">nSessions</span> <span class="op">=</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="va">nConds</span> <span class="op">=</span> <span class="va">numel</span>(<span class="va">conditions</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="va">onsets</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="va">durations</span> <span class="op">=</span> <span class="va">cell</span>(<span class="va">nSessions</span><span class="op">,</span> <span class="va">nConds</span>)<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">% for each session</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">% extract condition for each block (from its middle)</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="va">cond</span> <span class="op">=</span> <span class="va">labels</span>.<span class="va">labels</span>(<span class="va">labels</span>.<span class="va">chunks</span> <span class="op">==</span> <span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    [<span class="op">~,</span> <span class="va">condInd</span>] <span class="op">=</span> <span class="va">ismember</span>(<span class="va">cond</span><span class="op">,</span> <span class="va">conditions</span>)<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="va">condInd</span> <span class="op">=</span> <span class="va">condInd</span>(<span class="va">round</span>((<span class="fl">24</span> <span class="op">:</span>(<span class="fl">12</span> <span class="op">+</span> <span class="fl">24</span>)<span class="op">:</span> <span class="fl">300</span>) <span class="op">/</span> <span class="va">TR</span>) <span class="op">+</span> <span class="fl">1</span>)<span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="va">assert</span>(<span class="va">isequal</span>(<span class="va">sort</span>(<span class="va">condInd</span>)<span class="op">.',</span> <span class="fl">1</span><span class="op">:</span><span class="fl">8</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">% for each condition</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">% assemble stimulus onset and duration information in s</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">blockInd</span> <span class="op">=</span> <span class="va">find</span>(<span class="va">condInd</span> <span class="op">==</span> <span class="va">ci</span>)<span class="op">;</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">blockStart</span> <span class="op">=</span> (<span class="va">blockInd</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> (<span class="fl">12</span> <span class="op">+</span> <span class="fl">24</span>) <span class="op">+</span> <span class="fl">12</span><span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="va">blockStart</span> <span class="op">+</span> (<span class="fl">0</span> <span class="op">:</span> <span class="fl">11</span>) <span class="op">*</span> (<span class="fl">0.5</span> <span class="op">+</span> <span class="fl">1.5</span>)<span class="op">;</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">durations</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>} <span class="op">=</span> <span class="fl">0.5</span> <span class="op">*</span> <span class="va">ones</span>(<span class="fl">1</span><span class="op">,</span> <span class="fl">12</span>)<span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="va">nVolsPerSession</span> <span class="op">=</span> <span class="va">height</span>(<span class="va">labels</span>) <span class="op">/</span> <span class="va">nSessions</span><span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Visualization of stimulus onsets in each session:</p>
-<div id="1a713c8e" class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span><span class="op">;</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">400</span>]<span class="op">;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="va">colors</span> <span class="op">=</span> [<span class="st">"#000000"</span><span class="op">,</span> <span class="st">"#ff9b00"</span><span class="op">,</span> <span class="st">"#a6ee00"</span><span class="op">,</span> <span class="st">"#00eea6"</span><span class="op">,</span> <span class="op">...</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#009bff"</span><span class="op">,</span> <span class="st">"#a600ff"</span><span class="op">,</span> <span class="st">"#ff00a6"</span><span class="op">,</span> <span class="st">"#aaaaaa"</span>]<span class="op">;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">ons</span> <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">ses</span> <span class="op">=</span> []<span class="op">;</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">ons</span> <span class="op">=</span> [<span class="va">ons</span><span class="op">,</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}]<span class="op">;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">ses</span> <span class="op">=</span> [<span class="va">ses</span><span class="op">,</span> <span class="va">si</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">size</span>(<span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}))]<span class="op">;</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">ons</span><span class="op">,</span> <span class="va">ses</span><span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="va">colors</span>(<span class="va">ci</span>))</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="op">-</span><span class="fl">1</span> <span class="op">,</span> <span class="va">nVolsPerSession</span>] <span class="op">*</span> <span class="va">TR</span>)</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="va">nSessions</span> <span class="op">+</span> <span class="fl">0.5</span>])</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YTick'</span><span class="op">,</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span>)</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YDir'</span><span class="op">,</span> <span class="ss">'reverse'</span>)</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'session'</span>)</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'time / s'</span>)</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"eastoutside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b1ab2e37" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span> <span class="op">=</span> <span class="va">figure</span>(<span class="va">PaperPositionMode</span><span class="op">=</span><span class="ss">'auto'</span>)<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="va">fig</span>.<span class="va">Position</span>(<span class="fl">3</span><span class="op">:</span><span class="fl">4</span>) <span class="op">=</span> [<span class="fl">750</span><span class="op">,</span> <span class="fl">400</span>]<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="va">colors</span> <span class="op">=</span> [<span class="st">"#000000"</span><span class="op">,</span> <span class="st">"#ff9b00"</span><span class="op">,</span> <span class="st">"#a6ee00"</span><span class="op">,</span> <span class="st">"#00eea6"</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"#009bff"</span><span class="op">,</span> <span class="st">"#a600ff"</span><span class="op">,</span> <span class="st">"#ff00a6"</span><span class="op">,</span> <span class="st">"#aaaaaa"</span>]<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">ci</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nConds</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="va">ons</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">ses</span> <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">ons</span> <span class="op">=</span> [<span class="va">ons</span><span class="op">,</span> <span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}]<span class="op">;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">ses</span> <span class="op">=</span> [<span class="va">ses</span><span class="op">,</span> <span class="va">si</span> <span class="op">*</span> <span class="va">ones</span>(<span class="va">size</span>(<span class="va">onsets</span>{<span class="va">si</span><span class="op">,</span> <span class="va">ci</span>}))]<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">end</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="va">plot</span>(<span class="va">ons</span><span class="op">,</span> <span class="va">ses</span><span class="op">,</span> <span class="ss">'.'</span><span class="op">,</span> <span class="ss">'Color'</span><span class="op">,</span> <span class="va">colors</span>(<span class="va">ci</span>))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="va">hold</span> <span class="va">all</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="va">xlim</span>([<span class="op">-</span><span class="fl">1</span> <span class="op">,</span> <span class="va">nVolsPerSession</span>] <span class="op">*</span> <span class="va">TR</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a><span class="va">ylim</span>([<span class="fl">0.5</span><span class="op">,</span> <span class="va">nSessions</span> <span class="op">+</span> <span class="fl">0.5</span>])</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YTick'</span><span class="op">,</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="va">set</span>(<span class="va">gca</span><span class="op">,</span> <span class="ss">'YDir'</span><span class="op">,</span> <span class="ss">'reverse'</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a><span class="va">ylabel</span>(<span class="ss">'session'</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="va">xlabel</span>(<span class="ss">'time / s'</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="va">legend</span>(<span class="va">conditions</span><span class="op">,</span> <span class="va">Location</span><span class="op">=</span><span class="st">"eastoutside"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
 <div>
 <figure class="figure">
@@ -433,57 +445,57 @@ TR =
 </section>
 <section id="realign-bold-data" class="level2">
 <h2 class="anchored" data-anchor-id="realign-bold-data">Realign BOLD data</h2>
-<div id="bd409558" class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'rbold.nii'</span>)<span class="op">;</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">vn</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> <span class="va">fnBOLD</span><span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">vi</span><span class="op">,</span> <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">;</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">data</span>{<span class="va">si</span>} <span class="op">=</span> <span class="va">vn</span><span class="op">';</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">quality</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">;</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">sep</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">fwhm</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">rtm</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">weight</span> <span class="op">=</span> <span class="ss">''</span><span class="op">;</span></span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">which</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">1</span>]<span class="op">;</span></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">mask</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">prefix</span> <span class="op">=</span> <span class="ss">'r'</span><span class="op">;</span></span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="67478a99" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="va">fnrBOLD</span> <span class="op">=</span> <span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'rbold.nii'</span>)<span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span> <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">for</span> <span class="va">si</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">:</span> <span class="va">nSessions</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">vi</span> <span class="op">=</span> (<span class="va">si</span> <span class="op">-</span> <span class="fl">1</span>) <span class="op">*</span> <span class="va">nVolsPerSession</span> <span class="op">+</span> (<span class="fl">1</span> <span class="op">:</span> <span class="va">nVolsPerSession</span>)<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">vn</span> <span class="op">=</span> <span class="va">arrayfun</span>(<span class="op">@</span>(<span class="va">i</span>) <span class="va">sprintf</span>(<span class="ss">'%s,%d'</span><span class="op">,</span> <span class="va">fnBOLD</span><span class="op">,</span> <span class="va">i</span>)<span class="op">,</span> <span class="op">...</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">vi</span><span class="op">,</span> <span class="ss">'UniformOutput'</span><span class="op">,</span> <span class="va">false</span>)<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">data</span>{<span class="va">si</span>} <span class="op">=</span> <span class="va">vn</span><span class="op">';</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="kw">end</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">quality</span> <span class="op">=</span> <span class="fl">0.9</span><span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">sep</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">fwhm</span> <span class="op">=</span> <span class="fl">5</span><span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">rtm</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">2</span><span class="op">;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">eoptions</span>.<span class="va">weight</span> <span class="op">=</span> <span class="ss">''</span><span class="op">;</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">which</span> <span class="op">=</span> [<span class="fl">2</span> <span class="fl">1</span>]<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">interp</span> <span class="op">=</span> <span class="fl">4</span><span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">wrap</span> <span class="op">=</span> [<span class="fl">0</span> <span class="fl">0</span> <span class="fl">0</span>]<span class="op">;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">mask</span> <span class="op">=</span> <span class="fl">1</span><span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="va">matlabbatch</span>{<span class="fl">1</span>}.<span class="va">spm</span>.<span class="va">spatial</span>.<span class="va">realign</span>.<span class="va">estwrite</span>.<span class="va">roptions</span>.<span class="va">prefix</span> <span class="op">=</span> <span class="ss">'r'</span><span class="op">;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="va">spm_jobman</span>(<span class="ss">'run'</span><span class="op">,</span> <span class="va">matlabbatch</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Initialising batch system... done.
 
 
 ------------------------------------------------------------------------
-16-Jun-2024 22:34:36 - Running job #1
+14-Aug-2024 22:04:27 - Running job #1
 ------------------------------------------------------------------------
-16-Jun-2024 22:34:37 - Running 'Realign: Estimate &amp; Reslice'
+14-Aug-2024 22:04:27 - Running 'Realign: Estimate &amp; Reslice'
 
-SPM12: spm_realign (v7141)                         22:34:37 - 16/06/2024
+SPM12: spm_realign (v7141)                         22:04:27 - 14/08/2024
 ========================================================================
-Completed                               :          22:38:50 - 16/06/2024
+Completed                               :          22:08:34 - 14/08/2024
 
-SPM12: spm_reslice (v7141)                         22:38:50 - 16/06/2024
+SPM12: spm_reslice (v7141)                         22:08:34 - 14/08/2024
 ========================================================================
-Completed                               :          22:40:56 - 16/06/2024
-16-Jun-2024 22:40:56 - Done    'Realign: Estimate &amp; Reslice'
-16-Jun-2024 22:40:56 - Done
+Completed                               :          22:10:31 - 14/08/2024
+14-Aug-2024 22:10:31 - Done    'Realign: Estimate &amp; Reslice'
+14-Aug-2024 22:10:31 - Done
 </code></pre>
 </div>
 </div>
 </section>
 <section id="save-information" class="level2">
 <h2 class="anchored" data-anchor-id="save-information">Save information</h2>
-<div id="5b430caf" class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="va">save</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>)<span class="op">,</span> <span class="ss">'regions'</span><span class="op">,</span> <span class="ss">'TR'</span><span class="op">,</span> <span class="ss">'nSessions'</span><span class="op">,</span> <span class="op">...</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'nVolsPerSession'</span><span class="op">,</span> <span class="ss">'conditions'</span><span class="op">,</span> <span class="ss">'nConds'</span><span class="op">,</span> <span class="ss">'onsets'</span><span class="op">,</span> <span class="ss">'durations'</span><span class="op">,</span> <span class="ss">'colors'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="d4212a44" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode matlab code-with-copy"><code class="sourceCode matlab"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="va">save</span>(<span class="va">fullfile</span>(<span class="va">sub</span><span class="op">,</span> <span class="ss">'info.mat'</span>)<span class="op">,</span> <span class="ss">'regions'</span><span class="op">,</span> <span class="ss">'TR'</span><span class="op">,</span> <span class="ss">'nSessions'</span><span class="op">,</span> <span class="op">...</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="ss">'nVolsPerSession'</span><span class="op">,</span> <span class="ss">'conditions'</span><span class="op">,</span> <span class="ss">'nConds'</span><span class="op">,</span> <span class="ss">'onsets'</span><span class="op">,</span> <span class="ss">'durations'</span><span class="op">,</span> <span class="ss">'colors'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<!-- Copyright © 2023 Carsten Allefeld
+<!-- Copyright © 2023–24 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
 
 

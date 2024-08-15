@@ -73,7 +73,7 @@ DsMatrix = zeros(nConds, nConds);
 DsMatrix(ind) = [Ds{:, 1}];
 DsMatrix = DsMatrix + DsMatrix .';
 % visualize
-fig = figure();
+fig = figure(PaperPositionMode='auto');
 fig.Position(3:4) = [750, 674];
 heatmap(conditions, conditions, DsMatrix, ...
     FontName=get(0, 'defaultTextFontName'));
@@ -113,8 +113,8 @@ xlabel("mean accuracy / %")
 ylabel("mean pattern distinctness")
 ```
 
-The ranking is similar though not identical. Note that the results cannot be completely equivalent since our analysis is based on one subject, while the mean accuracy is additionally averaged across subjects.
+The ranking is similar though not identical. Note that the results cannot be completely equivalent since our analysis is based on one subject, while the mean accuracy is additionally averaged across subjects. Moreover, (even averaged) accuracy is restricted to a discrete set, while *D* can take on arbitrary values.
 
 
-<!-- Copyright © 2023 Carsten Allefeld
+<!-- Copyright © 2023–24 Carsten Allefeld
 SPDX-License-Identifier: GPL-3.0-or-later -->
